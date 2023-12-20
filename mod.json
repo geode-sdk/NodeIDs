@@ -1,0 +1,13 @@
+{
+	"geode": "2.0.0",
+	"version": "v1.0.0",
+	"id": "geode.node-ids",
+	"name": "Node IDs",
+	"developer": "Geode Team",
+	"description": "Standard node ids to be used by other mods.",
+	"repository": "https://github.com/geode-sdk/NodeIDs",
+	"issues": {
+		"url": "https://github.com/geode-sdk/NodeIDs/issues",
+		"info": "If you encounter an issue related to node id mismatches, please report it to the GitHub issues page."
+	}
+}
