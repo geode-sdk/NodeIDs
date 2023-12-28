@@ -72,7 +72,7 @@ struct CommentCellIDs : Modify<CommentCellIDs, CommentCell> {
     void loadFromComment(GJComment* comment) {
         CommentCell::loadFromComment(comment);
 
-        //TODO: figure out how to provide node IDs on second run of this function (when user clicks show on a spam comment)
+        this->setID("");
         NodeIDs::get()->provide(this);
     }
 };
