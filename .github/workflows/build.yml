@@ -14,9 +14,7 @@ jobs:
         config:
         - name: Windows
           os: windows-latest
-          
-        - name: macOS
-          os: macos-latest
+        
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -28,6 +26,7 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           combine: true
+          sdk: nightly
       
   package:
     name: Package builds
