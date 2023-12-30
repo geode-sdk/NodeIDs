@@ -3,6 +3,8 @@
 #include <Geode/utils/cocos.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
+#include "IDCheck.hpp"
+
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
@@ -240,62 +242,25 @@ $register_ids(LevelBrowserLayer) {
     /**
      * Sanity checks
     */
-    if(m_rightArrow && m_rightArrow->getID() != "next-page-button") {
-        log::warn("LevelBrowserLayer::m_rightArrow has an invalid ID - {}", m_rightArrow->getID());
-    }
-    if(m_leftArrow && m_leftArrow->getID() != "prev-page-button") {
-        log::warn("LevelBrowserLayer::m_leftArrow has an invalid ID - {}", m_leftArrow->getID());
-    }
-    if(m_lastBtn && m_lastBtn->getID() != "last-page-button") {
-        log::warn("LevelBrowserLayer::m_lastBtn has an invalid ID - {}", m_lastBtn->getID());
-    }
-    if(m_cancelSearchBtn && m_cancelSearchBtn->getID() != "clear-search-button") {
-        log::warn("LevelBrowserLayer::m_cancelSearchBtn has an invalid ID - {}", m_cancelSearchBtn->getID());
-    }
-    if(m_refreshBtn && m_refreshBtn->getID() != "refresh-button") {
-        log::warn("LevelBrowserLayer::m_refreshBtn has an invalid ID - {}", m_refreshBtn->getID());
-    }
-    if(m_countText && m_countText->getID() != "level-count-label") {
-        log::warn("LevelBrowserLayer::m_countText has an invalid ID - {}", m_countText->getID());
-    }
-    if(m_pageBtn && m_pageBtn->getID() != "page-button") {
-        log::warn("LevelBrowserLayer::m_pageBtn has an invalid ID - {}", m_pageBtn->getID());
-    }
-    if(m_folderBtn && m_folderBtn->getID() != "folder-button") {
-        log::warn("LevelBrowserLayer::m_folderBtn has an invalid ID - {}", m_folderBtn->getID());
-    }
-    if(m_allObjectsToggler && m_allObjectsToggler->getID() != "select-all-toggler") {
-        log::warn("LevelBrowserLayer::m_allObjectsToggler has an invalid ID - {}", m_allObjectsToggler->getID());
-    }
+    verifyIDSafe(m_rightArrow, "next-page-button");
+    verifyIDSafe(m_leftArrow, "prev-page-button");
+    verifyIDSafe(m_lastBtn, "last-page-button");
+    verifyIDSafe(m_cancelSearchBtn, "clear-search-button");
+    verifyIDSafe(m_refreshBtn, "refresh-button");
+    verifyIDSafe(m_countText, "level-count-label");
+    verifyIDSafe(m_pageBtn, "page-button");
+    verifyIDSafe(m_folderBtn, "folder-button");
+    verifyIDSafe(m_allObjectsToggler, "select-all-toggler");
 
     //menus
-    if(m_rightArrow && m_rightArrow->getParent() && m_rightArrow->getParent()->getID() != "next-page-menu") {
-        log::warn("LevelBrowserLayer::m_rightArrow's parent has an invalid ID - {}", m_rightArrow->getParent()->getID());
-    }
-    if(m_leftArrow && m_leftArrow->getParent() && m_leftArrow->getParent()->getID() != "prev-page-menu") {
-        log::warn("LevelBrowserLayer::m_leftArrow's parent has an invalid ID - {}", m_leftArrow->getParent()->getID());
-    }
-    if(m_lastBtn && m_lastBtn->getParent() && m_lastBtn->getParent()->getID() != "page-menu") {
-        log::warn("LevelBrowserLayer::m_lastBtn's parent has an invalid ID - {}", m_lastBtn->getParent()->getID());
-    }
-    if(m_cancelSearchBtn && m_cancelSearchBtn->getParent() && m_cancelSearchBtn->getParent()->getID() != "search-menu") {
-        log::warn("LevelBrowserLayer::m_cancelSearchBtn's parent has an invalid ID - {}", m_cancelSearchBtn->getParent()->getID());
-    }
-    if(m_refreshBtn && m_refreshBtn->getParent() && m_refreshBtn->getParent()->getID() != "refresh-menu") {
-        log::warn("LevelBrowserLayer::m_refreshBtn's parent has an invalid ID - {}", m_refreshBtn->getParent()->getID());
-    }
-    if(m_countText && m_countText->getParent() && m_countText->getParent() != this) {
-        log::warn("LevelBrowserLayer::m_countText's parent is invalid - {}", m_countText->getParent());
-    }
-    if(m_pageBtn && m_pageBtn->getParent() && m_pageBtn->getParent()->getID() != "page-menu") {
-        log::warn("LevelBrowserLayer::m_pageBtn's parent has an invalid ID - {}", m_pageBtn->getParent()->getID());
-    }
-    if(m_folderBtn && m_folderBtn->getParent() && m_folderBtn->getParent()->getID() != "page-menu") {
-        log::warn("LevelBrowserLayer::m_folderBtn's parent has an invalid ID - {}", m_folderBtn->getParent()->getID());
-    }
-    if(m_allObjectsToggler && m_allObjectsToggler->getParent() && m_allObjectsToggler->getParent()->getID() != "delete-menu") {
-        log::warn("LevelBrowserLayer::m_allObjectsToggler's parent has an invalid ID - {}", m_allObjectsToggler->getParent()->getID());
-    }
+    verifyParentIDSafe(m_rightArrow, "next-page-menu");
+    verifyParentIDSafe(m_leftArrow, "prev-page-menu");
+    verifyParentIDSafe(m_lastBtn, "page-menu");
+    verifyParentIDSafe(m_cancelSearchBtn, "search-menu");
+    verifyParentIDSafe(m_refreshBtn, "refresh-menu");
+    verifyParentIDSafe(m_pageBtn, "page-menu");
+    verifyParentIDSafe(m_folderBtn, "page-menu");
+    verifyParentIDSafe(m_allObjectsToggler, "delete-menu");
 }
 
 struct LevelBrowserLayerIDs : Modify<LevelBrowserLayerIDs, LevelBrowserLayer> {
