@@ -1,137 +1,221 @@
-#include "AddIDs.hpp"
-
 #include <Geode/binding/LevelInfoLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
+#include <Geode/utils/NodeIDs.hpp>
 
-// $register_ids(LevelInfoLayer) {
-//     auto winSize = CCDirector::get()->getWinSize();
+using namespace geode::prelude;
+using namespace geode::node_ids;
 
-//     setIDSafe<CCSprite>(this, 0, "background");
+$register_ids(LevelInfoLayer) {
+    auto winSize = CCDirector::get()->getWinSize();
 
-//     size_t iconOffset = 0;
+    setIDSafe<CCSprite>(this, 0, "background");
 
-//     setIDSafe<CCSprite>(this, 1, "bottom-left-art");
-//     setIDSafe<CCSprite>(this, 2, "bottom-right-art");
+    size_t iconOffset = 0;
 
-//     if (m_level->m_highObjectsEnabled) {
-//         setIDSafe<CCSprite>(this, 4, "high-object-indicator");
-//         iconOffset++;
-//     }
+    setIDSafe<CCSprite>(this, 1, "bottom-left-art");
+    setIDSafe<CCSprite>(this, 2, "bottom-right-art");
 
-//     setIDSafe<CCSprite>(this, 4 + iconOffset, "length-icon");
-//     setIDSafe<CCSprite>(this, 5 + iconOffset, "downloads-icon");
-//     setIDSafe<CCSprite>(this, 6 + iconOffset, "orbs-icon");
-//     setIDSafe<CCSprite>(this, 7 + iconOffset, "likes-icon");
-//     setIDSafe<CCLabelBMFont>(this, 1, "downloads-label");
-//     setIDSafe<CCLabelBMFont>(this, 2, "length-label");
-//     setIDSafe<CCLabelBMFont>(this, 3, "likes-label");
-//     setIDSafe<CCLabelBMFont>(this, 4, "orbs-label");
+    if (m_level->m_objectCount > 40000 || m_level->m_originalLevel != 0) {
+        if(m_level->m_originalLevel != 0) {
+            setIDSafe<CCSprite>(this, 3, "copy-indicator");
+            iconOffset++;
+        }
 
-//     if (m_level->m_stars) {
-//         setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
-//         setIDSafe<CCLabelBMFont>(this, 5, "stars-label");
-//     }
+        if(m_level->m_objectCount > 40000) {
+            setIDSafe<CCSprite>(this, 3 + iconOffset, "high-object-indicator");
+            iconOffset++;
+        }
+    } else if(!GameManager::sharedState()->getGameVariable("0047") && !m_challenge) {
+        setIDSafe<CCSprite>(this, 3, "view-profile");
+        iconOffset++;
+    }
 
-//     setIDSafe<CustomSongWidget>(this, 0, "custom-songs-widget");
+    setIDSafe<CCSprite>(this, 3 + iconOffset, "length-icon");
+    setIDSafe<CCSprite>(this, 4 + iconOffset, "downloads-icon");
+    setIDSafe<CCSprite>(this, 5 + iconOffset, "orbs-icon");
+    setIDSafe<CCSprite>(this, 6 + iconOffset, "likes-icon");
 
-//     if (auto menu = getChildOfType<CCMenu>(this, 0)) {
-//         menu->setID("play-menu");
-//         setIDSafe(menu, 0, "play-button");
-//     }
+    size_t labelOffset = 0;
 
-//     if (auto menu = getChildOfType<CCMenu>(this, 2)) {
-//         menu->setID("back-menu");
-//         auto backBtn = setIDSafe(menu, 0, "back-button");
-//         menu->setPositionX(
-//             menu->getPositionX() + 100.f / 2 - 
-//                 getSizeSafe(backBtn).width / 2
-//         );
-//         menu->setContentSize({ 100.f, 50.f });
-//         menu->setLayout(
-//             RowLayout::create()
-//                 ->setAxisAlignment(AxisAlignment::Start)
-//         );
-//     }
+    setIDSafe<CCLabelBMFont>(this, 0, "title-label");
 
-//     if (auto menu = getChildOfType<CCMenu>(this, 1)) {
-//         menu->setID("right-side-menu");
+    if(m_level->m_dailyID > 0) {
+        setIDSafe<CCLabelBMFont>(this, 1, "daily-label");
+        labelOffset++;
+    }
 
-//         if (auto name = setIDSafe(menu, 0, "creator-name")) {
-//             auto menu = detachAndCreateMenu(
-//                 this,
-//                 "creator-info-menu",
-//                 ColumnLayout::create()
-//                     ->setAxisReverse(true)
-//                     ->setAxisAlignment(AxisAlignment::End),
-//                 name
-//             );
-//             menu->setPositionY(
-//                 menu->getPositionY() - 40.f / 2 + 
-//                     name->getScaledContentSize().height / 2
-//             );
-//             menu->setContentSize({ 60.f, 40.f });
-//             menu->updateLayout();
-//         }
+    setIDSafe<CCLabelBMFont>(this, 1 + labelOffset, "downloads-label");
+    setIDSafe<CCLabelBMFont>(this, 2 + labelOffset, "length-label");
+    setIDSafe<CCLabelBMFont>(this, 3 + labelOffset, "likes-label");
+    setIDSafe<CCLabelBMFont>(this, 4 + labelOffset, "orbs-label");
+    setIDSafe<CCLabelBMFont>(this, 5 + labelOffset, "stars-label");
 
-//         auto leftSideMenu = CCMenu::create();
-//         leftSideMenu->setPosition(30.f, winSize.height / 2);
-//         leftSideMenu->setLayout(ColumnLayout::create());
-//         leftSideMenu->setID("left-side-menu");
-//         leftSideMenu->setContentSize({ 50.f, 225.f });
-//         this->addChild(leftSideMenu);
+    setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
 
-//         menu->setPosition(winSize.width - 30.f, winSize.height / 2);
+    if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
+    if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");
+    if(m_difficultySprite) m_difficultySprite->setID("difficulty-sprite");
+    if(m_songWidget) m_songWidget->setID("custom-songs-widget");
+    if(m_circle) m_circle->setID("loading-circle");
 
-//         for (auto child : CCArrayExt<CCNode>(menu->getChildren())) {
-//             if (child->getPositionX() < 0.f) {
-//                 child->retain();
-//                 child->removeFromParent();
-//                 leftSideMenu->addChild(child);
-//                 child->release();
-//             }
-//             child->setPositionX(0.f);
-//         }
+    size_t coinIdx = 1;
+    for(auto& coin : CCArrayExt<CCSprite*>(m_coins)) {
+        coin->setID(fmt::format("coin-icon-{}", coinIdx++));
+    }
 
-//         setIDSafe(menu, 0, "delete-button");
-//         setIDSafe(menu, 1, "refresh-button");
-//         setIDSafe(menu, 2, "info-button");
-//         setIDSafe(menu, 3, "leaderboards-button");
-//         setIDSafe(menu, 4, "like-button");
-//         setIDSafe(menu, 5, "rate-button");
+    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+        menu->setID("play-menu");
+        setIDSafe(menu, 0, "play-button");
+    }
 
-//         menu->setPosition(
-//             menu->getPositionX() + static_cast<CCNode*>(
-//                 menu->getChildren()->firstObject()
-//             )->getPositionX(),
-//             winSize.height / 2
-//         );
-//         menu->setContentSize({ 60.f, winSize.height - 15.f });
-//         menu->setLayout(
-//             ColumnLayout::create()
-//                 ->setGap(3.f)
-//                 ->setAxisAlignment(AxisAlignment::End)
-//                 ->setAxisReverse(true)
-//         );
+    if (auto menu = getChildOfType<CCMenu>(this, 2)) {
+        menu->setID("back-menu");
+        auto backBtn = setIDSafe(menu, 0, "back-button");
+        menu->setPositionX(
+            menu->getPositionX() + 100.f / 2 - 
+                getSizeSafe(backBtn).width / 2
+        );
+        menu->setContentSize({ 100.f, 50.f });
+        menu->setLayout(
+            RowLayout::create()
+                ->setAxisAlignment(AxisAlignment::Start)
+        );
+    }
 
-//         setIDSafe(leftSideMenu, 0, "copy-button");
+    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+        menu->setID("right-side-menu");
 
-//         menu->updateLayout();
-//         leftSideMenu->updateLayout();
-//     }
-// }
+        if (auto name = setIDSafe(menu, 0, "creator-name")) {
+            auto menu = detachAndCreateMenu(
+                this,
+                "creator-info-menu",
+                ColumnLayout::create()
+                    ->setAxisReverse(true)
+                    ->setAxisAlignment(AxisAlignment::End),
+                name
+            );
+            menu->setPositionY(
+                menu->getPositionY() - 40.f / 2 + 
+                    name->getScaledContentSize().height / 2
+            );
+            menu->setContentSize({ 60.f, 40.f });
+            menu->updateLayout();
+        }
 
-// struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
-//     static void onModify(auto& self) {
-//         if (!self.setHookPriority("LevelInfoLayer::init", GEODE_ID_PRIORITY)) {
-//             log::warn("Failed to set LevelInfoLayer::init hook priority, node IDs may not work properly");
-//         }
-//     }
+        auto leftSideMenu = CCMenu::create();
+        leftSideMenu->setPosition(30.f, winSize.height / 2);
+        leftSideMenu->setLayout(ColumnLayout::create());
+        leftSideMenu->setID("left-side-menu");
+        leftSideMenu->setContentSize({ 50.f, 225.f });
+        this->addChild(leftSideMenu);
 
-//     bool init(GJGameLevel* level) {
-//         if (!LevelInfoLayer::init(level)) return false;
+        menu->setPosition(winSize.width - 30.f, winSize.height / 2);
 
-//         NodeIDs::get()->provide(this);
+        for (auto child : CCArrayExt<CCNode>(menu->getChildren())) {
+            if (child->getPositionX() < 0.f) {
+                child->retain();
+                child->removeFromParent();
+                leftSideMenu->addChild(child);
+                child->release();
+            }
+            child->setPositionX(0.f);
+        }
 
-//         return true;
-//     }
-// };
+        setIDSafe(menu, 0, "delete-button");
+        setIDSafe(menu, 1, "refresh-button");
+        setIDSafe(menu, 2, "info-button");
+        setIDSafe(menu, 3, "leaderboards-button");
+        setIDSafe(menu, 4, "like-button");
+        setIDSafe(menu, 5, "rate-button");
+
+        menu->setPosition(
+            menu->getPositionX() + static_cast<CCNode*>(
+                menu->getChildren()->objectAtIndex(0)
+            )->getPositionX(),
+            winSize.height / 2
+        );
+        menu->setContentSize({ 60.f, winSize.height - 15.f });
+        menu->setLayout(
+            ColumnLayout::create()
+                ->setGap(3.f)
+                ->setAxisAlignment(AxisAlignment::End)
+                ->setAxisReverse(true)
+        );
+
+        setIDSafe(leftSideMenu, 0, "copy-button");
+
+        menu->updateLayout();
+        leftSideMenu->updateLayout();
+    }
+
+    if (auto menu = getChildOfType<CCMenu>(this, 3)) {
+        menu->setID("other-menu");
+
+        setIDSafe(menu, 0, "info-button");
+        setIDSafe(menu, 1, "favorite-button");
+        setIDSafe(menu, 2, "move-up-button");
+        setIDSafe(menu, 3, "move-down-button");
+        setIDSafe(menu, 4, "folder-button");
+        setIDSafe(menu, 5, "list-button");
+    }
+
+    if (auto menu = getChildOfType<CCMenu>(this, 4)) {
+        menu->setID("garage-menu");
+
+        setIDSafe(menu, 0, "garage-button");
+    }
+
+    if (auto menu = getChildOfType<CCMenu>(this, 5)) {
+        menu->setID("ldm-menu");
+
+        // button itself set through class member
+    }
+
+    /**
+     * Verify node IDs
+     */
+    if(m_orbsLabel != getChildByID("orbs-label")) {
+        log::warn("Node IDs are incorrect: m_orbsLabel != getChildByID(\"orbs-label\")");
+    }
+
+    if(m_orbsIcon != getChildByID("orbs-icon")) {
+        log::warn("Node IDs are incorrect: m_orbsIcon != getChildByID(\"orbs-icon\")");
+    }
+
+    if(m_lengthLabel != getChildByID("length-label")) {
+        log::warn("Node IDs are incorrect: m_lengthLabel != getChildByID(\"length-label\")");
+    }
+
+    if(m_downloadsLabel != getChildByID("downloads-label")) {
+        log::warn("Node IDs are incorrect: m_downloadsLabel != getChildByID(\"downloads-label\")");
+    }
+
+    if(m_likesLabel != getChildByID("likes-label")) {
+        log::warn("Node IDs are incorrect: m_likesLabel != getChildByID(\"likes-label\")");
+    }
+
+    if(m_starsIcon != getChildByID("stars-icon")) {
+        log::warn("Node IDs are incorrect: m_starsIcon != getChildByID(\"stars-icon\")");
+    }
+
+    if(m_starsLabel != getChildByID("stars-label")) {
+        log::warn("Node IDs are incorrect: m_starsLabel != getChildByID(\"stars-label\")");
+    }
+
+}
+
+struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
+    static void onModify(auto& self) {
+        if (!self.setHookPriority("LevelInfoLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelInfoLayer::init hook priority, node IDs may not work properly");
+        }
+    }
+
+    bool init(GJGameLevel* level, bool challenge) {
+        if (!LevelInfoLayer::init(level, challenge)) return false;
+
+        NodeIDs::get()->provide(this);
+
+        return true;
+    }
+};
