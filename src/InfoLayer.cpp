@@ -140,7 +140,7 @@ $register_ids(InfoLayer) {
     verifyIDSafe(m_leftArrow, "prev-page-button");
     verifyIDSafe(m_likeBtn, "sort-likes-button");
     verifyIDSafe(m_timeBtn, "sort-recent-button");
-    verifyIDSafe(m_reportBtn, "report-button");
+    //verifyIDSafe(m_reportBtn, "report-button"); //not necessarily nullptr
     verifyIDSafe(m_commentsBtn, "load-comments-button");
     verifyIDSafe(m_refreshCommentsBtn, "refresh-button");
 
