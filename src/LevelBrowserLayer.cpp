@@ -113,6 +113,25 @@ $register_ids(LevelBrowserLayer) {
             );
             searchMenu->setContentSize({ width, 80.f });
             searchMenu->updateLayout();
+        } else {
+            auto searchMenu = CCMenu::create();
+            searchMenu->setID("search-menu");
+            searchMenu->setContentSize({ 45.f * winSize.aspect(), 80.f });
+            searchMenu->setPosition(
+                45.f * winSize.aspect() / 2 + 7.5f,
+                winSize.height  / 2 + 70.f
+            );
+            searchMenu->setLayout(
+                ColumnLayout::create()
+                    ->setAxisReverse(true)
+                    ->setCrossAxisReverse(true)
+                    ->setGrowCrossAxis(true)
+                    ->setCrossAxisOverflow(false)
+                    ->setCrossAxisAlignment(AxisAlignment::Start)
+                    ->setAxisAlignment(AxisAlignment::End)
+            );
+            searchMenu->updateLayout();
+            addChild(searchMenu);
         }
 
         menu->setID("next-page-menu");
@@ -225,6 +244,15 @@ $register_ids(LevelBrowserLayer) {
 
                     getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("info-button");
                     menuOffset++;
+
+                    menu->setContentSize({ 26.75f*2, winSize.height - 37.f });
+                    menu->setPositionY(winSize.height / 2);
+                    menu->setLayout(
+                        ColumnLayout::create()
+                            ->setGap(7.f)
+                            ->setAxisAlignment(AxisAlignment::Start)
+                            ->setAxisReverse(true)
+                    );
                 }
             }
         }
@@ -237,7 +265,6 @@ $register_ids(LevelBrowserLayer) {
     bottomMenu->setPosition(winSize.width / 2, 28.f);
     bottomMenu->setZOrder(15);
     bottomMenu->setLayout(RowLayout::create());
-    this->addChild(bottomMenu);
 
     /**
      * Sanity checks
