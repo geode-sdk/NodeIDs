@@ -4,13 +4,48 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
+struct LevelCellIDs : Modify<LevelCellIDs, LevelCell> {
+    bool m_isLocal = false;
+
+    static void onModify(auto& self) {
+        if (!self.setHookPriority("LevelCell::loadFromLevel", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelCell::loadFromLevel hook priority, node IDs may not work properly");
+        }
+    }
+
+    void loadFromLevel(GJGameLevel* level) {
+        LevelCell::loadFromLevel(level);
+
+        if(m_level->m_localOrSaved && !m_compactView) {
+            m_toggler->setID("select-toggler");
+        }
+    }
+
+    void loadCustomLevelCell() {
+        LevelCell::loadCustomLevelCell();
+
+        m_fields->m_isLocal = false;
+        NodeIDs::get()->provide(this);
+    }
+
+    void loadLocalLevelCell() {
+        LevelCell::loadLocalLevelCell();
+
+        m_fields->m_isLocal = true;
+        NodeIDs::get()->provide(this);
+    }
+};
+
+// With how RobTop uses the cell it would be safe to only use loadFromLevel,
+// however with mods using it, it is safer to have the IDs defined at the earlier stage already
+
 $register_ids(LevelCell) {
     if(!m_level) return;
 
     m_mainLayer->setID("main-layer");
     m_mainMenu->setID("main-menu");
 
-    if(m_level->m_levelType == GJLevelType::Editor) {
+    if(reinterpret_cast<LevelCellIDs*>(this)->m_fields->m_isLocal) {
         //LevelCell::loadLocalLevelCell
 
         size_t labelOffset = 0;
@@ -164,23 +199,5 @@ $register_ids(LevelCell) {
         }
 
     }
-
-    if(m_level->m_localOrSaved && !m_compactView) {
-        m_toggler->setID("select-toggler");
-    }
     
 }
-
-struct LevelCellIDs : Modify<LevelCellIDs, LevelCell> {
-    static void onModify(auto& self) {
-        if (!self.setHookPriority("LevelCell::loadFromLevel", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set LevelCell::loadFromLevel hook priority, node IDs may not work properly");
-        }
-    }
-
-    void loadFromLevel(GJGameLevel* level) {
-        LevelCell::loadFromLevel(level);
-
-        NodeIDs::get()->provide(this);
-    }
-};
