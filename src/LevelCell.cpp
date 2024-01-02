@@ -11,6 +11,12 @@ struct LevelCellIDs : Modify<LevelCellIDs, LevelCell> {
         if (!self.setHookPriority("LevelCell::loadFromLevel", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set LevelCell::loadFromLevel hook priority, node IDs may not work properly");
         }
+        if (!self.setHookPriority("LevelCell::loadCustomLevelCell", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelCell::loadCustomLevelCell hook priority, node IDs may not work properly");
+        }
+        if (!self.setHookPriority("LevelCell::loadLocalLevelCell", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelCell::loadLocalLevelCell hook priority, node IDs may not work properly");
+        }
     }
 
     void loadFromLevel(GJGameLevel* level) {
