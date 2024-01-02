@@ -181,7 +181,7 @@ $register_ids(LevelBrowserLayer) {
 
                 if(!m_isOverlay) {
 
-                    if(/*GameManager::sharedState()->m_playerUserID != 0 || */ GJAccountManager::sharedState()->m_accountID != 0) {
+                    if(GameManager::sharedState()->m_playerUserID != 0 || GJAccountManager::sharedState()->m_accountID != 0) {
                         if (auto myLevelsBtn = setIDSafe(menu, 1, "my-levels-button")) {
                             auto menu = detachAndCreateMenu(
                                 this,
