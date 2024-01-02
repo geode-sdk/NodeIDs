@@ -148,7 +148,7 @@ $register_ids(InfoLayer) {
     verifyParentIDSafe(m_leftArrow, "switch-page-menu");
     verifyParentIDSafe(m_likeBtn, "left-side-menu");
     verifyParentIDSafe(m_timeBtn, "left-side-menu");
-    verifyParentIDSafe(m_reportBtn, "main-menu");
+    //verifyParentIDSafe(m_reportBtn, "main-menu");
     verifyParentIDSafe(m_commentsBtn, "main-menu");
     verifyParentIDSafe(m_refreshCommentsBtn, "refresh-menu");
 }
