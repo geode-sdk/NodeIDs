@@ -46,7 +46,7 @@ $register_ids(InfoLayer) {
         }
         //end of InfoLayer::setupLevelInfo stuff
 
-        if(m_level && m_level->m_originalLevel != 0) {
+        if(m_level && m_level->m_originalLevel != 0 && m_level->m_originalLevel != m_level->m_levelID && !GameManager::sharedState()->getGameVariable("0077")) {
             getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("original-level-button");
             buttonOffset++;
         }
