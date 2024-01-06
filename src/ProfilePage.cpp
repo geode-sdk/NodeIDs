@@ -73,6 +73,28 @@ $register_ids(ProfilePage) {
 
 }
 
+void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42.6f}) {
+    if(!player) {
+        log::warn("Failed to wrap simple player, node is null");
+        return;
+    }
+
+    auto parent = player->getParent();
+
+    auto container = CCNode::create();
+    container->setContentSize(size);
+    container->setPosition(player->getPosition());
+    container->setAnchorPoint({.5f, .5f});
+    container->setZOrder(player->getZOrder());
+    container->setID(player->getID());
+
+    player->setPosition((container->getContentSize() / 2) - CCPoint((size.width - 42.6f) / 2, 0));
+    player->removeFromParent();
+    container->addChild(player);
+
+    parent->addChild(container);
+}
+
 struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("ProfilePage::init", GEODE_ID_PRIORITY)) {
@@ -98,6 +120,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
         if(score->m_friendReqStatus == 2) return;
 
+        auto winSize = CCDirector::get()->getWinSize();
         size_t idx = 0;
 
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("stars-label");
@@ -116,6 +139,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("creator-points-label");
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("creator-points-icon");
         }
+
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-icon");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-ship");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-ball");
@@ -124,6 +148,44 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-robot");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-spider");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
+
+        log::info("distance between player-icon and player-ship: {}", m_mainLayer->getChildByID("player-ship")->getPositionX() - m_mainLayer->getChildByID("player-icon")->getPositionX());
+        log::info("distance between player-ship and player-ball: {}", m_mainLayer->getChildByID("player-ball")->getPositionX() - m_mainLayer->getChildByID("player-ship")->getPositionX());
+        log::info("distance between player-ball and player-ufo: {}", m_mainLayer->getChildByID("player-ufo")->getPositionX() - m_mainLayer->getChildByID("player-ball")->getPositionX());
+        log::info("distance between player-ufo and player-wave: {}", m_mainLayer->getChildByID("player-wave")->getPositionX() - m_mainLayer->getChildByID("player-ufo")->getPositionX());
+        log::info("distance between player-wave and player-robot: {}", m_mainLayer->getChildByID("player-robot")->getPositionX() - m_mainLayer->getChildByID("player-wave")->getPositionX());
+        log::info("distance between player-robot and player-spider: {}", m_mainLayer->getChildByID("player-spider")->getPositionX() - m_mainLayer->getChildByID("player-robot")->getPositionX());
+        log::info("distance between player-spider and player-swing: {}", m_mainLayer->getChildByID("player-swing")->getPositionX() - m_mainLayer->getChildByID("player-spider")->getPositionX());
+
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-robot"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
+
+        auto playerMenu = detachAndCreateMenu(
+            m_mainLayer, "player-menu",
+            RowLayout::create()
+                ->setGap(0.f)
+                ->setAxisAlignment(AxisAlignment::Center),
+            m_mainLayer->getChildByID("player-icon"),
+            m_mainLayer->getChildByID("player-ship"),
+            m_mainLayer->getChildByID("player-ball"),
+            m_mainLayer->getChildByID("player-ufo"),
+            m_mainLayer->getChildByID("player-wave"),
+            m_mainLayer->getChildByID("player-robot"),
+            m_mainLayer->getChildByID("player-spider"),
+            m_mainLayer->getChildByID("player-swing")
+        );
+        playerMenu->setPositionX(winSize.width / 2);
+        playerMenu->setContentSize({340, 35});
+        playerMenu->updateLayout();
+        playerMenu->setZOrder(10);
+
+
         bool hasStuffTxt = false;
         if(!m_score->m_youtubeURL.empty()) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("youtube-button");
@@ -164,6 +226,20 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 }
                 static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("block-button");
             }
+
+            auto bottomMenu = detachAndCreateMenu(
+                m_mainLayer, "bottom-menu",
+                RowLayout::create()
+                    ->setGap(12.f)
+                    ->setAxisAlignment(AxisAlignment::Center),
+                m_buttonMenu->getChildByID("message-button"),
+                m_buttonMenu->getChildByID("friend-button"),
+                m_buttonMenu->getChildByID("block-button")
+            );
+            bottomMenu->setPositionX(winSize.width / 2);
+            bottomMenu->setContentSize({164, 35});
+            bottomMenu->updateLayout();
+
             //only allow featured levels calls setVisible so we're safe here
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-levels-button");
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-levels-hint");
@@ -175,6 +251,20 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("requests-button");
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("settings-button");
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("comment-button");
+
+            auto bottomMenu = detachAndCreateMenu(
+                m_mainLayer, "bottom-menu",
+                RowLayout::create()
+                    ->setGap(30.f)
+                    ->setAxisAlignment(AxisAlignment::Center),
+                m_buttonMenu->getChildByID("message-button"),
+                m_buttonMenu->getChildByID("friend-button"),
+                m_buttonMenu->getChildByID("requests-button"),
+                m_buttonMenu->getChildByID("settings-button")
+            );
+            bottomMenu->setPositionX(winSize.width / 2);
+            bottomMenu->setContentSize({340, 35});
+            bottomMenu->updateLayout();
         }
 
     }
