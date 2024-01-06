@@ -71,6 +71,31 @@ $register_ids(ProfilePage) {
     leftMenu->setZOrder(10);
     m_mainLayer->addChild(leftMenu);
 
+    auto statsMenu = CCMenu::create();
+    statsMenu->setLayout(
+        RowLayout::create()
+            ->setGap(11.f)
+            ->setAxisAlignment(AxisAlignment::Center)
+    );
+    statsMenu->setID("stats-menu");
+    statsMenu->setPosition({(winSize.width / 2), (winSize.height / 2) + 85.f});
+    statsMenu->setContentSize({420, 90});
+    statsMenu->setZOrder(10);
+    m_mainLayer->addChild(statsMenu);
+
+    auto socialsMenu = CCMenu::create();
+    socialsMenu->setLayout(
+        ColumnLayout::create()
+            ->setGap(4.f)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setAxisReverse(true)
+    );
+    socialsMenu->setID("socials-menu");
+    socialsMenu->setPosition({(winSize.width / 2) + 198.f, (winSize.height / 2) + 78.75f});
+    socialsMenu->setContentSize({60, 120});
+    socialsMenu->setZOrder(10);
+    m_mainLayer->addChild(socialsMenu);
+
 }
 
 void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42.6f}) {
@@ -89,9 +114,9 @@ void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42
     container->setID(player->getID());
 
     player->setPosition((container->getContentSize() / 2) - CCPoint((size.width - 42.6f) / 2, 0));
-    player->removeFromParent();
     container->addChild(player);
 
+    parent->removeChild(player);
     parent->addChild(container);
 }
 
@@ -123,21 +148,34 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         auto winSize = CCDirector::get()->getWinSize();
         size_t idx = 0;
 
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("stars-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("stars-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("moons-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("moons-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("diamonds-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("diamonds-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("coins-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("coins-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("user-coins-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("user-coins-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("demons-label");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("demons-icon");
-        if(m_score->m_creatorPoints > 0) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("creator-points-label");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("creator-points-icon");
+        std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        for(auto label : labels) {
+            if(!label) continue;
+
+            auto bmFont = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
+            auto icon = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
+            auto parentNode = bmFont->getParent();
+            bmFont->setID(fmt::format("{}-label", label));
+            icon->setID(fmt::format("{}-icon", label));
+
+            auto container = CCNode::create();
+            container->setContentSize({bmFont->getScaledContentSize().width + icon->getScaledContentSize().width + 3.f, bmFont->getScaledContentSize().height});
+
+            bmFont->setPosition({0, container->getContentSize().height / 2});
+            icon->setPosition({(bmFont->getScaledContentSize().width) + 3.f + (icon->getScaledContentSize().width / 2), container->getContentSize().height / 2});
+
+            container->addChild(bmFont);
+            container->addChild(icon);
+
+            parentNode->removeChild(bmFont);
+            parentNode->removeChild(icon);
+
+            if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
+                statsMenu->addChild(container);
+                statsMenu->updateLayout();
+            }
+
+            m_buttons->addObject(container);
         }
 
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-icon");
@@ -148,14 +186,6 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-robot");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-spider");
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
-
-        log::info("distance between player-icon and player-ship: {}", m_mainLayer->getChildByID("player-ship")->getPositionX() - m_mainLayer->getChildByID("player-icon")->getPositionX());
-        log::info("distance between player-ship and player-ball: {}", m_mainLayer->getChildByID("player-ball")->getPositionX() - m_mainLayer->getChildByID("player-ship")->getPositionX());
-        log::info("distance between player-ball and player-ufo: {}", m_mainLayer->getChildByID("player-ufo")->getPositionX() - m_mainLayer->getChildByID("player-ball")->getPositionX());
-        log::info("distance between player-ufo and player-wave: {}", m_mainLayer->getChildByID("player-wave")->getPositionX() - m_mainLayer->getChildByID("player-ufo")->getPositionX());
-        log::info("distance between player-wave and player-robot: {}", m_mainLayer->getChildByID("player-robot")->getPositionX() - m_mainLayer->getChildByID("player-wave")->getPositionX());
-        log::info("distance between player-robot and player-spider: {}", m_mainLayer->getChildByID("player-spider")->getPositionX() - m_mainLayer->getChildByID("player-robot")->getPositionX());
-        log::info("distance between player-spider and player-swing: {}", m_mainLayer->getChildByID("player-swing")->getPositionX() - m_mainLayer->getChildByID("player-spider")->getPositionX());
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
@@ -186,18 +216,18 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         playerMenu->setZOrder(10);
 
 
-        bool hasStuffTxt = false;
+        size_t socialMediaCount = 0;
         if(!m_score->m_youtubeURL.empty()) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("youtube-button");
-            hasStuffTxt = true;
+            socialMediaCount++;
         }
         if(!m_score->m_twitterURL.empty()) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("twitter-button");
-            hasStuffTxt = true;
+            socialMediaCount++;
         }
         if(!m_score->m_twitchURL.empty()) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("twitch-button");
-            hasStuffTxt = true;
+            socialMediaCount++;
         }
         if(m_score->m_commentHistoryStatus != 2 && (m_score->m_commentHistoryStatus != 1 || m_score->m_friendReqStatus == 1)
             || m_ownProfile
@@ -205,7 +235,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         ) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("comment-history-button");
         }
-        if(hasStuffTxt) {
+        if(socialMediaCount > 0) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-stuff-hint");
         }
         if(m_score->m_globalRank > 0) {
@@ -265,6 +295,27 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             bottomMenu->setPositionX(winSize.width / 2);
             bottomMenu->setContentSize({340, 35});
             bottomMenu->updateLayout();
+        }
+
+        if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
+            statsMenu->setContentSize(socialMediaCount >= 2 ? CCSize(342, 120) : CCSize(420, 120));
+            statsMenu->updateLayout();
+        }
+
+        if(auto socialsMenu = m_mainLayer->getChildByID("socials-menu")) {
+            if(auto youtubeButton = m_buttonMenu->getChildByID("youtube-button")) {
+                socialsMenu->addChild(youtubeButton);
+                m_buttonMenu->removeChild(youtubeButton, false);
+            }
+            if(auto twitterButton = m_buttonMenu->getChildByID("twitter-button")) {
+                socialsMenu->addChild(twitterButton);
+                m_buttonMenu->removeChild(twitterButton, false);
+            }
+            if(auto twitchButton = m_buttonMenu->getChildByID("twitch-button")) {
+                socialsMenu->addChild(twitchButton);
+                m_buttonMenu->removeChild(twitchButton, false);
+            }
+            socialsMenu->updateLayout();
         }
 
     }
