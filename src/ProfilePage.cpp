@@ -166,6 +166,10 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
             container->addChild(bmFont);
             container->addChild(icon);
+            container->setLayoutOptions(
+                AxisLayoutOptions::create()->
+                    setMinScale(.3f)
+            );
 
             parentNode->removeChild(bmFont);
             parentNode->removeChild(icon);
