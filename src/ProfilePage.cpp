@@ -56,7 +56,20 @@ $register_ids(ProfilePage) {
     buttonOffset++;
 
     getChildOfType<GJCommentListLayer>(m_mainLayer, 0)->setID("icon-background");
-    getChildOfType<GJCommentListLayer>(m_mainLayer, 1)->setID("comment-list");
+    //getChildOfType<GJCommentListLayer>(m_mainLayer, 1)->setID("comment-list");
+
+    auto leftMenu = CCMenu::create();
+    leftMenu->setLayout(
+        ColumnLayout::create()
+            ->setGap(6.f)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setAxisReverse(true)
+    );
+    leftMenu->setID("left-menu");
+    leftMenu->setPosition({(winSize.width / 2) - 195.f, (winSize.height / 2) + 12.f});
+    leftMenu->setContentSize({60, 90});
+    leftMenu->setZOrder(10);
+    m_mainLayer->addChild(leftMenu);
 
 }
 
@@ -80,6 +93,8 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
     void loadPageFromUserInfo(GJUserScore* score) {
         ProfilePage::loadPageFromUserInfo(score);
+
+        NodeIDs::get()->provide(this);
 
         if(score->m_friendReqStatus == 2) return;
 
