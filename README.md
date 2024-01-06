@@ -1,3 +1,3 @@
 # NodeIDs
 
-This is where she makes a mod.
+Standard node IDs for layers in Geode.
