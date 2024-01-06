@@ -7,6 +7,12 @@ Adds node ids to layers for other mods to base their UI on, for preserving mod c
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
+- InfoLayer
+- LeaderboardsLayer
 - LevelBrowserLayer
+- LevelCell
 - LevelInfoLayer
+- LevelLeaderboard
 - LevelSearchLayer
+- ProfilePage
+- RewardsPage
