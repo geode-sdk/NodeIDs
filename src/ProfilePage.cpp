@@ -148,7 +148,8 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         auto winSize = CCDirector::get()->getWinSize();
         size_t idx = 0;
 
-        std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        //std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        std::array<const char*, 6> labels = {"stars", "moons", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
         for(auto label : labels) {
             if(!label) continue;
 
@@ -192,7 +193,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
+        //wrapSimplePlayer(m_buttonMenu->getChildByID("player-ship"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
@@ -200,13 +201,18 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
 
+        if(auto ship = m_buttonMenu->getChildByID("player-ship")) {
+            ship->setContentSize({42.6f, 42.6f});
+            static_cast<CCNode*>(ship->getChildren()->objectAtIndex(0))->setPosition(ship->getContentSize() / 2);
+        }
+
         auto playerMenu = detachAndCreateMenu(
             m_mainLayer, "player-menu",
             RowLayout::create()
                 ->setGap(0.f)
                 ->setAxisAlignment(AxisAlignment::Center),
             m_mainLayer->getChildByID("player-icon"),
-            m_mainLayer->getChildByID("player-ship"),
+            m_buttonMenu->getChildByID("player-ship"),
             m_mainLayer->getChildByID("player-ball"),
             m_mainLayer->getChildByID("player-ufo"),
             m_mainLayer->getChildByID("player-wave"),
@@ -250,6 +256,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         if(m_score->m_modBadge > 0) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("mod-badge");
         }
+        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
         if(!m_ownProfile) {
             if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
                 if(m_score->m_messageState != 2 && (m_score->m_messageState != 1 || m_score->m_friendReqStatus == 1)) {

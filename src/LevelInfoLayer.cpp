@@ -52,8 +52,8 @@ $register_ids(LevelInfoLayer) {
 
     setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
 
-    if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
-    if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");
+    /*if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
+    if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");*/
     if(m_difficultySprite) m_difficultySprite->setID("difficulty-sprite");
     if(m_songWidget) m_songWidget->setID("custom-songs-widget");
     if(m_circle) m_circle->setID("loading-circle");
@@ -166,9 +166,9 @@ $register_ids(LevelInfoLayer) {
     }
 
     if (auto menu = getChildOfType<CCMenu>(this, 5)) {
-        menu->setID("ldm-menu");
+        menu->setID("settings-menu");
 
-        // button itself set through class member
+        setIDSafe(menu, 0, "settings-button");
     }
 
     /**
