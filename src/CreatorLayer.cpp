@@ -77,12 +77,13 @@ $register_ids(CreatorLayer) {
             setIDSafe(menu, 3, "quests-button"),
             setIDSafe(menu, 4, "versus-button")
         );
-        if (winSize.width / winSize.height <= 5.1f / 3.f) {
+        /*if (winSize.width / winSize.height <= 5.1f / 3.f) {
             menu->setContentSize({ winSize.width - 80.f, 310.f });
         }
         else {
             menu->setContentSize({ winSize.width - 120.f, 310.f });
-        }
+        }*/
+        menu->setContentSize({ 450.f, 310.f });
         menu->setLayout(
             RowLayout::create()
                 ->setGap(6.f)
