@@ -308,7 +308,7 @@ $register_ids(EditorUI) {
             menu->getChildByID("copy-values-button"),
             menu->getChildByID("hsv-button")
         );
-        for (auto btn : CCArrayExt<CCNode>(rightMenu->getChildren())) {
+        for (auto btn : CCArrayExt<CCNode*>(rightMenu->getChildren())) {
             btn->setContentSize({ 40.f, 40.f });
         }
         rightMenu->setContentSize({ 210.f, 160.f });

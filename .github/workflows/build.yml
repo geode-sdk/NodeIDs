@@ -18,6 +18,9 @@ jobs:
         - name: Android32
           os: ubuntu-latest
           target: Android32
+        - name: Android64
+          os: ubuntu-latest
+          target: Android64
         
 
     name: ${{ matrix.config.name }}
