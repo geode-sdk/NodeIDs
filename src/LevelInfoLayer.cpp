@@ -111,7 +111,7 @@ $register_ids(LevelInfoLayer) {
 
         menu->setPosition(winSize.width - 30.f, winSize.height / 2);
 
-        for (auto child : CCArrayExt<CCNode>(menu->getChildren())) {
+        for (auto child : CCArrayExt<CCNode*>(menu->getChildren())) {
             if (child->getPositionX() < 0.f) {
                 child->retain();
                 child->removeFromParent();
