@@ -74,7 +74,7 @@ $register_ids(ProfilePage) {
     auto statsMenu = CCMenu::create();
     statsMenu->setLayout(
         RowLayout::create()
-            ->setGap(11.f)
+            ->setGap(10.f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
     statsMenu->setID("stats-menu");
