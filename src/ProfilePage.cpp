@@ -74,7 +74,7 @@ $register_ids(ProfilePage) {
     auto statsMenu = CCMenu::create();
     statsMenu->setLayout(
         RowLayout::create()
-            ->setGap(10.f)
+            ->setGap(3.f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
     statsMenu->setID("stats-menu");
@@ -155,32 +155,45 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
             auto bmFont = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
             auto icon = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
-            auto parentNode = bmFont->getParent();
+            auto fontParentNode = bmFont->getParent();
+            auto iconParentNode = icon->getParent();
+
             bmFont->setID(fmt::format("{}-label", label));
-            icon->setID(fmt::format("{}-icon", label));
+            bmFont->setZOrder(0);
 
-            auto container = CCNode::create();
-            container->setContentSize({bmFont->getScaledContentSize().width + icon->getScaledContentSize().width + 3.f, bmFont->getScaledContentSize().height});
-
-            bmFont->setPosition({0, container->getContentSize().height / 2});
-            icon->setPosition({(bmFont->getScaledContentSize().width) + 3.f + (icon->getScaledContentSize().width / 2), container->getContentSize().height / 2});
-
-            container->addChild(bmFont);
-            container->addChild(icon);
-            container->setLayoutOptions(
-                AxisLayoutOptions::create()->
-                    setMinScale(.3f)
+            auto bmFontContainer = CCNode::create();
+            bmFontContainer->setContentSize({bmFont->getScaledContentSize().width, bmFont->getScaledContentSize().height});
+            bmFontContainer->addChild(bmFont);
+            bmFontContainer->setID(fmt::format("{}-label-container", label));
+            bmFontContainer->setLayoutOptions(
+                AxisLayoutOptions::create()
+                    ->setMinScale(.0f)
             );
 
-            parentNode->removeChild(bmFont);
-            parentNode->removeChild(icon);
+            bmFont->setPosition({0, bmFontContainer->getContentSize().height / 2});
 
-            if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
-                statsMenu->addChild(container);
-                statsMenu->updateLayout();
+            icon->setID(fmt::format("{}-icon", label));
+            icon->setZOrder(0);
+            icon->setLayoutOptions(
+                AxisLayoutOptions::create()
+                    ->setRelativeScale(.9f)
+                    ->setMinScale(.0f)
+                    ->setNextGap(10.f)
+            );
+            if(typeinfo_cast<CCMenuItemSpriteExtra*>(icon)) {
+                static_cast<CCNode*>(icon->getChildren()->objectAtIndex(0))->setScale(1.f);
             }
 
-            m_buttons->addObject(container);
+            fontParentNode->removeChild(bmFont);
+            iconParentNode->removeChild(icon);
+
+            if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
+                statsMenu->addChild(bmFontContainer);
+                statsMenu->addChild(icon);
+
+                statsMenu->updateLayout();
+                m_buttons->addObject(bmFontContainer);
+            }
         }
 
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-icon");
