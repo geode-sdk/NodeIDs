@@ -109,6 +109,7 @@ $register_ids(EditLevelLayer) {
     if (auto menu = this->getChildByID("info-button-menu")) {
         setIDSafe(menu, 0, "info-button");
         setIDSafe(menu, 1, "guidelines-button");
+        setIDSafe(menu, 2, "settings-button");
     }
 }
 
