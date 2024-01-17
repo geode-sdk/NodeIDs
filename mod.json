@@ -1,5 +1,6 @@
 {
 	"geode": "2.0.0",
+	"gd": "2.204",
 	"version": "v1.0.0",
 	"id": "geode.node-ids",
 	"name": "Node IDs",
