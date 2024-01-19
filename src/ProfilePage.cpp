@@ -113,10 +113,10 @@ void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42
     container->setZOrder(player->getZOrder());
     container->setID(player->getID());
 
+    player->removeFromParent();
     player->setPosition((container->getContentSize() / 2) - CCPoint((size.width - 42.6f) / 2, 0));
     container->addChild(player);
 
-    parent->removeChild(player);
     parent->addChild(container);
 }
 
@@ -164,6 +164,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
             bmFont->setID(fmt::format("{}-label", label));
             bmFont->setZOrder(0);
+            bmFont->removeFromParent();
 
             auto bmFontContainer = CCNode::create();
             bmFontContainer->setContentSize({bmFont->getScaledContentSize().width, bmFont->getScaledContentSize().height});
@@ -176,6 +177,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
             bmFont->setPosition({0, bmFontContainer->getContentSize().height / 2});
 
+            icon->removeFromParent();
             icon->setID(fmt::format("{}-icon", label));
             icon->setZOrder(0);
             icon->setLayoutOptions(
@@ -187,9 +189,6 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             if(typeinfo_cast<CCMenuItemSpriteExtra*>(icon)) {
                 static_cast<CCNode*>(icon->getChildren()->objectAtIndex(0))->setScale(1.f);
             }
-
-            fontParentNode->removeChild(bmFont);
-            iconParentNode->removeChild(icon);
 
             if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
                 statsMenu->addChild(bmFontContainer);
@@ -210,9 +209,11 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
+        
         #ifndef GEODE_IS_WINDOWS
-            wrapSimplePlayer(m_buttonMenu->getChildByID("player-ship"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
         #endif
+        
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
@@ -220,10 +221,12 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
 
+        #ifdef GEODE_IS_WINDOWS
         if(auto ship = m_buttonMenu->getChildByID("player-ship")) {
             ship->setContentSize({42.6f, 42.6f});
             static_cast<CCNode*>(ship->getChildren()->objectAtIndex(0))->setPosition(ship->getContentSize() / 2);
         }
+        #endif
 
         auto playerMenu = detachAndCreateMenu(
             m_mainLayer, "player-menu",
@@ -231,6 +234,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 ->setGap(0.f)
                 ->setAxisAlignment(AxisAlignment::Center),
             m_mainLayer->getChildByID("player-icon"),
+            m_mainLayer->getChildByID("player-ship"),
             m_buttonMenu->getChildByID("player-ship"),
             m_mainLayer->getChildByID("player-ball"),
             m_mainLayer->getChildByID("player-ufo"),
@@ -338,16 +342,16 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
         if(auto socialsMenu = m_mainLayer->getChildByID("socials-menu")) {
             if(auto youtubeButton = m_buttonMenu->getChildByID("youtube-button")) {
+                youtubeButton->removeFromParent();
                 socialsMenu->addChild(youtubeButton);
-                m_buttonMenu->removeChild(youtubeButton, false);
             }
             if(auto twitterButton = m_buttonMenu->getChildByID("twitter-button")) {
+                twitterButton->removeFromParent();
                 socialsMenu->addChild(twitterButton);
-                m_buttonMenu->removeChild(twitterButton, false);
             }
             if(auto twitchButton = m_buttonMenu->getChildByID("twitch-button")) {
+                twitchButton->removeFromParent();
                 socialsMenu->addChild(twitchButton);
-                m_buttonMenu->removeChild(twitchButton, false);
             }
             socialsMenu->updateLayout();
         }
