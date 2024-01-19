@@ -218,4 +218,38 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
 
         return true;
     }
+
+    void updateLabelValues() {
+        LevelInfoLayer::updateLabelValues();
+
+        size_t coinIdx = 1;
+        for(auto& coin : CCArrayExt<CCSprite*>(m_coins)) {
+            coin->setID(fmt::format("coin-icon-{}", coinIdx++));
+        }
+    }
+
+    void setupPlatformerStats() {
+        LevelInfoLayer::setupPlatformerStats();
+
+        size_t labelOffset = 1;
+        if(m_level->m_bestPoints) {
+            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset))->setID("points-label");
+            labelOffset++;
+        }
+
+        log::info("best time: {}", this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset));
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset))->setID("best-time-label");
+        labelOffset++;
+    }
+
+    void setupProgressBars() {
+        LevelInfoLayer::setupProgressBars();
+
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 1))->setID("practice-mode-label");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 2))->setID("normal-mode-label");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 3))->setID("practice-mode-percentage");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 4))->setID("normal-mode-percentage");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("practice-mode-bar");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-bar");
+    }
 };
