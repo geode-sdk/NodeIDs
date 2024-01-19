@@ -1,6 +1,9 @@
 {
 	"geode": "2.0.0",
-	"gd": "2.204",
+	"gd": {
+		"win": "2.204",
+		"android": "2.200"
+	},
 	"version": "v1.0.0",
 	"id": "geode.node-ids",
 	"name": "Node IDs",

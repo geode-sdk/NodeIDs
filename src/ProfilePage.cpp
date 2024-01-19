@@ -148,8 +148,12 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         auto winSize = CCDirector::get()->getWinSize();
         size_t idx = 0;
 
-        //std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
-        std::array<const char*, 6> labels = {"stars", "moons", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        #ifdef GEODE_IS_WINDOWS
+            std::array<const char*, 6> labels = {"stars", "moons", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        #else
+            std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
+        #endif
+
         for(auto label : labels) {
             if(!label) continue;
 
@@ -206,7 +210,9 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
-        //wrapSimplePlayer(m_buttonMenu->getChildByID("player-ship"), m_buttons);
+        #ifndef GEODE_IS_WINDOWS
+            wrapSimplePlayer(m_buttonMenu->getChildByID("player-ship"), m_buttons);
+        #endif
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
@@ -269,7 +275,11 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         if(m_score->m_modBadge > 0) {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("mod-badge");
         }
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
+
+        #ifdef GEODE_IS_WINDOWS
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
+        #endif
+
         if(!m_ownProfile) {
             if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
                 if(m_score->m_messageState != 2 && (m_score->m_messageState != 1 || m_score->m_friendReqStatus == 1)) {
