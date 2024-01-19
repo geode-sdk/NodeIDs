@@ -4,7 +4,7 @@
 		"win": "2.204",
 		"android": "2.200"
 	},
-	"version": "v1.1.0",
+	"version": "v1.1.1",
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
