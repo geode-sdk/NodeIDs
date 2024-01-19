@@ -210,9 +210,11 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
+        
         #ifndef GEODE_IS_WINDOWS
-            wrapSimplePlayer(m_buttonMenu->getChildByID("player-ship"), m_buttons);
+        wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
         #endif
+        
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
@@ -220,10 +222,12 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
 
+        #ifdef GEODE_IS_WINDOWS
         if(auto ship = m_buttonMenu->getChildByID("player-ship")) {
             ship->setContentSize({42.6f, 42.6f});
             static_cast<CCNode*>(ship->getChildren()->objectAtIndex(0))->setPosition(ship->getContentSize() / 2);
         }
+        #endif
 
         auto playerMenu = detachAndCreateMenu(
             m_mainLayer, "player-menu",
@@ -231,6 +235,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 ->setGap(0.f)
                 ->setAxisAlignment(AxisAlignment::Center),
             m_mainLayer->getChildByID("player-icon"),
+            m_mainLayer->getChildByID("player-ship"),
             m_buttonMenu->getChildByID("player-ship"),
             m_mainLayer->getChildByID("player-ball"),
             m_mainLayer->getChildByID("player-ufo"),
