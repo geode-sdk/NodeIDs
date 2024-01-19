@@ -89,6 +89,7 @@ $register_ids(LevelCell) {
 
     } else {
         //LevelCell::loadCustomLevelCell
+        log::info("{} looking ass", m_level->m_levelName);
 
         size_t labelOffset = 0;
         size_t buttonOffset = 0;
@@ -151,10 +152,13 @@ $register_ids(LevelCell) {
             }
         }
 
-        if(m_level->m_coins > 0 && (m_compactView || container)) {
-            for(size_t i = 0; i < m_level->m_coins; i++) {
-                getChildOfType<CCSprite>(m_compactView ? m_mainLayer : container, m_compactView ? spriteOffset : containerSpriteOffset)->setID(fmt::format("coin-icon-{}", i + 1));
-                m_compactView ? spriteOffset++ : containerSpriteOffset++;
+        auto coins = m_level->m_coins > 3 ? 3 : m_level->m_coins;
+        if(coins > 0 && (m_compactView || container)) {
+            for(size_t i = 0; i < coins; i++) {
+                if(auto sprite = getChildOfType<CCSprite>(m_compactView ? m_mainLayer : container, m_compactView ? spriteOffset : containerSpriteOffset)) {
+                    sprite->setID(fmt::format("coin-icon-{}", i + 1));
+                    m_compactView ? spriteOffset++ : containerSpriteOffset++;
+                }
             }
         }
 
