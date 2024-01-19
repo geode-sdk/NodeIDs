@@ -89,8 +89,6 @@ $register_ids(LevelCell) {
 
     } else {
         //LevelCell::loadCustomLevelCell
-        log::info("{} looking ass", m_level->m_levelName);
-
         size_t labelOffset = 0;
         size_t buttonOffset = 0;
         size_t spriteOffset = 0;
