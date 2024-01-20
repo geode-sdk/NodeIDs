@@ -106,7 +106,7 @@ $register_ids(LevelInfoLayer) {
         leftSideMenu->setPosition(30.f, winSize.height / 2);
         leftSideMenu->setLayout(ColumnLayout::create());
         leftSideMenu->setID("left-side-menu");
-        leftSideMenu->setContentSize({ 50.f, 225.f });
+        leftSideMenu->setContentSize({ 50.f, 145.f });
         this->addChild(leftSideMenu);
 
         menu->setPosition(winSize.width - 30.f, winSize.height / 2);
@@ -142,7 +142,26 @@ $register_ids(LevelInfoLayer) {
                 ->setAxisReverse(true)
         );
 
-        setIDSafe(leftSideMenu, 0, "copy-button");
+        auto GM = GameManager::sharedState();
+        auto GJA = GJAccountManager::sharedState();
+        size_t leftMenuIdx = 0;
+        if(GM->m_hasRP == 1 || GM->m_hasRP == 2) {
+            setIDSafe(leftSideMenu, leftMenuIdx, "mod-rate-button");
+            leftMenuIdx++;
+        }
+
+        if(GM->m_hasRP > 0) {
+            setIDSafe(menu, menu->getChildrenCount() - 1, "delete-button");
+        }else if(GM->m_playerUserID == m_level->m_userID || (GJA->m_accountID == m_level->m_accountID && GJA->m_accountID != 0)) {
+            setIDSafe(leftSideMenu, leftMenuIdx, "delete-button");
+            leftMenuIdx++;
+        }
+        //if above if OR if password != 0 (the 2nd condition is inlined in some weird way into the addChild call)
+        setIDSafe(leftSideMenu, leftMenuIdx, "copy-button");
+
+        if(auto btn = leftSideMenu->getChildByID("mod-rate-button")) btn->setZOrder(-1);
+        if(auto btn = leftSideMenu->getChildByID("delete-button")) btn->setZOrder(-2);
+        if(auto btn = leftSideMenu->getChildByID("copy-button")) btn->setZOrder(-3);
 
         menu->updateLayout();
         leftSideMenu->updateLayout();
