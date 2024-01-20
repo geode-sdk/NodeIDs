@@ -256,7 +256,6 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
             labelOffset++;
         }
 
-        log::info("best time: {}", this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset));
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset))->setID("best-time-label");
         labelOffset++;
     }
