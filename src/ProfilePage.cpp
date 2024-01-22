@@ -148,7 +148,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         auto winSize = CCDirector::get()->getWinSize();
         size_t idx = 0;
 
-        #if GEODE_COMP_GD_VERSION >= 22040
+        #if GEODE_COMP_GD_VERSION >= 22030
             std::array<const char*, 6> labels = {"stars", "moons", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
         #else
             std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
@@ -210,7 +210,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
 
         wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
         
-        #if GEODE_COMP_GD_VERSION < 22040
+        #if GEODE_COMP_GD_VERSION < 22030
         wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
         #endif
         
@@ -221,7 +221,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
         wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
 
-        #if GEODE_COMP_GD_VERSION >= 22040
+        #if GEODE_COMP_GD_VERSION >= 22030
         if(auto ship = m_buttonMenu->getChildByID("player-ship")) {
             ship->setContentSize({42.6f, 42.6f});
             static_cast<CCNode*>(ship->getChildren()->objectAtIndex(0))->setPosition(ship->getContentSize() / 2);
@@ -280,7 +280,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("mod-badge");
         }
 
-        #if GEODE_COMP_GD_VERSION >= 22040
+        #if GEODE_COMP_GD_VERSION >= 22030
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
         #endif
 
