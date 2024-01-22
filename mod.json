@@ -2,9 +2,9 @@
 	"geode": "2.0.0",
 	"gd": {
 		"win": "2.204",
-		"android": "2.200"
+		"android": "2.205"
 	},
-	"version": "v1.1.1",
+	"version": "v1.1.2",
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
