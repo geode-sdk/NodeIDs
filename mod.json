@@ -8,7 +8,7 @@
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
-	"description": "Standard node ids to be used by other mods.",
+	"description": "Standard node IDs to be used by other mods.",
 	"repository": "https://github.com/geode-sdk/NodeIDs",
 	"issues": {
 		"url": "https://github.com/geode-sdk/NodeIDs/issues",
