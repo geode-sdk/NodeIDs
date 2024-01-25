@@ -189,13 +189,17 @@ $register_ids(LevelCell) {
         }
 
         bool hasCompletedLevel = m_level->m_dailyID > 0 ? m_level->m_orbCompletion > 99 : GameStatsManager::sharedState()->hasCompletedLevel(m_level);
+        auto savedLevel = GameLevelManager::sharedState()->getSavedLevel(m_level->m_levelID);
         if(hasCompletedLevel) {
             getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("completed-icon");
             spriteOffset++;
-        } else if(m_level->m_normalPercent.value()) {
+        } else if(savedLevel && savedLevel->m_normalPercent.value() != 0) {
             getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("percentage-label");
             labelOffset++;
         }
+
+        log::info("hasCompletedLevel: {}", hasCompletedLevel);
+        log::info("m_level->m_normalPercent: {}", m_level->m_normalPercent.value());
 
         if(m_level->m_originalLevel > 0) {
             getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("copy-indicator");
