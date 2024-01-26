@@ -198,9 +198,6 @@ $register_ids(LevelCell) {
             labelOffset++;
         }
 
-        log::info("hasCompletedLevel: {}", hasCompletedLevel);
-        log::info("m_level->m_normalPercent: {}", m_level->m_normalPercent.value());
-
         if(m_level->m_originalLevel > 0) {
             getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("copy-indicator");
             spriteOffset++;
