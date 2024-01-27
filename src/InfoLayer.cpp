@@ -81,12 +81,20 @@ $register_ids(InfoLayer) {
         menu->setID("left-side-menu");
         menuOffset++;
         
-        getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("sort-likes-button");
-        getChildOfType<CCMenuItemSpriteExtra>(menu, 1)->setID("sort-recent-button");
-        getChildOfType<CCMenuItemSpriteExtra>(menu, 2)->setID("small-mode-button");
+        size_t buttonOffset = 0;
+        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("sort-likes-button");
+        buttonOffset++;
+
+        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("sort-recent-button");
+        buttonOffset++;
+
         if(!m_score) {
-            getChildOfType<CCMenuItemSpriteExtra>(menu, 3)->setID("extend-button");
+            getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("extend-button");
+            buttonOffset++;
         }
+        
+        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("small-mode-button");
+        buttonOffset++;
 
         menu->setContentSize({10, 140});
         menu->setLayout(
