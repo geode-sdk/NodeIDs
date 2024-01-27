@@ -21,6 +21,8 @@ static void reorderButtons(Args... args) {
 
 $register_ids(CreatorLayer) {
     setIDSafe<CCSprite>(this, 0, "background");
+    setIDSafe<CCSprite>(this, 1, "bottom-left-corner");
+    setIDSafe<CCSprite>(this, 2, "top-left-corner");
     auto winSize = CCDirector::get()->getWinSize();
     if (auto menu = getChildOfType<CCMenu>(this, 0)) {
         menu->setID("creator-buttons-menu");
