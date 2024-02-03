@@ -149,7 +149,7 @@ $register_ids(EditorPauseLayer) {
             menu->getChildByID("new-groupy-button")
         );
         smallActionsMenu->setContentSize({ 100.f, 290.f });
-        smallActionsMenu->setPositionY(180.f);
+        smallActionsMenu->setPositionY(155.f);
         smallActionsMenu->updateLayout();
 
         auto actionsMenu = detachAndCreateMenu(
@@ -170,15 +170,15 @@ $register_ids(EditorPauseLayer) {
         if (auto keysBtn = actionsMenu->getChildByID("keys-button")) {
             keysBtn->setLayoutOptions(AxisLayoutOptions::create()->setPrevGap(10.f));
         }
-        actionsMenu->setContentSize({ 100.f, 240.f });
-        actionsMenu->setPositionY(130.f);
+        actionsMenu->setContentSize({ 100.f, 290.f });
+        actionsMenu->setPositionY(155.f);
         actionsMenu->updateLayout();
 
         auto optionsMenu = detachAndCreateMenu(
             this,
             "options-menu",
             RowLayout::create()
-                ->setGap(0.f)
+                ->setGap(5.f)
                 ->setAxisAlignment(AxisAlignment::Start)
                 ->setGrowCrossAxis(true)
                 ->setCrossAxisAlignment(AxisAlignment::Start)
@@ -220,8 +220,8 @@ $register_ids(EditorPauseLayer) {
             }
         }
         // uhh can someone with devtools change these values
-        optionsMenu->setContentSize({ 120.f, winSize.height - 100.f });
-        optionsMenu->setPosition(70.f, winSize.height / 2 - 50.f + 10.f);
+        optionsMenu->setContentSize({ 120.f, winSize.height - 60.f });
+        optionsMenu->setPosition(70.f, winSize.height / 2 - 25.f + 10.f);
         optionsMenu->updateLayout();
 
         auto settingsMenu = detachAndCreateMenu(
