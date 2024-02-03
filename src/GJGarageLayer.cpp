@@ -3,175 +3,187 @@
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/GJGarageLayer.hpp>
 #include <Geode/utils/cocos.hpp>
+#include <Geode/utils/NodeIDs.hpp>
 
 using namespace geode::prelude;
+using namespace geode::node_ids;
 
-// $register_ids(GJGarageLayer) {
-//     // the lock does not exist for not logged in users
-//     auto loggedInOffset = GJAccountManager::get()->m_accountID == GJAccountManager::get()->m_playerID ? -1 : 0;
-//     if (loggedInOffset == -1 && !GameManager::get()->m_clickedName) {
-//         // adjusts for the sprite asking for your name
-//         loggedInOffset++;
-//     }
+$register_ids(GJGarageLayer) {
+    auto GJAM = GJAccountManager::sharedState();
+    auto GM = GameManager::sharedState();
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-//     setIDSafe<CCTextInputNode>(this, 0, "username-label");
-//     setIDSafe<SimplePlayer>(this, 0, "player-icon");
+    size_t offset = 0;
 
-//     auto winSize = CCDirector::get()->getWinSize();
+    setIDSafe(this, offset++, "background");
+    setIDSafe(this, offset++, "top-left-corner");
+    setIDSafe(this, offset++, "bottom-left-corner");
+    setIDSafe(this, offset++, "bottom-right-corner");
+    setIDSafe(this, offset++, "username-label");
 
-//     if (auto menu = getChildOfType<CCMenu>(this, 0)) {
-//         menu->setID("category-menu");
+    if(GJAM->m_accountID == 0) {
+        if(!GM->m_clickedName) setIDSafe(this, offset++, "username-hint");
+    } else {
+        setIDSafe(this, offset++, "username-lock");
+    }
 
-//         setIDs(
-//             menu,
-//             0,
-//             "cube-button",
-//             "ship-button",
-//             "ball-button",
-//             "ufo-button",
-//             "wave-button",
-//             "robot-button",
-//             "spider-button",
-//             "trail-button",
-//             "death-effect-button"
-//         );
+    setIDSafe(this, offset++, "floor-line");
+    setIDSafe(this, offset++, "player-icon");
 
-//         menu->setContentSize({ 320.f, 50.f });
-//         menu->setLayout(
-//             RowLayout::create()
-//                 ->setAxisAlignment(AxisAlignment::Start)
-//                 ->setGap(-4.f)
-//         );
-//     }
+    // setupIconSelect
+    setIDSafe(this, offset++, "select-background");
+    setIDSafe(this, offset++, "tap-more-hint");
+    
+    if(auto menu = typeinfo_cast<CCMenu*>(setIDSafe(this, offset++, "category-menu"))) {
+        setIDs(
+            menu,
+            0,
+            "cube-button",
+            "ship-button",
+            "ball-button",
+            "ufo-button",
+            "wave-button",
+            "robot-button",
+            "spider-button",
+            "swing-button",
+            "jetpack-button",
+            "trail-button",
+            "death-effect-button",
+            "prev-button",
+            "next-button"
+        );
 
-//     setIDs(
-//         this,
-//         10 + loggedInOffset,
-//         "cube-selection-menu",
-//         "ship-selection-menu",
-//         "ball-selection-menu",
-//         "ufo-selection-menu",
-//         "wave-selection-menu",
-//         "robot-selection-menu",
-//         "spider-selection-menu",
-//         "trail-selection-menu",
-//         "death-effect-selection-menu",
+        if (auto prevPageBtn = menu->getChildByID("prev-button")) {
+            auto prevMenu = detachAndCreateMenu(
+                this,
+                "prev-page-menu",
+                ColumnLayout::create()
+                    ->setAxisAlignment(AxisAlignment::Center),
+                prevPageBtn
+            );
+            prevPageBtn->setZOrder(-1);
+            prevMenu->setContentSize({ 40.f, 100.f });
+            prevMenu->updateLayout();
+        }
 
-//         "color-1-cursor",
-//         "color-2-cursor",
+        if (auto nextPageBtn = menu->getChildByID("next-button")) {
+            auto nextMenu = detachAndCreateMenu(
+                this,
+                "next-page-menu",
+                ColumnLayout::create()
+                    ->setAxisAlignment(AxisAlignment::Center),
+                nextPageBtn
+            );
+            nextPageBtn->setZOrder(-1);
+            nextMenu->setContentSize({ 40.f, 100.f });
+            nextMenu->updateLayout();
+        }
 
-//         "color-selection-menu"
-//     );
+        menu->setContentSize({ winSize.width - 100.f, 50.f });
+        menu->setLayout(
+            RowLayout::create()
+                ->setAxisAlignment(AxisAlignment::Center)
+                ->setGap(2.f)
+        );
+    }
 
-//     if (auto menu = getChildOfType<CCMenu>(this, 1)) {
-//         menu->setID("top-left-menu");
+    setIDSafe(this, offset++, "cursor-1");
+    setIDSafe(this, offset++, "cursor-2");
 
-//         setIDs(menu, 0, "back-button", "shop-button", "shards-button");
+    if(auto menu = typeinfo_cast<CCMenu*>(setIDSafe(this, offset++, "navdot-menu"))) {
+        // no point in setting IDs for the dots, they're constantly reset
 
-//         auto backBtn = menu->getChildByID("back-button");
-//         auto backMenu = detachAndCreateMenu(
-//             this,
-//             "back-menu",
-//             RowLayout::create()
-//                 ->setAxisAlignment(AxisAlignment::Start),
-//             backBtn
-//         );
-//         backMenu->setContentSize({ 100.f, 50.f });
-//         backMenu->setPositionX(
-//             backMenu->getPositionX() + 100.f / 2 - 
-//                 getSizeSafe(backBtn).width / 2
-//         );
-//         backMenu->updateLayout();
+        menu->setLayout(
+            RowLayout::create()
+                ->setGap(6.f)
+                ->setAxisAlignment(AxisAlignment::Center)
+        );
+        menu->setContentSize({ winSize.width - 60.f, 20.f });
+        menu->updateLayout();
+    }
 
-//         auto shardsBtn = menu->getChildByID("shards-button");
-//         auto shardsMenu = detachAndCreateMenu(
-//             this,
-//             "shards-menu",
-//             ColumnLayout::create()
-//                 ->setAxisReverse(true)
-//                 ->setAxisAlignment(AxisAlignment::End),
-//             shardsBtn
-//         );
-//         shardsMenu->setContentSize({ 50.f, 100.f });
-//         shardsMenu->setPositionY(
-//             shardsMenu->getPositionY() - 100.f / 2 + 
-//                 getSizeSafe(shardsBtn).height / 2
-//         );
-//         shardsMenu->updateLayout();
-//     }
+    setIDSafe(this, offset++, "icon-selection-bar");
+    // end of setupIconSelect
 
-//     auto bottomLeftMenu = CCMenu::create();
-//     bottomLeftMenu->setID("bottom-left-menu");
-//     bottomLeftMenu->setContentSize({ 50.f, 70.f });
-//     bottomLeftMenu->setPosition(30.f, 115.f);
-//     bottomLeftMenu->setLayout(
-//         ColumnLayout::create()
-//             ->setAxisAlignment(AxisAlignment::Start)
-//     );
-//     this->addChild(bottomLeftMenu);
+    if(auto menu = typeinfo_cast<CCMenu*>(setIDSafe(this, offset++, "top-left-menu"))) {
+        setIDs(menu, 0, "back-button", "shop-button", "shards-button", "color-button");
 
-//     auto bottomRightMenu = CCMenu::create();
-//     bottomRightMenu->setID("bottom-right-menu");
-//     bottomRightMenu->setContentSize({ 50.f, 110.f });
-//     bottomRightMenu->setPosition(winSize.width - 30.f, 135.f);
-//     bottomRightMenu->setLayout(
-//         ColumnLayout::create()
-//             ->setAxisAlignment(AxisAlignment::Start)
-//     );
-//     this->addChild(bottomRightMenu);
+        if(auto backBtn = menu->getChildByID("back-button")) {
+            auto backMenu = detachAndCreateMenu(
+                this,
+                "back-menu",
+                RowLayout::create()
+                    ->setAxisAlignment(AxisAlignment::Start),
+                backBtn
+            );
+            backMenu->setContentSize({ 100.f, 50.f });
+            backMenu->setPositionX(
+                backMenu->getPositionX() + 100.f / 2 - 
+                    getSizeSafe(backBtn).width / 2
+            );
+            backMenu->updateLayout();
+        }
 
-//     // aspect ratio responsiveness
-//     if (winSize.width / winSize.height <= 5.1f / 3.f) {
-//         bottomLeftMenu->setPosition(15.f, 115.f);
-//         bottomRightMenu->setPosition(winSize.width - 15.f, 135.f);
+        if(auto shardsBtn = menu->getChildByID("shards-button")) {
+            auto shardsMenu = detachAndCreateMenu(
+                this,
+                "shards-menu",
+                ColumnLayout::create()
+                    ->setAxisReverse(true)
+                    ->setAxisAlignment(AxisAlignment::End)
+                    ->setGap(3.25f),
+                shardsBtn,
+                menu->getChildByID("color-button")
+            );
+            shardsMenu->setContentSize({ 50.f, 200.f });
+            shardsMenu->setPositionY(
+                shardsMenu->getPositionY() - 200.f / 2 + 
+                    getSizeSafe(shardsBtn).height / 2
+            );
+            shardsMenu->updateLayout();
+        }
+    }
 
-//         if (auto shardsMenu = this->getChildByID("shards-menu")) {
-//             shardsMenu->setContentSize({ 110.f, 50.f });
-//             shardsMenu->setPosition(
-//                 shardsMenu->getPosition() + ccp(50.f, 30.f)
-//             );
-//             shardsMenu->setLayout(
-//                 RowLayout::create()
-//                     ->setAxisAlignment(AxisAlignment::Start)
-//             );
-//         }
-//     }
-//     if (winSize.width / winSize.height <= 4.1f / 3.f) {
-//         bottomLeftMenu->setContentSize({ 90.f, 50.f });
-//         bottomLeftMenu->setPosition(
-//             15.f + 110.f / 2,
-//             85.f
-//         );
-//         bottomLeftMenu->setLayout(
-//             RowLayout::create()
-//                 ->setAxisAlignment(AxisAlignment::Start)
-//         );
+    setIDs(
+        this,
+        offset,
+        "stars-icon",
+        "stars-label",
+        "moons-icon",
+        "moons-label",
+        "coins-icon",
+        "coins-label",
+        "user-coins-icon",
+        "user-coins-label",
+        "orbs-icon",
+        "orbs-label",
+        "diamonds-icon",
+        "diamonds-label",
+        "diamond-shards-icon",
+        "diamond-shards-label"
+    );
+}
 
-//         bottomRightMenu->setContentSize({ 90.f, 50.f });
-//         bottomRightMenu->setPosition(
-//             winSize.width - 15.f - 110.f / 2,
-//             85.f
-//         );
-//         bottomRightMenu->setLayout(
-//             RowLayout::create()
-//                 ->setAxisReverse(true)
-//                 ->setAxisAlignment(AxisAlignment::End)
-//         );
-//     }
-// }
+struct GJGarageLayerIDs : Modify<GJGarageLayerIDs, GJGarageLayer> {
+    static void onModify(auto& self) {
+        if (!self.setHookPriority("GJGarageLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GJGarageLayer::init hook priority, node IDs may not work properly");
+        }
+    }
 
-// struct GJGarageLayerIDs : Modify<GJGarageLayerIDs, GJGarageLayer> {
-//     static void onModify(auto& self) {
-//         if (!self.setHookPriority("GJGarageLayer::init", GEODE_ID_PRIORITY)) {
-//             log::warn("Failed to set GJGarageLayer::init hook priority, node IDs may not work properly");
-//         }
-//     }
+    bool init() {
+        if (!GJGarageLayer::init()) return false;
 
-//     bool init() {
-//         if (!GJGarageLayer::init()) return false;
+        NodeIDs::get()->provide(this);
 
-//         NodeIDs::get()->provide(this);
+        return true;
+    }
 
-//         return true;
-//     }
-// };
+    void setupPage(int a1, IconType a2) {
+        GJGarageLayer::setupPage(a1, a2);
+
+        if(auto menu = getChildByID("navdot-menu")) {
+            menu->updateLayout();
+        }
+    }
+};
