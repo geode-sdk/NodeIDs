@@ -7,45 +7,45 @@ using namespace geode::node_ids;
 
 // special class for this because making it a CCMenuItemToggler would be very UB 
 // (not gonna reinterpret_cast that into the members)
-// class GuidelinesButton : public CCMenuItemSpriteExtra {
-// protected:
-//     bool init() override {
-//         if (!CCMenuItemSpriteExtra::init(
-//             CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png"),
-//             nullptr,
-//             this, nullptr
-//         )) return false;
+class GuidelinesButton : public CCMenuItemSpriteExtra {
+protected:
+    bool init() override {
+        if (!CCMenuItemSpriteExtra::init(
+            CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png"),
+            nullptr,
+            this, nullptr
+        )) return false;
 
-//         this->updateSprite();
+        this->updateSprite();
         
-//         return true;
-//     }
+        return true;
+    }
 
-//     void updateSprite() {
-//         this->setNormalImage(CCSprite::createWithSpriteFrameName(
-//             GameManager::get()->m_showSongMarkers ? 
-//                 "GJ_audioOnBtn_001.png" :
-//                 "GJ_audioOffBtn_001.png"
-//         ));
-//     }
+    void updateSprite() {
+        this->setNormalImage(CCSprite::createWithSpriteFrameName(
+            GameManager::get()->m_showSongMarkers ? 
+                "GJ_audioOnBtn_001.png" :
+                "GJ_audioOffBtn_001.png"
+        ));
+    }
 
-//     void activate() override {
-//         CCMenuItemSpriteExtra::activate();
-//         GameManager::get()->m_showSongMarkers ^= 1;
-//         this->updateSprite();
-//     }
+    void activate() override {
+        CCMenuItemSpriteExtra::activate();
+        GameManager::get()->m_showSongMarkers ^= 1;
+        this->updateSprite();
+    }
 
-// public:
-//     static GuidelinesButton* create() {
-//         auto ret = new GuidelinesButton();
-//         if (ret && ret->init()) {
-//             ret->autorelease();
-//             return ret;
-//         }
-//         CC_SAFE_DELETE(ret);
-//         return nullptr;
-//     }
-// };
+public:
+    static GuidelinesButton* create() {
+        auto ret = new GuidelinesButton();
+        if (ret && ret->init()) {
+            ret->autorelease();
+            return ret;
+        }
+        CC_SAFE_DELETE(ret);
+        return nullptr;
+    }
+};
 
 $register_ids(EditorPauseLayer) {
     auto winSize = CCDirector::get()->getWinSize();
@@ -219,7 +219,6 @@ $register_ids(EditorPauseLayer) {
                 );
             }
         }
-        // uhh can someone with devtools change these values
         optionsMenu->setContentSize({ 120.f, winSize.height - 60.f });
         optionsMenu->setPosition(70.f, winSize.height / 2 - 25.f + 10.f);
         optionsMenu->updateLayout();
@@ -236,8 +235,6 @@ $register_ids(EditorPauseLayer) {
 
         auto guidelinesMenu = menu;
 
-        // someone with windows addresses plox do this
-#if 0
         // replace the two guidelines buttons with a single toggle
         guidelinesMenu->getChildByID("guidelines-enable-button")->removeFromParent();
         guidelinesMenu->getChildByID("guidelines-disable-button")->removeFromParent();
@@ -247,7 +244,6 @@ $register_ids(EditorPauseLayer) {
         guidelinesMenu->insertBefore(glToggle, nullptr);
         m_guidelinesOffButton = m_guidelinesOnButton = nullptr;
         // this->updateSongButton();
-#endif
 
         guidelinesMenu->setID("guidelines-menu");
         guidelinesMenu->setContentSize({ winSize.width / 2, 50.f });
