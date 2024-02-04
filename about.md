@@ -9,6 +9,9 @@ Has ids for:
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
+- EditorPauseLayer
+- EditorUI
+- GJGarageLayer
 - GJScoreCell
 - InfoLayer
 - LeaderboardsLayer
@@ -17,5 +20,7 @@ Has ids for:
 - LevelInfoLayer
 - LevelLeaderboard
 - LevelSearchLayer
+- PauseLayer
 - ProfilePage
 - RewardsPage
+- UILayer
