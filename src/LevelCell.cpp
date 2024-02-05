@@ -189,15 +189,12 @@ $register_ids(LevelCell) {
         }
 
         bool hasCompletedLevel = m_level->m_dailyID > 0 ? m_level->m_orbCompletion > 99 : GameStatsManager::sharedState()->hasCompletedLevel(m_level);
-        auto savedLevel = GameLevelManager::sharedState()->getSavedLevel(m_level->m_levelID);
+        auto savedLevel = m_level->m_dailyID > 0 ? GameLevelManager::sharedState()->getSavedDailyLevel(m_level->m_dailyID) : GameLevelManager::sharedState()->getSavedLevel(m_level->m_levelID);
         if (hasCompletedLevel) {
             getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("completed-icon");
             spriteOffset++;
         } else if (savedLevel && savedLevel->m_normalPercent.value() != 0) {
-            // TODO: this is very incorrect. on weeklies it will fetch the
-            // GJGameLevel for the regular level, and get the normalPercent of that
-            auto* node = getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset);
-            if (node) {
+            if (auto node = getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)) {
                 node->setID("percentage-label");
                 labelOffset++;
             }
