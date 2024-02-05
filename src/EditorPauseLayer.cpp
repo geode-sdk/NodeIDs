@@ -20,7 +20,7 @@ protected:
             spr, nullptr, nullptr, this, nullptr
         )) return false;
 
-        // TODO: i was also gonna call this on windows but it just crashes and i cant figure out why
+        // TODO: this function is cursed on windows, only takes 1 arg
     #else
         if (!CCMenuItemSpriteExtra::init(
             spr,
