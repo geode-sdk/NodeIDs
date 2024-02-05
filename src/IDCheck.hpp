@@ -1,3 +1,5 @@
+#pragma once
+
 #define verifyIDSafe(Member_, ID_) \
     if(Member_ && Member_->getID() != ID_) { \
         log::warn("{} has an invalid ID - {} (expected {})", #Member_, Member_->getID(), ID_); \

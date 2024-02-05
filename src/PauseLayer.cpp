@@ -8,6 +8,33 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
+// this code sux but oh well
+// maybe it should be in geode utils
+CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
+    auto cache = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
+    if (!cache) return nullptr;
+
+    auto* texture = cache->getTexture();
+    auto rect = cache->getRect();
+
+    for (int i = 0; i < parent->getChildrenCount(); ++i) {
+        auto* child = parent->getChildren()->objectAtIndex(i);
+        if (auto* spr = typeinfo_cast<CCSprite*>(child)) {
+            if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
+                return spr;
+            }
+        } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(child)) {
+            auto* img = btn->getNormalImage();
+            if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
+                if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
+                    return btn;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 $register_ids(PauseLayer) {
     int idx = 0;
     setIDs(
@@ -134,13 +161,13 @@ $register_ids(PauseLayer) {
     if (auto menu = this->getChildByID("center-button-menu")) {
 
         int idx = 0;
-        if (level->m_levelType == GJLevelType::Editor) {
-            setIDSafe(menu, idx, "edit-button");
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_editBtn_001.png")) {
+            node->setID("edit-button");
             ++idx;
         }
 
-        if (level->isPlatformer()) {
-            setIDSafe(menu, idx, "full-restart-button");
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_replayFullBtn_001.png")) {
+            node->setID("full-restart-button");
             ++idx;
         }
 
