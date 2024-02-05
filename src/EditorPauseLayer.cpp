@@ -10,11 +10,24 @@ using namespace geode::node_ids;
 class GuidelinesButton : public CCMenuItemSpriteExtra {
 protected:
     bool init() override {
+        auto* spr = CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png");
+    #ifdef GEODE_IS_WINDOWS
+        // thank you windows
+        // this got inlined into the ::create function,
+        // so the address we have for CCMenuItemSpriteExtra::init contains the code after calling this,
+        // so we have to call it ourselves
+        if (!CCMenuItemSprite::initWithNormalSprite(
+            spr, nullptr, nullptr, this, nullptr
+        )) return false;
+
+        // TODO: i was also gonna call this on windows but it just crashes and i cant figure out why
+    #else
         if (!CCMenuItemSpriteExtra::init(
-            CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png"),
+            spr,
             nullptr,
             this, nullptr
         )) return false;
+    #endif
 
         this->updateSprite();
         
