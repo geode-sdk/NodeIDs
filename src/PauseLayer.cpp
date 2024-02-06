@@ -70,6 +70,16 @@ $register_ids(PauseLayer) {
         idx += 6;
     }
 
+    for(auto child : CCArrayExt<CCNode*>(this->getChildren())) {
+        if (auto bmFont = typeinfo_cast<CCLabelBMFont*>(child)) {
+            if(std::string_view(bmFont->getString()).starts_with("Points") && bmFont->getID().empty()) {
+                bmFont->setID("points-label");
+                idx += 1;
+                break;
+            }
+        }
+    }
+
     setIDSafe(this, idx, "center-button-menu");
     idx += 1;
 
