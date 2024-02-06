@@ -41,21 +41,7 @@ $register_ids(PauseLayer) {
         this,
         idx,
         "background",
-        "level-name",
-
-        "normal-progress-bar",
-        "practice-progress-bar",
-        "normal-progress-label",
-        "practice-progress-label",
-        "normal-mode-label",
-        "practice-mode-label",
-
-        "center-button-menu",
-
-        "music-slider", 
-        "sfx-slider", 
-        "music-label", 
-        "sfx-label"
+        "level-name"
     );
     idx += 2;
 
@@ -84,26 +70,23 @@ $register_ids(PauseLayer) {
         idx += 6;
     }
 
-    if (this->getChildrenCount() == idx + 5 + 1 + controller * 3) {
-        setIDs(
-            this,
-            idx,
-            "practice-arrow-text"
-        );
+    setIDSafe(this, idx, "center-button-menu");
+    idx += 1;
+
+    if(auto practiceTxt = getChildBySpriteFrameName(this, "GJ_practiceTxt_001.png")) {
+        practiceTxt->setID("practice-text");
         idx += 1;
     }
 
     setIDs(
         this,
         idx,
-        "center-button-menu",
-
         "music-slider", 
         "sfx-slider", 
         "music-label", 
         "sfx-label"
     );
-    idx += 5;
+    idx += 4;
 
     if (controller) {
         setIDs(
