@@ -247,7 +247,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         playerMenu->setContentSize({340, 35});
         playerMenu->updateLayout();
         playerMenu->setZOrder(10);
-
+        m_buttons->addObject(playerMenu);
 
         size_t socialMediaCount = 0;
         if(!m_score->m_youtubeURL.empty()) {
@@ -307,6 +307,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             bottomMenu->setPositionX(winSize.width / 2);
             bottomMenu->setContentSize({164, 35});
             bottomMenu->updateLayout();
+            m_buttons->addObject(bottomMenu);
 
             //only allow featured levels calls setVisible so we're safe here
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-levels-button");
@@ -333,6 +334,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             bottomMenu->setPositionX(winSize.width / 2);
             bottomMenu->setContentSize({340, 35});
             bottomMenu->updateLayout();
+            m_buttons->addObject(bottomMenu);
         }
 
         if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
