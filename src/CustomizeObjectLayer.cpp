@@ -58,7 +58,8 @@ $register_ids(CustomizeObjectLayer) {
 
     int idOffset = 25;
 
-    if (m_targetObject && m_targetObject->m_objectID == 914) {
+    // Text object and counter object
+    if (m_targetObject && (m_targetObject->m_objectID == 914 || m_targetObject->m_objectID == 1615)) {
         setIDs(
             m_buttonMenu,
             idOffset,
