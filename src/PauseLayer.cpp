@@ -74,7 +74,7 @@ $register_ids(PauseLayer) {
     idx += 1;
 
     if(auto practiceTxt = getChildBySpriteFrameName(this, "GJ_practiceTxt_001.png")) {
-        practiceTxt->setID("practice-text");
+        practiceTxt->setID("practice-arrow-text");
         idx += 1;
     }
 
@@ -109,8 +109,8 @@ $register_ids(PauseLayer) {
             ->setCrossAxisOverflow(false)
     );
     leftMenu->setID("left-button-menu");
-    leftMenu->setPosition({(winSize.width / 2) - 240.f, (winSize.height / 2)});
-    leftMenu->setContentSize({40, 280});
+    leftMenu->setPosition({36.f, (winSize.height / 2)});
+    leftMenu->setContentSize({40, winSize.height - 40.f});
     leftMenu->setZOrder(10);
     this->addChild(leftMenu);
 
@@ -123,8 +123,8 @@ $register_ids(PauseLayer) {
             ->setCrossAxisOverflow(false)
     );
     rightMenu->setID("right-button-menu");
-    rightMenu->setPosition({(winSize.width / 2) + 240.f, (winSize.height / 2)});
-    rightMenu->setContentSize({40, 280});
+    rightMenu->setPosition({winSize.width - 36.f, (winSize.height / 2)});
+    rightMenu->setContentSize({40, winSize.height - 40.f});
     rightMenu->setZOrder(10);
     this->addChild(rightMenu);
 
@@ -136,7 +136,7 @@ $register_ids(PauseLayer) {
             ->setCrossAxisOverflow(false)
     );
     bottomMenu->setID("bottom-button-menu");
-    bottomMenu->setPosition({(winSize.width / 2), (winSize.height / 2) - 130.f});
+    bottomMenu->setPosition({(winSize.width / 2), 30.f});
     bottomMenu->setContentSize({400, 30});
     bottomMenu->setZOrder(10);
     this->addChild(bottomMenu);
