@@ -1,3 +1,5 @@
+#ifndef GEODE_IS_MACOS
+
 #include <Geode/modify/CustomizeObjectLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
@@ -336,3 +338,5 @@ struct CustomizeObjectLayerIDs : Modify<CustomizeObjectLayerIDs, CustomizeObject
         return true;
     }
 };
+
+#endif

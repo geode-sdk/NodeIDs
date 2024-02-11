@@ -6,11 +6,13 @@ Has ids for:
 
 - CommentCell
 - CreatorLayer
+- CustomizeObjectLayer (Windows and Android only)
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
 - EditorPauseLayer
 - EditorUI
+- FLAlertLayer
 - GJGarageLayer
 - GJScoreCell
 - InfoLayer
