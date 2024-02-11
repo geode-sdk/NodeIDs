@@ -17,6 +17,7 @@ Has ids for:
 - GJScoreCell
 - InfoLayer
 - LeaderboardsLayer
+- LevelAreaInnerLayer
 - LevelBrowserLayer
 - LevelCell
 - LevelInfoLayer
