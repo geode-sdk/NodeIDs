@@ -164,12 +164,43 @@ $register_ids(PauseLayer) {
             ++idx;
         }
 
-        setIDs(menu, idx, "practice-button", "play-button", "exit-button", "retry-button", "options-button");
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
+            node->setID("exit-button");
+            ++idx;
+        }
 
-        auto options = menu->getChildByID("options-button");
-        options->removeFromParentAndCleanup(false);
-        rightMenu->addChild(options);
-        rightMenu->updateLayout();
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
+            node->setID("exit-button");
+            ++idx;
+        }
+
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_normalBtn_001.png")) {
+            node->setID("practice-button");
+            ++idx;
+        }
+
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_practiceBtn_001.png")) {
+            node->setID("practice-button");
+            ++idx;
+        }
+
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_playBtn2_001.png")) {
+            node->setID("play-button");
+            ++idx;
+        }
+
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_replayBtn_001.png")) {
+            node->setID("retry-button");
+            ++idx;
+        }
+
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_optionsBtn_001.png")) {
+            node->setID("options-button");
+            node->removeFromParentAndCleanup(false);
+            rightMenu->addChild(node);
+            rightMenu->updateLayout();
+            ++idx;
+        }
     }
 }
 
