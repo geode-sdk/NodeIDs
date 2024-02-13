@@ -27,3 +27,4 @@ Has ids for:
 - ProfilePage
 - RewardsPage
 - UILayer
+- SetGroupIDLayer
