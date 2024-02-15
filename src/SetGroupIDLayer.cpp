@@ -191,7 +191,7 @@ $register_ids(SetGroupIDLayer) {
             RowLayout::create(),
             menu->getChildByID("next-free-button")
         );
-        nextFreeMenu->setPosition(winSize.width / 2 - 125, winSize.height / 2 + 45);
+        nextFreeMenu->setPosition(winSize.width / 2 - 125, winSize.height / 2 + 40);
         nextFreeMenu->setContentSize({ 120, 60 });
         nextFreeMenu->updateLayout();
 
@@ -202,7 +202,7 @@ $register_ids(SetGroupIDLayer) {
             menu->getChildByID("add-group-id-button"),
             menu->getChildByID("add-group-parent-button")
         );
-        addGroupMenu->setPosition(winSize.width / 2 + 125, winSize.height / 2 + 45);
+        addGroupMenu->setPosition(winSize.width / 2 + 125, winSize.height / 2 + 40);
         addGroupMenu->setContentSize({ 120, 60 });
         addGroupMenu->updateLayout();
 
