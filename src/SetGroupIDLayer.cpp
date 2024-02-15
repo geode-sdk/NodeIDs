@@ -51,8 +51,10 @@ $register_ids(SetGroupIDLayer) {
     );
     
     if (auto menu = m_mainLayer->getChildByID("groups-list-menu")) {
+        int offset = 0;
+
         setIDs(
-            menu, 0,
+            menu, &offset,
             "ok-button",
             "editor-layer-next-free-button",
             "editor-layer-2-next-free-button",
@@ -64,8 +66,15 @@ $register_ids(SetGroupIDLayer) {
             "add-group-id-prev-button",
             "add-group-id-next-button",
             "next-free-button",
-            "add-group-id-button",
-            "add-group-parent-button",
+            "add-group-id-button"
+        );
+
+        if (m_targetObject) {
+            setIDs(menu, &offset, "add-group-parent-button");
+        }
+
+        setIDs(
+            menu, &offset,
             "z-order-prev-button",
             "z-order-next-button",
             "b5-layer-button",
@@ -80,21 +89,21 @@ $register_ids(SetGroupIDLayer) {
             "default-layer-button"
         );
 
-        int offset = 25;
-
         if (m_showChannelOrder) {
             setIDs(
-                menu, offset,
+                menu, &offset,
                 "channel-order-prev-button",
                 "channel-order-next-button",
                 "channel-prev-button",
                 "channel-next-button",
                 "channel-next-free-button"
             );
-            offset += 5;
         }
+
+        offset += m_groupIDObjects->count();
+
         setIDs(
-            menu, offset,
+            menu, &offset,
             "copy-button",
             "paste-button",
             "extra-button",
