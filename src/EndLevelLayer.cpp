@@ -13,64 +13,40 @@ using namespace geode::node_ids;
 // definitely should be in geode utils
 // ok it is in geode utils now
 // use it when we release beta 20
-inline CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
+
+inline bool isSpriteFrameName(CCNode* node, const char* name) {
     auto cache = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
-    if (!cache) return nullptr;
+    if (!cache) return false;
 
     auto* texture = cache->getTexture();
     auto rect = cache->getRect();
 
-    for (int i = 0; i < parent->getChildrenCount(); ++i) {
-        auto* child = parent->getChildren()->objectAtIndex(i);
-        if (auto* spr = typeinfo_cast<CCSprite*>(child)) {
+    if (auto* spr = typeinfo_cast<CCSprite*>(node)) {
+        if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
+            return true;
+        }
+    } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(node)) {
+        auto* img = btn->getNormalImage();
+        if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
             if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-                return spr;
+                return true;
             }
-        } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(child)) {
-            auto* img = btn->getNormalImage();
-            if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
-                if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-                    return btn;
-                }
-            }
+        }
+    }
+    return false;
+}
+
+inline CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
+    for (auto child : CCArrayExt<CCNode*>(parent->getChildren())) {
+        if (::isSpriteFrameName(static_cast<CCNode*>(child), name)) {
+            return child;
         }
     }
     return nullptr;
 }
 
-namespace {
-    void handleContainers(EndLevelLayer* self) {
-        for (auto child : CCArrayExt<CCNode*>(self->m_mainLayer->getChildren())) {
-            if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigStar_001.png")) {
-                child->setID("star-container");
-                star->setID("star-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("star-label");
-            }
-            else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigMoon_001.png")) {
-                child->setID("moon-container");
-                star->setID("moon-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("moon-label");
-            }
-            else if (auto star = ::getChildBySpriteFrameName(child, "currencyOrbIcon_001.png")) {
-                child->setID("orb-container");
-                star->setID("orb-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("orb-label");
-            }
-            else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigDiamond_001.png")) {
-                child->setID("diamond-container");
-                star->setID("diamond-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("diamond-label");
-            }
-        }
-    }
-}
 
 $register_ids(EndLevelLayer) {
-    if (!m_mainLayer->getID().empty()) {
-        handleContainers(this);
-        return;
-    }
-
     m_mainLayer->setID("main-layer");
 
     int idx = 0;
@@ -126,20 +102,26 @@ $register_ids(EndLevelLayer) {
         idx += 1;
     }
 
-    m_buttonMenu->setID("button-menu");
+    setIDs(
+        m_mainLayer,
+        idx,
+        "button-menu"
+    );
     idx += 1;
 
+    auto menu = static_cast<CCMenu*>(m_mainLayer->getChildByID("button-menu"));
+
     setIDs(
-        m_buttonMenu,
+        menu,
         0,
-        "replay-button",
-        "menu-button"
+        "retry-button",
+        "exit-button"
     );
 
-    if (auto editButton = ::getChildBySpriteFrameName(m_buttonMenu, "GJ_editBtn_001.png")) {
+    if (auto editButton = ::getChildBySpriteFrameName(menu, "GJ_editBtn_001.png")) {
         editButton->setID("edit-button");
     }
-    if (auto leaderboardButton = ::getChildBySpriteFrameName(m_buttonMenu, "GJ_levelLeaderboardBtn_001.png")) {
+    if (auto leaderboardButton = ::getChildBySpriteFrameName(menu, "GJ_levelLeaderboardBtn_001.png")) {
         leaderboardButton->setID("leaderboard-button");
     }
 
@@ -151,8 +133,8 @@ $register_ids(EndLevelLayer) {
             "secretCoinUI_001.png",
             "secretCoinUI2_001.png"
         }) {
-            if (auto sprite = ::getChildBySpriteFrameName(m_buttonMenu, framename)) {
-                sprite->setID(fmt::format("coin-{}-sprite", currentCoin));
+            if (::isSpriteFrameName(child, framename)) {
+                child->setID(fmt::format("coin-{}-sprite", currentCoin));
                 currentCoin += 1;
                 idx += 1;
             }
@@ -163,8 +145,8 @@ $register_ids(EndLevelLayer) {
         setIDs(
             m_mainLayer,
             idx,
-            "controller-replay-hint",
-            "controller-menu-hint"
+            "controller-retry-hint",
+            "controller-exit-hint"
         );
         idx += 2;
     }
@@ -174,6 +156,9 @@ struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("EndLevelLayer::customSetup", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set EndLevelLayer::customSetup hook priority, node IDs may not work properly");
+        }
+        if (!self.setHookPriority("EndLevelLayer::showLayer", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set EndLevelLayer::showLayer hook priority, node IDs may not work properly");
         }
     }
 
@@ -186,6 +171,27 @@ struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
     void showLayer(bool p0) {
         EndLevelLayer::showLayer(p0);
 
-        NodeIDs::get()->provide(this);
+        for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
+            if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigStar_001.png")) {
+                child->setID("star-container");
+                star->setID("star-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("star-label");
+            }
+            else if (auto moon = ::getChildBySpriteFrameName(child, "GJ_bigMoon_001.png")) {
+                child->setID("moon-container");
+                moon->setID("moon-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("moon-label");
+            }
+            else if (auto orb = ::getChildBySpriteFrameName(child, "currencyOrbIcon_001.png")) {
+                child->setID("orb-container");
+                orb->setID("orb-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("orb-label");
+            }
+            else if (auto diamond = ::getChildBySpriteFrameName(child, "GJ_bigDiamond_001.png")) {
+                child->setID("diamond-container");
+                diamond->setID("diamond-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("diamond-label");
+            }
+        }
     }
 };
