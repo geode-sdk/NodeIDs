@@ -143,7 +143,7 @@ $register_ids(EndLevelLayer) {
 
     for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
         for (int i = 1; i < currentCoin; i++) {
-            if (child->getPosition() == coinPos[i - 1]) {
+            if (child->getID().empty() && child->getPosition() == coinPos[i - 1]) {
                 child->setID(fmt::format("coin-{}-sprite", i));
             }
         }
