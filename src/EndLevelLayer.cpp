@@ -38,9 +38,37 @@ inline CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
     return nullptr;
 }
 
+namespace {
+    void handleContainers(EndLevelLayer* self) {
+        for (auto child : CCArrayExt<CCNode*>(self->m_mainLayer->getChildren())) {
+            if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigStar_001.png")) {
+                child->setID("star-container");
+                star->setID("star-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("star-label");
+            }
+            else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigMoon_001.png")) {
+                child->setID("moon-container");
+                star->setID("moon-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("moon-label");
+            }
+            else if (auto star = ::getChildBySpriteFrameName(child, "currencyOrbIcon_001.png")) {
+                child->setID("orb-container");
+                star->setID("orb-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("orb-label");
+            }
+            else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigDiamond_001.png")) {
+                child->setID("diamond-container");
+                star->setID("diamond-sprite");
+                getChildOfType<CCLabelBMFont>(child, 0)->setID("diamond-label");
+            }
+        }
+    }
+}
+
 $register_ids(EndLevelLayer) {
     if (!m_mainLayer->getID().empty()) {
-        goto container_ids;
+        handleContainers(this);
+        return;
     }
 
     m_mainLayer->setID("main-layer");
@@ -88,9 +116,8 @@ $register_ids(EndLevelLayer) {
         }
     }
 
-    auto potentialEndText = m_mainLayer->getChildren()->objectAtIndex(idx);
-    if (!typeinfo_cast<TextArea*>(potentialEndText)) {
-        potentialEndText->setID("end-text");
+    if (auto endText = typeinfo_cast<CCLabelBMFont*>(m_mainLayer->getChildren()->objectAtIndex(idx))) {
+        endText->setID("end-text");
         idx += 1;
     }
 
@@ -141,31 +168,6 @@ $register_ids(EndLevelLayer) {
         );
         idx += 2;
     }
-
-container_ids:
-    
-    for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
-        if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigStar_001.png")) {
-            child->setID("star-container");
-            star->setID("star-sprite");
-            getChildOfType<CCLabelBMFont>(child, 0)->setID("star-label");
-        }
-        else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigMoon_001.png")) {
-            child->setID("moon-container");
-            star->setID("moon-sprite");
-            getChildOfType<CCLabelBMFont>(child, 0)->setID("moon-label");
-        }
-        else if (auto star = ::getChildBySpriteFrameName(child, "currencyOrbIcon_001.png")) {
-            child->setID("orb-container");
-            star->setID("orb-sprite");
-            getChildOfType<CCLabelBMFont>(child, 0)->setID("orb-label");
-        }
-        else if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigDiamond_001.png")) {
-            child->setID("diamond-container");
-            star->setID("diamond-sprite");
-            getChildOfType<CCLabelBMFont>(child, 0)->setID("diamond-label");
-        }
-    }
 }
 
 struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
@@ -175,8 +177,8 @@ struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
         }
     }
 
-    void customSetup(bool p0) {
-        EndLevelLayer::customSetup(p0);
+    void customSetup() {
+        EndLevelLayer::customSetup();
 
         NodeIDs::get()->provide(this);
     }
