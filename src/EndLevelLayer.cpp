@@ -126,17 +126,25 @@ $register_ids(EndLevelLayer) {
     }
 
     int currentCoin = 1;
+    std::vector<CCPoint> coinPos;
     for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
         for (auto framename : {
             "secretCoin_b_01_001.png",
-            "secretCoin_2_b_01_001.png",
-            "secretCoinUI_001.png",
-            "secretCoinUI2_001.png"
+            "secretCoin_2_b_01_001.png"
         }) {
             if (::isSpriteFrameName(child, framename)) {
-                child->setID(fmt::format("coin-{}-sprite", currentCoin));
+                child->setID(fmt::format("coin-{}-background", currentCoin));
+                coinPos.push_back(child->getPosition());
                 currentCoin += 1;
                 idx += 1;
+            }
+        }
+    }
+
+    for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
+        for (int i = 1; i < currentCoin; i++) {
+            if (child->getPosition() == coinPos[i - 1]) {
+                child->setID(fmt::format("coin-{}-sprite", i));
             }
         }
     }
