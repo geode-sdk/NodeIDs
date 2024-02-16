@@ -1,3 +1,4 @@
+#include <Geode/Geode.hpp>
 #include <Geode/binding/LevelInfoLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
