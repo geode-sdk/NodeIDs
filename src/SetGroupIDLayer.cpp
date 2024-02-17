@@ -21,18 +21,20 @@ static void replaceInput(
     if (!input) return;
     auto bg = parent->getChildByID(bgID);
     auto newInput = TextInput::create(bg->getContentSize().width, input->m_caption);
-    input->removeFromParent();
-    bg->removeFromParent();
     parent->addChild(newInput);
     // newInput->getInput()->m_placeholderScale = input->m_placeholderScale;
     // newInput->getInput()->m_maxLabelScale = input->m_maxLabelScale;
     // newInput->getInput()->m_maxLabelLength = input->m_maxLabelLength;
     // newInput->getInput()->m_maxLabelWidth = input->m_maxLabelWidth;
     newInput->setFilter(input->m_allowedChars);
-    newInput->setDelegate(input->m_delegate, input->getTag());
     newInput->setString(input->getString());
+    newInput->setDelegate(input->m_delegate, input->getTag());
     newInput->setID(inputID);
     newInput->setPosition(bg->getPosition());
+
+    input->removeFromParent();
+    bg->removeFromParent();
+    
     *inputMember = newInput->getInputNode();
 }
 
@@ -137,42 +139,12 @@ $register_ids(SetGroupIDLayer) {
             "playback-toggle"
         );
 
-        replaceInput(
-            m_mainLayer,
-            "editor-layer-input",
-            "editor-layer-input-bg",
-            &m_editorLayerInput
-        );
-        replaceInput(
-            m_mainLayer,
-            "editor-layer-2-input",
-            "editor-layer-2-input-bg",
-            &m_editorLayer2Input
-        );
-        replaceInput(
-            m_mainLayer,
-            "add-group-id-input",
-            "add-group-id-input-bg",
-            &m_groupIDInput
-        );
-        replaceInput(
-            m_mainLayer,
-            "z-order-input",
-            "z-order-input-bg",
-            &m_zOrderInput
-        );
-        replaceInput(
-            m_mainLayer,
-            "channel-input",
-            "channel-input-bg",
-            &m_channelInput
-        );
-        replaceInput(
-            m_mainLayer,
-            "channel-order-input",
-            "channel-order-input-bg",
-            &m_orderInput
-        );
+        replaceInput(m_mainLayer, "editor-layer-input", "editor-layer-input-bg", &m_editorLayerInput);
+        replaceInput(m_mainLayer, "editor-layer-2-input", "editor-layer-2-input-bg", &m_editorLayer2Input);
+        replaceInput(m_mainLayer, "add-group-id-input", "add-group-id-input-bg", &m_groupIDInput);
+        replaceInput(m_mainLayer, "z-order-input", "z-order-input-bg", &m_zOrderInput);
+        replaceInput(m_mainLayer, "channel-input", "channel-input-bg", &m_channelInput);
+        replaceInput(m_mainLayer, "channel-order-input", "channel-order-input-bg", &m_orderInput);
 
         auto okMenu = detachAndCreateMenu(
             m_mainLayer,
@@ -375,12 +347,6 @@ struct SetGroupIDLayerIDs : Modify<SetGroupIDLayerIDs, SetGroupIDLayer> {
 
         NodeIDs::get()->provide(this);
         handleTouchPriority(this);
-        // handleTouchPriority(m_mainLayer->getChildByID("editor-layer-menu"));
-        // handleTouchPriority(m_mainLayer->getChildByID("editor-layer-2-menu"));
-        // handleTouchPriority(m_mainLayer->getChildByID("add-group-id-menu"));
-        // handleTouchPriority(m_mainLayer->getChildByID("z-order-menu"));
-        // handleTouchPriority(m_mainLayer->getChildByID("channel-order-menu"));
-        // handleTouchPriority(m_mainLayer->getChildByID("channel-menu"));
 
         return true;
     }
