@@ -1,3 +1,4 @@
+#include <Geode/Geode.hpp>
 #include <Geode/modify/LevelCell.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
