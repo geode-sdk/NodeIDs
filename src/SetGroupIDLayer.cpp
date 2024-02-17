@@ -1,6 +1,7 @@
 
 #include <Geode/modify/SetGroupIDLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
+#include <Geode/ui/TextInput.hpp>
 
 using namespace geode::prelude;
 using namespace geode::node_ids;
@@ -10,6 +11,29 @@ static void offsetChildren(CCMenu* target, CCPoint const& offset) {
     for (auto child : CCArrayExt<CCNode*>(target->getChildren())) {
         child->setPosition(child->getPosition() - winSize + target->getContentSize() / 2 + offset);
     }
+}
+
+static void replaceInput(
+    CCNode* parent, const char* inputID, const char* bgID,
+    CCTextInputNode** inputMember
+) {
+    auto input = static_cast<CCTextInputNode*>(parent->getChildByID(inputID));
+    if (!input) return;
+    auto bg = parent->getChildByID(bgID);
+    auto newInput = TextInput::create(bg->getContentSize().width, input->m_caption);
+    input->removeFromParent();
+    bg->removeFromParent();
+    parent->addChild(newInput);
+    // newInput->getInput()->m_placeholderScale = input->m_placeholderScale;
+    // newInput->getInput()->m_maxLabelScale = input->m_maxLabelScale;
+    // newInput->getInput()->m_maxLabelLength = input->m_maxLabelLength;
+    // newInput->getInput()->m_maxLabelWidth = input->m_maxLabelWidth;
+    newInput->setFilter(input->m_allowedChars);
+    newInput->setDelegate(input->m_delegate, input->getTag());
+    newInput->setString(input->getString());
+    newInput->setID(inputID);
+    newInput->setPosition(bg->getPosition());
+    *inputMember = newInput->getInputNode();
 }
 
 $register_ids(SetGroupIDLayer) {
@@ -113,6 +137,43 @@ $register_ids(SetGroupIDLayer) {
             "playback-toggle"
         );
 
+        replaceInput(
+            m_mainLayer,
+            "editor-layer-input",
+            "editor-layer-input-bg",
+            &m_editorLayerInput
+        );
+        replaceInput(
+            m_mainLayer,
+            "editor-layer-2-input",
+            "editor-layer-2-input-bg",
+            &m_editorLayer2Input
+        );
+        replaceInput(
+            m_mainLayer,
+            "add-group-id-input",
+            "add-group-id-input-bg",
+            &m_groupIDInput
+        );
+        replaceInput(
+            m_mainLayer,
+            "z-order-input",
+            "z-order-input-bg",
+            &m_zOrderInput
+        );
+        replaceInput(
+            m_mainLayer,
+            "channel-input",
+            "channel-input-bg",
+            &m_channelInput
+        );
+        replaceInput(
+            m_mainLayer,
+            "channel-order-input",
+            "channel-order-input-bg",
+            &m_orderInput
+        );
+
         auto okMenu = detachAndCreateMenu(
             m_mainLayer,
             "ok-menu",
@@ -140,7 +201,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "editor-layer-menu",
             nullptr,
-            m_mainLayer->getChildByID("editor-layer-input-bg"),
             m_mainLayer->getChildByID("editor-layer-input"),
             menu->getChildByID("editor-layer-next-free-button"),
             menu->getChildByID("editor-layer-prev-button"),
@@ -155,7 +215,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "editor-layer-2-menu",
             nullptr,
-            m_mainLayer->getChildByID("editor-layer-2-input-bg"),
             m_mainLayer->getChildByID("editor-layer-2-input"),
             menu->getChildByID("editor-layer-2-next-free-button"),
             menu->getChildByID("editor-layer-2-prev-button"),
@@ -170,7 +229,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "z-order-menu",
             nullptr,
-            m_mainLayer->getChildByID("z-order-input-bg"),
             m_mainLayer->getChildByID("z-order-input"),
             menu->getChildByID("z-order-prev-button"),
             menu->getChildByID("z-order-next-button"),
@@ -184,7 +242,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "add-group-id-menu",
             nullptr,
-            m_mainLayer->getChildByID("add-group-id-input-bg"),
             m_mainLayer->getChildByID("add-group-id-input"),
             menu->getChildByID("add-group-id-prev-button"),
             menu->getChildByID("add-group-id-next-button"),
@@ -280,7 +337,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "channel-order-menu",
             nullptr,
-            m_mainLayer->getChildByID("channel-order-input-bg"),
             m_mainLayer->getChildByID("channel-order-input"),
             menu->getChildByID("channel-order-prev-button"),
             menu->getChildByID("channel-order-next-button")
@@ -294,7 +350,6 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer,
             "channel-menu",
             nullptr,
-            m_mainLayer->getChildByID("channel-input-bg"),
             m_mainLayer->getChildByID("channel-input"),
             menu->getChildByID("channel-prev-button"),
             menu->getChildByID("channel-next-button"),
@@ -320,6 +375,12 @@ struct SetGroupIDLayerIDs : Modify<SetGroupIDLayerIDs, SetGroupIDLayer> {
 
         NodeIDs::get()->provide(this);
         handleTouchPriority(this);
+        // handleTouchPriority(m_mainLayer->getChildByID("editor-layer-menu"));
+        // handleTouchPriority(m_mainLayer->getChildByID("editor-layer-2-menu"));
+        // handleTouchPriority(m_mainLayer->getChildByID("add-group-id-menu"));
+        // handleTouchPriority(m_mainLayer->getChildByID("z-order-menu"));
+        // handleTouchPriority(m_mainLayer->getChildByID("channel-order-menu"));
+        // handleTouchPriority(m_mainLayer->getChildByID("channel-menu"));
 
         return true;
     }
