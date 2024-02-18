@@ -167,6 +167,10 @@ struct InfoLayerIDs : Modify<InfoLayerIDs, InfoLayer> {
         if (!self.setHookPriority("InfoLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set InfoLayer::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("InfoLayer::setupCommentsBrowser", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set InfoLayer::setupCommentsBrowser hook priority, node IDs may not work properly");
+        }
     }
 
     bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list) {
@@ -175,5 +179,12 @@ struct InfoLayerIDs : Modify<InfoLayerIDs, InfoLayer> {
         NodeIDs::get()->provide(this);
 
         return true;
+    }
+
+    void setupCommentsBrowser(CCArray* a3) {
+        InfoLayer::setupCommentsBrowser(a3);
+
+        // this fixes comment lists in nested infolayers
+        handleTouchPriority(this);
     }
 };
