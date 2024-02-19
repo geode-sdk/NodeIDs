@@ -16,14 +16,21 @@ $register_ids(ChallengesPage) {
 
 
     getChildOfType<cocos2d::extension::CCScale9Sprite>(challengesLayer, 0)->setID("background");
-    getChildOfType<cocos2d::CCMenu>(challengesLayer, 0)->setID("top-menu");
-    getChildOfType<ChallengeNode>(challengesLayer, 0)->setID("top-challenge");
-    getChildOfType<ChallengeNode>(challengesLayer, 1)->setID("middle-challenge");
-    getChildOfType<ChallengeNode>(challengesLayer, 2)->setID("bottom-challenge");
-    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 0)->setID("top-challenge-indicator");
-    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 1)->setID("middle-challenge-indicator");
-    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 2)->setID("bottom-challenge-indicator");
-    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 3)->setID("new-challenges-label");
+    auto topMenu = getChildOfType<cocos2d::CCMenu>(challengesLayer, 0);
+    topMenu->setID("top-menu");
+    topMenu->setLayout(
+    RowLayout::create()
+        ->setGap(370.f)
+        ->setGrowCrossAxis(true)
+    );
+    topMenu->updateLayout();
+    getChildOfType<ChallengeNode>(challengesLayer, 0)->setID("top-quest");
+    getChildOfType<ChallengeNode>(challengesLayer, 1)->setID("middle-quest");
+    getChildOfType<ChallengeNode>(challengesLayer, 2)->setID("bottom-quest");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 0)->setID("new-quest-label");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 1)->setID("top-quest-indicator");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 2)->setID("middle-quest-indicator");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 3)->setID("bottom-quest-indicator");
 
 };
 
