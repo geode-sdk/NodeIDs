@@ -15,7 +15,7 @@ $register_ids(ChallengesPage) {
     auto winSize = CCDirector::get()->getWinSize();
 
 
-    getChildOfType<cocos2d::extention::CCScale9Sprite>(challengesLayer, 0)->setID("background");
+    getChildOfType<cocos2d::extension::CCScale9Sprite>(challengesLayer, 0)->setID("background");
     getChildOfType<cocos2d::CCMenu>(challengesLayer, 0)->setID("top-menu");
     getChildOfType<ChallengeNode>(challengesLayer, 0)->setID("top-challenge");
     getChildOfType<ChallengeNode>(challengesLayer, 1)->setID("middle-challenge");
