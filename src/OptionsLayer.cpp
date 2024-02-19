@@ -31,6 +31,10 @@ $register_ids(OptionsLayer) {
 
     getChildOfType<Slider>(optionsLayer, sliderOffset)->setID("sfx-slider");
 
+    getChildOfType<cocos2d::CCSprite>(optionsLayer, 0)->setID("left-chain");
+    getChildOfType<cocos2d::CCSprite>(optionsLayer, 1)->setID("right-chain");
+    getChildOfType<GJListLayer>(optionsLayer, 0)->setID("background"); // sorry i had nothing other than background for this
+
     auto topLeftMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
     topLeftMenu->setID("top-left-menu");
 
@@ -56,6 +60,12 @@ $register_ids(OptionsLayer) {
     );
     optionsMenu->updateLayout();
     menuOffset++;
+
+    auto vaultMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
+    vaultMenu->setID("vault-menu");
+
+    getChildOfType<CCMenuItemSpriteExtra>(vaultMenu, 0)->setID("vault-button");
+    getChildOfType<CCMenuItemToggler>(vaultMenu, 0)->setID("menu-music-toggle");
 
     getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("account-button");
     buttonOffset++;
