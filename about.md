@@ -7,6 +7,7 @@ Has ids for:
 - CommentCell
 - CreatorLayer
 - CustomizeObjectLayer (Windows and Android only)
+- ChallengesPage
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
