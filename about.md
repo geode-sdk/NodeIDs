@@ -23,6 +23,7 @@ Has ids for:
 - LevelInfoLayer
 - LevelLeaderboard
 - LevelSearchLayer
+- OptionsLayer
 - PauseLayer
 - ProfilePage
 - RewardsPage

@@ -4,7 +4,6 @@
 #include <Geode/ui/BasedButtonSprite.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
-#include "IDCheck.hpp"
 
 using namespace geode::prelude;
 using namespace geode::node_ids;
@@ -14,7 +13,7 @@ $register_ids(OptionsLayer) {
     size_t labelOffset = 0;
     size_t menuOffset = 0;
     size_t sliderOffset = 0;
-    size_t optionsMenuOffset = 0;
+    size_t buttonOffset = 0;
 
     auto optionsLayer = static_cast<cocos2d::CCLayer*>(this->getChildren()->objectAtIndex(0));
     auto winSize = CCDirector::get()->getWinSize();
@@ -45,53 +44,52 @@ $register_ids(OptionsLayer) {
 
 
 
-    getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset)->setID("options-menu");
-    getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset)->setContentSize(ccp(306, 114));
-    getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset)->setPosition(ccp(winSize.width / 2, 200));
-    getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset)->setLayout(
+    auto optionsMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
+    optionsMenu->setID("options-menu");
+    optionsMenu->setContentSize(ccp(306, 114));
+    optionsMenu->setPosition(ccp(winSize.width / 2, 200));
+    optionsMenu->setLayout(
     RowLayout::create()
         ->setGap(12.f)
         ->setGrowCrossAxis(true)
-        ->setAxisAlignment(AxisAlignment::Start)
+        ->setAxisAlignment(AxisAlignment::Center)
     );
-    getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset)->updateLayout();
+    optionsMenu->updateLayout();
     menuOffset++;
 
-    CCMenu* optionsMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, 1);
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("account-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("account-button");
-    optionsMenuOffset++;
-
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("how-to-play-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("how-to-play-button");
+    buttonOffset++;
 
     #ifdef GEODE_IS_DESKTOP
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("options-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("graphics-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("graphics-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("rate-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("rate-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("songs-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("songs-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("help-button");
-    optionsMenuOffset++;
-    
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("help-button");
+    buttonOffset++;
+
     #else
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("rate-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("songs-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("rate-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("help-button");
-    optionsMenuOffset++;
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("songs-button");
+    buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, optionsMenuOffset)->setID("options-button");
+    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("help-button");
     #endif
 }
 
