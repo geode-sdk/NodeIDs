@@ -149,6 +149,14 @@ $register_ids(EndLevelLayer) {
         }
     }
 
+    for (auto child : CCArrayExt<CCNode*>(m_coinsToAnimate)) {
+        for (int i = 1; i < currentCoin; i++) {
+            if (child->getID().empty() && child->getPosition() == coinPos[i - 1]) {
+                child->setID(fmt::format("coin-{}-sprite", i));
+            }
+        }
+    }
+
     if (PlatformToolbox::isControllerConnected()) {
         setIDs(
             m_mainLayer,
