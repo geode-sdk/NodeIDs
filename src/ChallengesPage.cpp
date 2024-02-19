@@ -20,10 +20,10 @@ $register_ids(ChallengesPage) {
     getChildOfType<ChallengeNode>(challengesLayer, 0)->setID("top-challenge");
     getChildOfType<ChallengeNode>(challengesLayer, 1)->setID("middle-challenge");
     getChildOfType<ChallengeNode>(challengesLayer, 2)->setID("bottom-challenge");
-    getChildOfType<cocos2d:CCLabelBMFont>(challengesLayer, 0)->setID("top-challenge-indicator");
-    getChildOfType<cocos2d:CCLabelBMFont>(challengesLayer, 1)->setID("middle-challenge-indicator");
-    getChildOfType<cocos2d:CCLabelBMFont>(challengesLayer, 2)->setID("bottom-challenge-indicator");
-    getChildOfType<cocos2d:CCLabelBMFont>(challengesLayer, 3)->setID("new-challenges-label");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 0)->setID("top-challenge-indicator");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 1)->setID("middle-challenge-indicator");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 2)->setID("bottom-challenge-indicator");
+    getChildOfType<cocos2d::CCLabelBMFont>(challengesLayer, 3)->setID("new-challenges-label");
 
 };
 
