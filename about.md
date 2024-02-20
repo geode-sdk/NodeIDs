@@ -7,6 +7,7 @@ Has ids for:
 - CommentCell
 - CreatorLayer
 - CustomizeObjectLayer (Windows and Android only)
+- ChallengesPage
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
@@ -23,6 +24,7 @@ Has ids for:
 - LevelInfoLayer
 - LevelLeaderboard
 - LevelSearchLayer
+- OptionsLayer
 - PauseLayer
 - ProfilePage
 - RewardsPage
