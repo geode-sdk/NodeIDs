@@ -24,6 +24,7 @@ $register_ids(ChallengesPage) {
         ->setGrowCrossAxis(true)
     );
     topMenu->updateLayout();
+    topMenu->setPositionX(285f);
     getChildOfType<ChallengeNode>(challengesLayer, 0)->setID("top-quest");
     getChildOfType<ChallengeNode>(challengesLayer, 1)->setID("middle-quest");
     getChildOfType<ChallengeNode>(challengesLayer, 2)->setID("bottom-quest");
