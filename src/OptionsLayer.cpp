@@ -16,6 +16,8 @@ $register_ids(OptionsLayer) {
     size_t buttonOffset = 0;
 
     auto optionsLayer = static_cast<cocos2d::CCLayer*>(this->getChildren()->objectAtIndex(0));
+    optionsLayer->setID("main-layer");
+
     auto winSize = CCDirector::get()->getWinSize();
 
     getChildOfType<cocos2d::CCLabelBMFont>(optionsLayer, labelOffset)->setID("music-label");
@@ -54,7 +56,7 @@ $register_ids(OptionsLayer) {
     optionsMenu->setPosition(ccp(winSize.width / 2, 200));
     optionsMenu->setLayout(
     RowLayout::create()
-        ->setGap(12.f)
+        ->setGap(10.f)
         ->setGrowCrossAxis(true)
         ->setAxisAlignment(AxisAlignment::Center)
     );
@@ -90,7 +92,8 @@ $register_ids(OptionsLayer) {
     buttonOffset++;
 
     #else
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    auto options = getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    options->setZOrder(1);
     buttonOffset++;
 
     getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("rate-button");
