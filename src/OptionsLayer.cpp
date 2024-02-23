@@ -60,7 +60,6 @@ $register_ids(OptionsLayer) {
         ->setGrowCrossAxis(true)
         ->setAxisAlignment(AxisAlignment::Center)
     );
-    optionsMenu->updateLayout();
     menuOffset++;
 
     auto vaultMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
@@ -105,6 +104,8 @@ $register_ids(OptionsLayer) {
 
     getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("help-button");
     #endif
+    
+    optionsMenu->updateLayout();
 }
 
 struct OptionsLayerIDs : Modify<OptionsLayerIDs, OptionsLayer> {
