@@ -92,7 +92,8 @@ $register_ids(OptionsLayer) {
     buttonOffset++;
 
     #else
-    auto options = getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    auto options = getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset);
+    options->setID("options-button");
     options->setZOrder(1);
     buttonOffset++;
 
