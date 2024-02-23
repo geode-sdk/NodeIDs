@@ -35,6 +35,10 @@ $register_ids(ChallengesPage) {
             "info-button"
         );
 
+        topMenu->setID("main-menu");
+        // leave m_buttonMenu unlayouted, even if it'll have to be empty
+        // otherwise we could break assumptions from other mods
+
         auto infoMenu = detachAndCreateMenu(
             m_mainLayer,
             "top-right-menu",
@@ -50,19 +54,20 @@ $register_ids(ChallengesPage) {
         );
         infoMenu->updateLayout();
 
-        topMenu->setID("top-left-menu");
-        topMenu->setLayout(
+        auto closeMenu = detachAndCreateMenu(
+            m_mainLayer,
+            "top-left-menu",
             ColumnLayout::create()
                 ->setAxisReverse(true)
-                ->setAxisAlignment(AxisAlignment::End)
+                ->setAxisAlignment(AxisAlignment::End),
+            topMenu->getChildByID("close-button")
         );
-        topMenu->setContentSize({ 60.f, 120.f });
-        topMenu->setPositionY(
-            topMenu->getPositionY() - 120.f / 2 + 
-                topMenu->getChildByID("close-button")->getScaledContentSize().height / 2
+        closeMenu->setContentSize({ 60.f, 120.f });
+        closeMenu->setPositionY(
+            closeMenu->getPositionY() - 120.f / 2 + 
+                closeMenu->getChildByID("close-button")->getScaledContentSize().height / 2
         );
-        topMenu->updateLayout();
-        //topMenu->setPositionX(285);
+        closeMenu->updateLayout();
     }
     getChildOfType<ChallengeNode>(m_mainLayer, 0)->setID("top-quest");
     getChildOfType<ChallengeNode>(m_mainLayer, 1)->setID("middle-quest");
