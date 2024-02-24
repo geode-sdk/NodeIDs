@@ -69,9 +69,9 @@ $register_ids(ChallengesPage) {
         );
         closeMenu->updateLayout();
     }
-    getChildOfType<ChallengeNode>(m_mainLayer, 0)->setID("top-quest");
+    /*getChildOfType<ChallengeNode>(m_mainLayer, 0)->setID("top-quest");
     getChildOfType<ChallengeNode>(m_mainLayer, 1)->setID("middle-quest");
-    getChildOfType<ChallengeNode>(m_mainLayer, 2)->setID("bottom-quest");
+    getChildOfType<ChallengeNode>(m_mainLayer, 2)->setID("bottom-quest");*/
     getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 0)->setID("new-quest-label");
     getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 1)->setID("top-quest-indicator");
     getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 2)->setID("middle-quest-indicator");
@@ -84,6 +84,22 @@ struct ChallengesPageIDs : Modify<ChallengesPageIDs, ChallengesPage> {
         if (!self.setHookPriority("ChallengesPage::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set ChallengesPage::init hook priority, node IDs may not work properly");
         }
+        if (!self.setHookPriority("ChallengesPage::createChallengeNode", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set ChallengesPage::createChallengeNode hook priority, node IDs may not work properly");
+        }
+    }
+
+    ChallengeNode* createChallengeNode(int number, bool skipAnimation, float animLength, bool isNew) {
+        auto node = ChallengesPage::createChallengeNode(number, skipAnimation, animLength, isNew);
+        if(!node) return nullptr;
+
+        switch(number) {
+            case 1: node->setID("top-quest"); break;
+            case 2: node->setID("middle-quest"); break;
+            case 3: node->setID("bottom-quest"); break;
+            default: node->setID(fmt::format("quest-{}", number)); break;
+        }
+        return node;
     }
 
     bool init() {
