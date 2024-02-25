@@ -15,8 +15,8 @@ $register_ids(ChallengesPage) {
 
     m_mainLayer->setID("main-layer");
 
-    getChildOfType<cocos2d::extension::CCScale9Sprite>(m_mainLayer, 0)->setID("background");
-    getChildOfType<LoadingCircle>(m_mainLayer, 0)->setID("loading-circle");
+    setIDSafe<cocos2d::extension::CCScale9Sprite>(m_mainLayer, 0, "background");
+    setIDSafe<LoadingCircle>(m_mainLayer, 0, "loading-circle");
 
     setIDs(
         m_mainLayer,
@@ -72,10 +72,20 @@ $register_ids(ChallengesPage) {
     /*getChildOfType<ChallengeNode>(m_mainLayer, 0)->setID("top-quest");
     getChildOfType<ChallengeNode>(m_mainLayer, 1)->setID("middle-quest");
     getChildOfType<ChallengeNode>(m_mainLayer, 2)->setID("bottom-quest");*/
-    getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 0)->setID("new-quest-label");
-    getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 1)->setID("top-quest-indicator");
-    getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 2)->setID("middle-quest-indicator");
-    getChildOfType<cocos2d::CCLabelBMFont>(m_mainLayer, 3)->setID("bottom-quest-indicator");
+    setIDSafe<cocos2d::CCLabelBMFont>(m_mainLayer, 0, "new-quest-label");
+
+    // For some reason this is more reliable?
+    for(intptr_t i = 0; i <= 2; i++) {
+        if(!m_dots->objectAtIndex(i)) continue;
+        auto dot = static_cast<CCLabelBMFont*>(m_dots->objectAtIndex(i));
+
+        switch(i) {
+            case 0: dot->setID("top-quest-indicator"); break;
+            case 1: dot->setID("middle-quest-indicator"); break;
+            case 2: dot->setID("bottom-quest-indicator"); break;
+            default: dot->setID(fmt::format("quest-{}-indicator", i)); break;
+        }
+    }
 
 };
 
@@ -99,6 +109,7 @@ struct ChallengesPageIDs : Modify<ChallengesPageIDs, ChallengesPage> {
             case 3: node->setID("bottom-quest"); break;
             default: node->setID(fmt::format("quest-{}", number)); break;
         }
+
         return node;
     }
 
