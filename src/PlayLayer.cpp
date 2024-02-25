@@ -8,22 +8,20 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-#if 0
-
 $register_ids(PlayLayer) {
     setIDSafe(this, 1, "main-node");
     setIDSafe(this, 3, "hitbox-node");
-    setIDSafe(this, 4, "effect-manager");
-    setIDSafe(this, 6, "ui-layer");
-    setIDSafe(this, 7, "debug-text");
-    setIDSafe(this, 8, "progress-bar");
+    setIDSafe<GJEffectManager>(this, 0, "effect-manager");
+    setIDSafe<UILayer>(this, 0, "ui-layer");
+    setIDSafe<CCLabelBMFont>(this, 0, "debug-text");
+    setIDSafe<CCSprite>(this, 0, "progress-bar");
 
     auto level = PlayLayer::get()->m_level;
     if (level->isPlatformer()) {
-        setIDSafe(this, 9, "time-label");
+        setIDSafe<CCLabelBMFont>(this, 1, "time-label");
     }
     else {
-        setIDSafe(this, 9, "percentage-label");
+        setIDSafe<CCLabelBMFont>(this, 1, "percentage-label");
     }
 }
 
@@ -42,4 +40,3 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
         return true;
     }
 };
-#endif
