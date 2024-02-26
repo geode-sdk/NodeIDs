@@ -53,7 +53,7 @@ $register_ids(OptionsLayer) {
     auto optionsMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
     optionsMenu->setID("options-menu");
     optionsMenu->setContentSize(ccp(306, 114));
-    optionsMenu->setPosition(ccp(winSize.width / 2, 200));
+    optionsMenu->setPosition(ccp(winSize.width / 2, (winSize.height / 2) + 40));
     optionsMenu->setLayout(
     RowLayout::create()
         ->setGap(10.f)
