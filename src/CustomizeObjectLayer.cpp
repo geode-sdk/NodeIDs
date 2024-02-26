@@ -1,6 +1,6 @@
-#ifndef GEODE_IS_MACOS
-
 #include <Geode/Geode.hpp>
+
+#ifndef GEODE_IS_MACOS
 #include <Geode/modify/CustomizeObjectLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
