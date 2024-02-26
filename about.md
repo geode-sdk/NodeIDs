@@ -15,6 +15,7 @@ Has IDs for:
 - EditorPauseLayer
 - EditorUI
 - FLAlertLayer
+- GJCommentListLayer
 - GJGarageLayer
 - GJScoreCell
 - InfoLayer
@@ -27,6 +28,7 @@ Has IDs for:
 - LevelSearchLayer
 - OptionsLayer
 - PauseLayer
+- PlayLayer
 - ProfilePage
 - RewardsPage
 - UILayer
