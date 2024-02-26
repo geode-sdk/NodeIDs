@@ -5,6 +5,32 @@
 
 using namespace geode::prelude;
 using namespace geode::node_ids;
+using namespace std::string_view_literals;
+
+// TODO: remove this when beta.22 comes out
+inline bool isSpriteFrameName(CCNode* node, const char* name) {
+    if (!node) return false;
+
+    auto cache = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
+    if (!cache) return false;
+
+    auto* texture = cache->getTexture();
+    auto rect = cache->getRect();
+
+    if (auto* spr = typeinfo_cast<CCSprite*>(node)) {
+        if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
+            return true;
+        }
+    } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(node)) {
+        auto* img = btn->getNormalImage();
+        if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
+            if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 static void offsetChildren(CCMenu* target, CCPoint const& offset) {
     auto winSize = CCDirector::get()->getWinSize();
@@ -115,6 +141,17 @@ $register_ids(SetGroupIDLayer) {
             "default-layer-button"
         );
 
+        // i have no idea what member control these buttons, sorry
+        // so just use the sprite name
+        if (::isSpriteFrameName(getChild(menu, offset), "GJ_colorBtn_001.png")) {
+            // TODO: make a menu for these two
+            setIDs(
+                menu, &offset,
+                "z-layer-decrement-button",
+                "z-layer-increment-button"
+            );
+        }
+
         if (m_showChannelOrder) {
             setIDs(
                 menu, &offset,
@@ -128,16 +165,29 @@ $register_ids(SetGroupIDLayer) {
 
         offset += m_groupIDObjects->count();
 
-        setIDs(
-            menu, &offset,
-            "copy-button",
-            "paste-button",
-            "extra-button",
-            "extra2-button",
-            "anim-button",
-            "preview-toggle",
-            "playback-toggle"
-        );
+        for (int i = offset; i < menu->getChildrenCount(); i++) {
+            auto child = getChild(menu, i);
+            if (auto btn = getChildOfType<ButtonSprite>(child, 0)) {
+                if (auto label = getChildOfType<CCLabelBMFont>(btn, 0)) {
+                    if (label->getString() == "Copy"sv) {
+                        child->setID("copy-button");
+                    } else if (label->getString() == "Paste"sv) {
+                        child->setID("paste-button");
+                    } else if (label->getString() == "Extra"sv) {
+                        child->setID("extra-button");
+                    } else if (label->getString() == "Extra2"sv) {
+                        child->setID("extra2-button");
+                    } else if (label->getString() == "Anim"sv) {
+                        child->setID("anim-button");
+                    }
+                }
+            } else if (typeinfo_cast<CCMenuItemToggler*>(child)) {
+                child->setID("preview-toggle");
+                if (getChild(menu, i + 1))
+                    getChild(menu, i + 1)->setID("playback-toggle");
+                break;
+            }
+        }
 
         replaceInput(m_mainLayer, "editor-layer-input", "editor-layer-input-bg", &m_editorLayerInput);
         replaceInput(m_mainLayer, "editor-layer-2-input", "editor-layer-2-input-bg", &m_editorLayer2Input);
@@ -293,7 +343,7 @@ $register_ids(SetGroupIDLayer) {
             ColumnLayout::create()
                 ->setAxisReverse(true)
                 ->setAxisAlignment(AxisAlignment::End),
-            menu->getChildByID("copy-button"),
+            menu->getChildByID("copy-button") ? menu->getChildByID("copy-button") : menu->getChildByID("extra-button"),
             menu->getChildByID("paste-button"),
             menu->getChildByID("extra-button"),
             menu->getChildByID("extra2-button"),
