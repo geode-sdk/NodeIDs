@@ -12,7 +12,7 @@ $register_ids(PlayLayer) {
     setIDSafe(this, 1, "main-node");
     setIDSafe(this, 3, "hitbox-node");
     setIDSafe<GJEffectManager>(this, 0, "effect-manager");
-    //setIDSafe<UILayer>(this, 0, "ui-layer");
+    //setIDSafe<UILayer>(this, 0, "ui-layer"); //changing this id is unsafe because mods depend on "UILayer", which is actually fairly safe to do, since this is the only UILayer in the whole layer
     setIDSafe<CCLabelBMFont>(this, 0, "debug-text");
     setIDSafe<CCSprite>(this, 0, "progress-bar");
 
