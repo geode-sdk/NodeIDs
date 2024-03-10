@@ -10,6 +10,8 @@ using namespace geode::node_ids;
 
 $register_ids(PlayLayer) {
     setIDSafe(this, 1, "main-node");
+    setIDSafe<CCSprite>(static_cast<CCNode*>(this->getChildren()->objectAtIndex(1)), 0, "background");
+
     setIDSafe(this, 3, "hitbox-node");
     setIDSafe<GJEffectManager>(this, 0, "effect-manager");
     //setIDSafe<UILayer>(this, 0, "ui-layer"); //changing this id is unsafe because mods depend on "UILayer", which is actually fairly safe to do, since this is the only UILayer in the whole layer
