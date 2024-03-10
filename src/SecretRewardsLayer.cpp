@@ -11,7 +11,7 @@ using namespace geode::node_ids;
 void assignIDsToStore(CCMenuItemSpriteExtra* store, int storeNum) {
   switch (storeNum) {
     case 0:
-      store->setID("potbor-shop");
+      store->setID("scratch-shop");
       break;
     case 1:
       store->setID("creator-shop");
