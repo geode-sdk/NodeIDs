@@ -5,7 +5,7 @@
 		"android": "2.205",
 		"mac": "2.200"
 	},
-	"version": "v1.7.1",
+	"version": "v1.8.0",
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",

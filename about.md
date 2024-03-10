@@ -24,6 +24,7 @@ Has IDs for:
 - LevelAreaInnerLayer
 - LevelBrowserLayer
 - LevelCell
+- LevelEditorLayer
 - LevelInfoLayer
 - LevelLeaderboard
 - LevelSearchLayer
@@ -32,5 +33,6 @@ Has IDs for:
 - PlayLayer
 - ProfilePage
 - RewardsPage
-- UILayer
+- SecretRewardsLayer
 - SetGroupIDLayer
+- UILayer
