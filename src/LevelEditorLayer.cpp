@@ -11,7 +11,7 @@ using namespace geode::node_ids;
 $register_ids(LevelEditorLayer) {
 	setIDSafe<GJEffectManager>(this, 0, "effect-manager");
     
-	if (auto shaderLayer = typeinfo_cast<ShaderLayer*>(this->getChildren()->objectAtIndex(8))) {
+	if (auto shaderLayer = getChildOfType<ShaderLayer>(this, 0)) {
 		setIDSafe(shaderLayer, 1, "main-node");
 		setIDSafe<CCSprite>(static_cast<CCNode*>(shaderLayer->getChildren()->objectAtIndex(1)), 0, "background");
 	} else {
