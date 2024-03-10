@@ -1,6 +1,4 @@
 #include <Geode/Geode.hpp>
-#ifndef GEODE_IS_MACOS
-
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/CharacterColorPage.hpp>
 #include <Geode/utils/cocos.hpp>
@@ -70,4 +68,3 @@ struct CharacterColorPageIDS : Modify<CharacterColorPageIDS, CharacterColorPage>
         return true;
     }
 };
-#endif

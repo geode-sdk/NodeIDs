@@ -9,6 +9,7 @@ Has IDs for:
 - CustomizeObjectLayer (Windows and Android only)
 - ChallengeNode
 - ChallengesPage
+- CharacterColorPage
 - DailyLevelNode
 - DailyLevelPage
 - EditLevelLayer
