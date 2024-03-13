@@ -16,6 +16,7 @@ Has IDs for:
 - EditorPauseLayer
 - EditorUI
 - FLAlertLayer
+- GauntletNode
 - GauntletSelectLayer
 - GJCommentListLayer
 - GJGarageLayer
