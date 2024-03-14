@@ -205,7 +205,7 @@ $register_ids(MoreOptionsLayer) {
         std::make_pair(40, 56), // 8 togglers * 2
         std::make_pair(56, 72), // 8 togglers * 2
         std::make_pair(72, 82), // 5 togglers * 2
-        std::make_pair(82, 101) // 10 togglers * 2
+        std::make_pair(82, 101) // 10 togglers * 2 - 1
     };
 #endif
 
@@ -268,9 +268,9 @@ $register_ids(MoreOptionsLayer) {
             "parental-control-button",
             "close-button",
             "left-arrow-button",
-            "right-arrow-button",
-#ifndef GEODE_IS_ANDROID
-            "key-bindings-button"
+            "right-arrow-button"
+#ifndef GEODE_IS_ANDROID // sorry
+            , "key-bindings-button"
 #endif
         );
     }
