@@ -76,7 +76,7 @@ $register_ids(GauntletNode) {
                 gauntletInfoNode,
                 0,
                 "gauntlet-sprite",
-                "gauntlet-sprite",
+                "gauntlet-shadow-sprite",
                 "gauntlet-progress-label",
                 "gauntlet-progress-shadow-label",
                 "reward-label",
