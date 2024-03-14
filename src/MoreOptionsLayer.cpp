@@ -26,23 +26,26 @@ $register_ids(MoreOptionsLayer) {
         "music-offset-input"
     );
 
-    std::array<std::string, 10> gameplayMenu1NodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "hide-attempts", "flip-pause-button",
         "disable-portal-guide", "enable-orb-guide",
         "disable-orb-scale", "disable-trigger-orb-scale",
         "disable-explosion-shake", "disable-gravity-effect"
+    };
 #elif defined(GEODE_IS_MACOS)
-
+    std::array<std::string, 0> gameplayMenu1NodeNames{
+    };
 #else
+    std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "show-in-game-cursor", "lock-in-game-cursor",
         "hide-attempts", "flip-pause-button",
         "disable-portal-guide", "enable-orb-guide",
         "disable-orb-scale", "disable-trigger-orb-scale"
-#endif
     };
+#endif
     if (auto gameplayMenu1 = m_mainLayer->getChildByID("gameplay-options-layer-1")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(gameplayMenu1->getChildren());
 
@@ -51,21 +54,24 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-    std::array<std::string, 10> gameplayMenu2NodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 6> gameplayMenu2NodeNames{
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
         "flip-2-player-controls", "always-limit-controls"
+    };
 #elif defined(GEODE_IS_MACOS)
-
+    std::array<std::string, 10> gameplayMenu2NodeNames{
+    };
 #else
+    std::array<std::string, 10> gameplayMenu2NodeNames{
         "disable-explosion-shake", "disable-gravity-effect",
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
         "flip-2-player-controls", "always-limit-controls",
         "disable-thumbstick", "enable-quick-keys"
-#endif
     };
+#endif
     if (auto gameplayMenu2 = m_mainLayer->getChildByID("gameplay-options-layer-2")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(gameplayMenu2->getChildren());
 
@@ -74,21 +80,24 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-    std::array<std::string, 8> practiceMenuNodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 7> practiceMenuNodeNames{
         "hide-attempts", "enable-auto-checkpoints",
         "enable-quick-checkpoints", "enable-death-effect",
         "enable-normal-music-in-editor", "show-hitboxes",
         "disable-player-hitbox"
+    };
 #elif defined(GEODE_IS_MACOS)
-
+    std::array<std::string, 0> practiceMenuNodeNames{
+    };
 #else
+    std::array<std::string, 8> practiceMenuNodeNames{
         "hide-practice-buttons", "hide-attempts",
         "enable-auto-checkpoints", "enable-quick-checkpoints",
         "enable-death-effect", "enable-normal-music-in-editor",
         "show-hitboxes", "disable-player-hitbox"
-#endif
     };
+#endif
     if (auto practiceMenu = m_mainLayer->getChildByID("practice-options-layer")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(practiceMenu->getChildren());
 
@@ -97,22 +106,25 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-    std::array<std::string, 8> performanceMenuNodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 9> performanceMenuNodeNames{
         "enable-smooth-fix", "increase-draw-capacity",
         "enable-low-detail", "disable-high-object-alert",
         "enable-extra-ldm", "increase-maximum-levels",
         "disable-level-saving", "save-gauntlets",
         "disable-shader-anti-aliasing"
+    };
 #elif defined(GEODE_IS_MACOS)
-
+    std::array<std::string, 0> performanceMenuNodeNames{
+    };
 #else
+    std::array<std::string, 8> performanceMenuNodeNames{
         "increase-draw-capacity", "enable-low-detail",
         "disable-high-object-alert", "enable-extra-ldm",
         "increase-maximum-levels", "disable-level-saving",
         "save-gauntlets", "disable-shader-anti-aliasing"
-#endif
     };
+#endif
     if (auto performanceMenu = m_mainLayer->getChildByID("performance-options-layer")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(performanceMenu->getChildren());
 
@@ -121,18 +133,21 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-    std::array<std::string, 5> audioMenuNodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 4> audioMenuNodeNames{
         "disable-song-alert", "no-song-limit",
         "reduce-quality", "audio-fix-01"
+    };
 #elif defined(GEODE_IS_MACOS)
-
+    std::array<std::string, 0> audioMenuNodeNames{
+    };
 #else
+    std::array<std::string, 5> audioMenuNodeNames{
         "change-custom-songs-location", "disable-song-alert",
         "no-song-limit", "reduce-quality",
         "audio-fix-01"
-#endif
     };
+#endif
     if (auto audioMenu = m_mainLayer->getChildByID("audio-options-layer")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(audioMenu->getChildren());
 
@@ -141,23 +156,26 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-    std::array<std::string, 10> otherMenuNodeNames{
 #ifdef GEODE_IS_ANDROID
+    std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
         "manual-level-order", "percentage-decimals",
         "show-leaderboard-percentage", "do-not",
         "confirm-exit", "fast-menu"
-#elif defined(GEODE_IS_MACOS)
-
-#else
-        "more-comments", "load-comments",
-        "new-completed-filter", "increase-local-levels-per-page",
-        "manual-level-order", "percentage-decimals",
-        "show-leaderboard-percentage", "do-not",
-        "confirm-exit", "fast-menu"
-#endif
     };
+#elif defined(GEODE_IS_MACOS)
+    std::array<std::string, 0> otherMenuNodeNames{
+    };
+#else
+    std::array<std::string, 10> otherMenuNodeNames{
+        "more-comments", "load-comments",
+        "new-completed-filter", "increase-local-levels-per-page",
+        "manual-level-order", "percentage-decimals",
+        "show-leaderboard-percentage", "do-not",
+        "confirm-exit", "fast-menu"
+    };
+#endif
     if (auto otherMenu = m_mainLayer->getChildByID("other-options-layer")) {
         auto nodes = CCArrayExt<CCLabelBMFont*>(otherMenu->getChildren());
 
