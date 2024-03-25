@@ -77,14 +77,14 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
         }
 
         // Provide ids for new nodes
-        #if GEODE_COMP_GD_VERSION <= 22000
-            const size_t expectedSize = 4;
+        #if GEODE_COMP_GD_VERSION == 22000
+            bool isSizeCorrect = newNodes.size() == 3 || newNodes.size() == 4;
         #else
-            const size_t expectedSize = 3;
+            bool isSizeCorrect = newNodes.size() == 3;
         #endif
 
         // Shouldn't be false, but just in case
-        if (newNodes.size() == expectedSize) {
+        if (isSizeCorrect) {
             auto debugText = typeinfo_cast<CCLabelBMFont*>(newNodes[0]);
             auto progressBar = typeinfo_cast<CCSprite*>(newNodes[1]);
             auto timeOrPercentageLabel = typeinfo_cast<CCLabelBMFont*>(newNodes[2]);
