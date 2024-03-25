@@ -25,6 +25,10 @@ $register_ids(PlayLayer) {
     else {
         setIDSafe<CCLabelBMFont>(this, 1, "percentage-label");
     }
+
+#if GEODE_COMP_GD_VERSION == 22000
+    setIDSafe<CCLabelBMFont>(this, 2, "testmode-label");
+#endif
 }
 
 struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
