@@ -101,8 +101,10 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
             }
 
             #if GEODE_COMP_GD_VERSION == 22000
+            if (newNodes.size() == 4) {
                 auto testModeLabel = typeinfo_cast<CCLabelBMFont*>(newNodes[3]);
                 if (testModeLabel) testModeLabel->setID("testmode-label");
+            }
             #endif
         }
     }
