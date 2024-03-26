@@ -35,6 +35,8 @@ void assignIDsToStore(CCMenuItemSpriteExtra* store, int storeNum) {
 }
 
 void assignIDsToPage(CCLayer* page, int pageNum) {
+  auto winSize = CCDirector::sharedDirector()->getWinSize();
+
   page->setID("page" + std::to_string(pageNum + 1));
 
   if (pageNum == 3) { // store page
@@ -42,10 +44,10 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
       menu->setID("store-menu");
 
       // make this a row layout in case people want to add their own shops here
-      menu->setPosition(285.f, 220.f);
+      menu->setPosition(winSize.width / 2, winSize.height - 100);
       menu->setLayout(
         RowLayout::create()
-          ->setGap(25.f)
+          ->setGap(24.f)
       );
       menu->updateLayout();
 
