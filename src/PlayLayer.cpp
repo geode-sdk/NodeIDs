@@ -38,8 +38,8 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
             log::warn("Failed to set PlayLayer::init hook priority, node IDs may not work properly");
         }
 
-        if (!self.setHookPriority("PlayLayer::showCompleteText", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set PlayLayer::showCompleteText hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("PlayLayer::setupHasCompleted", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set PlayLayer::setupHasCompleted hook priority, node IDs may not work properly");
         }
     }
 
