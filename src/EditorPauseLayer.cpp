@@ -105,8 +105,10 @@ $register_ids(EditorPauseLayer) {
     if (auto menu = getChildOfType<CCMenu>(this, 1)) {
         menu->setID("bottom-menu");
 
+        int idx = 0;
+
         setIDs(
-            menu, 0, 
+            menu, idx, 
             "guidelines-enable-button",
             "help-button",
             "guidelines-disable-button",
@@ -141,7 +143,9 @@ $register_ids(EditorPauseLayer) {
             "hide-invisible-toggle",
             "show-hitboxes-toggle",
 
+        #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_MACOS)
             "keys-button",
+        #endif
             "settings-button"
         );
 
