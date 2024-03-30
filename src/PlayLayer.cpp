@@ -10,7 +10,9 @@ using namespace geode::node_ids;
 
 $register_ids(PlayLayer) {
     setIDSafe(this, 1, "main-node");
-    setIDSafe<CCSprite>(static_cast<CCNode*>(this->getChildren()->objectAtIndex(1)), 0, "background");
+    auto mainNode = this->getChildByID("main-node");
+	setIDSafe<CCSprite>(mainNode, 0, "background");
+	setIDSafe<CCLayer>(mainNode, 0, "batch-layer");
 
     setIDSafe(this, 3, "hitbox-node");
     setIDSafe<GJEffectManager>(this, 0, "effect-manager");
