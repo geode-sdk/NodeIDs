@@ -14,6 +14,8 @@ $register_ids(GJListLayer) {
     setIDSafe<CCSprite>(this, 1, "top-border");
     setIDSafe<CCSprite>(this, 2, "left-border");
     setIDSafe<CCSprite>(this, 3, "right-border");
+
+    setIDSafe<CCLabelBMFont>(this, 0, "title");
 }
 
 struct GJListLayerIDs : Modify<GJListLayerIDs, GJListLayer> {
