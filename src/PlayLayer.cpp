@@ -20,27 +20,95 @@ $register_ids(PlayLayer) {
     setIDSafe<CCLabelBMFont>(this, 0, "debug-text");
     setIDSafe<CCSprite>(this, 0, "progress-bar");
 
-    auto level = PlayLayer::get()->m_level;
-    if (level->isPlatformer()) {
+    if (this->m_level->isPlatformer()) {
         setIDSafe<CCLabelBMFont>(this, 1, "time-label");
     }
     else {
         setIDSafe<CCLabelBMFont>(this, 1, "percentage-label");
     }
+
+#if GEODE_COMP_GD_VERSION == 22000
+    setIDSafe<CCLabelBMFont>(this, 2, "testmode-label");
+#endif
 }
 
 struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
+    bool m_dontCreateObjects = false;
+
     static void onModify(auto& self) {
         if (!self.setHookPriority("PlayLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set PlayLayer::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("PlayLayer::setupHasCompleted", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set PlayLayer::setupHasCompleted hook priority, node IDs may not work properly");
+        }
     }
 
-    bool init(GJGameLevel* level, bool p1, bool p2) {
-        if (!PlayLayer::init(level, p1, p2)) return false;
+    bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+
+        // Used in online levels, which delays node creation
+        m_fields->m_dontCreateObjects = dontCreateObjects;
 
         NodeIDs::get()->provide(this);
 
         return true;
     }
+
+    void setupHasCompleted() {
+        // P.S. For some reason, RobTop adds the nodes in this method,
+        // which isn't called from PlayLayer::init if it's an online level
+        if (!m_fields->m_dontCreateObjects)
+            return PlayLayer::setupHasCompleted();
+
+        // Save preinitialized nodes
+        std::unordered_set<cocos2d::CCNode*> nodes;
+        for (auto child : CCArrayExt<CCNode*>(this->getChildren())) {
+            nodes.insert(child);
+        }
+
+        PlayLayer::setupHasCompleted();
+
+        // Filter only new nodes
+        std::vector<cocos2d::CCNode*> newNodes;
+        for (auto child : CCArrayExt<CCNode*>(this->getChildren())) {
+            if (nodes.find(child) == nodes.end()) {
+                newNodes.push_back(child);
+            }
+        }
+
+        // Provide ids for new nodes
+        #if GEODE_COMP_GD_VERSION == 22000
+            bool isSizeCorrect = newNodes.size() == 3 || newNodes.size() == 4;
+        #else
+            bool isSizeCorrect = newNodes.size() == 3;
+        #endif
+
+        // Shouldn't be false, but just in case
+        if (isSizeCorrect) {
+            auto debugText = typeinfo_cast<CCLabelBMFont*>(newNodes[0]);
+            auto progressBar = typeinfo_cast<CCSprite*>(newNodes[1]);
+            auto timeOrPercentageLabel = typeinfo_cast<CCLabelBMFont*>(newNodes[2]);
+
+            if (debugText) debugText->setID("debug-text");
+            if (progressBar) progressBar->setID("progress-bar");
+            if (timeOrPercentageLabel) {
+                if (this->m_level->isPlatformer()) {
+                    timeOrPercentageLabel->setID("time-label");
+                }
+                else {
+                    timeOrPercentageLabel->setID("percentage-label");
+                }
+            }
+
+            #if GEODE_COMP_GD_VERSION == 22000
+            if (newNodes.size() == 4) {
+                auto testModeLabel = typeinfo_cast<CCLabelBMFont*>(newNodes[3]);
+                if (testModeLabel) testModeLabel->setID("testmode-label");
+            }
+            #endif
+        }
+    }
+
 };
