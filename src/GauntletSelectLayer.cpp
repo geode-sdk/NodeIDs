@@ -25,8 +25,8 @@ $register_ids(GauntletSelectLayer) {
 
 struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLayer> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GauntletSelectLayer::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GauntletSelectLayer::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GauntletSelectLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GauntletSelectLayer::init hook priority, node IDs may not work properly");
         }
     }
 
