@@ -1,5 +1,5 @@
 #include <Geode/Bindings.hpp>
-#include <geode/modify/GJListLayer.hpp>
+#include <Geode/modify/GJListLayer.hpp>
 #include <Geode/utils/cocos.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
