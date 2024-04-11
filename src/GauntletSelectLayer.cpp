@@ -14,18 +14,20 @@ $register_ids(GauntletSelectLayer) {
 
     setIDs(
         this,
-        PlatformToolbox::isControllerConnected() ? 3 : 2,
+        0,
+        "background",
+        "title",
         "bottom-left-corner",
         "bottom-right-corner",
         "top-left-corner",
         "top-right-corner",
-        "arrows-menu",
-        "misc-menu",
+        "scroll-buttons-menu",
+        "left-menu",
         "loading-circle",
-        "error-text-area"
+        "try-again-text"
     );
 
-    if (auto arrowsMenu = this->getChildByID("arrows-menu")) {
+    if (auto arrowsMenu = this->getChildByID("scroll-buttons-menu")) {
         setIDs(
             arrowsMenu,
             0,
@@ -34,7 +36,7 @@ $register_ids(GauntletSelectLayer) {
         );
     }
 
-    if (auto miscMenu = this->getChildByID("misc-menu")) {
+    if (auto miscMenu = this->getChildByID("left-menu")) {
         setIDs(
             miscMenu,
             0,
@@ -98,45 +100,5 @@ struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLay
 
             getChildOfType<CCSpriteBatchNode>(gauntletsList, 0)->setID("page-buttons");
         }
-    }
-};
-#include <Geode/Bindings.hpp>
-#include <Geode/modify/GauntletSelectLayer.hpp>
-#include <Geode/utils/cocos.hpp>
-#include <Geode/utils/NodeIDs.hpp>
-
-using namespace geode::prelude;
-using namespace geode::node_ids;
-
-$register_ids(GauntletSelectLayer) {
-    setIDs(
-        this,
-        0,
-        "background",
-        "title",
-        "bottom-left-corner",
-        "bottom-right-corner",
-        "top-left-corner",
-        "top-right-corner",
-        "scroll-buttons-menu",
-        "left-menu",
-        "loading-circle",
-        "try-again-text"
-    );
-}
-
-struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLayer> {
-    static void onModify(auto& self) {
-        if (!self.setHookPriority("GauntletSelectLayer::init", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GauntletSelectLayer::init hook priority, node IDs may not work properly");
-        }
-    }
-
-    bool init(int idk) {
-        if (!GauntletSelectLayer::init(idk)) return false;
-
-        NodeIDs::get()->provide(this);
-
-        return true;
     }
 };
