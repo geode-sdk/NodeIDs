@@ -13,11 +13,12 @@ $register_ids(LevelEditorLayer) {
     
 	if (auto shaderLayer = getChildOfType<ShaderLayer>(this, 0)) {
 		setIDSafe(shaderLayer, 1, "main-node");
-		setIDSafe<CCSprite>(static_cast<CCNode*>(shaderLayer->getChildren()->objectAtIndex(1)), 0, "background");
 	} else {
-		setIDSafe(this, 1, "main-node");
-		setIDSafe<CCSprite>(static_cast<CCNode*>(this->getChildren()->objectAtIndex(1)), 0, "background");
+		setIDSafe(this, 1, "main-node");		
 	}
+	auto mainNode = this->getChildByIDRecursive("main-node");
+	setIDSafe<CCSprite>(mainNode, 0, "background");
+	setIDSafe<CCLayer>(mainNode, 0, "batch-layer");
 }
 
 struct LevelEditorLayerIDs : Modify<LevelEditorLayerIDs, LevelEditorLayer> {
