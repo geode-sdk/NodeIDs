@@ -8,6 +8,9 @@ using namespace geode::node_ids;
 
 $register_ids(LevelSearchLayer) {
     // set the funny ids
+
+    auto winSize = CCDirector::get()->getWinSize();
+
     setIDSafe(this, 0, "background");
     getChildOfType<CCTextInputNode>(this, 0)->setID("search-bar");
     getChildOfType<CCScale9Sprite>(this, 0)->setID("level-search-bg");
@@ -22,9 +25,20 @@ $register_ids(LevelSearchLayer) {
 
     if (auto filtermenu = getChildOfType<CCMenu>(this, 0)) {
         filtermenu->setID("other-filter-menu");
+        filtermenu->setLayout(
+            ColumnLayout::create()
+                ->setAxisReverse(true)
+                ->setGap(10)
+                ->setAxisAlignment(AxisAlignment::End)
+        );
+        filtermenu->setAnchorPoint({1, 0.5f});
+        filtermenu->setPosition({winSize.width - 5, filtermenu->getPositionY()});
+        filtermenu->setContentSize({filtermenu->getContentSize().width, winSize.height-10});
+
         setIDSafe(filtermenu, 0, "clear-filters-button");
         setIDSafe(filtermenu, 1, "advanced-filters-button");
         setIDSafe(filtermenu, 2, "lists-button");
+        filtermenu->updateLayout();
     }
     if (auto searchmenu = getChildOfType<CCMenu>(this, 1)) {
         searchmenu->setID("search-button-menu");
@@ -75,6 +89,19 @@ $register_ids(LevelSearchLayer) {
         backmenu->setID("exit-menu");
         setIDSafe(backmenu, 0, "exit-button");
     }
+
+    auto bottomLeftMenu = CCMenu::create();
+    bottomLeftMenu->setPosition(10, 10);
+    bottomLeftMenu->setID("bottom-left-menu");
+    bottomLeftMenu->setAnchorPoint({0, 0});
+    bottomLeftMenu->setZOrder(1);
+    bottomLeftMenu->setContentSize({ 40.f, winSize.height/2 });
+    bottomLeftMenu->setLayout(
+        ColumnLayout::create()
+            ->setAxisAlignment(AxisAlignment::Start)
+    );
+    this->addChild(bottomLeftMenu);
+
 }
 
 struct LevelSearchLayerIDs : Modify<LevelSearchLayerIDs, LevelSearchLayer> {
