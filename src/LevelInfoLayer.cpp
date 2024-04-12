@@ -26,8 +26,10 @@ $register_ids(LevelInfoLayer) {
             setIDSafe<CCSprite>(this, 3 + iconOffset, "high-object-indicator");
             iconOffset++;
         }
-    } else if(!GameManager::sharedState()->getGameVariable("0047") && !m_challenge) {
-        setIDSafe<CCSprite>(this, 3, "view-profile");
+    //} else if(!GameManager::sharedState()->getGameVariable("0047") && !m_challenge && GameLevelManager::sharedState()->accountIDForUserID(m_level->m_userID) > 0) {
+    } else if(auto viewSprite = getChildBySpriteFrameName(this, "GJ_viewProfileTxt_001.png")) {
+        if(getChildOfType<CCSprite>(this, 3) != viewSprite) log::warn("View Profile sprite not in expected place! Node IDs may be incorrect!");
+        viewSprite->setID("view-profile");
         iconOffset++;
     }
 
