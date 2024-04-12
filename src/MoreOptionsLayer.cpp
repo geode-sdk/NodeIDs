@@ -29,7 +29,7 @@ $register_ids(MoreOptionsLayer) {
     );
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 10> gameplayMenu1NodeNames{
+    std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "hide-attempts", "flip-pause-button",
         "disable-portal-guide", "enable-orb-guide",
@@ -37,7 +37,7 @@ $register_ids(MoreOptionsLayer) {
         "disable-explosion-shake", "disable-gravity-effect"
     };
 #elif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 10> gameplayMenu1NodeNames{
+    std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "show-in-game-cursor", "lock-in-game-cursor",
         "hide-attempts", "flip-pause-button",
@@ -54,13 +54,13 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 6> gameplayMenu2NodeNames{
+    std::array<std::string, 6> gameplayMenu2NodeNames{
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
         "flip-2-player-controls", "always-limit-controls"
     };
 #elif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 10> gameplayMenu2NodeNames{
+    std::array<std::string, 10> gameplayMenu2NodeNames{
         "disable-explosion-shake", "disable-gravity-effect",
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
@@ -77,14 +77,14 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 7> practiceMenuNodeNames{
+    std::array<std::string, 7> practiceMenuNodeNames{
         "hide-attempts", "enable-auto-checkpoints",
         "enable-quick-checkpoints", "enable-death-effect",
         "enable-normal-music-in-editor", "show-hitboxes",
         "disable-player-hitbox"
     };
-#elsif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 8> practiceMenuNodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    std::array<std::string, 8> practiceMenuNodeNames{
         "hide-practice-buttons", "hide-attempts",
         "enable-auto-checkpoints", "enable-quick-checkpoints",
         "enable-death-effect", "enable-normal-music-in-editor",
@@ -100,7 +100,7 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 9> performanceMenuNodeNames{
+    std::array<std::string, 9> performanceMenuNodeNames{
         "enable-smooth-fix", "increase-draw-capacity",
         "enable-low-detail", "disable-high-object-alert",
         "enable-extra-ldm", "increase-maximum-levels",
@@ -108,7 +108,7 @@ $register_ids(MoreOptionsLayer) {
         "disable-shader-anti-aliasing"
     };
 #elif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 8> performanceMenuNodeNames{
+    std::array<std::string, 8> performanceMenuNodeNames{
         "increase-draw-capacity", "enable-low-detail",
         "disable-high-object-alert", "enable-extra-ldm",
         "increase-maximum-levels", "disable-level-saving",
@@ -124,12 +124,12 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 4> audioMenuNodeNames{
+    std::array<std::string, 4> audioMenuNodeNames{
         "disable-song-alert", "no-song-limit",
         "reduce-quality", "audio-fix-01"
     };
 #elif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 5> audioMenuNodeNames{
+    std::array<std::string, 5> audioMenuNodeNames{
         "change-custom-songs-location", "disable-song-alert",
         "no-song-limit", "reduce-quality",
         "audio-fix-01"
@@ -144,7 +144,7 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    constexpr std::array<std::string, 10> otherMenuNodeNames{
+    std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
         "manual-level-order", "percentage-decimals",
@@ -152,7 +152,7 @@ $register_ids(MoreOptionsLayer) {
         "confirm-exit", "fast-menu"
     };
 #elif defined(GEODE_IS_WINDOWS)
-    constexpr std::array<std::string, 10> otherMenuNodeNames{
+    std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
         "manual-level-order", "percentage-decimals",
