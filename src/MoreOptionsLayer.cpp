@@ -1,3 +1,5 @@
+#ifndef GEODE_IS_MACOS
+
 #include <Geode/Geode.hpp>
 #include <Geode/binding/MoreOptionsLayer.hpp>
 #include <Geode/modify/MoreOptionsLayer.hpp>
@@ -27,18 +29,15 @@ $register_ids(MoreOptionsLayer) {
     );
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 10> gameplayMenu1NodeNames{
+    constexpr std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "hide-attempts", "flip-pause-button",
         "disable-portal-guide", "enable-orb-guide",
         "disable-orb-scale", "disable-trigger-orb-scale",
         "disable-explosion-shake", "disable-gravity-effect"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 0> gameplayMenu1NodeNames{
-    };
-#else
-    std::array<std::string, 10> gameplayMenu1NodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "show-in-game-cursor", "lock-in-game-cursor",
         "hide-attempts", "flip-pause-button",
@@ -55,16 +54,13 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 6> gameplayMenu2NodeNames{
+    constexpr std::array<std::string, 6> gameplayMenu2NodeNames{
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
         "flip-2-player-controls", "always-limit-controls"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 10> gameplayMenu2NodeNames{
-    };
-#else
-    std::array<std::string, 10> gameplayMenu2NodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 10> gameplayMenu2NodeNames{
         "disable-explosion-shake", "disable-gravity-effect",
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
@@ -81,17 +77,14 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 7> practiceMenuNodeNames{
+    constexpr std::array<std::string, 7> practiceMenuNodeNames{
         "hide-attempts", "enable-auto-checkpoints",
         "enable-quick-checkpoints", "enable-death-effect",
         "enable-normal-music-in-editor", "show-hitboxes",
         "disable-player-hitbox"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 0> practiceMenuNodeNames{
-    };
-#else
-    std::array<std::string, 8> practiceMenuNodeNames{
+#elsif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 8> practiceMenuNodeNames{
         "hide-practice-buttons", "hide-attempts",
         "enable-auto-checkpoints", "enable-quick-checkpoints",
         "enable-death-effect", "enable-normal-music-in-editor",
@@ -107,18 +100,15 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 9> performanceMenuNodeNames{
+    constexpr std::array<std::string, 9> performanceMenuNodeNames{
         "enable-smooth-fix", "increase-draw-capacity",
         "enable-low-detail", "disable-high-object-alert",
         "enable-extra-ldm", "increase-maximum-levels",
         "disable-level-saving", "save-gauntlets",
         "disable-shader-anti-aliasing"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 0> performanceMenuNodeNames{
-    };
-#else
-    std::array<std::string, 8> performanceMenuNodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 8> performanceMenuNodeNames{
         "increase-draw-capacity", "enable-low-detail",
         "disable-high-object-alert", "enable-extra-ldm",
         "increase-maximum-levels", "disable-level-saving",
@@ -134,15 +124,12 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 4> audioMenuNodeNames{
+    constexpr std::array<std::string, 4> audioMenuNodeNames{
         "disable-song-alert", "no-song-limit",
         "reduce-quality", "audio-fix-01"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 0> audioMenuNodeNames{
-    };
-#else
-    std::array<std::string, 5> audioMenuNodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 5> audioMenuNodeNames{
         "change-custom-songs-location", "disable-song-alert",
         "no-song-limit", "reduce-quality",
         "audio-fix-01"
@@ -157,18 +144,15 @@ $register_ids(MoreOptionsLayer) {
     }
 
 #ifdef GEODE_IS_ANDROID
-    std::array<std::string, 10> otherMenuNodeNames{
+    constexpr std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
         "manual-level-order", "percentage-decimals",
         "show-leaderboard-percentage", "do-not",
         "confirm-exit", "fast-menu"
     };
-#elif defined(GEODE_IS_MACOS)
-    std::array<std::string, 0> otherMenuNodeNames{
-    };
-#else
-    std::array<std::string, 10> otherMenuNodeNames{
+#elif defined(GEODE_IS_WINDOWS)
+    constexpr std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
         "manual-level-order", "percentage-decimals",
@@ -192,13 +176,9 @@ $register_ids(MoreOptionsLayer) {
         std::make_pair(32, 46), // 7 togglers * 2
         std::make_pair(46, 64), // 9 togglers * 2
         std::make_pair(64, 72), // 4 togglers * 2
-        std::make_pair(72, 91) // 10 togglers * 2 - 1 (because we are indexing by 2, in the last iteration, i == 90, so i+1 == 91, which is the last info icon)
+        std::make_pair(72, 91) // 10 togglers * 2 - 1 (because we are indexing by 2, in the last iteration, i+1 == 91, which is the last info icon)
     };
-#elif defined(GEODE_IS_MACOS)
-    constexpr std::array<std::pair<int, int>, 0> pageIdxToObjectIdxStartEnd{
-
-    };
-#else
+#elif defined(GEODE_IS_WINDOWS)
     constexpr std::array<std::pair<int, int>, 6> pageIdxToObjectIdxStartEnd{
         std::make_pair(0, 20), // 10 togglers * 2
         std::make_pair(20, 40), // 10 togglers * 2
@@ -269,7 +249,7 @@ $register_ids(MoreOptionsLayer) {
             "close-button",
             "left-arrow-button",
             "right-arrow-button"
-#ifndef GEODE_IS_ANDROID // sorry
+#ifndef GEODE_IS_ANDROID // comma on new line
             , "key-bindings-button"
 #endif
         );
@@ -291,3 +271,5 @@ struct MoreOptionsLayerIDs : Modify<MoreOptionsLayerIDs, MoreOptionsLayer> {
         return true;
     }
 };
+
+#endif
