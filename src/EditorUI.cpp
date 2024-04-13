@@ -51,6 +51,7 @@ $register_ids(EditorUI) {
             this,
             "toolbar-toggles-menu",
             RowLayout::create()
+                ->setGap(3.5f)
                 ->setCrossAxisOverflow(false)
                 ->setGrowCrossAxis(true)
                 ->setAxisAlignment(AxisAlignment::Center)
@@ -119,11 +120,13 @@ $register_ids(EditorUI) {
             this,
             "zoom-menu",
             ColumnLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start),
+                ->setGap(3.f)
+                ->setAxisAlignment(AxisAlignment::End),
             menu->getChildByID("zoom-out-button"),
             menu->getChildByID("zoom-in-button")
         );
-        zoomMenu->setPositionY(150.f * winSize.height / 320);
+        zoomMenu->setAnchorPoint({0.5f, 1.f});
+        zoomMenu->setPositionY(playTestMenu->getPositionY() - 30);
         zoomMenu->setContentSize({ 50.f, zoomMenuHeight });
         zoomMenu->updateLayout();
 
@@ -131,12 +134,14 @@ $register_ids(EditorUI) {
             this,
             "link-menu",
             ColumnLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start)
+                ->setGap(3.f)
+                ->setAxisAlignment(AxisAlignment::End)
                 ->setGrowCrossAxis(true),
             menu->getChildByID("unlink-button"),
             menu->getChildByID("link-button")
         );
-        linkMenu->setPositionY(150.f * winSize.height / 320);
+        linkMenu->setAnchorPoint({0.5f, 1.f});
+        linkMenu->setPositionY(playTestMenu->getPositionY() - 30);
         linkMenu->setContentSize({ 125.f, zoomMenuHeight });
         linkMenu->updateLayout();
 
@@ -236,11 +241,12 @@ $register_ids(EditorUI) {
             "custom-tab"
         );
 
-        menu->setPosition(winSize.width / 2, 100.f);
+        menu->setPosition(winSize.width / 2 - 5.f, 100.f);
         menu->setContentSize({ winSize.width, 50.f });
         menu->setLayout(
             RowLayout::create()
-                ->setGap(5.f)
+                ->setGap(2.f)
+                ->setCrossAxisLineAlignment(AxisAlignment::Start)
         );
     }
 
@@ -291,7 +297,7 @@ $register_ids(EditorUI) {
             ColumnLayout::create()
                 ->setAxisAlignment(AxisAlignment::End)
                 ->setCrossAxisAlignment(AxisAlignment::End)
-                ->setGap(-3.5f)
+                ->setGap(-4.5f)
                 ->setGrowCrossAxis(true)
                 ->setCrossAxisOverflow(false)
                 ->setAxisReverse(true),
@@ -313,8 +319,8 @@ $register_ids(EditorUI) {
         }
         rightMenu->setContentSize({ 210.f, 160.f });
         rightMenu->setPosition(
-            winSize.width - 210.f / 2 - 5.f,
-            winSize.height / 2 + 42.5f
+            winSize.width - 210.f / 2,
+            winSize.height - 117.5f
         );
         rightMenu->updateLayout();
 
@@ -328,13 +334,13 @@ $register_ids(EditorUI) {
             this,
             "layer-menu",
             RowLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start),
+                ->setAxisAlignment(AxisAlignment::End),
             menu->getChildByID("all-layers-button"),
             menu->getChildByID("prev-layer-button"),
             this->getChildByID("layer-index-label"),
             menu->getChildByID("next-layer-button")
         );
-        layerMenu->setPositionX(winSize.width - 110.f / 2);
+        layerMenu->setPositionX(winSize.width - 110.f / 2 - 6.f);
         layerMenu->setContentSize({ 110.f, 30.f });
         layerMenu->updateLayout();
     }

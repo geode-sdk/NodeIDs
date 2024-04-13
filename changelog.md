@@ -7,6 +7,7 @@
 * Added layouts and menus to LevelSearchLayer (thanks @Alphalaneous)
 * Added more PlayLayer IDs (thanks @Prevter)
 * Fixed EditorPauseLayer on mobile
+* Fixed EditorUI spacing
 * Fixed LevelInfoLayer misalignments
 
 ## v1.8.1
