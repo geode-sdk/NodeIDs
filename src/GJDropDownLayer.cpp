@@ -8,11 +8,11 @@ using namespace geode::node_ids;
 
 $register_ids(GJDropDownLayer) {
     m_mainLayer->setID("main-layer");
-    m_listLayer->setID("list-layer");
-    m_buttonMenu->setID("back-button");
+    m_listLayer->setID("background");
+    m_buttonMenu->setID("hide-dropdown-menu");
 
-    setIDSafe<CCSprite>(m_mainLayer, 0, "left-chain");
-    setIDSafe<CCSprite>(m_mainLayer, 1, "right-chain");
+    setIDSafe<CCSprite>(m_mainLayer, 0, "chain-left");
+    setIDSafe<CCSprite>(m_mainLayer, 1, "chain-right");
 }
 
 struct GJDropDownLayerIDs : Modify<GJDropDownLayerIDs, GJDropDownLayer> {
@@ -28,6 +28,9 @@ struct GJDropDownLayerIDs : Modify<GJDropDownLayerIDs, GJDropDownLayer> {
             return false;
 
         NodeIDs::get()->provide(this);
+
+        //workaround for existing mods that depend on this ID
+        if(typeinfo_cast<EndLevelLayer*>(this)) this->setID("EndLevelLayer");
         return true;
     }
 #else
@@ -36,6 +39,9 @@ struct GJDropDownLayerIDs : Modify<GJDropDownLayerIDs, GJDropDownLayer> {
             return false;
 
         NodeIDs::get()->provide(this);
+
+        //workaround for existing mods that depend on this ID
+        if(typeinfo_cast<EndLevelLayer*>(this)) this->setID("EndLevelLayer");
         return true;
     }
 #endif
