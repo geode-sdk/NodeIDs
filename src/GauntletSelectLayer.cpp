@@ -22,7 +22,7 @@ $register_ids(GauntletSelectLayer) {
         "top-left-corner",
         "top-right-corner",
         "scroll-buttons-menu",
-        "left-menu",
+        "back-menu",
         "loading-circle",
         "try-again-text"
     );
@@ -36,14 +36,66 @@ $register_ids(GauntletSelectLayer) {
         );
     }
 
-    if (auto miscMenu = this->getChildByID("left-menu")) {
+    if (auto miscMenu = this->getChildByID("back-menu")) {
         setIDs(
             miscMenu,
             0,
             "back-button",
             "info-button",
-            "reload-button"
+            "refresh-button"
         );
+        
+        auto bottomLeftMenu = detachAndCreateMenu(
+            this,
+            "bottom-left-menu",
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::Start),
+            miscMenu->getChildByID("info-button")
+        );
+        bottomLeftMenu->setPosition(30.f, 70.f);
+        bottomLeftMenu->setID("bottom-left-menu");
+        bottomLeftMenu->setContentSize({ 60.f, 103.f });
+        bottomLeftMenu->updateLayout();
+        
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto bottomRightMenu = detachAndCreateMenu(
+            this,
+            "bottom-right-menu",
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::Start)
+                ->setAxisReverse(true),
+            miscMenu->getChildByID("refresh-button")
+        );
+        bottomRightMenu->setPosition(winSize.width - 30.f, 70.f);
+        bottomRightMenu->setID("bottom-right-menu");
+        bottomRightMenu->setContentSize({ 60.f, 103.f });
+        bottomRightMenu->updateLayout();
+
+        auto topRightMenu = CCMenu::create();
+        topRightMenu->setLayout(
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::End)
+                ->setAxisReverse(true)
+        );
+        topRightMenu->setPosition(winSize.width - 30.f, winSize.height - 70.f);
+        topRightMenu->setID("top-right-menu");
+        topRightMenu->setContentSize({ 60.f, 103.f });
+        topRightMenu->updateLayout();
+        topRightMenu->setZOrder(miscMenu->getZOrder());
+        this->addChild(topRightMenu);
+
+
+        miscMenu->setPosition(25.f, winSize.height - 70.f + 16.75f);
+        miscMenu->setID("back-menu");
+        miscMenu->setLayout(
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::End)
+                ->setAxisReverse(true)
+        );
+        miscMenu->setContentSize({ 60.f, 103.f });
+        miscMenu->updateLayout();
+
+
     }
 }
 
