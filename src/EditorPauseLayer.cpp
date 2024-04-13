@@ -143,7 +143,7 @@ $register_ids(EditorPauseLayer) {
             "hide-invisible-toggle",
             "show-hitboxes-toggle",
 
-        #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_MACOS)
+        #ifdef GEODE_IS_DESKTOP
             "keys-button",
         #endif
             "settings-button"
@@ -175,7 +175,9 @@ $register_ids(EditorPauseLayer) {
             ColumnLayout::create()
                 ->setAxisAlignment(AxisAlignment::Start)
                 ->setAxisReverse(true),
+        #ifdef GEODE_IS_DESKTOP
             menu->getChildByID("keys-button"),
+        #endif
             menu->getChildByID("build-helper-button"),
             menu->getChildByID("copy-color-button"),
             menu->getChildByID("paste-color-button"),
@@ -184,9 +186,11 @@ $register_ids(EditorPauseLayer) {
             menu->getChildByID("reset-unused-button"),
             menu->getChildByID("uncheck-portals-button")
         );
+        #ifdef GEODE_IS_DESKTOP
         if (auto keysBtn = actionsMenu->getChildByID("keys-button")) {
             keysBtn->setLayoutOptions(AxisLayoutOptions::create()->setPrevGap(10.f));
         }
+        #endif
         actionsMenu->setContentSize({ 100.f, 290.f });
         actionsMenu->setPositionY(155.f);
         actionsMenu->updateLayout();
