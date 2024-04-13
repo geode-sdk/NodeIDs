@@ -208,7 +208,7 @@ $register_ids(MoreOptionsLayer) {
     };
 
     if (auto optionsMenu = m_mainLayer->getChildByID("options-options-layer")) {
-        auto nodes = CCArrayExt<CCLabelBMFont*>(otherMenu->getChildren());
+        auto nodes = CCArrayExt<CCLabelBMFont*>(optionsMenu->getChildren());
 
         for (int i = 0; i < nodes.size(); i++) {
             nodes[i]->setID(optionsMenuNodeNames.at(i) + "-label");
