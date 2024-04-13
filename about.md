@@ -19,7 +19,9 @@ Has IDs for:
 - GauntletNode
 - GauntletSelectLayer
 - GJCommentListLayer
+- GJDropDownLayer
 - GJGarageLayer
+- GJListLayer
 - GJScoreCell
 - InfoLayer
 - LeaderboardsLayer

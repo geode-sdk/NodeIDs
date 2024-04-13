@@ -145,22 +145,25 @@ $register_ids(LevelInfoLayer) {
                 ->setAxisReverse(true)
         );
 
-        auto GM = GameManager::sharedState();
-        auto GJA = GJAccountManager::sharedState();
-        size_t leftMenuIdx = 0;
-        if(GM->m_hasRP == 1 || GM->m_hasRP == 2) {
-            setIDSafe(leftSideMenu, leftMenuIdx, "mod-rate-button");
-            leftMenuIdx++;
+        if(auto modRateBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_starBtnMod_001.png")) {
+            modRateBtn->setID("mod-rate-button");
         }
 
-        if(GM->m_hasRP > 0) {
-            setIDSafe(menu, menu->getChildrenCount() - 1, "delete-button");
-        }else if(GM->m_playerUserID == m_level->m_userID || (GJA->m_accountID == m_level->m_accountID && GJA->m_accountID != 0)) {
-            setIDSafe(leftSideMenu, leftMenuIdx, "delete-button");
-            leftMenuIdx++;
+        if(auto deleteServerBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_deleteServerBtn_001.png")) {
+            deleteServerBtn->setID("delete-button");
         }
-        //if above if OR if password != 0 (the 2nd condition is inlined in some weird way into the addChild call)
-        setIDSafe(leftSideMenu, leftMenuIdx, "copy-button");
+
+        if(auto deleteServerBtn = getChildBySpriteFrameName(menu, "GJ_deleteServerBtn_001.png")) {
+            deleteServerBtn->setID("delete-server-button");
+        }
+
+        if(auto copyBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_duplicateBtn_001.png")) {
+            copyBtn->setID("copy-button");
+        }
+
+        if(auto copyBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_duplicateLockedBtn_001.png")) {
+            copyBtn->setID("copy-button");
+        }
 
         if(auto btn = leftSideMenu->getChildByID("mod-rate-button")) btn->setZOrder(-1);
         if(auto btn = leftSideMenu->getChildByID("delete-button")) btn->setZOrder(-2);
