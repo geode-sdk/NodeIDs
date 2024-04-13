@@ -4,7 +4,8 @@
 * Added GauntletSelectLayer (thanks @SpaghettDev and @ninXout)
 * Added GauntletNode, LevelPage, LevelSelectLayer and MoreOptionsLayer (thanks @SpaghettDev)
 * Added GJDropDownLayer and GJListLayer (thanks @kynex7510)
-* Added layouts and menus to LevelSearchLayer (#thanks @Alphalaneous)
+* Added layouts and menus to LevelSearchLayer (thanks @Alphalaneous)
+* Added more PlayLayer IDs (thanks @Prevter)
 * Fixed EditorPauseLayer on mobile
 * Fixed LevelInfoLayer misalignments
 
