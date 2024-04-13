@@ -24,7 +24,7 @@ $register_ids(MoreOptionsLayer) {
         "audio-options-layer",
         "other-options-layer",
 #ifdef GEODE_IS_MACOS
-        "options-options-layer"
+        "options-options-layer",
 #endif
         "music-offset-label",
         "music-offset-background",
