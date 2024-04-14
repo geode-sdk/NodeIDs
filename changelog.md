@@ -1,4 +1,7 @@
 # Node IDs Changelog
+## v1.9.1
+* Updated EditorUI positioning logic to fix mod compatibility regressions
+
 ## v1.9.0
 * Added batch-layer for GJBaseGameLayer
 * Added GauntletSelectLayer (thanks @SpaghettDev and @ninXout)

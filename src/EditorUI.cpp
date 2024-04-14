@@ -125,9 +125,8 @@ $register_ids(EditorUI) {
             menu->getChildByID("zoom-out-button"),
             menu->getChildByID("zoom-in-button")
         );
-        zoomMenu->setAnchorPoint({0.5f, 1.f});
-        zoomMenu->setPositionY(playTestMenu->getPositionY() - 30);
         zoomMenu->setContentSize({ 50.f, zoomMenuHeight });
+        zoomMenu->setPositionY(playTestMenu->getPositionY() - 30 - (zoomMenu->getContentHeight() / 2));
         zoomMenu->updateLayout();
 
         auto linkMenu = detachAndCreateMenu(
@@ -140,9 +139,8 @@ $register_ids(EditorUI) {
             menu->getChildByID("unlink-button"),
             menu->getChildByID("link-button")
         );
-        linkMenu->setAnchorPoint({0.5f, 1.f});
-        linkMenu->setPositionY(playTestMenu->getPositionY() - 30);
         linkMenu->setContentSize({ 125.f, zoomMenuHeight });
+        linkMenu->setPositionY(playTestMenu->getPositionY() - 30 - (linkMenu->getContentHeight() / 2));
         linkMenu->updateLayout();
 
         menu->setPosition(42.f, 45.f);
