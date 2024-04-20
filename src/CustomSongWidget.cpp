@@ -1,40 +1,63 @@
 // #include "AddIDs.hpp"
 
+#include "Geode/binding/InfoAlertButton.hpp"
 #include <Geode/Bindings.hpp>
-// #include <Geode/modify/CustomSongWidget.hpp>
-#include <Geode/utils/cocos.hpp>
+#include <Geode/utils/NodeIDs.hpp>
+#include <Geode/modify/CustomSongWidget.hpp>
 
 using namespace geode::prelude;
+using namespace geode::node_ids;
 
-// $register_ids(CustomSongWidget) {
-//     setIDSafe<CCScale9Sprite>(this, 0, "bg");
-//     setIDSafe<CCSprite>(this, 0, "loading-bar");
-//     setIDSafe<CCLabelBMFont>(this, 0, "song-name-label");
-//     setIDSafe<CCLabelBMFont>(this, 1, "author-name-label");
-//     setIDSafe<CCLabelBMFont>(this, 2, "id-and-size-label");
-//     setIDSafe<CCLabelBMFont>(this, 3, "error-label");
-//     setIDSafe<CCMenu>(this, 0, "buttons-menu");
-//     auto customSongWidgetMenu = this->getChildByID("buttons-menu");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 0, "download-button");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 1, "cancel-button");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 2, "use-button");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 3, "refresh-button");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 4, "play-song-button");
-//     setIDSafe<CCMenuItemSpriteExtra>(customSongWidgetMenu, 5, "more-button");
-// };
+$register_ids(CustomSongWidget) {
+    setIDSafe<CCScale9Sprite>(this, 0, "bg");
+    setIDSafe<CCSprite>(this, 0, "loading-bar");
+    m_songLabel->setID("song-name-label");
+    m_artistLabel->setID("artist-label");
+    m_songIDLabel->setID("id-and-size-label");
+    m_errorLabel->setID("error-label");
+    m_buttonMenu->setID("buttons-menu");
+    m_downloadBtn->setID("download-button");
+    m_cancelDownloadBtn->setID("cancel-button");
+    m_selectSongBtn->setID("use-button");
+    m_getSongInfoBtn->setID("get-song-info-button");
+    m_playbackBtn->setID("play-song-button");
+    m_moreBtn->setID("more-button");
+    m_deleteBtn->setID("delete-button");
+    setIDSafe<InfoAlertButton>(m_buttonMenu, 0, "info-button");
+};
 
-// struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
-//     static void onModify(auto& self) {
-//         if (!self.setHookPriority("CustomSongWidget::init", GEODE_ID_PRIORITY)) {
-//             log::warn("Failed to set CustomSongWidget::init hook priority, node IDs may not work properly");
-//         }
-//     }
+struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
+    static void onModify(auto& self) {
+        if (!self.setHookPriority("CustomSongWidget::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set CustomSongWidget::init hook priority, node IDs may not work properly");
+        }
+    }
 
-//     bool init(SongInfoObject* s, LevelSettingsObject* l, bool b1, bool b2, bool b3, bool b4, bool hideBackground) {
-//         if (!CustomSongWidget::init(s, l, b1, b2, b3, b4, hideBackground)) return false;
+    bool init(
+        SongInfoObject* songInfo,
+        CustomSongDelegate* songDelegate,
+        bool showSongSelect,
+        bool showPlayMusic,
+        bool showDownload,
+        bool isRobtopSong,
+        bool unk,
+        bool isMusicLibrary          
+    ) {
+        if (!CustomSongWidget::init(
+            songInfo,
+            songDelegate,
+            showSongSelect,
+            showPlayMusic,
+            showDownload,
+            isRobtopSong,
+            unk,
+            isMusicLibrary
+        )) {
+            return false;
+        }
 
-//         NodeIDs::get()->provide(this);
+        NodeIDs::get()->provide(this);
 
-//         return true;
-//     }
-// };
+        return true;
+    }
+};
