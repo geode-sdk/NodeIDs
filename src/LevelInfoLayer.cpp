@@ -57,10 +57,8 @@ $register_ids(LevelInfoLayer) {
 
     /*if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
     if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");*/
-#ifndef GEODE_IS_IOS // IOS TODO
     if(m_difficultySprite) m_difficultySprite->setID("difficulty-sprite");
     if(m_songWidget) m_songWidget->setID("custom-songs-widget");
-#endif
     if(m_circle) m_circle->setID("loading-circle");
 
     size_t coinIdx = 1;
