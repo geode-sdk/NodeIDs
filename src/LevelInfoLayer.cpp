@@ -57,7 +57,7 @@ $register_ids(LevelInfoLayer) {
 
     if (m_level->m_dailyID > 0 || m_level->m_gauntletLevel) {
         setIDSafe<CCLabelBMFont>(this, 6 + labelOffset, "diamond-label");
-        setIDSafe<CCSprite>(this, 9 + iconOffset, "stars-icon");
+        setIDSafe<CCSprite>(this, 9 + iconOffset, "diamond-icon");
         labelOffset++;
         iconOffset++;
     }
