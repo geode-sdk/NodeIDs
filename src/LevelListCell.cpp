@@ -45,8 +45,9 @@ $register_ids(LevelListCell) {
                 if (getChildByIDRecursive("diamond-icon")) {
                     mainLayerChildren[3]->setID("featured-icon");
                     mainLayerChildren[6]->setID("progress-bar");
-                    mainLayerChildren[13]->setID("progress-bar-diamond");
-                    
+                    if (getChildByIDRecursive("completion-icon")) {
+                        mainLayerChildren[13]->setID("progress-bar-diamond");
+                    }
                 }
             } else {
                 mainLayerChildren[5]->setID("info-sprite");
