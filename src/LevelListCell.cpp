@@ -12,6 +12,7 @@ $register_ids(LevelListCell) {
     
     if (auto mainLayer = setIDSafe<CCLayer>(this, 1, "main-layer")) {
         if (auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")) {
+            setIDSafe<CCSprite>(mainLayer, 0, "difficulty-sprite");
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 0, "view-button");
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 1, "creator-name");
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 2, "info-button");
@@ -23,6 +24,9 @@ $register_ids(LevelListCell) {
             }
             if (auto completionIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_completesIcon_001.png")) {
                 completionIcon->setID("completion-icon");
+            }
+            if (auto featuredIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_featuredCoin_001.png")) {
+                featuredIcon->setID("featured-icon");
             }
             if (auto diamondIcon = ::getChildBySpriteFrameName(mainLayer, "diamond_small01_001.png")) {
                 diamondIcon->setID("diamond-icon");
@@ -39,17 +43,24 @@ $register_ids(LevelListCell) {
                 setIDSafe<CCLabelBMFont>(mainLayer, 3, "likes-label");
             }
             auto mainLayerChildren = CCArrayExt<CCNode*>(mainLayer->getChildren());
-            mainLayerChildren[0]->setID("difficulty-sprite");
-            mainLayerChildren[3]->setID("progress-bar");
-            if (getChildByIDRecursive("downloads-icon") && getChildByIDRecursive("likes-icon")) {
-                if (getChildByIDRecursive("diamond-icon")) {
-                    mainLayerChildren[3]->setID("featured-icon");
-                    mainLayerChildren[6]->setID("progress-bar");
-                    if (getChildByIDRecursive("completion-icon")) {
-                        mainLayerChildren[13]->setID("progress-bar-diamond");
+            for (int i = 0; i < mainLayerChildren.size(); i++) {
+                if (auto theObject = typeinfo_cast<CCLabelBMFont*>(mainLayerChildren[i])) {
+                    if (theObject->getID() == "progress-label") {
+                        if (auto theSprite = typeinfo_cast<CCSprite*>(mainLayerChildren[i - 1])) {
+                            theSprite->setID("progress-bar");
+                            if (getChildByIDRecursive("completion-label")) {
+                                if (auto theOtherSprite = typeinfo_cast<CCSprite*>(mainLayerChildren[12])) {
+                                    if (theOtherSprite->getID() == "") {
+                                        theOtherSprite->setID("completion-diamond");
+                                    }
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
-            } else {
+            }
+            if (!(getChildByIDRecursive("downloads-icon") && getChildByIDRecursive("likes-icon"))) {
                 mainLayerChildren[5]->setID("info-sprite");
                 if (auto theChild = typeinfo_cast<CCLabelBMFont*>(mainLayerChildren[6])) {
                     if (strcmp(theChild->getID().c_str(), "downloads-label") == 0) {
