@@ -92,7 +92,9 @@ $register_ids(LevelListLayer) {
             favoriteButton->setID("favorite-button");
         }
         auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
-        mainMenuChildren[1]->setID("creator-info-menu");
+        if (strcmp("", mainMenuChildren[1]->getID().c_str()) == 0) {
+            mainMenuChildren[1]->setID("creator-info-menu");
+        }
     }
     auto children = CCArrayExt<CCNode*>(getChildren());
     for (int i = 0; i < children.size(); i++) {
