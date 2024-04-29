@@ -14,19 +14,50 @@ $register_ids(LevelListCell) {
         if (auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")) {
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 0, "view-button");
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 1, "creator-name");
-            setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 2, "info-icon");
-        }
-        if (auto diamondIcon = ::getChildBySpriteFrameName(mainLayer, "diamond_small01_001.png")) {
-            diamondIcon->setID("diamond-icon");
-        }
-        if (auto downloadsIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_downloadsIcon_001.png")) {
-            downloadsIcon->setID("downloads-icon");
-        }
-        if (auto likesIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_likesIcon_001.png")) {
-            likesIcon->setID("likes-icon");
-        }
-        if (auto featuredIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_featuredIcon_001.png")) {
-            featuredIcon->setID("featured-icon");
+            setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 2, "info-button");
+            if (auto downloadsIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_downloadsIcon_001.png")) {
+                downloadsIcon->setID("downloads-icon");
+            }
+            if (auto likesIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_likesIcon_001.png")) {
+                likesIcon->setID("likes-icon");
+            }
+            if (auto diamondIcon = ::getChildBySpriteFrameName(mainLayer, "diamond_small01_001.png")) {
+                diamondIcon->setID("diamond-icon");
+                setIDSafe<CCLabelBMFont>(mainLayer, 0, "diamond-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 1, "list-name-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 2, "progress-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 3, "downloads-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 4, "likes-label");
+            } else {
+                setIDSafe<CCLabelBMFont>(mainLayer, 0, "list-name-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 1, "progress-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 2, "downloads-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 3, "likes-label");
+            }
+            auto mainLayerChildren = CCArrayExt<CCNode*>(mainLayer->getChildren());
+            mainLayerChildren[0]->setID("difficulty-sprite");
+            mainLayerChildren[3]->setID("progress-bar");
+            if (getChildByIDRecursive("downloads-icon") && getChildByIDRecursive("likes-icon")) {
+                if (getChildByIDRecursive("diamond-icon")) {
+                    mainLayerChildren[3]->setID("featured-icon");
+                    mainLayerChildren[6]->setID("progress-bar");
+                }
+            } else {
+                mainLayerChildren[5]->setID("info-sprite");
+                for (int i = 0; i < mainLayerChildren.size(); i++) {
+                    if (auto theChild = typeinfo_cast<CCLabelBMFont*>(mainLayerChildren[i])) {
+                        if (strcmp(theChild->getID().c_str(), "downloads-label") == 0) {
+                            if (strcmp(theChild->getString(), "Unpublished") == 0) {
+                                theChild->setID("unpublished-label");
+                            } else if (strcmp(theChild->getString(), "Uploaded") == 0) {
+                                theChild->setID("uploaded-label");
+                            } else {
+                                theChild->setID("unknown-info-label");
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

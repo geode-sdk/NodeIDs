@@ -13,9 +13,9 @@ $register_ids(ShardsPage) {
         if (auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")) {
             int offset = 0;
             setIDSafe<CCMenuItemSpriteExtra>(mainMenu, offset, "close-button");
-            auto mainMenuChildren = mainMenu->getChildren();
-            for (int i = offset + 1; i < mainMenu->getChildrenCount(); i++) {
-                if (auto unlockable = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren->objectAtIndex(i))) {
+            auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
+            for (int i = offset + 1; i < mainMenuChildren.size(); i++) {
+                if (auto unlockable = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren[i])) {
                     std::string shardType = "unknown";
                     if (unlockable->getTag() == 0) { shardType = "fire"; }
                     else if (unlockable->getTag() == 1) { shardType = "ice"; }
@@ -47,9 +47,9 @@ $register_ids(ShardsPage) {
             setIDSafe<CCMenuItemSpriteExtra>(arrowButtonsMenu, 0, "prev-button");
             setIDSafe<CCMenuItemSpriteExtra>(arrowButtonsMenu, 1, "next-button");
         }
-        auto mainLayerChildren = mainLayer->getChildren();
-        for (int j = mainLayer->getChildrenCount(); j-- > 0; ) {
-            if (auto tierSprite = typeinfo_cast<CCSprite*>(mainLayerChildren->objectAtIndex(j))) {
+        auto mainLayerChildren = CCArrayExt<CCNode*>(mainLayer->getChildren());
+        for (int i = mainLayerChildren.size(); i-- > 0; ) {
+            if (auto tierSprite = typeinfo_cast<CCSprite*>(mainLayerChildren[i])) {
                 tierSprite->setID("shards-tier-sprite");
                 break; // only set *one* of the sprites to that specific node ID
             }

@@ -12,9 +12,9 @@ $register_ids(DemonFilterSelectLayer) {
         setIDSafe<CCScale9Sprite>(mainLayer, 0, "background");
         setIDSafe<CCLabelBMFont>(mainLayer, 0, "demon-filter-text");
         if (auto demonFilters = setIDSafe<CCMenu>(mainLayer, 0, "demon-filters")) {
-            auto demonFiltersChildren = demonFilters->getChildren();
-            for (int i = 0; i < demonFilters->getChildrenCount(); i++) {
-                if (auto child = typeinfo_cast<CCMenuItemSpriteExtra*>(demonFiltersChildren->objectAtIndex(i))) {
+            auto demonFiltersChildren = CCArrayExt<CCNode*>(demonFilters->getChildren());
+            for (int i = 0; i < demonFiltersChildren.size(); i++) {
+                if (auto child = typeinfo_cast<CCMenuItemSpriteExtra*>(demonFiltersChildren[i])) {
                     if (child->getTag() != -1) {
                         std::string prefix = "unknown";
                         if (child->getTag() == 0) { prefix = "all"; }

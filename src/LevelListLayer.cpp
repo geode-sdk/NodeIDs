@@ -74,7 +74,7 @@ $register_ids(LevelListLayer) {
             shareButton->setID("share-button");
         }
         if (auto infoButton = ::getChildBySpriteFrameName(mainMenu, "GJ_infoIcon_001.png")) {
-            infoButton->setID("info-button");
+            infoButton->setID("info-icon");
         }
         if (auto likeButton = ::getChildBySpriteFrameName(mainMenu, "GJ_like2Btn_001.png")) {
             likeButton->setID("like-button");
@@ -91,10 +91,10 @@ $register_ids(LevelListLayer) {
         if (auto favoriteButton = ::getChildBySpriteFrameName(mainMenu, "gj_heartOn_001.png")) {
             favoriteButton->setID("favorite-button");
         }
-        auto mainMenuChildren = mainMenu->getChildren();
-        for (int i = 0; i < mainMenu->getChildrenCount(); i++) {
-            if (auto theChild = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren->objectAtIndex(i))) {
-                if (auto theLabel = typeinfo_cast<CCLabelBMFont*>(theChild->getChildren()->objectAtIndex(0))) {
+        auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
+        for (int i = 0; i < mainMenuChildren.size(); i++) {
+            if (auto theChild = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren[i])) {
+                if (auto theLabel = typeinfo_cast<CCLabelBMFont*>(CCArrayExt<CCNode*>(theChild->getChildren())[0])) {
                     theLabel->setID("creator-name");
                     theChild->setID("creator-info-menu");
                     break;
@@ -102,22 +102,24 @@ $register_ids(LevelListLayer) {
             }
         }
     }
-    
-    auto children = getChildren();
-    for (int j = 0; j < getChildrenCount(); j++) {
-        auto theObject = typeinfo_cast<CCNode*>(children->objectAtIndex(j));
+    auto children = CCArrayExt<CCNode*>(getChildren());
+    for (int i = 0; i < children.size(); i++) {
+        auto theObject = typeinfo_cast<CCNode*>(children[i]);
         if (auto theSprite = typeinfo_cast<CCSprite*>(theObject)) {
             if (strcmp(theSprite->getID().c_str(), "bottom-left-corner") == 0) {
-                typeinfo_cast<CCSprite*>(children->objectAtIndex(j + 1))->setID("bottom-right-corner");
+                typeinfo_cast<CCSprite*>(children[i + 1])->setID("bottom-right-corner");
             }
         } else if (auto ccLabelBMFont = typeinfo_cast<CCLabelBMFont*>(theObject)) {
             if (strcmp(ccLabelBMFont->getID().c_str(), "progress-label") == 0 && !getChildByIDRecursive("list-title-input-bg")) {
-                typeinfo_cast<CCSprite*>(children->objectAtIndex(j - 1))->setID("progress-bar");
+                typeinfo_cast<CCSprite*>(children[i - 1])->setID("progress-bar");
             }
         }
     }
-    for (int k = 0; k < getChildrenCount(); k++) {
-        auto theObject = typeinfo_cast<CCNode*>(children->objectAtIndex(k));
+    
+    // needed a second forloop to tie up loose ends; making it part of a single forloop = more prone to crashes
+    
+    for (int i = 0; i < getChildrenCount(); i++) {
+        auto theObject = typeinfo_cast<CCNode*>(children[i]);
         if (strcmp(theObject->getID().c_str(), "") == 0) {
             if (!getChildByIDRecursive("list-title-input-bg")) {
                 theObject->setID("difficulty-sprite");
