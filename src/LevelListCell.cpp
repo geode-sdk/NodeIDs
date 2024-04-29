@@ -21,6 +21,9 @@ $register_ids(LevelListCell) {
             if (auto likesIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_likesIcon_001.png")) {
                 likesIcon->setID("likes-icon");
             }
+            if (auto completionIcon = ::getChildBySpriteFrameName(mainLayer, "GJ_completesIcon_001.png")) {
+                completionIcon->setID("completion-icon");
+            }
             if (auto diamondIcon = ::getChildBySpriteFrameName(mainLayer, "diamond_small01_001.png")) {
                 diamondIcon->setID("diamond-icon");
                 setIDSafe<CCLabelBMFont>(mainLayer, 0, "diamond-label");
@@ -28,6 +31,7 @@ $register_ids(LevelListCell) {
                 setIDSafe<CCLabelBMFont>(mainLayer, 2, "progress-label");
                 setIDSafe<CCLabelBMFont>(mainLayer, 3, "downloads-label");
                 setIDSafe<CCLabelBMFont>(mainLayer, 4, "likes-label");
+                setIDSafe<CCLabelBMFont>(mainLayer, 5, "completion-label");
             } else {
                 setIDSafe<CCLabelBMFont>(mainLayer, 0, "list-name-label");
                 setIDSafe<CCLabelBMFont>(mainLayer, 1, "progress-label");
@@ -41,19 +45,19 @@ $register_ids(LevelListCell) {
                 if (getChildByIDRecursive("diamond-icon")) {
                     mainLayerChildren[3]->setID("featured-icon");
                     mainLayerChildren[6]->setID("progress-bar");
+                    mainLayerChildren[13]->setID("progress-bar-diamond");
+                    
                 }
             } else {
                 mainLayerChildren[5]->setID("info-sprite");
-                for (int i = 0; i < mainLayerChildren.size(); i++) {
-                    if (auto theChild = typeinfo_cast<CCLabelBMFont*>(mainLayerChildren[i])) {
-                        if (strcmp(theChild->getID().c_str(), "downloads-label") == 0) {
-                            if (strcmp(theChild->getString(), "Unpublished") == 0) {
-                                theChild->setID("unpublished-label");
-                            } else if (strcmp(theChild->getString(), "Uploaded") == 0) {
-                                theChild->setID("uploaded-label");
-                            } else {
-                                theChild->setID("unknown-info-label");
-                            }
+                if (auto theChild = typeinfo_cast<CCLabelBMFont*>(mainLayerChildren[6])) {
+                    if (strcmp(theChild->getID().c_str(), "downloads-label") == 0) {
+                        if (strcmp(theChild->getString(), "Unpublished") == 0) {
+                            theChild->setID("unpublished-label");
+                        } else if (strcmp(theChild->getString(), "Uploaded") == 0) {
+                            theChild->setID("uploaded-label");
+                        } else {
+                            theChild->setID("unknown-info-label");
                         }
                     }
                 }
