@@ -9,6 +9,8 @@ using namespace geode::node_ids;
 
 $register_ids(LevelListLayer) {
     setIDSafe<CCSprite>(this, 0, "background");
+    setIDSafe<CCSprite>(this, 1, "bottom-left-corner");
+    setIDSafe<CCSprite>(this, 2, "bottom-right-corner");
     
     setIDSafe<CCScale9Sprite>(this, 0, "list-title-input-bg");
     setIDSafe<CCTextInputNode>(this, 0, "list-title-input");
@@ -17,12 +19,13 @@ $register_ids(LevelListLayer) {
     
     setIDSafe<TextArea>(this, 0, "no-internet-label");
     
-    if (!getChildByIDRecursive("list-title-input-bg") && !getChildByIDRecursive("list-title-input")) {
+    bool isPublishedList = (!getChildByIDRecursive("list-title-input-bg") && !getChildByIDRecursive("list-title-input"));
+    
+    if (isPublishedList) {
         setIDSafe<CCLabelBMFont>(this, 0, "title-label");
         setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
         setIDSafe<CCLabelBMFont>(this, 2, "downloads-label");
         setIDSafe<CCLabelBMFont>(this, 3, "likes-label");
-        setIDSafe<CCLabelBMFont>(this, 4, "diamonds-label");
     } else {
         if (!getChildByIDRecursive("list-title-input")) {
             setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
@@ -40,15 +43,16 @@ $register_ids(LevelListLayer) {
     }
     if (auto diamondsIcon = ::getChildBySpriteFrameName(this, "GJ_diamondsIcon_001.png")) {
         diamondsIcon->setID("diamonds-icon");
-    }
-    if (auto theCorner = ::getChildBySpriteFrameName(this, "GJ_sideArt_001.png")) {
-        if (theCorner->getAnchorPoint() == ccp(0.f, 0.f)) {
-            theCorner->setID("bottom-left-corner");
-        }
+        setIDSafe<CCLabelBMFont>(this, 4, "diamonds-label");
+    } else if (auto completetionIcon = ::getChildBySpriteFrameName(this, "GJ_completesIcon_001.png")) {
+        completetionIcon->setID("completion-icon");
+        setIDSafe<CCLabelBMFont>(this, 4, "completion-label");
     }
     if (auto featuredIcon = ::getChildBySpriteFrameName(this, "GJ_featuredCoin_001.png")) {
         featuredIcon->setID("featured-icon");
     }
+    
+    bool isIncompleteRatedList = getChildByIDRecursive("completion-icon");
     
     if (auto mainMenu = setIDSafe<CCMenu>(this, 0, "main-menu")) {
         setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 0, "back-menu");
@@ -91,35 +95,48 @@ $register_ids(LevelListLayer) {
         if (auto favoriteButton = ::getChildBySpriteFrameName(mainMenu, "gj_heartOn_001.png")) {
             favoriteButton->setID("favorite-button");
         }
-        auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
-        if (strcmp("", mainMenuChildren[1]->getID().c_str()) == 0) {
-            mainMenuChildren[1]->setID("creator-info-menu"); // avoid accidentally setting wrong ID for delete-button
+        if (isPublishedList) {
+            auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
+            if (typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren[1])) {
+                mainMenuChildren[1]->setID("creator-name");
+                // known issue: after finishing a published + rated level list, mainMenuChildren[8] loses its ID. not sure why.
+                if (isIncompleteRatedList && mainMenuChildren[8]->getID() == "") {
+                    if (auto menu = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren[8])) {
+                        menu->setID("claim-rewards-menu");
+                        if (auto child = menu->getChildren()->objectAtIndex(0)) {
+                            if (auto menuChild = typeinfo_cast<CCNode*>(child)) {
+                                menuChild->setID("claim-rewards-child");
+                                if (auto grandchild = menuChild->getChildren()->objectAtIndex(0)) {
+                                    if (auto menuGrandchild = typeinfo_cast<CCNode*>(grandchild)) {
+                                        menuGrandchild->setID("claim-rewards-grandchild");
+                                        auto grandchildren = CCArrayExt<CCNode*>(menuGrandchild->getChildren());
+                                        grandchildren[0]->setID("claim-rewards-sprite");
+                                        grandchildren[1]->setID("diamonds-sprite");
+                                        grandchildren[2]->setID("diamonds-label");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     auto children = CCArrayExt<CCNode*>(getChildren());
-    for (int i = 0; i < children.size(); i++) {
-        auto theObject = typeinfo_cast<CCNode*>(children[i]);
-        if (auto theSprite = typeinfo_cast<CCSprite*>(theObject)) {
-            if (strcmp(theSprite->getID().c_str(), "bottom-left-corner") == 0) {
-                typeinfo_cast<CCSprite*>(children[i + 1])->setID("bottom-right-corner");
-            }
-        } else if (auto ccLabelBMFont = typeinfo_cast<CCLabelBMFont*>(theObject)) {
-            if (strcmp(ccLabelBMFont->getID().c_str(), "progress-label") == 0 && !getChildByIDRecursive("list-title-input-bg")) {
-                typeinfo_cast<CCSprite*>(children[i - 1])->setID("progress-bar");
+    if (isPublishedList) {
+        if (children[5]->getID() == "" && typeinfo_cast<CCSprite*>(children[5])) {
+            children[5]->setID("difficulty-sprite");
+            children[9]->setID("progress-bar");
+            if (isIncompleteRatedList) {
+                children[15]->setID("completion-diamond");
             }
         }
-    }
-    
-    // needed a second forloop to tie up loose ends; making it part of a single forloop = more prone to crashes
-    
-    for (int i = 0; i < getChildrenCount(); i++) {
-        auto theObject = typeinfo_cast<CCNode*>(children[i]);
-        if (strcmp(theObject->getID().c_str(), "") == 0) {
-            if (!getChildByIDRecursive("list-title-input-bg")) {
-                theObject->setID("difficulty-sprite");
-            } else {
-                theObject->setID("progress-bar");
-            }
+    } else {
+        if (!getChildByIDRecursive("list-title-input")) {
+            setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
+            setIDSafe<CCLabelBMFont>(this, 0, "published-list-label");
+        } else if (children[8]->getID() == "" && typeinfo_cast<CCSprite*>(children[8])) {
+            children[8]->setID("progress-bar");
         }
     }
 }
