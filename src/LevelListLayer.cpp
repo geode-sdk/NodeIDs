@@ -83,7 +83,7 @@ $register_ids(LevelListLayer) {
             likeButton->setID("like-button");
         }
         if (auto rateButton = ::getChildBySpriteFrameName(mainMenu, "GJ_plainBtn_001.png")) {
-            rateButton->setID("rate-button");
+            rateButton->setID("rate-button"); // apparently the parent sprite for the button that sets a list's rating is blank? that's cool
         }
         if (auto favoriteButton = ::getChildBySpriteFrameName(mainMenu, "gj_heartOff_001.png")) {
             favoriteButton->setID("favorite-button");
@@ -93,7 +93,7 @@ $register_ids(LevelListLayer) {
         }
         auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
         if (strcmp("", mainMenuChildren[1]->getID().c_str()) == 0) {
-            mainMenuChildren[1]->setID("creator-info-menu");
+            mainMenuChildren[1]->setID("creator-info-menu"); // avoid accidentally setting wrong ID for delete-button
         }
     }
     auto children = CCArrayExt<CCNode*>(getChildren());
