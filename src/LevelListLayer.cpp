@@ -35,15 +35,15 @@ $register_ids(LevelListLayer) {
 		}
 	}
 	
-	std::map<std::string, std::string> frameToNodeID = {
+	std::map<const char*, const char*> frameToNodeID = {
 		{ "GJ_likesIcon_001.png", "likes-icon" },
 		{ "GJ_downloadsIcon_001.png", "downloads-icon" },
 		{ "GJ_featuredCoin_001.png", "featured-icon" }
 	};
 	
 	for (auto &entry : frameToNodeID) {
-		if (auto icon = ::getChildBySpriteFrameName(this, entry.first.c_str())) {
-			icon->setID(entry.second.c_str());
+		if (auto icon = ::getChildBySpriteFrameName(this, entry.first)) {
+			icon->setID(entry.second);
 		}
 	}
 	
@@ -60,7 +60,7 @@ $register_ids(LevelListLayer) {
 	if (auto mainMenu = setIDSafe<CCMenu>(this, 0, "main-menu")) {
 		setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 0, "back-menu");
 	
-		std::map<std::string, std::string> buttonToNodeID = {
+		std::map<const char*, const char*> buttonToNodeID = {
 			{ "GJ_deleteBtn_001.png", "delete-button" },
 			{ "GJ_updateBtn_001.png", "refresh-button" },
 			{ "GJ_chatBtn_001.png", "desc-button" },
@@ -77,8 +77,8 @@ $register_ids(LevelListLayer) {
 		};
 	
 		for (auto &entry : buttonToNodeID) {
-			if (auto icon = ::getChildBySpriteFrameName(mainMenu, entry.first.c_str())) {
-				icon->setID(entry.second.c_str());
+			if (auto icon = ::getChildBySpriteFrameName(mainMenu, entry.first)) {
+				icon->setID(entry.second);
 			}
 		}
 		
@@ -120,9 +120,10 @@ $register_ids(LevelListLayer) {
 		}
 	} else {
 		if (!getChildByIDRecursive("list-title-input")) {
-			setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
 			setIDSafe<CCLabelBMFont>(this, 0, "published-list-label");
-		} else if (children[8]->getID() == "" && typeinfo_cast<CCSprite*>(children[8])) {
+			setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
+		}
+		if (children[8]->getID() == "" && typeinfo_cast<CCSprite*>(children[8])) {
 			children[8]->setID("progress-bar");
 		}
 	}

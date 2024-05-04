@@ -17,7 +17,7 @@ $register_ids(LevelListCell) {
 			setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 1, "creator-name");
 			setIDSafe<CCMenuItemSpriteExtra>(mainMenu, 2, "info-button");
 			
-			std::map<std::string, std::string> frameToNodeID = {
+			std::map<const char*, const char*> frameToNodeID = {
 				{ "GJ_likesIcon_001.png", "likes-icon" },
 				{ "GJ_downloadsIcon_001.png", "downloads-icon" },
 				{ "GJ_featuredCoin_001.png", "featured-icon" },
@@ -25,8 +25,8 @@ $register_ids(LevelListCell) {
 			};
 	
 			for (auto &entry : frameToNodeID) {
-				if (auto icon = ::getChildBySpriteFrameName(mainLayer, entry.first.c_str())) {
-					icon->setID(entry.second.c_str());
+				if (auto icon = ::getChildBySpriteFrameName(mainLayer, entry.first)) {
+					icon->setID(entry.second);
 				}
 			}
 			
