@@ -25,7 +25,7 @@ $register_ids(LevelListCell) {
 			};
 	
 			for (auto &entry : frameToNodeID) {
-				if (auto icon = ::getChildBySpriteFrameName(this, entry.first.c_str())) {
+				if (auto icon = ::getChildBySpriteFrameName(mainLayer, entry.first.c_str())) {
 					icon->setID(entry.second.c_str());
 				}
 			}
