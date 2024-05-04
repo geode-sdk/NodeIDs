@@ -77,7 +77,7 @@ $register_ids(LevelListLayer) {
 		};
 	
 		for (auto &entry : buttonToNodeID) {
-			if (auto icon = ::getChildBySpriteFrameName(this, entry.first.c_str())) {
+			if (auto icon = ::getChildBySpriteFrameName(mainMenu, entry.first.c_str())) {
 				icon->setID(entry.second.c_str());
 			}
 		}
