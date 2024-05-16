@@ -1,4 +1,11 @@
 # Node IDs Changelog
+
+## v1.10.0
+ * Added CustomSongWidget (thanks @Fleeym)
+ * Added ShardsPage, DemonFilterSelectLayer, LevelListLayer, LevelListCell & MoreSearchLayer (thanks @RayDeeUx, [#50](https://github.com/geode-sdk/NodeIDs/pull/50))
+ * Added GJGroundLayer & MenuGameLayer (thanks @TheSillyDoggo, [#56](https://github.com/geode-sdk/NodeIDs/pull/56))
+ * Tweak the positioning of `bottom-menu` in `CreatorLayer` (@acaruso-xx, [#53](https://github.com/geode-sdk/NodeIDs/pull/53))
+
 ## v1.9.1
 * Updated EditorUI positioning logic to fix mod compatibility regressions
 
