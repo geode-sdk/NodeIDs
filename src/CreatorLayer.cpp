@@ -107,17 +107,20 @@ $register_ids(CreatorLayer) {
                 ->setAxisAlignment(AxisAlignment::End)
         );
     }
+    
     // add a menu to the bottom left corner that is empty but prolly a place mods 
     // want to add stuff to
-    auto menu = CCMenu::create();
-    menu->setPosition(24.f, 0.f + 125.f / 2);
-    menu->setID("bottom-left-menu");
-    menu->setContentSize({ 60.f, 125.f });
-    menu->setLayout(
+    auto bottomLeftMenu = CCMenu::create();
+    bottomLeftMenu->setPosition(3, 3);
+    bottomLeftMenu->setID("bottom-left-menu");
+    bottomLeftMenu->setAnchorPoint({0, 0});
+    bottomLeftMenu->setZOrder(1);
+    bottomLeftMenu->setContentSize({ 40.f, winSize.height/2 });
+    bottomLeftMenu->setLayout(
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::Start)
     );
-    this->addChild(menu);
+    this->addChild(bottomLeftMenu);
 }
 struct CreatorLayerIDs : Modify<CreatorLayerIDs, CreatorLayer> {
     static void onModify(auto& self) {
