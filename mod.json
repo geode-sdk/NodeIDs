@@ -1,9 +1,10 @@
 {
-	"geode": "2.0.0-beta.25",
+	"geode": "2.0.0-beta.26",
 	"gd": {
 		"win": "2.204",
 		"android": "2.205",
-		"mac": "2.200"
+		"mac": "2.200",
+		"ios": "2.205"
 	},
 	"version": "v1.9.2",
 	"id": "geode.node-ids",
