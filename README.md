@@ -15,7 +15,7 @@ Add the mod to your `mod.json`:
     "dependencies": [
         {
             "id": "geode.node-ids",
-            "version": "v1.5.0",
+            "version": "v1.10.0",
             "importance": "required"
         }
     ]
