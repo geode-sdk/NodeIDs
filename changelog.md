@@ -1,5 +1,8 @@
 # Node IDs Changelog
 
+## v1.10.1
+ * Temporarily remove LevelListLayer IDs as there were no layouts which will need to be added due to API breaks
+
 ## v1.10.0
  * Added CustomSongWidget (thanks @Fleeym)
  * Added ShardsPage, DemonFilterSelectLayer, LevelListLayer, LevelListCell & MoreSearchLayer (thanks @RayDeeUx, [#50](https://github.com/geode-sdk/NodeIDs/pull/50))
