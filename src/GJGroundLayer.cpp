@@ -12,8 +12,7 @@ $register_ids(GJGroundLayer) {
     setIDSafe<CCSprite>(this, 0, "line");
     setIDSafe<CCSprite>(this, 1, "shadow-left");
     setIDSafe<CCSprite>(this, 2, "shadow-right");
-    setIDSafe<CCSpriteBatchNode>(this, 0, "ground-sprites");
-    setIDSafe<CCSpriteBatchNode>(this, 4, "ground-sprites-2");
+    setIDs(this, 3, "ground-sprites", "ground-sprites-2");
 }
 
 struct GJGroundLayerIDs : Modify<GJGroundLayerIDs, GJGroundLayer> {
