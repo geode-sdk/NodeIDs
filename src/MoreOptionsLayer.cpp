@@ -31,7 +31,7 @@ $register_ids(MoreOptionsLayer) {
         "music-offset-input"
     );
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 10> gameplayMenu1NodeNames{
         "auto-retry", "enable-faster-reset",
         "hide-attempts", "flip-pause-button",
@@ -56,7 +56,7 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 6> gameplayMenu2NodeNames{
         "default-mini-icon", "switch-spider-teleport-color",
         "switch-dash-fire-color", "switch-wave-trail-color",
@@ -79,7 +79,7 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 7> practiceMenuNodeNames{
         "hide-attempts", "enable-auto-checkpoints",
         "enable-quick-checkpoints", "enable-death-effect",
@@ -110,7 +110,7 @@ $register_ids(MoreOptionsLayer) {
     }
 #endif
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 9> performanceMenuNodeNames{
         "enable-smooth-fix", "increase-draw-capacity",
         "enable-low-detail", "disable-high-object-alert",
@@ -140,7 +140,7 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 4> audioMenuNodeNames{
         "disable-song-alert", "no-song-limit",
         "reduce-quality", "audio-fix-01"
@@ -168,7 +168,7 @@ $register_ids(MoreOptionsLayer) {
         }
     }
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     std::array<std::string, 10> otherMenuNodeNames{
         "more-comments", "load-comments",
         "new-completed-filter", "increase-local-levels-per-page",
@@ -217,7 +217,7 @@ $register_ids(MoreOptionsLayer) {
 #endif
 
 
-#ifdef GEODE_IS_ANDROID
+#if defined(GEODE_IS_ANDROID) || defined(GEODE_IS_IOS)
     constexpr std::array<std::pair<int, int>, 6> pageIdxToObjectIdxStartEnd{
         std::make_pair(0, 20),  // 10 togglers * 2 (multiplied by 2 to account for the toggler and the info icon)
         std::make_pair(20, 32), // 6 * 2
