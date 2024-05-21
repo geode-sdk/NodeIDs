@@ -39,6 +39,8 @@ jobs:
       - name: Build the mod
         uses: RoootTheFox/build-geode-mod@main
         with:
+          bindings: hiimjustin000/bindings
+          bindings-ref: patch-2
           combine: true
           target: ${{ matrix.config.target }}
       
