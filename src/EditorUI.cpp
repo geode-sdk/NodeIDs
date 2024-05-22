@@ -217,9 +217,75 @@ $register_ids(EditorUI) {
         deleteFilterMenu->updateLayout();
     }
 
+    auto buttonBarIDs = {
+        "block-tab-bar",
+        "outline-tab-bar",
+        "slope-tab-bar",
+        "hazard-tab-bar",
+        "3d-tab-bar",
+        "portal-tab-bar",
+        "monster-tab-bar",
+        "pixel-tab-bar",
+        "collectible-tab-bar",
+        "icon-tab-bar",
+        "deco-tab-bar",
+        "sawblade-tab-bar",
+        "trigger-tab-bar",
+        "custom-tab-bar",
+        "edit-tab-bar",
+    };
+
+    size_t buttonBarIndex = 0;
+    for (auto id : buttonBarIDs) {
+        if (auto bar = getChildOfType<EditButtonBar>(this, buttonBarIndex++)) {
+            bar->setID(id);
+        }
+    }
+
+    if (auto editBar = static_cast<EditButtonBar*>(this->getChildByID("edit-tab-bar"))) {
+        auto editButtonIDs = {
+            "move-up-small-button",
+            "move-down-small-button",
+            "move-left-small-button",
+            "move-right-small-button",
+            "move-up-button",
+            "move-down-button",
+            "move-left-button",
+            "move-right-button",
+            "move-up-big-button",
+            "move-down-big-button",
+            "move-left-big-button",
+            "move-right-big-button",
+            "move-up-tiny-button",
+            "move-down-tiny-button",
+            "move-left-tiny-button",
+            "move-right-tiny-button",
+            "move-up-half-button",
+            "move-down-half-button",
+            "move-left-half-button",
+            "move-right-half-button",
+            "flip-x-button",
+            "flip-y-button",
+            "rotate-cw-button",
+            "rotate-ccw-button",
+            "rotate-cw-45-button",
+            "rotate-ccw-45-button",
+            "rotate-free-button",
+            "rotate-snap-button",
+            "scale-button",
+            "scale-xy-button",
+            "warp-button",
+        };
+        size_t i = 0;
+        for (auto id : editButtonIDs) {
+            static_cast<CCNode*>(editBar->m_buttonArray->objectAtIndex(i++))->setID(id);
+        }
+    }
+
     if (auto menu = getChildOfType<CCMenu>(this, 2)) {
         menu->setID("build-tabs-menu");
 
+        // todo: maybe form these from buttonBarIDs to avoid duplication?
         setIDs(
             menu,
             0,
