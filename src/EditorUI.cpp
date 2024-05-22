@@ -240,6 +240,7 @@ $register_ids(EditorUI) {
         if (auto bar = getChildOfType<EditButtonBar>(this, buttonBarIndex++)) {
             bar->setID(id);
         }
+        else break;
     }
 
     if (auto editBar = static_cast<EditButtonBar*>(this->getChildByID("edit-tab-bar"))) {
@@ -278,7 +279,9 @@ $register_ids(EditorUI) {
         };
         size_t i = 0;
         for (auto id : editButtonIDs) {
-            static_cast<CCNode*>(editBar->m_buttonArray->objectAtIndex(i++))->setID(id);
+            if (i < editBar->m_buttonArray->count()) {
+                static_cast<CCNode*>(editBar->m_buttonArray->objectAtIndex(i++))->setID(id);
+            }
         }
     }
 
