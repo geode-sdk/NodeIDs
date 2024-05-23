@@ -6,7 +6,7 @@
 		"mac": "2.200",
 		"ios": "2.205"
 	},
-	"version": "v1.11.0", 
+	"version": "v1.11.0",
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
@@ -14,7 +14,7 @@
 	"repository": "https://github.com/geode-sdk/NodeIDs",
 	"issues": {
 		"url": "https://github.com/geode-sdk/NodeIDs/issues",
-		"info": "If you encounter an issue related to node id mismatches, please report it to the GitHub issues page."
+		"info": "If you encounter an issue related to node ID mismatches, please report it to the GitHub issues page."
 	},
 	"incompatibilities": [
 		{

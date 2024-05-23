@@ -1,10 +1,13 @@
 # Node IDs Changelog
 
 ## v1.11.0
- * Add IDs for all the EditButtonBars in EditorUI as well as for the edit buttons (move, rotate, etc.) 
+* Add IDs for all the EditButtonBars in EditorUI as well as for the edit buttons (move, rotate, etc.)
+
+## v1.10.2
+* Rebuild the mod against updated bindings to fix macOS crashes
 
 ## v1.10.1
- * Temporarily remove LevelListLayer IDs as there were no layouts which will need to be added due to API breaks
+* Temporarily remove LevelListLayer IDs as there were no layouts which will need to be added due to API breaks
 
 ## v1.10.0
  * Added CustomSongWidget (thanks @Fleeym)
