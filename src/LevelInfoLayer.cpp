@@ -55,6 +55,11 @@ $register_ids(LevelInfoLayer) {
 
     setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
 
+    if (m_level->m_dailyID > 0 || m_level->m_gauntletLevel) {
+        setIDSafe<CCLabelBMFont>(this, 6 + labelOffset, "diamond-label");
+        setIDSafe<CCSprite>(this, 9 + iconOffset, "diamond-icon");
+    }
+
     /*if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
     if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");*/
     if(m_difficultySprite) m_difficultySprite->setID("difficulty-sprite");
