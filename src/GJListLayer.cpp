@@ -25,12 +25,11 @@ struct GJListLayerIDs : Modify<GJListLayerIDs, GJListLayer> {
         }
     }
 
-    static GJListLayer* create(BoomListView* p0, char const* p1, cocos2d::ccColor4B p2, float p3, float p4, int p5) {
-        if (auto p = GJListLayer::create(p0, p1, p2, p3, p4, p5)) {
-            NodeIDs::get()->provide(p);
-            return p;
-        }
+    bool init(BoomListView* p0, char const* p1, cocos2d::ccColor4B p2, float p3, float p4, int p5) {
+        if (!GJListLayer::init(p0, p1, p2, p3, p4, p5)) return false;
 
-        return nullptr;
+        NodeIDs::get()->provide(this);
+
+        return true;
     }
 };

@@ -40,8 +40,9 @@ struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
         bool showPlayMusic,
         bool showDownload,
         bool isRobtopSong,
-        bool unk,
-        bool isMusicLibrary          
+        bool unkBool,
+        bool isMusicLibrary,
+        int unk       
     ) {
         if (!CustomSongWidget::init(
             songInfo,
@@ -50,8 +51,9 @@ struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
             showPlayMusic,
             showDownload,
             isRobtopSong,
-            unk,
-            isMusicLibrary
+            unkBool,
+            isMusicLibrary,
+            unk
         )) {
             return false;
         }
