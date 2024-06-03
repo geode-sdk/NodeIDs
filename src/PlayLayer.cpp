@@ -33,7 +33,9 @@ $register_ids(PlayLayer) {
 }
 
 struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
-    bool m_dontCreateObjects = false;
+	struct Fields {
+    	bool m_dontCreateObjects = false;
+	};
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("PlayLayer::init", GEODE_ID_PRIORITY)) {
