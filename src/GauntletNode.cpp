@@ -7,7 +7,9 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
-    GJMapPack* m_gauntlet;
+    struct Fields {
+        GJMapPack* m_gauntlet;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("GauntletNode::init", GEODE_ID_PRIORITY)) {

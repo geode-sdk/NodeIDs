@@ -6,7 +6,9 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 struct LevelCellIDs : Modify<LevelCellIDs, LevelCell> {
-    bool m_isLocal = false;
+    struct Fields {
+        bool m_isLocal = false;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("LevelCell::loadFromLevel", GEODE_ID_PRIORITY)) {
