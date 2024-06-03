@@ -9,8 +9,8 @@ using namespace geode::node_ids;
 
 struct DailyLevelNodeIDs : Modify<DailyLevelNodeIDs, DailyLevelNode> {
     struct Fields {
-    	bool m_isNew;
-	};
+        bool m_isNew;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("DailyLevelNode::init", GEODE_ID_PRIORITY)) {

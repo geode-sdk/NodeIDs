@@ -9,9 +9,9 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 struct ChallengeNodeIDs : Modify<ChallengeNodeIDs, ChallengeNode> {
-	struct Fields {
-    	bool m_isNew;
-	};
+    struct Fields {
+        bool m_isNew;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("ChallengeNode::init", GEODE_ID_PRIORITY)) {
