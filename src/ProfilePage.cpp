@@ -298,6 +298,9 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         #if GEODE_COMP_GD_VERSION >= 22030
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
         #endif
+        #if GEODE_COMP_GD_VERSION >= 22060
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("debug-copy-button");
+        #endif
 
         if(!m_ownProfile) {
             if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
