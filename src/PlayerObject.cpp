@@ -52,8 +52,7 @@ $register_ids(PlayerObject) {
     }
 }
 
-//TODO: 2.206
-/*struct PlayerObjectIDs : Modify<PlayerObjectIDs, PlayerObject> {
+struct PlayerObjectIDs : Modify<PlayerObjectIDs, PlayerObject> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("PlayerObject::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set PlayerObject::init hook priority, node IDs may not work properly");
@@ -67,4 +66,4 @@ $register_ids(PlayerObject) {
 
         return true;
     }
-};*/
+};
