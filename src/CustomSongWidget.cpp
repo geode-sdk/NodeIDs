@@ -23,6 +23,7 @@ $register_ids(CustomSongWidget) {
     m_playbackBtn->setID("play-song-button");
     m_moreBtn->setID("more-button");
     m_deleteBtn->setID("delete-button");
+    m_ncsLogo->setID("ncs-logo");
     setIDSafe<InfoAlertButton>(m_buttonMenu, 0, "info-button");
 };
 
