@@ -299,7 +299,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
         #endif
         #if GEODE_COMP_GD_VERSION >= 22060
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("debug-copy-button");
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("copy-username-button");
         #endif
 
         if(!m_ownProfile) {
