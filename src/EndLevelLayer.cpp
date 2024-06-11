@@ -48,6 +48,9 @@ inline CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
 
 $register_ids(EndLevelLayer) {
     m_mainLayer->setID("main-layer");
+    if(auto hideMenu = setIDSafe(this, 1, "hide-layer-menu")) {
+        setIDSafe(hideMenu, 0, "hide-button");
+    }
 
     int idx = 0;
     setIDs(
@@ -123,6 +126,9 @@ $register_ids(EndLevelLayer) {
     }
     if (auto leaderboardButton = ::getChildBySpriteFrameName(menu, "GJ_levelLeaderboardBtn_001.png")) {
         leaderboardButton->setID("leaderboard-button");
+    }
+    if (auto leaderboardButton = ::getChildBySpriteFrameName(menu, "GJ_restartCheckBtn_001.png")) {
+        leaderboardButton->setID("practice-retry-button");
     }
 
     int currentCoin = 1;

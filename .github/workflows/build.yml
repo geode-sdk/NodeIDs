@@ -15,8 +15,8 @@ jobs:
         - name: Windows
           os: windows-latest
           
-        - name: macOS
-          os: macos-latest
+        # - name: macOS
+        #   os: macos-latest
 
         - name: Android32
           os: ubuntu-latest
@@ -35,6 +35,8 @@ jobs:
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
+          cli: 'v3.0.0-beta.1'
+          sdk: 'nightly'
           combine: true
           target: ${{ matrix.config.target }}
       

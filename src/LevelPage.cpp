@@ -59,14 +59,12 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
         }
     }
 
-    // LevelPage::init is half-inlined on windows
-    static LevelPage* create(GJGameLevel* level) {
-        auto layer = LevelPage::create(level);
-        if (!layer) return nullptr;
+    bool init(GJGameLevel* level) {
+        if (!LevelPage::init(level)) return false;
 
-        NodeIDs::get()->provide(layer);
+        NodeIDs::get()->provide(this);
 
-        return layer;
+        return true;
     }
 
     void updateDynamicPage(GJGameLevel* level) {

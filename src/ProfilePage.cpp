@@ -96,6 +96,21 @@ $register_ids(ProfilePage) {
     socialsMenu->setZOrder(10);
     m_mainLayer->addChild(socialsMenu);
 
+    auto usernameMenu = CCMenu::create();
+    usernameMenu->setLayout(
+        RowLayout::create()
+            ->setGap(3.f)
+            ->setAxisAlignment(AxisAlignment::Center)
+            ->setCrossAxisOverflow(false)
+            ->setAutoScale(false)
+    );
+    usernameMenu->setID("username-menu");
+    usernameMenu->setPosition({(winSize.width / 2), (winSize.height / 2) + 125.f});
+    usernameMenu->setContentSize({286, 40});
+    usernameMenu->setZOrder(20);
+    usernameMenu->updateLayout();
+    m_mainLayer->addChild(usernameMenu);
+
 }
 
 void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42.6f}) {
@@ -283,6 +298,9 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         #if GEODE_COMP_GD_VERSION >= 22030
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
         #endif
+        #if GEODE_COMP_GD_VERSION >= 22060
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("copy-username-button");
+        #endif
 
         if(!m_ownProfile) {
             if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
@@ -356,6 +374,23 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 socialsMenu->addChild(twitchButton);
             }
             socialsMenu->updateLayout();
+        }
+
+        if(auto usernameMenu = m_mainLayer->getChildByID("username-menu")) {
+            if(auto usernameLabel = m_mainLayer->getChildByID("username-label")) {
+                usernameLabel->removeFromParent();
+                CCLabelBMFont* usrLabel = dynamic_cast<CCLabelBMFont*>(usernameLabel);
+                score->m_modBadge > 0
+                    ? usrLabel->limitLabelWidth(140.f, 0.9f, 0.0f)
+                    : usrLabel->limitLabelWidth(160.0f, 0.8f, 0.0f);
+                usernameMenu->addChild(usernameLabel);
+            }
+            if(auto modBadge = m_mainLayer->getChildByID("mod-badge")) {
+                modBadge->removeFromParent();
+                usernameMenu->addChild(modBadge);
+                usernameMenu->setPositionX(usernameMenu->getPositionX() - 13.f);
+            }
+            usernameMenu->updateLayout();
         }
 
     }

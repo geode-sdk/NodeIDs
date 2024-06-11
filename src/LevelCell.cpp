@@ -6,7 +6,9 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 struct LevelCellIDs : Modify<LevelCellIDs, LevelCell> {
-    bool m_isLocal = false;
+    struct Fields {
+        bool m_isLocal = false;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("LevelCell::loadFromLevel", GEODE_ID_PRIORITY)) {
@@ -125,10 +127,15 @@ $register_ids(LevelCell) {
         getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("song-name");
         labelOffset++;
 
+        if(auto practiceTxt = ::getChildBySpriteFrameName(m_mainLayer, "ncs_small_001.png")) {
+            practiceTxt->setID("ncs-icon");
+            spriteOffset++;
+        }
+
         size_t containerSpriteOffset = 0;
         size_t containerLabelOffset = 0;
         //we can use label offset because nothing else has been made yet, the +1 is the CCMenu that contains all buttons
-        auto container = getChildOfType<CCNode>(m_mainLayer, labelOffset + 1);
+        auto container = getChildOfType<CCNode>(m_mainLayer, labelOffset + spriteOffset + 1);
         if(container) {
             container->setID("difficulty-container");
             getChildOfType<CCSprite>(container, containerSpriteOffset)->setID("difficulty-sprite");

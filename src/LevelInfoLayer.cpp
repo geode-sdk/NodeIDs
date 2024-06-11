@@ -40,20 +40,25 @@ $register_ids(LevelInfoLayer) {
 
     size_t labelOffset = 0;
 
-    setIDSafe<CCLabelBMFont>(this, 0, "title-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "title-label");
 
     if(m_level->m_dailyID > 0) {
-        setIDSafe<CCLabelBMFont>(this, 1, "daily-label");
-        labelOffset++;
+        setIDSafe<CCLabelBMFont>(this, labelOffset++, "daily-label");
     }
 
-    setIDSafe<CCLabelBMFont>(this, 1 + labelOffset, "downloads-label");
-    setIDSafe<CCLabelBMFont>(this, 2 + labelOffset, "length-label");
-    setIDSafe<CCLabelBMFont>(this, 3 + labelOffset, "likes-label");
-    setIDSafe<CCLabelBMFont>(this, 4 + labelOffset, "orbs-label");
-    setIDSafe<CCLabelBMFont>(this, 5 + labelOffset, "stars-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "downloads-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "length-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "exact-length-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "likes-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "orbs-label");
+    setIDSafe<CCLabelBMFont>(this, labelOffset++, "stars-label");
 
     setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
+
+    if (m_level->m_dailyID > 0 || m_level->m_gauntletLevel) {
+        setIDSafe<CCLabelBMFont>(this, labelOffset++, "diamond-label");
+        setIDSafe<CCSprite>(this, 9 + iconOffset, "diamond-icon");
+    }
 
     /*if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
     if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");*/

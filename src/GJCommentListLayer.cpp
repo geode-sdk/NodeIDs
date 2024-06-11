@@ -25,17 +25,11 @@ struct GJCommentListLayerIDs : Modify<GJCommentListLayerIDs, GJCommentListLayer>
         }
     }
 
-    static GJCommentListLayer* create(BoomListView* listView, char const* title, cocos2d::ccColor4B color, float width, float height, bool blueBorder) {
-        /**
-         * GJCommentListLayer is one of the classes
-         * that has its init half-inlined
-         * so we need to hook create instead
-         */
-        auto layer = GJCommentListLayer::create(listView, title, color, width, height, blueBorder);
-        if(!layer) return nullptr;
+    bool init(BoomListView* listView, char const* title, cocos2d::ccColor4B color, float width, float height, bool blueBorder) {
+        if(!GJCommentListLayer::init(listView, title, color, width, height, blueBorder)) return false;
 
-        NodeIDs::get()->provide(layer);
+        NodeIDs::get()->provide(this);
 
-        return layer;
+        return true;
     }
 };
