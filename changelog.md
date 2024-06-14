@@ -1,5 +1,9 @@
 # Node IDs Changelog
 
+## v1.12.0
+
+ * Bump Geode to v3.0.0-beta.1
+
 ## v1.11.0
  * Add IDs for all the EditButtonBars in EditorUI as well as for the edit buttons (move, rotate, etc.) 
 
