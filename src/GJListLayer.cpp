@@ -20,8 +20,8 @@ $register_ids(GJListLayer) {
 
 struct GJListLayerIDs : Modify<GJListLayerIDs, GJListLayer> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GJListLayer::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GJListLayer::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GJListLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GJListLayer::init hook priority, node IDs may not work properly");
         }
     }
 

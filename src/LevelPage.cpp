@@ -54,8 +54,8 @@ $register_ids(LevelPage) {
 
 struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("LevelPage::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set LevelPage::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("LevelPage::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::init hook priority, node IDs may not work properly");
         }
     }
 

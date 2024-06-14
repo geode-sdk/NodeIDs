@@ -20,8 +20,8 @@ $register_ids(GJCommentListLayer) {
 
 struct GJCommentListLayerIDs : Modify<GJCommentListLayerIDs, GJCommentListLayer> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GJCommentListLayer::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GJCommentListLayer::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GJCommentListLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GJCommentListLayer::init hook priority, node IDs may not work properly");
         }
     }
 
