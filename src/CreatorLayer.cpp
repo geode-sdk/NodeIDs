@@ -126,14 +126,8 @@ $register_ids(CreatorLayer) {
             ->setAxisAlignment(AxisAlignment::Start)
     );
     this->addChild(bottomLeftMenu);
-
-    if (GameManager::sharedState()->getGameVariable("0077"))
-    {
-        auto* creatorButtonsMenu = this->getChildByID("creator-buttons-menu");
-        creatorButtonsMenu->getChildByID("search-button")->removeFromParentAndCleanup(true);
-        creatorButtonsMenu->updateLayout();
-    }
 }
+
 struct CreatorLayerIDs : Modify<CreatorLayerIDs, CreatorLayer> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("CreatorLayer::init", GEODE_ID_PRIORITY)) {
