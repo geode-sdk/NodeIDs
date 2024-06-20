@@ -234,8 +234,7 @@ $register_ids(EditorPauseLayer) {
                         ->setSameLine(true)
                         ->setBreakLine(true)
                         ->setPrevGap(5.f)
-                        ->setMinScale(.1f)
-                        ->setMaxScale(.5f)
+                        ->setScaleLimits(.1f, .5f)
                         ->setScalePriority(1)
                 );
             }
@@ -294,8 +293,7 @@ $register_ids(EditorPauseLayer) {
         for (auto child : CCArrayExt<CCNode*>(menu->getChildren())) {
             child->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setMinScale(.1f)
-                    ->setMaxScale(.5f)
+                    ->setScaleLimits(.1f, .5f)
                     ->setBreakLine(true)
             );
         }

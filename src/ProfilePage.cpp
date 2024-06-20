@@ -187,7 +187,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             bmFontContainer->setID(fmt::format("{}-label-container", label));
             bmFontContainer->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setMinScale(.0f)
+                    ->setScaleLimits(.0f, 1.f)
             );
 
             bmFont->setPosition({0, bmFontContainer->getContentSize().height / 2});
@@ -198,7 +198,7 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             icon->setLayoutOptions(
                 AxisLayoutOptions::create()
                     ->setRelativeScale(.9f)
-                    ->setMinScale(.0f)
+                    ->setScaleLimits(.0f, 1.f)
                     ->setNextGap(10.f)
             );
             if(typeinfo_cast<CCMenuItemSpriteExtra*>(icon)) {

@@ -101,8 +101,7 @@ $register_ids(LevelLeaderboard) {
     for(auto& child : CCArrayExt<CCNode*>(modeMenu->getChildren())) {
         child->setLayoutOptions(
             AxisLayoutOptions::create()
-                ->setMinScale(.1f)
-                ->setMaxScale(.7f)
+                ->setScaleLimits(.1f, .7f)
         );
     }
 

@@ -108,8 +108,7 @@ $register_ids(InfoLayer) {
         for(auto& child : CCArrayExt<CCNode*>(menu->getChildren())) {
             child->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setMinScale(.1f)
-                    ->setMaxScale(.7f)
+                    ->setScaleLimits(.1f, .7f)
             );
         }
 
