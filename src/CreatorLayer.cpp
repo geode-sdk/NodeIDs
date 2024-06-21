@@ -24,8 +24,10 @@ $register_ids(CreatorLayer) {
     setIDSafe<CCSprite>(this, 1, "bottom-left-corner");
     setIDSafe<CCSprite>(this, 2, "top-left-corner");
     auto winSize = CCDirector::get()->getWinSize();
+
     if (auto menu = getChildOfType<CCMenu>(this, 0)) {
         menu->setID("creator-buttons-menu");
+
         // move vault button to its own menu
         if (auto lockBtn = setIDSafe(menu, -2, "vault-button")) {
             auto menu = detachAndCreateMenu(
@@ -43,6 +45,7 @@ $register_ids(CreatorLayer) {
             menu->setContentSize({ 60.f, 150.f });
             menu->updateLayout();
         }
+
         // move treasure room button to its own menu
         if (auto roomBtn = setIDSafe(menu, -1, "treasure-room-button")) {
             auto menu = detachAndCreateMenu(
@@ -59,6 +62,7 @@ $register_ids(CreatorLayer) {
             menu->setContentSize({ 60.f, 125.f });
             menu->updateLayout();
         }
+
         // row order is inverted because of layout
         reorderButtons(
             setIDSafe(menu, 10, "featured-button"),
@@ -94,6 +98,7 @@ $register_ids(CreatorLayer) {
                 ->setCrossAxisOverflow(false)
         );
     }
+
     if (auto menu = getChildOfType<CCMenu>(this, 1)) {
         menu->setID("exit-menu");
         auto exitBtn = setIDSafe(menu, 0, "exit-button");
@@ -107,7 +112,7 @@ $register_ids(CreatorLayer) {
                 ->setAxisAlignment(AxisAlignment::End)
         );
     }
-    
+
     // add a menu to the bottom left corner that is empty but prolly a place mods 
     // want to add stuff to
     auto bottomLeftMenu = CCMenu::create();
@@ -122,6 +127,7 @@ $register_ids(CreatorLayer) {
     );
     this->addChild(bottomLeftMenu);
 }
+
 struct CreatorLayerIDs : Modify<CreatorLayerIDs, CreatorLayer> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("CreatorLayer::init", GEODE_ID_PRIORITY)) {
