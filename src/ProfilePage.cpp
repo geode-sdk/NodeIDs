@@ -108,8 +108,11 @@ $register_ids(ProfilePage) {
     usernameMenu->setPosition({(winSize.width / 2), (winSize.height / 2) + 125.f});
     usernameMenu->setContentSize({286, 40});
     usernameMenu->setZOrder(20);
-    usernameMenu->updateLayout();
     m_mainLayer->addChild(usernameMenu);
+
+    switchToMenu(m_usernameLabel, usernameMenu);
+    m_usernameLabel->setZOrder(20);
+    usernameMenu->updateLayout();
 
 }
 
@@ -377,20 +380,28 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         }
 
         if(auto usernameMenu = m_mainLayer->getChildByID("username-menu")) {
-            if(auto usernameLabel = m_mainLayer->getChildByID("username-label")) {
-                usernameLabel->removeFromParent();
-                CCLabelBMFont* usrLabel = dynamic_cast<CCLabelBMFont*>(usernameLabel);
-                score->m_modBadge > 0
-                    ? usrLabel->limitLabelWidth(140.f, 0.9f, 0.0f)
-                    : usrLabel->limitLabelWidth(160.0f, 0.8f, 0.0f);
-                usernameMenu->addChild(usernameLabel);
-            }
             if(auto modBadge = m_mainLayer->getChildByID("mod-badge")) {
+                modBadge->retain();
                 modBadge->removeFromParent();
                 usernameMenu->addChild(modBadge);
-                usernameMenu->setPositionX(usernameMenu->getPositionX() - 13.f);
+                if(usernameMenu->getPositionX() == (winSize.width / 2)) usernameMenu->setPositionX((winSize.width / 2) - 13.f);
+                modBadge->release();
+            } else {
+                if(usernameMenu->getPositionX() == (winSize.width / 2) - 13.f) usernameMenu->setPositionX(winSize.width / 2);
             }
             usernameMenu->updateLayout();
+
+            if(auto infoButton = m_buttonMenu->getChildByID("info-button")) {
+                infoButton->setPosition(
+                    (usernameMenu->getPosition() - m_buttonMenu->getPosition()) + (m_usernameLabel->getScaledContentSize() / 2) + CCPoint(8.f, -5.f) - ( (usernameMenu->getContentSize() / 2) - m_usernameLabel->getPosition() )
+                );
+            }
+
+            if(auto copyButton = m_buttonMenu->getChildByID("copy-username-button")) {
+                copyButton->setPosition(
+                    (usernameMenu->getPosition() - m_buttonMenu->getPosition()) - ( (usernameMenu->getContentSize() / 2) - m_usernameLabel->getPosition() )
+                );
+            }
         }
 
     }
