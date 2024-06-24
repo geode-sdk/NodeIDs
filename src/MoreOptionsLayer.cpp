@@ -1,6 +1,3 @@
-//TODO: the whole thing for mac
-//TODO: the whole thing for android
-
 #include <Geode/Geode.hpp>
 #include <Geode/binding/MoreOptionsLayer.hpp>
 #include <Geode/modify/MoreOptionsLayer.hpp>
