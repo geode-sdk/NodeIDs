@@ -229,12 +229,18 @@ $register_ids(CustomizeObjectLayer) {
     textActionsMenu->setPositionX(winSize.width / 2 + 110.f);
     textActionsMenu->updateLayout();
 
-    auto clearTextMenu = detachAndCreateMenu(
+    if(auto clearTextMenu = detachAndCreateMenu(
         m_mainLayer,
         "clear-text-menu",
         nullptr,
         m_buttonMenu->getChildByID("clear-text-button")
-    );
+    )) {
+        //the position being incorrect has something to do with anchor points and ignoreAnchorPointForPosition
+        //if the anchor point of the menu was {1,0} and it actually worked, it'd be correct
+        //but that's not what's happening so whatever
+        //dont care enough, this fixes it
+        if(auto btn = clearTextMenu->getChildByID("clear-text-button")) btn->setPosition({winSize / 2});
+    }
 
     auto infoMenu = detachAndCreateMenu(
         m_mainLayer,
