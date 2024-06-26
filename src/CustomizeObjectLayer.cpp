@@ -89,13 +89,28 @@ $register_ids(CustomizeObjectLayer) {
             "paste-button",
             "browse-button"
         );
+        idOffset += 3;
     }
     else {
+        //if LevelEditorLayer::canPasteState
+        if(auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildren()->objectAtIndex(idOffset))) {
+            if(auto label = typeinfo_cast<ButtonSprite*>(btn->getNormalImage())) {
+                if(std::string_view(label->m_label->getString()) == "Paste") {
+                    setIDs(
+                        m_buttonMenu,
+                        idOffset,
+                        "paste-button"
+                    );
+                    idOffset += 1;
+                }
+            }
+        }
         setIDs(
             m_buttonMenu,
             idOffset,
             "browse-button"
         );
+        idOffset += 1;
     }
 
     auto tabsLayout = RowLayout::create()
@@ -271,10 +286,10 @@ $register_ids(CustomizeObjectLayer) {
         "copy-paste-menu",
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::End)
-            ->setAxisReverse(true)
+            ->setAxisReverse(false)
             ->setGap(6.f),
-        m_buttonMenu->getChildByID("copy-button"),
-        m_buttonMenu->getChildByID("paste-button")
+        m_buttonMenu->getChildByID("paste-button"),
+        m_buttonMenu->getChildByID("copy-button")
     );
     copyPasteMenu->setContentSize({ 100.f, 140.f });
     copyPasteMenu->setPositionY(winSize.height / 2 + 99.5f);
