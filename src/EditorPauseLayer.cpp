@@ -7,56 +7,18 @@ using namespace geode::node_ids;
 
 // special class for this because making it a CCMenuItemToggler would be very UB 
 // (not gonna reinterpret_cast that into the members)
-class GuidelinesButton : public CCMenuItemSpriteExtra {
-protected:
-    bool init() override {
-        auto* spr = CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png");
-    #ifdef GEODE_IS_WINDOWS
-        // thank you windows
-        // this got inlined into the ::create function,
-        // so the address we have for CCMenuItemSpriteExtra::init contains the code after calling this,
-        // so we have to call it ourselves
-        if (!CCMenuItemSprite::initWithNormalSprite(
-            spr, nullptr, nullptr, this, nullptr
-        )) return false;
+class GuidelinesButtonDummy {
 
-        // TODO: this function is cursed on windows, only takes 1 arg
-    #else
-        if (!CCMenuItemSpriteExtra::init(
-            spr,
-            nullptr,
-            this, nullptr
-        )) return false;
-    #endif
+public:
+    void onClick(CCObject* sender) {
+        GameManager::get()->m_showSongMarkers ^= 1;
+        CCMenuItemSpriteExtra* btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender);
 
-        this->updateSprite();
-        
-        return true;
-    }
-
-    void updateSprite() {
-        this->setNormalImage(CCSprite::createWithSpriteFrameName(
+        btn->setNormalImage(CCSprite::createWithSpriteFrameName(
             GameManager::get()->m_showSongMarkers ? 
                 "GJ_audioOnBtn_001.png" :
                 "GJ_audioOffBtn_001.png"
         ));
-    }
-
-    void activate() override {
-        CCMenuItemSpriteExtra::activate();
-        GameManager::get()->m_showSongMarkers ^= 1;
-        this->updateSprite();
-    }
-
-public:
-    static GuidelinesButton* create() {
-        auto ret = new GuidelinesButton();
-        if (ret && ret->init()) {
-            ret->autorelease();
-            return ret;
-        }
-        CC_SAFE_DELETE(ret);
-        return nullptr;
     }
 };
 
@@ -186,14 +148,36 @@ $register_ids(EditorPauseLayer) {
             menu->getChildByID("reset-unused-button"),
             menu->getChildByID("uncheck-portals-button")
         );
-        #ifdef GEODE_IS_DESKTOP
-        if (auto keysBtn = actionsMenu->getChildByID("keys-button")) {
-            keysBtn->setLayoutOptions(AxisLayoutOptions::create()->setPrevGap(10.f));
-        }
-        #endif
         actionsMenu->setContentSize({ 100.f, 290.f });
         actionsMenu->setPositionY(155.f);
         actionsMenu->updateLayout();
+
+        for(CCNode* node : CCArrayExt<CCNode*>(menu->getChildren())) {
+            if(CCMenuItemToggler* toggler = typeinfo_cast<CCMenuItemToggler*>(node)) {
+
+                auto off = toggler->m_offButton;
+                auto on = toggler->m_onButton;
+
+                float maxWidth = (std::max)(off->getContentSize().width, on->getContentSize().width);
+                float maxHeight = (std::max)(off->getContentSize().height, on->getContentSize().height);
+
+                toggler->setContentSize({maxWidth, maxHeight});
+                off->setContentSize({maxWidth, maxHeight});
+                on->setContentSize({maxWidth, maxHeight});
+
+                off->setPosition({maxWidth/2, maxHeight/2});
+                on->setPosition({maxWidth/2, maxHeight/2});
+
+                CCSprite* offSpr = getChildOfType<CCSprite>(off, 0);
+                CCSprite* onSpr = getChildOfType<CCSprite>(off, 0);
+
+                off->setPosition({maxWidth/2, maxHeight/2});
+                on->setPosition({maxWidth/2, maxHeight/2});
+
+                offSpr->setPosition({maxWidth/2, maxHeight/2});
+                onSpr->setPosition({maxWidth/2, maxHeight/2});
+            }
+        }
 
         auto optionsMenu = detachAndCreateMenu(
             this,
@@ -234,14 +218,13 @@ $register_ids(EditorPauseLayer) {
                         ->setSameLine(true)
                         ->setBreakLine(true)
                         ->setPrevGap(5.f)
-                        ->setMinScale(.1f)
-                        ->setMaxScale(.5f)
+                        ->setScaleLimits(.1f, .35f)
                         ->setScalePriority(1)
                 );
             }
         }
         optionsMenu->setContentSize({ 120.f, winSize.height - 60.f });
-        optionsMenu->setPosition(70.f, winSize.height / 2 - 25.f + 10.f);
+        optionsMenu->setPosition(75.f, winSize.height / 2 - 25.f + 10.f);
         optionsMenu->updateLayout();
 
         auto settingsMenu = detachAndCreateMenu(
@@ -260,7 +243,13 @@ $register_ids(EditorPauseLayer) {
         guidelinesMenu->getChildByID("guidelines-enable-button")->removeFromParent();
         guidelinesMenu->getChildByID("guidelines-disable-button")->removeFromParent();
         
-        auto glToggle = GuidelinesButton::create();
+        auto* spr = CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png");
+        auto glToggle = CCMenuItemSpriteExtra::create(spr, this, menu_selector(GuidelinesButtonDummy::onClick));
+        glToggle->setNormalImage(CCSprite::createWithSpriteFrameName(
+            GameManager::get()->m_showSongMarkers ? 
+                "GJ_audioOnBtn_001.png" :
+                "GJ_audioOffBtn_001.png"
+        ));
         glToggle->setID("guidelines-enable-toggle");
         guidelinesMenu->insertBefore(glToggle, nullptr);
         m_guidelinesOffButton = m_guidelinesOnButton = nullptr;
@@ -294,8 +283,7 @@ $register_ids(EditorPauseLayer) {
         for (auto child : CCArrayExt<CCNode*>(menu->getChildren())) {
             child->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setMinScale(.1f)
-                    ->setMaxScale(.5f)
+                    ->setScaleLimits(.1f, .5f)
                     ->setBreakLine(true)
             );
         }

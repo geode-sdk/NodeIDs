@@ -76,7 +76,7 @@ $register_ids(GJScoreCell) {
     for(auto node: nodes) {
         if(auto child = m_mainLayer->getChildByID(node)) {
             auto options = AxisLayoutOptions::create()
-                ->setMinScale(.1f)
+                ->setScaleLimits(.1f, 1.f)
                 ->setRelativeScale(child->getScale()
             );
             if(idx++ % 2 == 1) options->setNextGap(7.f);

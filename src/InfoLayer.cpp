@@ -10,7 +10,9 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(InfoLayer) {
-    bool descNotVisible = GameManager::sharedState()->getGameVariable("0089") || m_score;
+    auto* GM = GameManager::sharedState();
+
+    bool descNotVisible = GM->getGameVariable("0089") || m_score;
 
     size_t buttonOffset = 0;
     size_t labelOffset = 0;
@@ -88,13 +90,15 @@ $register_ids(InfoLayer) {
         getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("sort-recent-button");
         buttonOffset++;
 
-        if(!m_score) {
-            getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("extend-button");
+        if (!GM->getGameVariable("0075")) {
+            if(!m_score) {
+                getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("extend-button");
+                buttonOffset++;
+            }
+
+            getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("small-mode-button");
             buttonOffset++;
         }
-        
-        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("small-mode-button");
-        buttonOffset++;
 
         menu->setContentSize({10, 140});
         menu->setLayout(
@@ -108,11 +112,9 @@ $register_ids(InfoLayer) {
         for(auto& child : CCArrayExt<CCNode*>(menu->getChildren())) {
             child->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setMinScale(.1f)
-                    ->setMaxScale(.7f)
+                    ->setScaleLimits(.1f, .7f)
             );
         }
-
     }
 
     //now it calls InfoLayer::updateCommentModeButtons but that doesn't do anything important
