@@ -28,7 +28,7 @@ $register_ids(SecretLayer2) {
         "door-button",
         "the-challange-button"
     );
-    auto textbox = static_cast<CCMenu*>(this->getChildByID("text-box"));
+    auto textbox = this->getChildByID("text-box");
     setIDs(
         textbox,
         0,
