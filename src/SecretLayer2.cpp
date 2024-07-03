@@ -16,8 +16,10 @@ $register_ids(SecretLayer2) {
         "textbox-background", 
         "text-box",
         "menu",
-        "the-challange-text1",
-        "the-challange-text2" 
+        "the-challenge-text1",
+        "the-challenge-text2",
+        "diamonds-icon",
+        "diamonds-label"
     );
     auto menu = static_cast<CCMenu*>(this->getChildByID("menu"));
      setIDs(
@@ -26,15 +28,7 @@ $register_ids(SecretLayer2) {
         "back-button",
         "valtkeeper-button",
         "door-button",
-        "the-challange-button"
-    );
-    auto textbox = this->getChildByID("text-box");
-    setIDs(
-        textbox,
-        0,
-        "input",
-        "display-text",
-        "bar-position"
+        "the-challenge-button"
     );
 }
 
