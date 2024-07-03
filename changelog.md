@@ -1,5 +1,13 @@
 # Node IDs Changelog
 
+## v1.13.0
+* Added LevelListLayer
+* Added FriendsProfilePage
+* Added DemonInfoPopup
+* Fixed parental control crash in InfoLayer (while loading comments)
+* Fixed ProfilePage positioning issues (name running away, info button misaligned after refresh)
+* Fixed some CustomizeObjectLayer issues (invisible clear text button, misalignments)
+
 ## v1.12.0
 
  * Bump Geode to v3.0.0-beta.1

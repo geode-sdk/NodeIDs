@@ -6,7 +6,7 @@
 		"mac": "2.206",
 		"ios": "2.205"
 	},
-	"version": "v1.12.0", 
+	"version": "v1.13.0", 
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
