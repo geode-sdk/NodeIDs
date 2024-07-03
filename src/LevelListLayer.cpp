@@ -169,9 +169,8 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
                     static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("small-diamonds-icon");
                     static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("completed-icon");
                     static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("completed-label");
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("claim-button");
                 }
-
-                static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("claim-button");
             }
         }
 

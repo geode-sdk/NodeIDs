@@ -1,5 +1,8 @@
 # Node IDs Changelog
 
+## v1.13.1
+* Fixed improper assignment of claim-button in LevelListLayer
+
 ## v1.13.0
 * Added LevelListLayer
 * Added FriendsProfilePage
