@@ -17,14 +17,23 @@ $register_ids(PlayLayer) {
     setIDSafe(this, 3, "hitbox-node");
     setIDSafe<GJEffectManager>(this, 0, "effect-manager");
     //setIDSafe<UILayer>(this, 0, "ui-layer"); //changing this id is unsafe because mods depend on "UILayer", which is actually fairly safe to do, since this is the only UILayer in the whole layer
-    setIDSafe<CCLabelBMFont>(this, 0, "debug-text");
+    int index = 0;
+#if GEODE_COMP_GD_VERSION >= 22060
+    if (this->m_isTestMode) {
+        // Testmode is only added for local levels
+        setIDSafe<CCLabelBMFont>(this, 0, "testmode-label");
+        index++;
+    }
+#endif
+
+    setIDSafe<CCLabelBMFont>(this, index++, "debug-text");
     setIDSafe<CCSprite>(this, 0, "progress-bar");
 
     if (this->m_level->isPlatformer()) {
-        setIDSafe<CCLabelBMFont>(this, 1, "time-label");
+        setIDSafe<CCLabelBMFont>(this, index, "time-label");
     }
     else {
-        setIDSafe<CCLabelBMFont>(this, 1, "percentage-label");
+        setIDSafe<CCLabelBMFont>(this, index, "percentage-label");
     }
 
 #if GEODE_COMP_GD_VERSION == 22000
@@ -76,6 +85,9 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
         std::vector<cocos2d::CCNode*> newNodes;
         for (auto child : CCArrayExt<CCNode*>(this->getChildren())) {
             if (nodes.find(child) == nodes.end()) {
+                // skip ShaderLayer, because it can break ordering
+                if (typeinfo_cast<ShaderLayer*>(child))
+                  continue;
                 newNodes.push_back(child);
             }
         }
@@ -110,6 +122,8 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
                 if (testModeLabel) testModeLabel->setID("testmode-label");
             }
             #endif
+        } else {
+            geode::log::warn("Failed to provide IDs for PlayLayer nodes");
         }
     }
 
