@@ -1,5 +1,9 @@
 # Node IDs Changelog
 
+## v1.13.2
+* Fixed testmode label in main levels (PlayLayer)
+* Fixed crash when entering Gauntlets (macOS only)
+
 ## v1.13.1
 * Fixed improper assignment of claim-button in LevelListLayer
 
