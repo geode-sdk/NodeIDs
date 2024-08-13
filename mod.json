@@ -4,7 +4,7 @@
 		"win": "2.206",
 		"android": "2.206",
 		"mac": "2.206",
-		"ios": "2.205"
+		"ios": "2.206"
 	},
 	"version": "v1.13.2", 
 	"id": "geode.node-ids",
@@ -14,6 +14,6 @@
 	"repository": "https://github.com/geode-sdk/NodeIDs",
 	"issues": {
 		"url": "https://github.com/geode-sdk/NodeIDs/issues",
-		"info": "If you encounter an issue related to node id mismatches, please report it to the GitHub issues page."
+		"info": "If you encounter an issue related to node ID mismatches, please report it to the GitHub issues page."
 	}
 }
