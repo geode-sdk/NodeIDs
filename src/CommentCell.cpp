@@ -77,7 +77,7 @@ $register_ids(CommentCell) {
             } else {
                 usernameLabel = m_mainLayer->getChildByID("username-label");
                 usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
-                userMenu->setPositionY(-137.f);
+                userMenu->setPositionY(-135.f);
             }
 
             auto playerIcon = getChildOfType<SimplePlayer>(m_mainLayer, 0);
