@@ -66,8 +66,6 @@ $register_ids(CommentCell) {
             setIDSafe(mainMenu, 1 + menuOffset, "delete-button");
         }
 
-        auto winSize = CCDirector::get()->getWinSize();
-
         if(!usernameNotInMenu) {
             auto usernameLabel = mainMenu->getChildByID("username-button");
             usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
