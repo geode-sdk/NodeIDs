@@ -66,9 +66,19 @@ $register_ids(CommentCell) {
             setIDSafe(mainMenu, 1 + menuOffset, "delete-button");
         }
 
-        if(!usernameNotInMenu) {
-            auto usernameLabel = mainMenu->getChildByID("username-button");
-            usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
+        if (!m_accountComment) {
+            CCNode* usernameLabel = nullptr;
+            auto userMenu = CCMenu::create();
+            
+            if (!usernameNotInMenu) {
+                usernameLabel = mainMenu->getChildByID("username-button");
+                usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
+                userMenu->setPositionY(usernameLabel->getPositionY() - 2.f);
+            } else {
+                usernameLabel = m_mainLayer->getChildByID("username-label");
+                usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
+                userMenu->setPositionY(-137.f);
+            }
 
             auto playerIcon = getChildOfType<SimplePlayer>(m_mainLayer, 0);
             auto iconSpr = getChildOfType<CCSprite>(playerIcon, 0);
@@ -79,10 +89,8 @@ $register_ids(CommentCell) {
             playerIcon->setZOrder(-1);
             playerIcon->setLayoutOptions(AxisLayoutOptions::create()->setAutoScale(false));
 
-            auto userMenu = CCMenu::create();
             userMenu->setID("user-menu");
             userMenu->setLayout(RowLayout::create()->setAxisAlignment(AxisAlignment::Center)->setGap(5.f)->setAutoScale(false)->setCrossAxisOverflow(false));
-            userMenu->setPositionY(usernameLabel->getPositionY() - 2.f);
             userMenu->setPositionX(-114.f);
             userMenu->setContentSize({320, 20});
             userMenu->addChild(playerIcon);
