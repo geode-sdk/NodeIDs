@@ -80,7 +80,7 @@ $register_ids(CommentCell) {
                 userMenu->setPositionY(-135.f);
             }
 
-            if (m_comment->m_accountID == 0 && !smallCommentsMode) userMenu->setPositionY(-100.f);
+            if (!smallCommentsMode) userMenu->setPositionY(-100.f);
 
             auto playerIcon = getChildOfType<SimplePlayer>(m_mainLayer, 0);
             auto iconSpr = getChildOfType<CCSprite>(playerIcon, 0);
