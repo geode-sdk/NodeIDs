@@ -80,6 +80,8 @@ $register_ids(CommentCell) {
                 userMenu->setPositionY(-135.f);
             }
 
+            if (m_comment->m_accountID == 0 && !smallCommentsMode) userMenu->setPositionY(-100.f);
+
             auto playerIcon = getChildOfType<SimplePlayer>(m_mainLayer, 0);
             auto iconSpr = getChildOfType<CCSprite>(playerIcon, 0);
             playerIcon->setContentSize({40, 40}); // to make it work with layouts
@@ -92,7 +94,7 @@ $register_ids(CommentCell) {
             userMenu->setID("user-menu");
             userMenu->setLayout(RowLayout::create()->setAxisAlignment(AxisAlignment::Center)->setGap(5.f)->setAutoScale(false)->setCrossAxisOverflow(false));
             userMenu->setPositionX(-114.f);
-            userMenu->setContentSize({320, 20});
+            userMenu->setContentSize({320, 30});
             userMenu->addChild(playerIcon);
             setIDSafe(userMenu, 0, "player-icon");
 
@@ -103,7 +105,7 @@ $register_ids(CommentCell) {
             usernameMenu->setLayout(RowLayout::create()->setAxisAlignment(AxisAlignment::Start)->setGap(2.f)->setAutoScale(false)->setCrossAxisOverflow(false));
             usernameMenu->setPositionY(usernameLabel->getPositionY() - 2.f);
             usernameMenu->setPositionX(-114.f);
-            usernameMenu->setContentSize({320, 20});
+            usernameMenu->setContentSize({320, 30});
 
             switchToMenu(usernameLabel, usernameMenu);
             setIDSafe(usernameMenu, 0, "username-button");
