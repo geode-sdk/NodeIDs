@@ -1,5 +1,9 @@
 # Node IDs Changelog
 
+## v1.14.0
+* Added GauntletLayer IDs
+* Upgraded CommentCell for level comments
+
 ## v1.13.2
 * Fixed testmode label in main levels (PlayLayer)
 * Fixed crash when entering Gauntlets (macOS only)
