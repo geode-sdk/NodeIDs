@@ -9,6 +9,8 @@ using namespace geode::node_ids;
 
 $register_ids(CommentCell) {
     if(m_comment->m_commentDeleted) return;
+
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
     
     bool smallCommentsMode = this->m_height == 36; //this is how robtop does the check
     bool usernameNotInMenu = !m_comment->m_userScore || !m_comment->m_userScore->m_accountID || m_accountComment || m_comment->m_hasLevelID;
@@ -93,7 +95,7 @@ $register_ids(CommentCell) {
 
             userMenu->setID("user-menu");
             userMenu->setLayout(RowLayout::create()->setAxisAlignment(AxisAlignment::Center)->setGap(5.f)->setAutoScale(false)->setCrossAxisOverflow(false));
-            userMenu->setPositionX(-114.f);
+            userMenu->setPositionX(- (winSize.width / 2) + 171.f);
             userMenu->setContentSize({320, 30});
             userMenu->addChild(playerIcon);
             setIDSafe(userMenu, 0, "player-icon");
