@@ -1,5 +1,8 @@
 # Node IDs Changelog
 
+## v1.14.1
+* Fixed CommentCell positioning on 4:3 displays
+
 ## v1.14.0
 * Added GauntletLayer IDs
 * Upgraded CommentCell for level comments
