@@ -3,6 +3,8 @@
 #include <Geode/modify/GauntletNode.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
+#include "IDCheck.hpp"
+
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
