@@ -3,6 +3,8 @@
 #include <Geode/modify/GauntletNode.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
+#include "IDCheck.hpp"
+
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
@@ -37,7 +39,7 @@ $register_ids(GauntletNode) {
             this,
             0,
             "gauntlet-info-node",
-            "empty-node",
+            "reward-node",
             "background",
             "gauntlet-name-label",
             "gauntlet-label",
@@ -51,7 +53,7 @@ $register_ids(GauntletNode) {
             this,
             0,
             "gauntlet-info-node",
-            "empty-node",
+            "reward-node",
             "background",
             "gauntlet-name-label",
             "gauntlet-label",
@@ -60,32 +62,42 @@ $register_ids(GauntletNode) {
         );
     }
 
-    if (auto gauntletInfoNode = this->getChildByID("gauntlet-info-node")) {
-        if (
-            self->m_fields->m_gauntlet->hasCompletedMapPack() &&
-            GSM->isSpecialChestUnlocked(GSM->getGauntletRewardKey(self->m_fields->m_gauntlet->m_packID))
-        ) {
-            setIDs(
-                gauntletInfoNode,
-                0,
-                "gauntlet-sprite",
-                "gauntlet-shadow-sprite",
-                "gauntlet-progress-label",
-                "gauntlet-progress-shadow-label"
-            );
-        } else {
-            setIDs(
-                gauntletInfoNode,
-                0,
-                "gauntlet-sprite",
-                "gauntlet-shadow-sprite",
-                "gauntlet-progress-label",
-                "gauntlet-progress-shadow-label",
-                "reward-label",
-                "reward-shadow-label",
-                "chest-sprite",
-                "chest-shadow-sprite"
-            );
-        }
+    if (
+        self->m_fields->m_gauntlet->hasCompletedMapPack() &&
+        GSM->isSpecialChestUnlocked(GSM->getGauntletRewardKey(self->m_fields->m_gauntlet->m_packID))
+    ) {
+        setIDs(
+            m_gauntletInfoNode,
+            0,
+            "gauntlet-sprite",
+            "gauntlet-shadow-sprite",
+            "gauntlet-progress-label",
+            "gauntlet-progress-shadow-label"
+        );
+    } else {
+        setIDs(
+            m_gauntletInfoNode,
+            0,
+            "gauntlet-sprite",
+            "gauntlet-shadow-sprite",
+            "gauntlet-progress-label",
+            "gauntlet-progress-shadow-label",
+            "reward-label",
+            "reward-shadow-label",
+            "chest-sprite",
+            "chest-shadow-sprite"
+        );
+
+        setIDs(
+            m_rewardNode,
+            0,
+            "reward-label",
+            "reward-shadow-label",
+            "chest-sprite",
+            "chest-shadow-sprite"
+        );
     }
+
+    verifyIDSafe(m_gauntletInfoNode, "gauntlet-info-node");
+    verifyIDSafe(m_rewardNode, "reward-node");
 }
