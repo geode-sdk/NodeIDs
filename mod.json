@@ -1,17 +1,19 @@
 {
-	"geode": "3.7.1",
+	"geode": "3.8.1",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206",
 		"mac": "2.206",
 		"ios": "2.206"
 	},
-	"version": "v1.14.1", 
+	"version": "v1.14.2", 
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
 	"description": "Standard node IDs to be used by other mods.",
-	"repository": "https://github.com/geode-sdk/NodeIDs",
+	"links": {
+		"source": "https://github.com/geode-sdk/NodeIDs"
+	},
 	"issues": {
 		"url": "https://github.com/geode-sdk/NodeIDs/issues",
 		"info": "If you encounter an issue related to node ID mismatches, please report it to the GitHub issues page."

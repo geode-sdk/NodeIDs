@@ -1,5 +1,8 @@
 # Node IDs Changelog
 
+## v1.14.2
+* Fixed an issue where some Private Servers would crash upon opening level comments
+
 ## v1.14.1
 * Fixed CommentCell positioning on 4:3 displays
 
