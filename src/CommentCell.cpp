@@ -13,7 +13,10 @@ $register_ids(CommentCell) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     
     bool smallCommentsMode = this->m_height == 36; //this is how robtop does the check
-    bool usernameNotInMenu = !m_comment->m_userScore || !m_comment->m_userScore->m_accountID || m_accountComment || m_comment->m_hasLevelID;
+    bool usernameNotInMenu = m_comment->m_accountID <= 0 || m_accountComment || m_comment->m_hasLevelID;
+
+    //there is a chance m_comment->m_accountID is not set properly before loadFromComment
+    //but this is fixed inside loadFromComment itself, so that case is also handled
 
     if(!smallCommentsMode) getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
 
