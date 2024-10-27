@@ -76,26 +76,13 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
         }
 
         if (GameStatsManager::sharedState()->getStat("8") < level->m_requiredCoins) {
-            setIDs(
-                this->getChildByID("level-menu")
-                    ->getChildByID("level-button")
-                    ->getChildByID("white-sprite")
-                    ->getChildByID("scale-9-sprite"),
-                8,
-                "lock-sprite",
-                "secret-coin-icon",
-                "secret-coin-label"
-            );
+            if (auto scale9Sprite = this->getChildByIDRecursive("scale-9-sprite")) {
+                setIDs(scale9Sprite, 8, "lock-sprite", "secret-coin-icon", "secret-coin-label");
+            }
         } else {
-            setIDs(
-                this->getChildByID("level-menu")
-                    ->getChildByID("level-button")
-                    ->getChildByID("white-sprite")
-                    ->getChildByID("scale-9-sprite"),
-                8,
-                "orbs-icon",
-                "orbs-label"
-            );
+            if (auto scale9Sprite = this->getChildByIDRecursive("scale-9-sprite")) {
+                setIDs(scale9Sprite, 8, "orbs-icon", "orbs-label");
+            }
         }
 
         // this is how updateDynamicPage itself does it
@@ -122,7 +109,9 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
                     }
                 }
             } else {
-                getChildOfType<CCLabelBMFont>(this, 4)->setID("coming-soon-label");
+                if (auto label = getChildOfType<CCLabelBMFont>(this, 4)) {
+                    label->setID("coming-soon-label");
+                }
 
                 if (auto buttonMenu = getChildOfType<CCMenu>(this, 1)) {
                     buttonMenu->setID("button-menu");
@@ -130,7 +119,9 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
                     if (auto secretDoorButton = getChildOfType<CCMenuItemSpriteExtra>(buttonMenu, 0)) {
                         secretDoorButton->setID("secret-door-button");
 
-                        getChildOfType<CCSprite>(secretDoorButton, 0)->setID("secret-door-sprite");
+                        if (auto secretDoorSprite = getChildOfType<CCSprite>(secretDoorButton, 0)) {
+                            secretDoorSprite->setID("secret-door-sprite");
+                        }
                     }
                 }
             }
