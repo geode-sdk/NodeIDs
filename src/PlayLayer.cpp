@@ -19,10 +19,9 @@ $register_ids(PlayLayer) {
     //setIDSafe<UILayer>(this, 0, "ui-layer"); //changing this id is unsafe because mods depend on "UILayer", which is actually fairly safe to do, since this is the only UILayer in the whole layer
     int index = 0;
 #if GEODE_COMP_GD_VERSION >= 22060
-    if (this->m_level->m_levelType == GJLevelType::Editor) {
+    if (this->m_level->m_levelType == GJLevelType::Editor && !GameManager::sharedState()->getGameVariable("0174")) {
         // Testmode is only added for local levels
-        setIDSafe<CCLabelBMFont>(this, 0, "testmode-label");
-        index++;
+        setIDSafe<CCLabelBMFont>(this, index++, "testmode-label");
     }
 #endif
 
