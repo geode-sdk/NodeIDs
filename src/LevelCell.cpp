@@ -127,8 +127,10 @@ $register_ids(LevelCell) {
         getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("song-name");
         labelOffset++;
 
-        if(auto practiceTxt = ::getChildBySpriteFrameName(m_mainLayer, "ncs_small_001.png")) {
-            practiceTxt->setID("ncs-icon");
+        auto MDLM = MusicDownloadManager::sharedState();
+        auto songObj = MDLM->getSongInfoObject(m_level->m_songID);
+        if(songObj && songObj->m_nongType == 1) {
+            getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("ncs-icon");
             spriteOffset++;
         }
 
