@@ -57,6 +57,10 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
         if (!self.setHookPriority("LevelPage::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set LevelPage::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("LevelPage::updateDynamicPage", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::updateDynamicPage hook priority, node IDs may not work properly");
+        }
     }
 
     bool init(GJGameLevel* level) {
