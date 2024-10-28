@@ -1,5 +1,8 @@
 # Node IDs Changelog
 
+## v1.15.1
+* Fixed possible crashes in LevelCell and LevelPage
+
 ## v1.15.0
 * Fixed an issue where some Private Servers would crash upon opening level comments
 * Improved GauntletNode IDs
