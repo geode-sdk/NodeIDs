@@ -1,7 +1,10 @@
 # Node IDs Changelog
 
-## v1.15.1
-* Fixed possible crashes in LevelCell and LevelPage
+## v1.16.0
+* Added secret coin ID to LevelPage
+* Fixed a crash in LevelCell when Texture Loader fallback is used for the NCS logo
+* Fixed incorrect PlayLayer IDs when "Hide Playtest Text" setting is enabled
+* Improved LevelPage handling (adding nodes in init should no longer break the whole ID set)
 
 ## v1.15.0
 * Fixed an issue where some Private Servers would crash upon opening level comments
