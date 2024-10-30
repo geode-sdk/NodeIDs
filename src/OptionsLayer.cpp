@@ -20,27 +20,27 @@ $register_ids(OptionsLayer) {
 
     auto winSize = CCDirector::get()->getWinSize();
 
-    getChildOfType<cocos2d::CCLabelBMFont>(optionsLayer, labelOffset)->setID("music-label");
+    optionsLayer->getChildByType<cocos2d::CCLabelBMFont>(labelOffset)->setID("music-label");
     labelOffset++;
 
-    getChildOfType<cocos2d::CCLabelBMFont>(optionsLayer, labelOffset)->setID("sfx-label");
+    optionsLayer->getChildByType<cocos2d::CCLabelBMFont>(labelOffset)->setID("sfx-label");
     labelOffset++;
 
-    getChildOfType<cocos2d::CCLabelBMFont>(optionsLayer, labelOffset)->setID("menu-music-label");
+    optionsLayer->getChildByType<cocos2d::CCLabelBMFont>(labelOffset)->setID("menu-music-label");
 
-    getChildOfType<Slider>(optionsLayer, sliderOffset)->setID("music-slider");
+    optionsLayer->getChildByType<Slider>(sliderOffset)->setID("music-slider");
     sliderOffset++;
 
-    getChildOfType<Slider>(optionsLayer, sliderOffset)->setID("sfx-slider");
+    optionsLayer->getChildByType<Slider>(sliderOffset)->setID("sfx-slider");
 
-    getChildOfType<cocos2d::CCSprite>(optionsLayer, 0)->setID("left-chain");
-    getChildOfType<cocos2d::CCSprite>(optionsLayer, 1)->setID("right-chain");
-    getChildOfType<GJListLayer>(optionsLayer, 0)->setID("background"); // sorry i had nothing other than background for this
+    optionsLayer->getChildByType<cocos2d::CCSprite>(0)->setID("left-chain");
+    optionsLayer->getChildByType<cocos2d::CCSprite>(1)->setID("right-chain");
+    optionsLayer->getChildByType<GJListLayer>(0)->setID("background"); // sorry i had nothing other than background for this
 
-    auto topLeftMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
+    auto topLeftMenu = optionsLayer->getChildByType<cocos2d::CCMenu>(menuOffset);
     topLeftMenu->setID("top-left-menu");
 
-    auto exitButton = getChildOfType<CCMenuItemSpriteExtra>(topLeftMenu, 0);
+    auto exitButton = topLeftMenu->getChildByType<CCMenuItemSpriteExtra>(0);
     exitButton->setID("exit-button");
 
     topLeftMenu->setPosition(0, winSize.height - exitButton->getContentSize().height / 1);
@@ -50,7 +50,7 @@ $register_ids(OptionsLayer) {
 
 
 
-    auto optionsMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
+    auto optionsMenu = optionsLayer->getChildByType<cocos2d::CCMenu>(menuOffset);
     optionsMenu->setID("options-menu");
     optionsMenu->setContentSize(ccp(306, 114));
     optionsMenu->setPosition(ccp(winSize.width / 2, (winSize.height / 2) + 40));
@@ -62,47 +62,47 @@ $register_ids(OptionsLayer) {
     );
     menuOffset++;
 
-    auto vaultMenu = getChildOfType<cocos2d::CCMenu>(optionsLayer, menuOffset);
+    auto vaultMenu = optionsLayer->getChildByType<cocos2d::CCMenu>(menuOffset);
     vaultMenu->setID("vault-menu");
 
-    getChildOfType<CCMenuItemSpriteExtra>(vaultMenu, 0)->setID("vault-button");
-    getChildOfType<CCMenuItemToggler>(vaultMenu, 0)->setID("menu-music-toggle");
+    vaultMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("vault-button");
+    vaultMenu->getChildByType<CCMenuItemToggler>(0)->setID("menu-music-toggle");
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("account-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("account-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("how-to-play-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("how-to-play-button");
     buttonOffset++;
 
     #ifdef GEODE_IS_DESKTOP
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("options-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("options-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("graphics-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("graphics-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("rate-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("rate-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("songs-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("songs-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("help-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("help-button");
     buttonOffset++;
 
     #else
-    auto options = getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset);
+    auto options = optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset);
     options->setID("options-button");
     options->setZOrder(1);
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("rate-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("rate-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("songs-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("songs-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset)->setID("help-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("help-button");
     #endif
     
     optionsMenu->updateLayout();

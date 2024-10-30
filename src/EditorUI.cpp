@@ -16,7 +16,7 @@ $register_ids(EditorUI) {
 
     auto winSize = CCDirector::get()->getWinSize();
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("toolbar-categories-menu");
 
         setIDs(
@@ -152,7 +152,7 @@ $register_ids(EditorUI) {
         );
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         menu->setID("delete-category-menu");
 
         setIDs(
@@ -237,7 +237,7 @@ $register_ids(EditorUI) {
 
     size_t buttonBarIndex = 0;
     for (auto id : buttonBarIDs) {
-        if (auto bar = getChildOfType<EditButtonBar>(this, buttonBarIndex++)) {
+        if (auto bar = this->getChildByType<EditButtonBar>(buttonBarIndex++)) {
             bar->setID(id);
         }
         else break;
@@ -285,7 +285,7 @@ $register_ids(EditorUI) {
         }
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 2)) {
+    if (auto menu = this->getChildByType<CCMenu>(2)) {
         menu->setID("build-tabs-menu");
 
         // todo: maybe form these from buttonBarIDs to avoid duplication?
@@ -317,7 +317,7 @@ $register_ids(EditorUI) {
         );
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 3)) {
+    if (auto menu = this->getChildByType<CCMenu>(3)) {
         setIDs(
             menu,
             0,

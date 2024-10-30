@@ -16,13 +16,13 @@ $register_ids(LevelBrowserLayer) {
     size_t bmfontOffset = 0;
 
     if(!m_isOverlay) {
-        getChildOfType<CCSprite>(this, 0)->setID("background");
-        getChildOfType<CCSprite>(this, 1)->setID("left-corner");
-        getChildOfType<CCSprite>(this, 2)->setID("right-corner");
+        this->getChildByType<CCSprite>(0)->setID("background");
+        this->getChildByType<CCSprite>(1)->setID("left-corner");
+        this->getChildByType<CCSprite>(2)->setID("right-corner");
         spriteOffset += 3;
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("back-menu");
         auto btn = setIDSafe(menu, 0, "back-button");
         menu->setContentSize({ 100.f, 50.f });
@@ -36,10 +36,10 @@ $register_ids(LevelBrowserLayer) {
         );
     }
 
-    getChildOfType<CCLabelBMFont>(this, 0)->setID("level-count-label");
-    getChildOfType<TextArea>(this, 0)->setID("no-internet-text");
+    this->getChildByType<CCLabelBMFont>(0)->setID("level-count-label");
+    this->getChildByType<TextArea>(0)->setID("no-internet-text");
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         auto navMenuWidth = 50.f * winSize.aspect();
 
         if (auto prevPageBtn = setIDSafe(menu, 0, "prev-page-button")) {
@@ -153,7 +153,7 @@ $register_ids(LevelBrowserLayer) {
         for(auto& type : searchTypes) {
             if(m_searchObject->m_searchType == type) {
                 //0 matches TextArea
-                getChildOfType<CCSprite>(this, 1 + spriteOffset)->setID("header-sprite");
+                this->getChildByType<CCSprite>(1 + spriteOffset)->setID("header-sprite");
                 spriteOffset++;
                 break;
             }
@@ -161,20 +161,20 @@ $register_ids(LevelBrowserLayer) {
 
         //std::array<SearchType, 3> localTypes = { SearchType::MyLevels, SearchType::SavedLevels, SearchType::FavouriteLevels };
         if(m_searchObject->m_searchType >= SearchType::MyLevels && m_searchObject->m_searchType <= SearchType::FavouriteLevels && !m_searchObject->m_searchIsOverlay) {
-            if (auto menu = getChildOfType<CCMenu>(this, 2)) {
+            if (auto menu = this->getChildByType<CCMenu>(2)) {
                 menu->setID("delete-menu");
 
-                getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("delete-button");
-                getChildOfType<CCMenuItemToggler>(menu, 0)->setID("select-all-toggler");
+                menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("delete-button");
+                menu->getChildByType<CCMenuItemToggler>(0)->setID("select-all-toggler");
             }
-            getChildOfType<CCLabelBMFont>(this, 1 + bmfontOffset)->setID("select-all-text");
+            this->getChildByType<CCLabelBMFont>(1 + bmfontOffset)->setID("select-all-text");
 
             menuOffset++;
             bmfontOffset++;
         }
 
         if(m_searchObject->m_searchType == SearchType::MyLevels || m_searchObject->m_searchType == SearchType::SmartTemplates || m_searchObject->m_searchType == SearchType::MyLists) {
-            if (auto menu = getChildOfType<CCMenu>(this, 2 + menuOffset)) {
+            if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
 
                 menu->setID("new-level-menu");
                 auto newLvlBtn = setIDSafe(menu, 0, "new-level-button");
@@ -199,7 +199,7 @@ $register_ids(LevelBrowserLayer) {
                         }
                     }
 
-                    getChildOfType<CCMenuItemSpriteExtra>(menu, 1)->setID("switch-mode-button");
+                    menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("switch-mode-button");
 
                     menu->setLayout(
                         ColumnLayout::create()
@@ -218,12 +218,12 @@ $register_ids(LevelBrowserLayer) {
         }
 
         if(m_searchObject->m_searchType == SearchType::SavedLevels || m_searchObject->m_searchType == SearchType::FavouriteLevels || m_searchObject->m_searchType == SearchType::FavouriteLists) {
-            if (auto menu = getChildOfType<CCMenu>(this, 2 + menuOffset)) {
+            if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
                 menu->setID("saved-menu");
 
-                getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("delete-button");
-                getChildOfType<CCMenuItemSpriteExtra>(menu, 1)->setID("switch-mode-button");
-                if(m_searchObject->m_searchType != SearchType::FavouriteLists) getChildOfType<CCMenuItemSpriteExtra>(menu, 2)->setID("favorite-button");
+                menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("delete-button");
+                menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("switch-mode-button");
+                if(m_searchObject->m_searchType != SearchType::FavouriteLists) menu->getChildByType<CCMenuItemSpriteExtra>(2)->setID("favorite-button");
             }
 
             menuOffset++;
@@ -231,18 +231,18 @@ $register_ids(LevelBrowserLayer) {
         } else {
             auto intType = static_cast<int>(m_searchObject->m_searchType);
             if(intType != 98 && intType != 102 && intType != 9 && intType != 10 && intType != 14 && intType != 100 && intType != 101) {
-                if (auto menu = getChildOfType<CCMenu>(this, 2 + menuOffset)) {
+                if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
                     menu->setID("refresh-menu");
 
-                    getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("refresh-button");
+                    menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("refresh-button");
                 }
 
                 menuOffset++;
 
-                if (auto menu = getChildOfType<CCMenu>(this, 2 + menuOffset)) {
+                if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
                     menu->setID("info-menu");
 
-                    getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("info-button");
+                    menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
                     menuOffset++;
 
                     menu->setContentSize({ 26.75f*2, winSize.height - 37.f });

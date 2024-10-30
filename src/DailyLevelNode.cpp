@@ -32,43 +32,43 @@ struct DailyLevelNodeIDs : Modify<DailyLevelNodeIDs, DailyLevelNode> {
 $register_ids(DailyLevelNode) {
     auto self = reinterpret_cast<DailyLevelNodeIDs*>(this);
 
-    getChildOfType<CCScale9Sprite>(this, 0)->setID("background");
+    this->getChildByType<CCScale9Sprite>(0)->setID("background");
 
     if(m_level) {
-        getChildOfType<CCSprite>(this, 0)->setID("crown-sprite");
+        this->getChildByType<CCSprite>(0)->setID("crown-sprite");
 
         size_t labelOffset = 0;
         if(self->m_fields->m_isNew) {
-            getChildOfType<CCLabelBMFont>(this, 0)->setID("new-label");
+            this->getChildByType<CCLabelBMFont>(0)->setID("new-label");
             labelOffset += 1;
         }
 
         size_t menuOffset = 0;
         if(m_level->m_orbCompletion > 99) {
-            if (auto mainMenu = getChildOfType<CCMenu>(this, 0)) {
+            if (auto mainMenu = this->getChildByType<CCMenu>(0)) {
                 mainMenu->setID("claim-menu");
 
-                getChildOfType<CCMenuItemSpriteExtra>(mainMenu, 0)->setID("claim-button");
+                mainMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("claim-button");
 
                 menuOffset += 1;
             }
         }
 
-        if (auto mainMenu = getChildOfType<CCMenu>(this, 0 + menuOffset)) {
+        if (auto mainMenu = this->getChildByType<CCMenu>(0 + menuOffset)) {
             mainMenu->setID("skip-menu");
 
-            getChildOfType<CCMenuItemSpriteExtra>(mainMenu, 0)->setID("skip-button");
+            mainMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("skip-button");
         }
 
-        getChildOfType<CCLabelBMFont>(this, 0 + labelOffset)->setID("bonus-label");
+        this->getChildByType<CCLabelBMFont>(0 + labelOffset)->setID("bonus-label");
         if(m_page->m_type == GJTimedLevelType::Weekly) {
-            //getChildOfType<GJChestSprite>(this, 0)->setID("chest-sprite");
+            //this->getChildByType<GJChestSprite>(0)->setID("chest-sprite");
         } else {
-            getChildOfType<CCLabelBMFont>(this, 1 + labelOffset)->setID("bonus-number-label");
+            this->getChildByType<CCLabelBMFont>(1 + labelOffset)->setID("bonus-number-label");
         }
 
-        getChildOfType<CCSprite>(this, 1)->setID("bonus-sprite"); //this coincidentally matches the chest sprite as well
+        this->getChildByType<CCSprite>(1)->setID("bonus-sprite"); //this coincidentally matches the chest sprite as well
     } else {
-        getChildOfType<CCLabelBMFont>(this, 0)->setID("time-label");
+        this->getChildByType<CCLabelBMFont>(0)->setID("time-label");
     }
 }

@@ -20,83 +20,83 @@ $register_ids(InfoLayer) {
 
     auto winSize = CCDirector::get()->getWinSize();
 
-    getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
+    m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
     
     //this label is created at a different points in init for m_score and !m_score but the index happens to match, since they're right after each other
-    getChildOfType<CCLabelBMFont>(m_mainLayer, 0)->setID("title-label");
+    m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("title-label");
     labelOffset++;
 
-    getChildOfType<CCMenu>(m_mainLayer, 0)->setID("main-menu");
+    m_mainLayer->getChildByType<CCMenu>(0)->setID("main-menu");
     menuOffset++;
 
     if(!m_score) {
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("creator-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("creator-button");
         buttonOffset++;
 
         if(!descNotVisible) {
-            getChildOfType<CCScale9Sprite>(m_mainLayer, 1)->setID("desc-background");
-            getChildOfType<TextArea>(m_mainLayer, 0)->setID("description-area");
+            m_mainLayer->getChildByType<CCScale9Sprite>(1)->setID("desc-background");
+            m_mainLayer->getChildByType<TextArea>(0)->setID("description-area");
         }
 
         //InfoLayer::setupLevelInfo stuff
         if(m_level || m_levelList) {
-            getChildOfType<CCMenu>(m_mainLayer, menuOffset)->setID("id-menu");
+            m_mainLayer->getChildByType<CCMenu>(menuOffset)->setID("id-menu");
             menuOffset++;
 
-            getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("version-label");
+            m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("version-label");
             labelOffset++;
         }
         //end of InfoLayer::setupLevelInfo stuff
 
         //0077 = featured levels only; 0089 = small comments mode
         if(m_level && m_level->m_originalLevel != 0 && m_level->m_originalLevel != m_level->m_levelID && !GameManager::sharedState()->getGameVariable("0077") && !GameManager::sharedState()->getGameVariable("0089")) {
-            getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("original-level-button");
+            m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("original-level-button");
             buttonOffset++;
         }
 
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("comment-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("comment-button");
         buttonOffset++;
 
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("report-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("report-button");
         buttonOffset++;
         
     }
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("close-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
     buttonOffset++;
 
-    getChildOfType<LoadingCircle>(m_mainLayer, 0)->setID("loading-circle");
+    m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
     
-    if(auto menu = getChildOfType<CCMenu>(m_mainLayer, menuOffset)){
+    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
         menu->setID("switch-page-menu");
         menuOffset++;
         
-        getChildOfType<CCMenuItemSpriteExtra>(menu, 0)->setID("prev-page-button");
-        getChildOfType<CCMenuItemSpriteExtra>(menu, 1)->setID("next-page-button");
+        menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("prev-page-button");
+        menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("next-page-button");
     }
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("comment-count-label");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("comment-count-label");
     labelOffset++;
 
-    if(auto menu = getChildOfType<CCMenu>(m_mainLayer, menuOffset)){
+    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
         menu->setID("left-side-menu");
         menuOffset++;
         
         size_t buttonOffset = 0;
-        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("sort-likes-button");
+        menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("sort-likes-button");
         buttonOffset++;
 
-        getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("sort-recent-button");
+        menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("sort-recent-button");
         buttonOffset++;
 
         if (!GM->getGameVariable("0075")) {
             if(!m_score) {
-                getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("extend-button");
+                menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("extend-button");
                 buttonOffset++;
             }
 
-            getChildOfType<CCMenuItemSpriteExtra>(menu, buttonOffset)->setID("small-mode-button");
+            menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("small-mode-button");
             buttonOffset++;
         }
 
@@ -119,18 +119,18 @@ $register_ids(InfoLayer) {
 
     //now it calls InfoLayer::updateCommentModeButtons but that doesn't do anything important
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("load-comments-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("load-comments-button");
     buttonOffset++;
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("no-comments");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("no-comments");
     labelOffset++;
 
     if(!m_score) {
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("info-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("info-button");
         buttonOffset++;
     }
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("refresh-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("refresh-button");
     buttonOffset++;
 
     auto refreshMenu = detachAndCreateMenu(

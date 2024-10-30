@@ -25,7 +25,7 @@ $register_ids(CreatorLayer) {
     setIDSafe<CCSprite>(this, 2, "top-left-corner");
     auto winSize = CCDirector::get()->getWinSize();
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("creator-buttons-menu");
 
         // move vault button to its own menu
@@ -99,7 +99,7 @@ $register_ids(CreatorLayer) {
         );
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         menu->setID("exit-menu");
         auto exitBtn = setIDSafe(menu, 0, "exit-button");
         menu->setPositionY(

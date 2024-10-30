@@ -27,7 +27,7 @@ $register_ids(ChallengesPage) {
         "bottom-right-art"
     );
 
-    if(auto topMenu = getChildOfType<cocos2d::CCMenu>(m_mainLayer, 0)) {
+    if(auto topMenu = m_mainLayer->getChildByType<cocos2d::CCMenu>(0)) {
         setIDs(
             topMenu,
             0,
@@ -69,9 +69,9 @@ $register_ids(ChallengesPage) {
         );
         closeMenu->updateLayout();
     }
-    /*getChildOfType<ChallengeNode>(m_mainLayer, 0)->setID("top-quest");
-    getChildOfType<ChallengeNode>(m_mainLayer, 1)->setID("middle-quest");
-    getChildOfType<ChallengeNode>(m_mainLayer, 2)->setID("bottom-quest");*/
+    /*m_mainLayer->getChildByType<ChallengeNode>(0)->setID("top-quest");
+    m_mainLayer->getChildByType<ChallengeNode>(1)->setID("middle-quest");
+    m_mainLayer->getChildByType<ChallengeNode>(2)->setID("bottom-quest");*/
     setIDSafe<cocos2d::CCLabelBMFont>(m_mainLayer, 0, "new-quest-label");
 
     // For some reason this is more reliable?

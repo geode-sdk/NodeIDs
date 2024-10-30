@@ -18,39 +18,39 @@ $register_ids(LevelLeaderboard) {
 
     m_buttonMenu->setID("main-menu");
 
-    getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
+    m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("title-label");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("title-label");
     labelOffset++;
 
     if(m_level->isPlatformer()) {
 
-        getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("mode-icon");
+        m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("mode-icon");
         spriteOffset++;
 
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("time-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("time-button");
         buttonOffset++;
 
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("points-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("points-button");
         buttonOffset++;
 
         if(m_level->m_levelType == GJLevelType::Editor) {
-            getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("clear-button");
+            m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("clear-button");
             buttonOffset++;
         }
     }
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("close-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("update-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("update-button");
     buttonOffset++;
 
-    getChildOfType<LoadingCircle>(m_mainLayer, 0)->setID("loading-circle");
-    getChildOfType<TextArea>(m_mainLayer, 0)->setID("no-internet-text");
+    m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
+    m_mainLayer->getChildByType<TextArea>(0)->setID("no-internet-text");
 
     if(m_level->m_levelType != GJLevelType::Editor) {
-        if(auto secondMenu = getChildOfType<CCMenu>(m_mainLayer, 1)) {
+        if(auto secondMenu = m_mainLayer->getChildByType<CCMenu>(1)) {
             secondMenu->setID("type-menu");
             setIDs(
                 secondMenu,

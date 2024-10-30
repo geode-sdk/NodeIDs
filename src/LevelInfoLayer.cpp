@@ -28,7 +28,7 @@ $register_ids(LevelInfoLayer) {
         }
     //} else if(!GameManager::sharedState()->getGameVariable("0047") && !m_challenge && GameLevelManager::sharedState()->accountIDForUserID(m_level->m_userID) > 0) {
     } else if(auto viewSprite = getChildBySpriteFrameName(this, "GJ_viewProfileTxt_001.png")) {
-        if(getChildOfType<CCSprite>(this, 3) != viewSprite) log::warn("View Profile sprite not in expected place! Node IDs may be incorrect!");
+        if(this->getChildByType<CCSprite>(3) != viewSprite) log::warn("View Profile sprite not in expected place! Node IDs may be incorrect!");
         viewSprite->setID("view-profile");
         iconOffset++;
     }
@@ -71,12 +71,12 @@ $register_ids(LevelInfoLayer) {
         coin->setID(fmt::format("coin-icon-{}", coinIdx++));
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("play-menu");
         setIDSafe(menu, 0, "play-button");
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 2)) {
+    if (auto menu = this->getChildByType<CCMenu>(2)) {
         menu->setID("back-menu");
         auto backBtn = setIDSafe(menu, 0, "back-button");
         menu->setPositionX(
@@ -90,7 +90,7 @@ $register_ids(LevelInfoLayer) {
         );
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         menu->setID("right-side-menu");
 
         if (auto name = setIDSafe(menu, 0, "creator-name")) {
@@ -178,7 +178,7 @@ $register_ids(LevelInfoLayer) {
         leftSideMenu->updateLayout();
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 3)) {
+    if (auto menu = this->getChildByType<CCMenu>(3)) {
         menu->setID("other-menu");
 
         setIDSafe(menu, 0, "info-button");
@@ -189,13 +189,13 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, 5, "list-button");
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 4)) {
+    if (auto menu = this->getChildByType<CCMenu>(4)) {
         menu->setID("garage-menu");
 
         setIDSafe(menu, 0, "garage-button");
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 5)) {
+    if (auto menu = this->getChildByType<CCMenu>(5)) {
         menu->setID("settings-menu");
 
         setIDSafe(menu, 0, "settings-button");

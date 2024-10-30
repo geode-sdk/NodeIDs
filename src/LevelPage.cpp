@@ -20,14 +20,14 @@ $register_ids(LevelPage) {
     );
 
     if (auto levelMenu = this->getChildByID("level-menu")) {
-        if (auto levelButton = getChildOfType<CCMenuItemSpriteExtra>(levelMenu, 0)) {
+        if (auto levelButton = levelMenu->getChildByType<CCMenuItemSpriteExtra>(0)) {
             levelButton->setID("level-button");
 
             // why in gods name does this sprite house everything
-            if (auto whiteSprite = getChildOfType<CCSprite>(levelButton, 0)) {
+            if (auto whiteSprite = levelButton->getChildByType<CCSprite>(0)) {
                 whiteSprite->setID("white-sprite");
 
-                if (auto scale9Sprite = getChildOfType<CCScale9Sprite>(whiteSprite, 0)) {
+                if (auto scale9Sprite = whiteSprite->getChildByType<CCScale9Sprite>(0)) {
                     scale9Sprite->setID("scale-9-sprite");
 
                     setIDs(
@@ -44,7 +44,7 @@ $register_ids(LevelPage) {
                     );
                 }
 
-                if (auto controllerStartSprite = getChildOfType<CCSprite>(whiteSprite, 0)) {
+                if (auto controllerStartSprite = whiteSprite->getChildByType<CCSprite>(0)) {
                     controllerStartSprite->setID("controller-start-sprite");
                 }
             }
@@ -93,7 +93,7 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
         auto secretDoorButton = static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(m_dynamicObjects->count() - 2));
         secretDoorButton->setID("secret-door-button");
 
-        if (auto secretDoorSprite = getChildOfType<CCSprite>(secretDoorButton, 0)) {
+        if (auto secretDoorSprite = secretDoorButton->getChildByType<CCSprite>(0)) {
             secretDoorSprite->setID("secret-door-sprite");
 
             if(secretDoorSprite != m_dynamicObjects->lastObject()) {
@@ -149,10 +149,10 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
                 if (auto buttonMenu = getChildByID("button-menu")) {
                     buttonMenu->setID("button-menu");
 
-                    if (auto towerButton = getChildOfType<CCMenuItemSpriteExtra>(buttonMenu, 0)) {
+                    if (auto towerButton = buttonMenu->getChildByType<CCMenuItemSpriteExtra>(0)) {
                         towerButton->setID("tower-button");
 
-                        if (auto towerSprite = getChildOfType<CCSprite>(towerButton, 0)) {
+                        if (auto towerSprite = towerButton->getChildByType<CCSprite>(0)) {
                             towerSprite->setID("tower-sprite");
 
                             setIDs(

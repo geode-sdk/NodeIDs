@@ -25,7 +25,7 @@ public:
 $register_ids(EditorPauseLayer) {
     auto winSize = CCDirector::get()->getWinSize();
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("resume-menu");
 
         setIDs(
@@ -64,7 +64,7 @@ $register_ids(EditorPauseLayer) {
         "length-name-label"
     );
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         menu->setID("bottom-menu");
 
         int idx = 0;
@@ -168,8 +168,8 @@ $register_ids(EditorPauseLayer) {
                 off->setPosition({maxWidth/2, maxHeight/2});
                 on->setPosition({maxWidth/2, maxHeight/2});
 
-                CCSprite* offSpr = getChildOfType<CCSprite>(off, 0);
-                CCSprite* onSpr = getChildOfType<CCSprite>(off, 0);
+                CCSprite* offSpr = off->getChildByType<CCSprite>(0);
+                CCSprite* onSpr = off->getChildByType<CCSprite>(0);
 
                 off->setPosition({maxWidth/2, maxHeight/2});
                 on->setPosition({maxWidth/2, maxHeight/2});

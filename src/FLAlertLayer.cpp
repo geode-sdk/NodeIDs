@@ -18,15 +18,15 @@ $register_ids(FLAlertLayer) {
     m_mainLayer->setID("main-layer");
 
     // this is a textarea but this works since textareas subclass ccsprite
-    if(!m_containsBorder) getChildOfType<CCSprite>(m_mainLayer, spriteOffset++)->setID("content-text-area");
+    if(!m_containsBorder) m_mainLayer->getChildByType<CCSprite>(spriteOffset++)->setID("content-text-area");
 
-    getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset++)->setID("title");
+    m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset++)->setID("title");
 
     if(m_containsBorder) {
-        if(auto scrollLayer = getChildOfType<ScrollingLayer>(m_mainLayer, 0)) {
+        if(auto scrollLayer = m_mainLayer->getChildByType<ScrollingLayer>(0)) {
             scrollLayer->setID("scroll-layer");
-            getChildOfType<TextArea>(getChildOfType<CCLayer>(scrollLayer, 1), 0)->setID("content-text-area");
+            scrollLayer->getChildByType<CCLayer>(1)->getChildByType<TextArea>(0)->setID("content-text-area");
         }
     }
 
@@ -35,8 +35,8 @@ $register_ids(FLAlertLayer) {
     if(!m_noAction) m_button2->getParent()->setID("button-2");
 
     if(PlatformToolbox::isControllerConnected()) {
-        getChildOfType<CCSprite>(m_mainLayer, spriteOffset++)->setID("controller-back-hint");
-        if(!m_noAction) getChildOfType<CCSprite>(m_mainLayer, spriteOffset++)->setID("controller-ok-hint");
+        m_mainLayer->getChildByType<CCSprite>(spriteOffset++)->setID("controller-back-hint");
+        if(!m_noAction) m_mainLayer->getChildByType<CCSprite>(spriteOffset++)->setID("controller-ok-hint");
     }
 }
 
