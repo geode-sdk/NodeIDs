@@ -26,7 +26,7 @@ $register_ids(SecretLayer2) {
         menu,
         0,
         "back-button",
-        "valtkeeper-button",
+        "vaultkeeper-button",
         "door-button",
         "the-challenge-button"
     );
