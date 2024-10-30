@@ -13,7 +13,7 @@ using namespace geode::prelude;
 //         setIDSafe(m_mainLayer, 0, "back-button");
 //     }
 
-//     if (auto menu = getChildOfType<CCMenu>(m_mainLayer, 0)) {
+//     if (auto menu = m_mainLayer->getChildByType<CCMenu>(0)) {
 //         menu->setID("song-select-menu");
 
 //         if (startPos) {

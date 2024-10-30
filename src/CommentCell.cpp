@@ -18,40 +18,40 @@ $register_ids(CommentCell) {
     //there is a chance m_comment->m_accountID is not set properly before loadFromComment
     //but this is fixed inside loadFromComment itself, so that case is also handled
 
-    if(!smallCommentsMode) getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
+    if(!smallCommentsMode) m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
     int bmfontOffset = 0;
     if(m_comment->m_modBadge > 0) {
-        getChildOfType<CCSprite>(m_mainLayer, 0)->setID("mod-badge");
+        m_mainLayer->getChildByType<CCSprite>(0)->setID("mod-badge");
     }
     if(m_comment->m_percentage > 0) {
-        getChildOfType<CCLabelBMFont>(m_mainLayer, 0 + bmfontOffset)->setID("percentage-label");
+        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("percentage-label");
         bmfontOffset += 1;
     }
     if (usernameNotInMenu) {
-        getChildOfType<CCLabelBMFont>(m_mainLayer, 0 + bmfontOffset)->setID("username-label");
+        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("username-label");
         bmfontOffset += 1;
     }
 
     if(smallCommentsMode) {
-        getChildOfType<CCLabelBMFont>(m_mainLayer, 0 + bmfontOffset)->setID("comment-text-label");
+        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("comment-text-label");
         bmfontOffset += 1;
     }
 
     if(!m_comment->m_isSpam) {
-        getChildOfType<CCLabelBMFont>(m_mainLayer, 0 + bmfontOffset)->setID("likes-label");
+        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("likes-label");
         bmfontOffset += 1;
-        if(!(m_comment->m_uploadDate).empty()) getChildOfType<CCLabelBMFont>(m_mainLayer, 0 + bmfontOffset)->setID("date-label");
+        if(!(m_comment->m_uploadDate).empty()) m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("date-label");
         bmfontOffset += 1;
     }
 
     if (!m_accountComment && usernameNotInMenu) {
-        getChildOfType<SimplePlayer>(m_mainLayer, 0)->setID("player-icon");
+        m_mainLayer->getChildByType<SimplePlayer>(0)->setID("player-icon");
     }
 
-    if(!smallCommentsMode) getChildOfType<TextArea>(m_mainLayer, 0)->setID("comment-text-area");
+    if(!smallCommentsMode) m_mainLayer->getChildByType<TextArea>(0)->setID("comment-text-area");
 
-    if (auto mainMenu = getChildOfType<CCMenu>(m_mainLayer, 0)) {
+    if (auto mainMenu = m_mainLayer->getChildByType<CCMenu>(0)) {
         mainMenu->setID("main-menu");
 
         int menuOffset = 0;
@@ -87,11 +87,11 @@ $register_ids(CommentCell) {
 
             if (!smallCommentsMode) userMenu->setPositionY(- (winSize.height / 2) + 60.f);
 
-            auto playerIcon = getChildOfType<SimplePlayer>(m_mainLayer, 0);
-            auto iconSpr = getChildOfType<CCSprite>(playerIcon, 0);
+            auto playerIcon = m_mainLayer->getChildByType<SimplePlayer>(0);
+            auto iconSpr = playerIcon->getChildByType<CCSprite>(0);
             playerIcon->setContentSize({40, 40}); // to make it work with layouts
             iconSpr->setPosition(ccp(playerIcon->getContentWidth() / 2.f, playerIcon->getContentHeight() / 2.f));
-            if (auto robotSpr = getChildOfType<GJRobotSprite>(playerIcon, 0)) robotSpr->setPosition(ccp(20.f, 20.f));
+            if (auto robotSpr = playerIcon->getChildByType<GJRobotSprite>(0)) robotSpr->setPosition(ccp(20.f, 20.f));
             playerIcon->removeFromParent();
             playerIcon->setZOrder(-1);
             playerIcon->setLayoutOptions(AxisLayoutOptions::create()->setAutoScale(false));
@@ -116,12 +116,12 @@ $register_ids(CommentCell) {
             setIDSafe(usernameMenu, 0, "username-button");
 
             if (m_comment->m_modBadge > 0) {
-                switchToMenu(getChildOfType<CCSprite>(m_mainLayer, 0), usernameMenu);
+                switchToMenu(m_mainLayer->getChildByType<CCSprite>(0), usernameMenu);
                 setIDSafe(usernameMenu, 1, "mod-badge");
             }
 
             if (m_comment->m_percentage > 0) {
-                switchToMenu(getChildOfType<CCLabelBMFont>(m_mainLayer, 0), usernameMenu);
+                switchToMenu(m_mainLayer->getChildByType<CCLabelBMFont>(0), usernameMenu);
                 setIDSafe(usernameMenu, 2, "percentage-label");
             }
 

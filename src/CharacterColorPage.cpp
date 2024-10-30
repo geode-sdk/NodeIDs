@@ -14,7 +14,7 @@ $register_ids(CharacterColorPage) {
     colorsLayer->setID("colors-layer");
 
     setIDSafe(colorsLayer, offset++, "background");
-    if (auto menu = getChildOfType<CCMenu>(colorsLayer, 0)) {
+    if (auto menu = colorsLayer->getChildByType<CCMenu>(0)) {
         menu->setID("buttons-menu");
         setIDs(
             menu,

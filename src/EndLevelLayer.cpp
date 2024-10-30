@@ -197,22 +197,22 @@ struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
             if (auto star = ::getChildBySpriteFrameName(child, "GJ_bigStar_001.png")) {
                 child->setID("star-container");
                 star->setID("star-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("star-label");
+                child->getChildByType<CCLabelBMFont>(0)->setID("star-label");
             }
             else if (auto moon = ::getChildBySpriteFrameName(child, "GJ_bigMoon_001.png")) {
                 child->setID("moon-container");
                 moon->setID("moon-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("moon-label");
+                child->getChildByType<CCLabelBMFont>(0)->setID("moon-label");
             }
             else if (auto orb = ::getChildBySpriteFrameName(child, "currencyOrbIcon_001.png")) {
                 child->setID("orb-container");
                 orb->setID("orb-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("orb-label");
+                child->getChildByType<CCLabelBMFont>(0)->setID("orb-label");
             }
             else if (auto diamond = ::getChildBySpriteFrameName(child, "GJ_bigDiamond_001.png")) {
                 child->setID("diamond-container");
                 diamond->setID("diamond-sprite");
-                getChildOfType<CCLabelBMFont>(child, 0)->setID("diamond-label");
+                child->getChildByType<CCLabelBMFont>(0)->setID("diamond-label");
             }
         }
     }
