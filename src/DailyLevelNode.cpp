@@ -1,6 +1,4 @@
 // #include "AddIDs.hpp"
-//TODO: FIX 2.207
-
 #include <Geode/Geode.hpp>
 #include <Geode/modify/DailyLevelNode.hpp>
 #include <Geode/utils/NodeIDs.hpp>
@@ -62,7 +60,7 @@ $register_ids(DailyLevelNode) {
         }
 
         this->getChildByType<CCLabelBMFont>(0 + labelOffset)->setID("bonus-label");
-        if(m_page->m_type == GJTimedLevelType::Weekly) {
+        if(m_page->m_type == GJTimedLevelType::Weekly || m_page->m_type == GJTimedLevelType::Event) {
             //this->getChildByType<GJChestSprite>(0)->setID("chest-sprite");
         } else {
             this->getChildByType<CCLabelBMFont>(1 + labelOffset)->setID("bonus-number-label");
