@@ -52,6 +52,7 @@ static void replaceInput(
     // newInput->getInput()->m_maxLabelScale = input->m_maxLabelScale;
     // newInput->getInput()->m_maxLabelLength = input->m_maxLabelLength;
     // newInput->getInput()->m_maxLabelWidth = input->m_maxLabelWidth;
+    newInput->getInputNode()->m_numberInput = input->m_numberInput;
     newInput->setFilter(input->m_allowedChars);
     newInput->setString(input->getString());
     newInput->setDelegate(input->m_delegate, input->getTag());
