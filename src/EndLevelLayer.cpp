@@ -100,7 +100,7 @@ $register_ids(EndLevelLayer) {
             "secretCoin_b_01_001.png",
             "secretCoin_2_b_01_001.png"
         }) {
-            if (::isSpriteFrameName(child, framename)) {
+            if (isSpriteFrameName(child, framename)) {
                 child->setID(fmt::format("coin-{}-background", currentCoin));
                 coinPos.push_back(child->getPosition());
                 currentCoin += 1;
