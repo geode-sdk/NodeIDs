@@ -12,18 +12,18 @@ $register_ids(LevelSearchLayer) {
     auto winSize = CCDirector::get()->getWinSize();
 
     setIDSafe(this, 0, "background");
-    getChildOfType<CCTextInputNode>(this, 0)->setID("search-bar");
-    getChildOfType<CCScale9Sprite>(this, 0)->setID("level-search-bg");
-    getChildOfType<CCScale9Sprite>(this, 1)->setID("level-search-bar-bg");
-    getChildOfType<CCScale9Sprite>(this, 2)->setID("quick-search-bg");
-    getChildOfType<CCScale9Sprite>(this, 3)->setID("difficulty-filters-bg");
-    getChildOfType<CCScale9Sprite>(this, 4)->setID("length-filters-bg");
-    getChildOfType<CCLabelBMFont>(this, 0)->setID("quick-search-title");
-    getChildOfType<CCLabelBMFont>(this, 1)->setID("filters-title");
-    getChildOfType<CCSprite>(this, 1)->setID("left-corner");
-    getChildOfType<CCSprite>(this, 2)->setID("right-corner");
+    this->getChildByType<CCTextInputNode>(0)->setID("search-bar");
+    this->getChildByType<CCScale9Sprite>(0)->setID("level-search-bg");
+    this->getChildByType<CCScale9Sprite>(1)->setID("level-search-bar-bg");
+    this->getChildByType<CCScale9Sprite>(2)->setID("quick-search-bg");
+    this->getChildByType<CCScale9Sprite>(3)->setID("difficulty-filters-bg");
+    this->getChildByType<CCScale9Sprite>(4)->setID("length-filters-bg");
+    this->getChildByType<CCLabelBMFont>(0)->setID("quick-search-title");
+    this->getChildByType<CCLabelBMFont>(1)->setID("filters-title");
+    this->getChildByType<CCSprite>(1)->setID("left-corner");
+    this->getChildByType<CCSprite>(2)->setID("right-corner");
 
-    if (auto filtermenu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto filtermenu = this->getChildByType<CCMenu>(0)) {
         filtermenu->setID("other-filter-menu");
         filtermenu->setLayout(
             ColumnLayout::create()
@@ -40,13 +40,13 @@ $register_ids(LevelSearchLayer) {
         setIDSafe(filtermenu, 2, "lists-button");
         filtermenu->updateLayout();
     }
-    if (auto searchmenu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto searchmenu = this->getChildByType<CCMenu>(1)) {
         searchmenu->setID("search-button-menu");
         setIDSafe(searchmenu, 0, "search-level-button");
         setIDSafe(searchmenu, 1, "search-user-button");
         setIDSafe(searchmenu, 2, "clear-search-button");
     }
-    if (auto quickmenu = getChildOfType<CCMenu>(this, 2)) {
+    if (auto quickmenu = this->getChildByType<CCMenu>(2)) {
         quickmenu->setID("quick-search-menu");
         setIDSafe(quickmenu, 0, "most-downloaded-button");
         setIDSafe(quickmenu, 1, "most-liked-button");
@@ -58,7 +58,7 @@ $register_ids(LevelSearchLayer) {
         setIDSafe(quickmenu, 7, "followed-button");
         setIDSafe(quickmenu, 8, "friends-button");
     }
-    if (auto filtersmenu = getChildOfType<CCMenu>(this, 3)) {
+    if (auto filtersmenu = this->getChildByType<CCMenu>(3)) {
         filtersmenu->setID("difficulty-filter-menu");
         setIDSafe(filtersmenu, 0, "na-filter-button");
         setIDSafe(filtersmenu, 1, "easy-filter-button");
@@ -70,7 +70,7 @@ $register_ids(LevelSearchLayer) {
         setIDSafe(filtersmenu, 7, "auto-filter-button");
         setIDSafe(filtersmenu, 8, "demon-type-filter-button");
     }
-    if (auto filtersmenu = getChildOfType<CCMenu>(this, 4)) {
+    if (auto filtersmenu = this->getChildByType<CCMenu>(4)) {
         filtersmenu->setID("length-filter-menu");
         if(m_type == 0) {
             setIDSafe(filtersmenu, 0, "clock-icon");
@@ -85,7 +85,7 @@ $register_ids(LevelSearchLayer) {
             setIDSafe(filtersmenu, 0, "star-filter-button");
         }
     }
-    if (auto backmenu = getChildOfType<CCMenu>(this, 5)) {
+    if (auto backmenu = this->getChildByType<CCMenu>(5)) {
         backmenu->setID("exit-menu");
         setIDSafe(backmenu, 0, "exit-button");
     }

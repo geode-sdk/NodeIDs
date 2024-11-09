@@ -168,8 +168,8 @@ $register_ids(SetGroupIDLayer) {
 
         for (int i = offset; i < menu->getChildrenCount(); i++) {
             auto child = getChild(menu, i);
-            if (auto btn = getChildOfType<ButtonSprite>(child, 0)) {
-                if (auto label = getChildOfType<CCLabelBMFont>(btn, 0)) {
+            if (auto btn = child->getChildByType<ButtonSprite>(0)) {
+                if (auto label = btn->getChildByType<CCLabelBMFont>(0)) {
                     if (label->getString() == "Copy"sv) {
                         child->setID("copy-button");
                     } else if (label->getString() == "Paste"sv) {

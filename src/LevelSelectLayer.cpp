@@ -25,7 +25,7 @@ $register_ids(LevelSelectLayer) {
     );
 
     if (auto levelsList = this->getChildByID("levels-list")) {
-        if (auto levelPages = getChildOfType<ExtendedLayer>(levelsList, 0)) {
+        if (auto levelPages = levelsList->getChildByType<ExtendedLayer>(0)) {
             levelPages->setID("level-pages");
 
             setIDs(
@@ -37,19 +37,19 @@ $register_ids(LevelSelectLayer) {
             );
         }
 
-        getChildOfType<CCSpriteBatchNode>(levelsList, 0)->setID("page-buttons");
+        levelsList->getChildByType<CCSpriteBatchNode>(0)->setID("page-buttons");
     }
 
     if (auto bottomCenterMenu = this->getChildByID("bottom-center-menu")) {
-        if (auto soundtrackButton = getChildOfType<CCMenuItemSpriteExtra>(bottomCenterMenu, 0)) {
+        if (auto soundtrackButton = bottomCenterMenu->getChildByType<CCMenuItemSpriteExtra>(0)) {
             soundtrackButton->setID("download-soundtrack-button");
 
-            getChildOfType<CCLabelBMFont>(soundtrackButton, 0)->setID("download-soundtrack-label");
+            soundtrackButton->getChildByType<CCLabelBMFont>(0)->setID("download-soundtrack-label");
         }
     }
 
-    getChildOfType<CCMenuItemSpriteExtra>(this->getChildByID("info-menu"), 0)->setID("info-button");
-    getChildOfType<CCMenuItemSpriteExtra>(this->getChildByID("back-menu"), 0)->setID("back-button");
+    this->getChildByID("info-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
+    this->getChildByID("back-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("back-button");
 
     if (auto arrowsMenu = this->getChildByID("arrows-menu")) {
         setIDs(

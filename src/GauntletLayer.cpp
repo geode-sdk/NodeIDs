@@ -9,13 +9,13 @@ using namespace geode::node_ids;
 $register_ids(GauntletLayer) {
     this->setID("main-layer");
 
-    getChildOfType<CCSprite>(this, 0)->setID("background");
-    getChildOfType<CCLabelBMFont>(this, 0)->setID("title-shadow");
-    getChildOfType<CCLabelBMFont>(this, 1)->setID("title");
-    getChildOfType<TextArea>(this, 0)->setID("try-again-text");
-    getChildOfType<LoadingCircle>(this, 0)->setID("loading-circle");
+    this->getChildByType<CCSprite>(0)->setID("background");
+    this->getChildByType<CCLabelBMFont>(0)->setID("title-shadow");
+    this->getChildByType<CCLabelBMFont>(1)->setID("title");
+    this->getChildByType<TextArea>(0)->setID("try-again-text");
+    this->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
-    if (auto menu = getChildOfType<CCMenu>(this, 0)) {
+    if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("exit-menu");
         auto exitBtn = setIDSafe(menu, 0, "exit-button");
         menu->setPositionY(
@@ -29,10 +29,10 @@ $register_ids(GauntletLayer) {
         );
     }
 
-    if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+    if (auto menu = this->getChildByType<CCMenu>(1)) {
         menu->setID("levels-menu");
         for (int i = 0; i < 5; i++) {
-            getChildOfType<CCMenuItemSpriteExtra>(menu, i)->setID(fmt::format("level-{}", i + 1));
+            menu->getChildByType<CCMenuItemSpriteExtra>(i)->setID(fmt::format("level-{}", i + 1));
         }
     }
 }
@@ -60,10 +60,10 @@ struct GauntletLayerIDs : Modify<GauntletLayerIDs, GauntletLayer> {
         GauntletLayer::loadLevelsFinished(p0, p1, p2);
 
         // im pretty sure its just the actual level buttons that can sometimes only load after this
-        if (auto menu = getChildOfType<CCMenu>(this, 1)) {
+        if (auto menu = this->getChildByType<CCMenu>(1)) {
             menu->setID("levels-menu");
             for (int i = 0; i < 5; i++) {
-                getChildOfType<CCMenuItemSpriteExtra>(menu, i)->setID(fmt::format("level-{}", i + 1));
+                menu->getChildByType<CCMenuItemSpriteExtra>(i)->setID(fmt::format("level-{}", i + 1));
             }
         }
     }

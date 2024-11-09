@@ -18,45 +18,45 @@ $register_ids(ProfilePage) {
 
     m_buttonMenu->setID("main-menu");
 
-    getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
+    m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("username-label");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("username-label");
     labelOffset++;
 
-    getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("floor-line");
+    m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("floor-line");
     spriteOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("close-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
     buttonOffset++;
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, labelOffset)->setID("something-went-wrong");
+    m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("something-went-wrong");
     labelOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("prev-page-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("prev-page-button");
     buttonOffset++;
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("next-page-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("next-page-button");
     buttonOffset++;
 
     if(m_accountID != GJAccountManager::sharedState()->m_accountID) {
 
-        getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("follow-button");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("follow-button");
         buttonOffset++;
 
         if(!GameLevelManager::sharedState()->isFollowingUser(m_accountID)) {
-            getChildOfType<CCSprite>(m_mainLayer, spriteOffset)->setID("follow-hint");
+            m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("follow-hint");
             spriteOffset++;
         }
 
     }
 
-    getChildOfType<LoadingCircle>(m_mainLayer, 0)->setID("loading-circle");
+    m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
-    getChildOfType<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset)->setID("refresh-button");
+    m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("refresh-button");
     buttonOffset++;
 
-    getChildOfType<GJCommentListLayer>(m_mainLayer, 0)->setID("icon-background");
-    //getChildOfType<GJCommentListLayer>(m_mainLayer, 1)->setID("comment-list");
+    m_mainLayer->getChildByType<GJCommentListLayer>(0)->setID("icon-background");
+    //m_mainLayer->getChildByType<GJCommentListLayer>(1)->setID("comment-list");
 
     auto leftMenu = CCMenu::create();
     leftMenu->setLayout(
