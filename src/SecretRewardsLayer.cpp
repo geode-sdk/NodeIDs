@@ -1,4 +1,3 @@
-//TODO: fix for 2.207 crashes on line 17
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/SecretRewardsLayer.hpp>
 #include <Geode/utils/cocos.hpp>
@@ -40,7 +39,7 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
 
   page->setID("page" + std::to_string(pageNum + 1));
 
-  if (pageNum == 3) { // store page
+  if (pageNum == 4) { // store page
     if (auto menu = page->getChildByType<CCMenu>(0)) {
       menu->setID("store-menu");
 
@@ -76,9 +75,9 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
 
   // don't mind the first three indeces down there, for some reason the third page mixes them up idk
   // also these calls are pretty repetitive so they are all in 1 line bc wrapping them looks frankly disgusting lol
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 2 : 0, pageNum == 2 ? "chest-icon" : "tier-indicator");
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 0 : 1, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-platform").c_str());
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 1 : 2, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-cost"    ).c_str());
+  if(pageNum != 3) setIDSafe<CCSprite>(page, pageNum == 2 ? 2 : 0, pageNum == 2 ? "chest-icon" : "tier-indicator");
+  setIDSafe<CCSprite>(page, pageNum >= 2 ? 0 : 1, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-platform").c_str());
+  setIDSafe<CCSprite>(page, pageNum >= 2 ? 1 : 2, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-cost"    ).c_str());
   setIDSafe<CCSprite>(page, 3,                    ((pageNum == 2 ? "milestone100" : "chest" + std::to_string(pageNum * 3 + 2)) + "-platform").c_str());
   setIDSafe<CCSprite>(page, 4,                    ((pageNum == 2 ? "milestone100" : "chest" + std::to_string(pageNum * 3 + 2)) + "-cost"    ).c_str());
   setIDSafe<CCSprite>(page, 5,                    ((pageNum == 2 ? "milestone200" : "chest" + std::to_string(pageNum * 3 + 3)) + "-platform").c_str());
@@ -100,6 +99,7 @@ $register_ids(SecretRewardsLayer) {
           assignIDsToPage(pages->getChildByType<CCLayer>(1), 1);
           assignIDsToPage(pages->getChildByType<CCLayer>(2), 2);
           assignIDsToPage(pages->getChildByType<CCLayer>(3), 3);
+          assignIDsToPage(pages->getChildByType<CCLayer>(4), 4);
         }
         
         if (auto pageCircleWrapper = scrollLayer->getChildByType<cocos2d::CCSpriteBatchNode>(0)) {
@@ -109,6 +109,7 @@ $register_ids(SecretRewardsLayer) {
           setIDSafe<CCSprite>(pageCircleWrapper, 1, "page2");
           setIDSafe<CCSprite>(pageCircleWrapper, 2, "page3");
           setIDSafe<CCSprite>(pageCircleWrapper, 3, "page4");
+          setIDSafe<CCSprite>(pageCircleWrapper, 4, "page5");
         }
       }
     }
@@ -124,8 +125,10 @@ $register_ids(SecretRewardsLayer) {
     setIDSafe<CCSprite>(this, 1, "top-right-art");
     setIDSafe<CCSprite>(this, 2, "top-left-art");
     setIDSafe<CCSprite>(this, 3, "key-icon");
-    setIDSafe<CCSprite>(this, 4, "floor");
+    setIDSafe<CCSprite>(this, 4, "gold-key-icon");
+    setIDSafe<CCSprite>(this, 5, "floor");
     setIDSafe<CCLabelBMFont>(this, 0, "key-count");
+    setIDSafe<CCLabelBMFont>(this, 1, "gold-key-count");
     setIDSafe<CCMenu>(this, 0, "exit-menu");
 };
 
