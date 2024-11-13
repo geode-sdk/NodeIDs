@@ -1,12 +1,12 @@
 {
-	"geode": "4.0.0",
+	"geode": "4.0.0-alpha.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
 		"mac": "2.2074",
 		"ios": "2.2074"
 	},
-	"version": "v1.16.0", 
+	"version": "v1.17.0-alpha.1", 
 	"id": "geode.node-ids",
 	"name": "Node IDs",
 	"developer": "Geode Team",
