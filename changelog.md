@@ -1,4 +1,9 @@
 # Node IDs Changelog
+## v1.17.0
+* Added ItemInfoPopup [#111](https://github.com/geode-sdk/NodeIDs/pull/111)
+* Added SecretLayer and SecretLayer4 (2.0 vault and Chamber of Time) [#109](https://github.com/geode-sdk/NodeIDs/pull/109)
+* Fixed replaceInput not inheriting number input property [#110](https://github.com/geode-sdk/NodeIDs/pull/110)
+* Updated for GD 2.207
 
 ## v1.16.0
 * Added secret coin ID to LevelPage
