@@ -86,6 +86,9 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
     void addSecretDoor() {
         LevelPage::addSecretDoor();
 
+        //door is not unlocked
+        if(!GameManager::sharedState()->getUGV("6")) return;
+
         if(m_dynamicObjects->count() < 2) {
             return printTooSmallError(2);
         }
@@ -119,24 +122,6 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
         LevelPage::updateDynamicPage(level);
 
         size_t offset = 0;
-
-        if (GameStatsManager::sharedState()->getStat("8") < level->m_requiredCoins) {
-            if(m_dynamicObjects->count() < 3) {
-                return printTooSmallError(3);
-            }
-
-            static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("lock-sprite");
-            static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-icon");
-            static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-label");
-        } else {
-            if(m_dynamicObjects->count() < 2) {
-                return printTooSmallError(2);
-                return;
-            }
-
-            static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-icon");
-            static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-label");
-        }
 
         // this is how updateDynamicPage itself does it
         if (level->m_levelID <= 0) {
@@ -174,6 +159,24 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
                 static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("coming-soon-label");
 
                 //door impld in addSecretDoor
+            }
+        } else {
+            if (GameStatsManager::sharedState()->getStat("8") < level->m_requiredCoins) {
+                if(m_dynamicObjects->count() < 3) {
+                    return printTooSmallError(3);
+                }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("lock-sprite");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-icon");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-label");
+            } else {
+                if(m_dynamicObjects->count() < 2) {
+                    return printTooSmallError(2);
+                    return;
+                }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-icon");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-label");
             }
         }
     }
