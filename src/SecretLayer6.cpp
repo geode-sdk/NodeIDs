@@ -1,8 +1,9 @@
-#include "Geode/cocos/label_nodes/CCLabelBMFont.h"
 #include <Geode/Geode.hpp>
-#include <Geode/binding/SecretLayer6.hpp>
 #include <Geode/modify/SecretLayer6.hpp>
 #include <Geode/utils/NodeIDs.hpp>
+
+//this layer doesn't exist on Windows
+#ifndef GEODE_IS_WINDOWS
 
 using namespace geode::prelude;
 using namespace geode::node_ids;
@@ -37,3 +38,5 @@ struct SecretLayer6IDs : Modify<SecretLayer6IDs, SecretLayer6> {
         return true;
     }
 };
+
+#endif
