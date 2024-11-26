@@ -43,9 +43,6 @@ struct LevelAreaLayerIDs : Modify<LevelAreaLayerIDs, LevelAreaLayer> {
         if (!self.setHookPriority("LevelAreaLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set LevelAreaLayer::init hook priority, node IDs may not work properly");
         }
-        if (!self.setHookPriority("LevelAreaLayer::loadLevelsFinished", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set LevelAreaLayer::loadLevelsFinished hook priority, node IDs may not work properly");
-        }
     }
 
     virtual bool init() {

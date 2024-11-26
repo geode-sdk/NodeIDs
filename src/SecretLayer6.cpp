@@ -24,9 +24,6 @@ struct SecretLayer6IDs : Modify<SecretLayer6IDs, SecretLayer6> {
         if (!self.setHookPriority("SecretLayer6::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set SecretLayer6::init hook priority, node IDs may not work properly");
         }
-        if (!self.setHookPriority("SecretLayer6::loadLevelsFinished", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set SecretLayer6::loadLevelsFinished hook priority, node IDs may not work properly");
-        }
     }
 
     virtual bool init() {
