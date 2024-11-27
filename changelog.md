@@ -1,4 +1,11 @@
 # Node IDs Changelog
+## v1.18.0
+* Added FriendRequestPopup IDs
+* Added GJMessageCell IDs
+* Added LevelAreaLayer and SecretLayer3 and SecretLayer6 [#113](https://github.com/geode-sdk/NodeIDs/pull/113)
+* Fixed LevelPage IDs on non-level pages
+* Updated about.md
+
 ## v1.17.0
 * Added ItemInfoPopup [#111](https://github.com/geode-sdk/NodeIDs/pull/111)
 * Added SecretLayer and SecretLayer4 (2.0 vault and Chamber of Time) [#109](https://github.com/geode-sdk/NodeIDs/pull/109)
