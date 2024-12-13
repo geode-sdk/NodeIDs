@@ -12,23 +12,23 @@ struct StarInfoPopupIDs : Modify<StarInfoPopupIDs, StarInfoPopup> {
         bool m_platformer = false;
     };
 
-	static void onModify(auto& self) {
-		if (!self.setHookPriority("StarInfoPopup::init", GEODE_ID_PRIORITY)) {
-			log::warn("Failed to set StarInfoPopup::init hook priority, node IDs may not work properly");
-		}
-	}
+    static void onModify(auto& self) {
+        if (!self.setHookPriority("StarInfoPopup::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set StarInfoPopup::init hook priority, node IDs may not work properly");
+        }
+    }
 
-	bool init(int a, int b, int c, int d, int e, int f, int gauntlet, int daily, int unknown, bool platformer) {
-	    if (!StarInfoPopup::init(a,b,c,d,e,f,gauntlet,daily,unknown,platformer)) return false;
+    bool init(int a, int b, int c, int d, int e, int f, int gauntlet, int daily, int unknown, bool platformer) {
+        if (!StarInfoPopup::init(a,b,c,d,e,f,gauntlet,daily,unknown,platformer)) return false;
 
-	    m_fields->m_daily = daily;
-	    m_fields->m_gauntlet = gauntlet;
-		m_fields->m_platformer = platformer;
+        m_fields->m_daily = daily;
+        m_fields->m_gauntlet = gauntlet;
+        m_fields->m_platformer = platformer;
 
-		NodeIDs::get()->provide(this);
+        NodeIDs::get()->provide(this);
 
-		return true;
-	}
+        return true;
+    }
 };
 
 $register_ids(StarInfoPopup) {
@@ -39,7 +39,7 @@ $register_ids(StarInfoPopup) {
     size_t idx = 0;
 
     auto self = reinterpret_cast<StarInfoPopupIDs*>(this);
-	auto mode = self->m_fields->m_platformer ? "platformer" : "classic";
+    auto mode = self->m_fields->m_platformer ? "platformer" : "classic";
 
     setIDs(m_mainLayer, idx,
         "background",
@@ -67,8 +67,8 @@ $register_ids(StarInfoPopup) {
 
 
     if (!self->m_fields->m_platformer) {
-    	if(self->m_fields->m_gauntlet) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
-    	if(self->m_fields->m_daily) setIDSafe(m_mainLayer, idx++, "daily-text");
+        if(self->m_fields->m_gauntlet) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
+        if(self->m_fields->m_daily) setIDSafe(m_mainLayer, idx++, "daily-text");
     }
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
