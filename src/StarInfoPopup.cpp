@@ -65,7 +65,6 @@ $register_ids(StarInfoPopup) {
         idx += 2;
     }
 
-
     if (!self->m_fields->m_platformer) {
         if(self->m_fields->m_gauntlet) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
         if(self->m_fields->m_daily) setIDSafe(m_mainLayer, idx++, "daily-text");
