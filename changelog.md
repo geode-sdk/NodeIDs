@@ -1,4 +1,10 @@
 # Node IDs Changelog
+## v1.19.0
+* Added StarInfoPopup IDs [#115](https://github.com/geode-sdk/NodeIDs/pull/115)
+* Fixed incorrect controller sprite ID in GauntletSelectLayer
+* Fixed incorrect GJListLayer IDs in Level List view
+* Stopped using getChildBySpriteFrameName reimplementation in PauseLayer
+
 ## v1.18.0
 * Added FriendRequestPopup IDs
 * Added GJMessageCell IDs
