@@ -2,8 +2,8 @@
 #include <Geode/modify/SecretLayer6.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
-//this layer doesn't exist on Windows
-#ifndef GEODE_IS_WINDOWS
+//this layer doesn't exist on Windows or iOS
+#if !defined(GEODE_IS_WINDOWS) && !defined(GEODE_IS_IOS)
 
 using namespace geode::prelude;
 using namespace geode::node_ids;

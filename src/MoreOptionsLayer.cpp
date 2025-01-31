@@ -39,7 +39,7 @@ $register_ids(MoreOptionsLayer) {
 
         setIDs(
             togglersMenu,
-            #ifdef GEODE_IS_ANDROID
+            #ifdef GEODE_IS_MOBILE
                 togglersMenu->getChildrenCount() - 6,
             #else
                 togglersMenu->getChildrenCount() - 7,
@@ -50,7 +50,7 @@ $register_ids(MoreOptionsLayer) {
             "close-button",
             "left-arrow-button",
             "right-arrow-button"
-            #ifndef GEODE_IS_ANDROID // comma on new line
+            #ifndef GEODE_IS_MOBILE // comma on new line
                 , "key-bindings-button"
             #endif
         );
