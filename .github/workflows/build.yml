@@ -7,53 +7,38 @@ on:
       - "**"
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - name: Windows
-          os: windows-latest
-          
-        - name: macOS
-          os: macos-latest
-
-        - name: iOS
-          os: macos-latest
-          target: iOS
-
-        - name: Android32
-          os: ubuntu-latest
-          target: Android32
-
-        - name: Android64
-          os: ubuntu-latest
-          target: Android64
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-
+  build-ios:
+    name: Build for iOS
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Build the mod
-        uses: RoootTheFox/build-geode-mod@main
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          bindings: hiimjustin000/bindings
-          bindings-ref: patch-2
-          combine: true
-          target: ${{ matrix.config.target }}
-      
-  package:
-    name: Package builds
-    runs-on: ubuntu-latest
-    needs: ['build']
+          fetch-depth: 0
+                                                        
+      - name: Catch up # see https://github.com/actions/checkout/issues/439
+        run: git pull origin ${{ github.ref }} --no-rebase
 
+      - name: Build iOS
+        uses: geode-catgirls/build-geode-mod@main
+        with:
+          bindings: pengubow/bindings
+          target: iOS
+          combine: true
+          gh-pat: ${{ secrets.GH_PAT }}
+          # super secret
+          
+  package:
+    name: Package and release mod
+    runs-on: ubuntu-latest
+    needs: ['build-ios']
     steps:
-      - uses: RoootTheFox/build-geode-mod/combine@main
+      - uses: geode-catgirls/build-geode-mod/combine@main
         id: build
+        name: Combine mods
 
       - uses: actions/upload-artifact@v4
+        name: Upload artifact
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
