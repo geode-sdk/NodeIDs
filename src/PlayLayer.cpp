@@ -11,20 +11,28 @@ using namespace geode::node_ids;
 $register_ids(PlayLayer) {
     setIDSafe(this, 1, "main-node");
     auto mainNode = this->getChildByID("main-node");
-	setIDSafe<CCSprite>(mainNode, 0, "background");
-	setIDSafe<CCLayer>(mainNode, 0, "batch-layer");
+    setIDSafe<CCSprite>(mainNode, 0, "background");
+    setIDSafe<CCLayer>(mainNode, 0, "batch-layer");
 
     setIDSafe(this, 3, "hitbox-node");
     setIDSafe<GJEffectManager>(this, 0, "effect-manager");
     //setIDSafe<UILayer>(this, 0, "ui-layer"); //changing this id is unsafe because mods depend on "UILayer", which is actually fairly safe to do, since this is the only UILayer in the whole layer
-    setIDSafe<CCLabelBMFont>(this, 0, "debug-text");
+    int index = 0;
+#if GEODE_COMP_GD_VERSION >= 22060
+    if (this->m_level->m_levelType == GJLevelType::Editor && !GameManager::sharedState()->getGameVariable("0174")) {
+        // Testmode is only added for local levels
+        setIDSafe<CCLabelBMFont>(this, index++, "testmode-label");
+    }
+#endif
+
+    setIDSafe<CCLabelBMFont>(this, index++, "debug-text");
     setIDSafe<CCSprite>(this, 0, "progress-bar");
 
     if (this->m_level->isPlatformer()) {
-        setIDSafe<CCLabelBMFont>(this, 1, "time-label");
+        setIDSafe<CCLabelBMFont>(this, index, "time-label");
     }
     else {
-        setIDSafe<CCLabelBMFont>(this, 1, "percentage-label");
+        setIDSafe<CCLabelBMFont>(this, index, "percentage-label");
     }
 
 #if GEODE_COMP_GD_VERSION == 22000
@@ -33,7 +41,9 @@ $register_ids(PlayLayer) {
 }
 
 struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
-    bool m_dontCreateObjects = false;
+    struct Fields {
+        bool m_dontCreateObjects = false;
+    };
 
     static void onModify(auto& self) {
         if (!self.setHookPriority("PlayLayer::init", GEODE_ID_PRIORITY)) {
@@ -74,6 +84,9 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
         std::vector<cocos2d::CCNode*> newNodes;
         for (auto child : CCArrayExt<CCNode*>(this->getChildren())) {
             if (nodes.find(child) == nodes.end()) {
+                // skip ShaderLayer, because it can break ordering
+                if (typeinfo_cast<ShaderLayer*>(child))
+                  continue;
                 newNodes.push_back(child);
             }
         }
@@ -108,6 +121,8 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
                 if (testModeLabel) testModeLabel->setID("testmode-label");
             }
             #endif
+        } else {
+            geode::log::warn("Failed to provide IDs for PlayLayer nodes");
         }
     }
 

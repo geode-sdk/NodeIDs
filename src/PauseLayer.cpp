@@ -8,33 +8,6 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-// this code sux but oh well
-// maybe it should be in geode utils
-inline CCNode* getChildBySpriteFrameName(CCNode* parent, const char* name) {
-    auto cache = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
-    if (!cache) return nullptr;
-
-    auto* texture = cache->getTexture();
-    auto rect = cache->getRect();
-
-    for (int i = 0; i < parent->getChildrenCount(); ++i) {
-        auto* child = parent->getChildren()->objectAtIndex(i);
-        if (auto* spr = typeinfo_cast<CCSprite*>(child)) {
-            if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-                return spr;
-            }
-        } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(child)) {
-            auto* img = btn->getNormalImage();
-            if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
-                if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-                    return btn;
-                }
-            }
-        }
-    }
-    return nullptr;
-}
-
 $register_ids(PauseLayer) {
     int idx = 0;
     setIDs(
@@ -83,7 +56,7 @@ $register_ids(PauseLayer) {
     setIDSafe(this, idx, "center-button-menu");
     idx += 1;
 
-    if(auto practiceTxt = ::getChildBySpriteFrameName(this, "GJ_practiceTxt_001.png")) {
+    if(auto practiceTxt = getChildBySpriteFrameName(this, "GJ_practiceTxt_001.png")) {
         practiceTxt->setID("practice-arrow-text");
         idx += 1;
     }
@@ -154,47 +127,47 @@ $register_ids(PauseLayer) {
     if (auto menu = this->getChildByID("center-button-menu")) {
 
         int idx = 0;
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_editBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_editBtn_001.png")) {
             node->setID("edit-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_replayFullBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_replayFullBtn_001.png")) {
             node->setID("full-restart-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
             node->setID("exit-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_menuBtn_001.png")) {
             node->setID("exit-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_normalBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_normalBtn_001.png")) {
             node->setID("practice-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_practiceBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_practiceBtn_001.png")) {
             node->setID("practice-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_playBtn2_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_playBtn2_001.png")) {
             node->setID("play-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_replayBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_replayBtn_001.png")) {
             node->setID("retry-button");
             ++idx;
         }
 
-        if (auto* node = ::getChildBySpriteFrameName(menu, "GJ_optionsBtn_001.png")) {
+        if (auto* node = getChildBySpriteFrameName(menu, "GJ_optionsBtn_001.png")) {
             node->setID("options-button");
             node->removeFromParentAndCleanup(false);
             rightMenu->addChild(node);

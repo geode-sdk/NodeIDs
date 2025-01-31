@@ -9,12 +9,13 @@ using namespace geode::node_ids;
 $register_ids(GauntletSelectLayer) {
     this->setID("main-layer");
 
-    getChildOfType<CCSprite>(this, 0)->setID("background");
-    getChildOfType<CCSprite>(this, 1)->setID("title-sprite");
+    this->getChildByType<CCSprite>(0)->setID("background");
+    this->getChildByType<CCSprite>(1)->setID("title-sprite");
 
+    size_t idx = 0;
     setIDs(
         this,
-        0,
+        idx,
         "background",
         "title",
         "bottom-left-corner",
@@ -22,10 +23,22 @@ $register_ids(GauntletSelectLayer) {
         "top-left-corner",
         "top-right-corner",
         "scroll-buttons-menu",
-        "back-menu",
+        "back-menu"
+    );
+    idx += 8;
+
+    if (PlatformToolbox::isControllerConnected()) {
+        // ID assigned in GameToolbox::addBackButton
+        idx += 1;
+    }
+
+    setIDs(
+        this,
+        idx,
         "loading-circle",
         "try-again-text"
     );
+    idx += 2;
 
     if (auto arrowsMenu = this->getChildByID("scroll-buttons-menu")) {
         setIDs(
@@ -120,10 +133,10 @@ struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLay
     void setupGauntlets() {
         GauntletSelectLayer::setupGauntlets();
 
-        if (auto gauntletsList = getChildOfType<BoomScrollLayer>(this, 0)) {
+        if (auto gauntletsList = this->getChildByType<BoomScrollLayer>(0)) {
             gauntletsList->setID("gauntlets-list");
 
-            if (auto gauntletPages = getChildOfType<ExtendedLayer>(gauntletsList, 0)) {
+            if (auto gauntletPages = gauntletsList->getChildByType<ExtendedLayer>(0)) {
                 gauntletPages->setID("gauntlet-pages");
 
                 auto gauntletPagesArray = CCArrayExt<CCLayer*>(gauntletPages->getChildren());
@@ -131,7 +144,7 @@ struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLay
                     auto gauntletPage = gauntletPagesArray[i];
                     gauntletPage->setID(fmt::format("gauntlet-page-{}", i + 1));
 
-                    if (auto gauntletMenu = getChildOfType<CCMenu>(gauntletPage, 0)) {
+                    if (auto gauntletMenu = gauntletPage->getChildByType<CCMenu>(0)) {
                         gauntletMenu->setID("gauntlet-menu");
 
                         auto gauntletButtons = CCArrayExt<CCMenuItemSpriteExtra*>(gauntletMenu->getChildren());
@@ -140,17 +153,17 @@ struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLay
 
                             gauntletButton->setID(fmt::format("gauntlet-button-{}", i + 1));
 
-                            if (auto gauntletNodeParent = getChildOfType<CCNode>(gauntletButton, 0)) {
+                            if (auto gauntletNodeParent = gauntletButton->getChildByType<CCNode>(0)) {
                                 gauntletNodeParent->setID("gauntlet-node-parent");
 
-                                getChildOfType<GauntletNode>(gauntletNodeParent, 0)->setID("gauntlet-node");
+                                gauntletNodeParent->getChildByType<GauntletNode>(0)->setID("gauntlet-node");
                             }
                         }
                     }
                 }
             }
 
-            getChildOfType<CCSpriteBatchNode>(gauntletsList, 0)->setID("page-buttons");
+            gauntletsList->getChildByType<CCSpriteBatchNode>(0)->setID("page-buttons");
         }
     }
 };

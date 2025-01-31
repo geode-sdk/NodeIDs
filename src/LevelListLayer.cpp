@@ -1,175 +1,239 @@
-// #include <Geode/Bindings.hpp>
-// #include <Geode/modify/LevelListLayer.hpp>
-// #include <Geode/utils/cocos.hpp>
-// #include <Geode/ui/BasedButtonSprite.hpp>
-// #include <Geode/utils/NodeIDs.hpp>
+#include <Geode/Bindings.hpp>
+#include <Geode/modify/LevelListLayer.hpp>
+#include <Geode/utils/cocos.hpp>
+#include <Geode/ui/BasedButtonSprite.hpp>
+#include <Geode/utils/NodeIDs.hpp>
+using namespace geode::prelude;
+using namespace geode::node_ids;
 
-// using namespace geode::prelude;
-// using namespace geode::node_ids;
+$register_ids(LevelListLayer) {
+    size_t idx = 0;
+    size_t menuIdx = 0;
+	setIDs(
+        this,
+        idx,
+        "background",
+        "left-corner",
+        "right-corner",
+        "button-menu"
+    );
+    idx += 4;
 
-// $register_ids(LevelListLayer) {
-// 	setIDSafe<CCSprite>(this, 0, "background");
-// 	setIDSafe<CCSprite>(this, 1, "bottom-left-corner");
-// 	setIDSafe<CCSprite>(this, 2, "bottom-right-corner");
-	
-// 	setIDSafe<CCScale9Sprite>(this, 0, "list-title-input-bg");
-// 	setIDSafe<CCTextInputNode>(this, 0, "list-title-input");
-	
-// 	setIDSafe<LoadingCircle>(this, 0, "loading-circle");
-	
-// 	setIDSafe<TextArea>(this, 0, "no-internet-label");
-	
-// 	bool isPublishedList = (!getChildByIDRecursive("list-title-input-bg") && !getChildByIDRecursive("list-title-input"));
-	
-// 	if (isPublishedList) {
-// 		setIDSafe<CCLabelBMFont>(this, 0, "title-label");
-// 		setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
-// 		setIDSafe<CCLabelBMFont>(this, 2, "downloads-label");
-// 		setIDSafe<CCLabelBMFont>(this, 3, "likes-label");
-// 	} else {
-// 		if (!getChildByIDRecursive("list-title-input")) {
-// 			setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
-// 			setIDSafe<CCLabelBMFont>(this, 0, "published-list-label");
-// 		} else {
-// 			setIDSafe<CCLabelBMFont>(this, 0, "progress-label");
-// 		}
-// 	}
-	
-// 	std::map<const char*, const char*> frameToNodeID = {
-// 		{ "GJ_likesIcon_001.png", "likes-icon" },
-// 		{ "GJ_downloadsIcon_001.png", "downloads-icon" },
-// 		{ "GJ_featuredCoin_001.png", "featured-icon" }
-// 	};
-	
-// 	for (auto &entry : frameToNodeID) {
-// 		if (auto icon = ::getChildBySpriteFrameName(this, entry.first)) {
-// 			icon->setID(entry.second);
-// 		}
-// 	}
-	
-// 	if (auto diamondsIcon = ::getChildBySpriteFrameName(this, "GJ_diamondsIcon_001.png")) {
-// 		diamondsIcon->setID("diamonds-icon");
-// 		setIDSafe<CCLabelBMFont>(this, 4, "diamonds-label");
-// 	} else if (auto completetionIcon = ::getChildBySpriteFrameName(this, "GJ_completesIcon_001.png")) {
-// 		completetionIcon->setID("completion-icon");
-// 		setIDSafe<CCLabelBMFont>(this, 4, "completion-label");
-// 	}
-	
-// 	bool isIncompleteRatedList = getChildByIDRecursive("completion-icon");
-	
-// 	if (auto menu = setIDSafe<CCMenu>(this, 0, "main-menu")) {
-//         setIDs(menu, 0, "back-button");
-//         if (auto backBtn = menu->getChildByID("back-button")) {
-//             auto backMenu = detachAndCreateMenu(
-//                 this,
-//                 "back-menu",
-//                 RowLayout::create()
-//                     ->setAxisAlignment(AxisAlignment::Start),
-//                 backBtn
-//             );
-//             backMenu->setContentSize({ 100.f, 50.f });
-//             backMenu->setPositionX(
-//                 backMenu->getPositionX() + 100.f / 2 - 
-//                     getSizeSafe(backBtn).width / 2
-//             );
-//             backMenu->updateLayout();
-//         }
-	
-// 		std::map<const char*, const char*> buttonToNodeID = {
-// 			{ "GJ_deleteBtn_001.png", "delete-button" },
-// 			{ "GJ_updateBtn_001.png", "refresh-button" },
-// 			{ "GJ_chatBtn_001.png", "desc-button" },
-// 			{ "GJ_infoBtn_001.png", "info-button" },
-// 			{ "GJ_editModeBtn_001.png", "edit-button" },
-// 			{ "GJ_duplicateBtn_001.png", "copy-button" },
-// 			{ "GJ_shareBtn_001.png", "share-button" },
-// 			{ "GJ_like2Btn_001.png", "like-button" },
-// 			{ "GJ_like2Btn2_001.png", "like-button" },
-// 			{ "GJ_plainBtn_001.png", "rate-button" },
-// 			{ "gj_heartOff_001.png", "favorite-button" },
-// 			{ "gj_heartOn_001.png", "favorite-button" },
-// 			{ "GJ_infoIcon_001.png", "info-icon" }
-// 		};
-	
-// 		for (auto& entry : buttonToNodeID) {
-// 			if (auto icon = getChildBySpriteFrameName(menu, entry.first)) {
-// 				icon->setID(entry.second);
-// 			}
-// 		}
-		
-// 		if (isPublishedList) {
-// 			setIDSafe(menu, 1, "creator-name");
-// 			if (auto creatorBtn = menu->getChildByID("creator-name")) {
-// 				auto creatorMenu = detachAndCreateMenu(
-// 					this,
-// 					"creator-menu",
-// 					RowLayout::create()
-// 						->setAxisAlignment(AxisAlignment::Start),
-// 					creatorBtn
-// 				);
-// 				creatorMenu->setContentSize({ 100.f, 50.f });
-// 				creatorMenu->setPositionX(
-// 					creatorMenu->getPositionX() + 100.f / 2 - 
-// 						getSizeSafe(creatorBtn).width / 2
-// 				);
-// 				creatorMenu->updateLayout();
-// 			}
+    setIDs(
+        this->getChildByID("button-menu"),
+        menuIdx,
+        "back-button"
+    );
+    menuIdx += 1;
 
-// 			if (isIncompleteRatedList) {
-// 				// todo: All the rewards stuff should in one menu with a ColumnLayout
-// 				// for future proofing, this assigns the button and its contents an ID, but 
-// 				// does NOT give its containing menu an ID as doing so would have to result in
-// 				// an API break later on when the button gets moved into the proper menu
-// 				setIDSafe(menu, 8, "claim-rewards-button");
-// 				if (auto rewardsBtn = menu->getChildByID("claim-rewards-button")) {
-// 					auto rewardsMenu = detachAndCreateMenu(this, "", nullptr, rewardsBtn);
-// 					rewardsMenu->setAnchorPoint({ .5f, .5f });
-// 					rewardsMenu->ignoreAnchorPointForPosition(false);
-// 					rewardsMenu->setContentSize({ 50.f, 50.f });
-// 					rewardsMenu->updateLayout();
+    if(m_levelList->m_listType == GJLevelType::Editor) {
+        setIDs(
+            this,
+            idx,
+            "title-background",
+            "title-label"
+        );
+        idx += 2;
 
-// 					if (auto rewardsSpr = getChild(rewardsBtn, 0)) {
-// 						setIDSafe(rewardsSpr, 0, "claim-rewards-sprite");
-// 						setIDSafe(rewardsSpr, 1, "diamonds-sprite");
-// 						setIDSafe(rewardsSpr, 2, "diamonds-label");
-// 					}
-// 				}
-// 			}
-// 		}
-// 	}
-	
-// 	auto children = CCArrayExt<CCNode*>(getChildren());
-// 	if (isPublishedList) {
-// 		if (children[5]->getID() == "" && typeinfo_cast<CCSprite*>(children[5])) {
-// 			children[5]->setID("difficulty-sprite");
-// 			children[9]->setID("progress-bar");
-// 			if (isIncompleteRatedList) {
-// 				children[15]->setID("completion-diamond");
-// 			}
-// 		}
-// 	} else {
-// 		if (!getChildByIDRecursive("list-title-input")) {
-// 			setIDSafe<CCLabelBMFont>(this, 0, "published-list-label");
-// 			setIDSafe<CCLabelBMFont>(this, 1, "progress-label");
-// 		}
-// 		if (children[8]->getID() == "" && typeinfo_cast<CCSprite*>(children[8])) {
-// 			children[8]->setID("progress-bar");
-// 		}
-// 	}
-// }
+        setIDs(
+            this->getChildByID("button-menu"),
+            menuIdx,
+            "delete-button",
+            "refresh-button",
+            "description-button",
+            "edit-mode-button",
+            "difficulty-button",
+            "copy-button",
+            "upload-button"
+        );
+        menuIdx += 7;
+    } else {
+        setIDs(
+            this,
+            idx,
+            "title-label",
+            "difficulty-sprite",
+            "featured-coin"
+        );
+        idx += 3;
 
-// struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
-// 	static void onModify(auto& self) {
-// 		if (!self.setHookPriority("LevelListLayer::init", GEODE_ID_PRIORITY)) {
-// 			log::warn("Failed to set LevelListLayer::init hook priority, node IDs may not work properly");
-// 		}
-// 	}
+        setIDs(
+            this->getChildByID("button-menu"),
+            menuIdx,
+            "creator-name",
+            "refresh-button",
+            "info-button",
+            "like-button",
+            "copy-button",
+            "favorite-button"
+        );
+        menuIdx += 6;
 
-// 	bool init(GJLevelList* p0) {
-// 		if (!LevelListLayer::init(p0)) return false;
+        if(GJAccountManager::sharedState()->m_accountID == m_levelList->m_accountID) {
+            setIDs(
+                this,
+                idx,
+                "delete-server-button"
+            );
+            idx += 1;
+        }
+    }
 
-// 		NodeIDs::get()->provide(this);
+    setIDs(
+        this->getChildByID("button-menu"),
+        menuIdx,
+        "small-info-button"
+    );
+    menuIdx += 1;
 
-// 		return true;
-// 	}
-// };
+    setIDs(
+        this,
+        idx,
+        "loading-circle",
+        "no-internet-label"
+    );
+    idx += 2;
+
+    //layouts
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
+
+    auto mainMenu = this->getChildByID("button-menu");
+    if(!mainMenu) return;
+
+    auto rightSideMenu = CCMenu::create();
+    rightSideMenu->setPosition(winSize.width - 25.f, winSize.height / 2);
+    rightSideMenu->setLayout(
+        ColumnLayout::create()
+            ->setAxisReverse(true)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setGap(3.f)
+    );
+    rightSideMenu->setID("right-side-menu");
+    rightSideMenu->setContentSize({ 50.f, winSize.height - 12.f });
+    rightSideMenu->setZOrder(10);
+    this->addChild(rightSideMenu);
+
+    switchToMenu(mainMenu->getChildByID("delete-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("refresh-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("info-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("description-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("edit-mode-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("difficulty-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("like-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("copy-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("upload-button"), rightSideMenu);
+    switchToMenu(mainMenu->getChildByID("favorite-button"), rightSideMenu);
+    if(auto heart = rightSideMenu->getChildByID("favorite-button")) {
+        heart->setContentSize(heart->getContentSize() + CCSize(8.f, 8.f));
+        if(auto item = typeinfo_cast<CCMenuItemSpriteExtra*>(heart)->getNormalImage()) {
+            item->setPosition(heart->getContentSize() / 2);
+        }
+        heart->setZOrder(2); //always at the bottom
+    }
+    rightSideMenu->updateLayout();
+}
+
+struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
+	static void onModify(auto& self) {
+		if (!self.setHookPriority("LevelListLayer::init", GEODE_ID_PRIORITY)) {
+			log::warn("Failed to set LevelListLayer::init hook priority, node IDs may not work properly");
+		}
+	}
+	bool init(GJLevelList* p0) {
+		if (!LevelListLayer::init(p0)) return false;
+		NodeIDs::get()->provide(this);
+
+        createLeftMenu();
+		return true;
+	}
+    void updateStatsArt() {
+        LevelListLayer::updateStatsArt();
+
+        size_t idx = 0;
+        static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("progress-bar");
+        static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("progress-bar-label");
+
+        bool isRated = m_levelList->m_diamonds > 0 && m_levelList->m_levelsToClaim > 0;
+
+        if(m_levelList->m_listType != GJLevelType::Editor) {
+            static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("downloads-icon");
+            static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("downloads-label");
+            static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("likes-icon");
+            static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("likes-label");
+
+            if(isRated) {
+                if(GameStatsManager::sharedState()->hasClaimedListReward(m_levelList)) {
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("diamonds-icon");
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("diamonds-count");
+                } else {
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("small-diamonds-icon");
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("completed-icon");
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("completed-label");
+                    static_cast<CCNode*>(m_objects->objectAtIndex(idx++))->setID("claim-button");
+                }
+            }
+        }
+
+        //layouts
+        createLeftMenu();
+
+        auto leftSideMenu = this->getChildByID("left-side-menu");
+        if(!leftSideMenu) return;
+
+        std::array<char const*, 8> nodes = {
+            "downloads-icon",
+            "downloads-label",
+            "likes-icon",
+            "likes-label",
+            "completed-icon",
+            "completed-label",
+            "diamonds-icon",
+            "diamonds-count"
+        };
+
+        for(auto node : nodes) {
+            moveNodeWithOptions(this->getChildByID(node), leftSideMenu, -4);    
+        }
+        moveNodeWithOptions(m_buttonMenu->getChildByID("claim-button"), leftSideMenu, -2);
+
+        if(!isRated) {
+            if(auto like = leftSideMenu->getChildByID("likes-icon")) like->setContentSize(like->getContentSize() + CCSize(0.f, 13.f));
+        } else {
+            if(auto like = leftSideMenu->getChildByID("likes-icon")) like->setContentSize(like->getContentSize() + CCSize(0.f, 4.f));
+            if(auto like = leftSideMenu->getChildByID("completed-icon")) like->setContentSize(like->getContentSize() + CCSize(0.f, 4.f));
+            if(auto like = leftSideMenu->getChildByID("claim-button")) like->setContentSize(like->getContentSize() + CCSize(0.f, -4.f));
+        }
+
+        leftSideMenu->updateLayout();
+        
+    }
+
+    //custom
+    void createLeftMenu() {
+        if(this->getChildByID("left-side-menu")) return;
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+
+        auto leftSideMenu = CCMenu::create();
+        leftSideMenu->setPosition(26.f, winSize.height / 2);
+        leftSideMenu->setLayout(
+            ColumnLayout::create()
+                ->setAxisReverse(true)
+                ->setAxisAlignment(AxisAlignment::End)
+        );
+        leftSideMenu->setID("left-side-menu");
+        leftSideMenu->setContentSize({ 50.f, 195.f });
+        leftSideMenu->setZOrder(10);
+        this->addChild(leftSideMenu);
+    }
+
+    void moveNodeWithOptions(CCNode* node, CCNode* menu, int zOrder = 0) {
+        if(!node || !menu) return;
+        switchToMenu(node, menu);
+        node->setZOrder(-4);
+        node->setLayoutOptions(
+            AxisLayoutOptions::create()
+                ->setRelativeScale(node->getScale())
+        );
+
+    }
+};

@@ -41,6 +41,7 @@
 
 # Ignore build folders
 **/build
+**/build-win
 
 # Workspace files are user-specific
 *.sublime-workspace
@@ -51,3 +52,9 @@
 
 # clangd
 .cache/
+
+# CLion
+/cmake-build-debug/
+/cmake-build-minsizerel/
+/cmake-build-release/
+/cmake-build-relwithdebinfo/

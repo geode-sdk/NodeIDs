@@ -14,6 +14,7 @@ $register_ids(LevelAreaInnerLayer) {
             menu,
             0,
             "back-button",
+            "vault-button",
             "info-button"
         );
     }

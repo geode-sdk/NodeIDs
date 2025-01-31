@@ -24,7 +24,7 @@ void assignIDsToStore(CCMenuItemSpriteExtra* store, int storeNum) {
       break;
   }
 
-  auto sprite = getChildOfType<CCSprite>(store, 0);
+  auto sprite = store->getChildByType<CCSprite>(0);
   sprite->setID("store-sprite");
 
   // CCNode *node = NULL;
@@ -39,8 +39,8 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
 
   page->setID("page" + std::to_string(pageNum + 1));
 
-  if (pageNum == 3) { // store page
-    if (auto menu = getChildOfType<CCMenu>(page, 0)) {
+  if (pageNum == 4) { // store page
+    if (auto menu = page->getChildByType<CCMenu>(0)) {
       menu->setID("store-menu");
 
       // make this a row layout in case people want to add their own shops here
@@ -51,15 +51,15 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
       );
       menu->updateLayout();
 
-      assignIDsToStore(getChildOfType<CCMenuItemSpriteExtra>(menu, 0), 0);
-      assignIDsToStore(getChildOfType<CCMenuItemSpriteExtra>(menu, 1), 1);
-      assignIDsToStore(getChildOfType<CCMenuItemSpriteExtra>(menu, 2), 2);
-      assignIDsToStore(getChildOfType<CCMenuItemSpriteExtra>(menu, 3), 3);
+      assignIDsToStore(menu->getChildByType<CCMenuItemSpriteExtra>(0), 0);
+      assignIDsToStore(menu->getChildByType<CCMenuItemSpriteExtra>(1), 1);
+      assignIDsToStore(menu->getChildByType<CCMenuItemSpriteExtra>(2), 2);
+      assignIDsToStore(menu->getChildByType<CCMenuItemSpriteExtra>(3), 3);
     }
     return;
   }
 
-  if (auto menu = getChildOfType<CCMenu>(page, 0)) {
+  if (auto menu = page->getChildByType<CCMenu>(0)) {
     menu->setID("chests-menu");
 
     setIDSafe<CCMenuItemSpriteExtra>(menu, 0, ("chest" + std::to_string(pageNum * 3 + 1)).c_str());
@@ -75,9 +75,9 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
 
   // don't mind the first three indeces down there, for some reason the third page mixes them up idk
   // also these calls are pretty repetitive so they are all in 1 line bc wrapping them looks frankly disgusting lol
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 2 : 0, pageNum == 2 ? "chest-icon" : "tier-indicator");
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 0 : 1, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-platform").c_str());
-  setIDSafe<CCSprite>(page, pageNum == 2 ? 1 : 2, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-cost"    ).c_str());
+  if(pageNum != 3) setIDSafe<CCSprite>(page, pageNum == 2 ? 2 : 0, pageNum == 2 ? "chest-icon" : "tier-indicator");
+  setIDSafe<CCSprite>(page, pageNum >= 2 ? 0 : 1, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-platform").c_str());
+  setIDSafe<CCSprite>(page, pageNum >= 2 ? 1 : 2, ((pageNum == 2 ? "milestone50"  : "chest" + std::to_string(pageNum * 3 + 1)) + "-cost"    ).c_str());
   setIDSafe<CCSprite>(page, 3,                    ((pageNum == 2 ? "milestone100" : "chest" + std::to_string(pageNum * 3 + 2)) + "-platform").c_str());
   setIDSafe<CCSprite>(page, 4,                    ((pageNum == 2 ? "milestone100" : "chest" + std::to_string(pageNum * 3 + 2)) + "-cost"    ).c_str());
   setIDSafe<CCSprite>(page, 5,                    ((pageNum == 2 ? "milestone200" : "chest" + std::to_string(pageNum * 3 + 3)) + "-platform").c_str());
@@ -85,34 +85,36 @@ void assignIDsToPage(CCLayer* page, int pageNum) {
 }
 
 $register_ids(SecretRewardsLayer) {    
-    if (auto menu = getChildOfType<CCLayer>(this, 0)) {
+    if (auto menu = this->getChildByType<CCLayer>(0)) {
       menu->setID("main-contents");
 
-      if (auto scrollLayer = getChildOfType<CCLayer>(menu, 0)) {
+      if (auto scrollLayer = menu->getChildByType<CCLayer>(0)) {
         scrollLayer->setID("scroll-layer");
         
-        if (auto pages = getChildOfType<ExtendedLayer>(scrollLayer, 0)) {
+        if (auto pages = scrollLayer->getChildByType<ExtendedLayer>(0)) {
           pages->setID("pages");
           setIDSafe<cocos2d::CCSprite>(menu, 0, "title-label");
 
-          assignIDsToPage(getChildOfType<CCLayer>(pages, 0), 0);
-          assignIDsToPage(getChildOfType<CCLayer>(pages, 1), 1);
-          assignIDsToPage(getChildOfType<CCLayer>(pages, 2), 2);
-          assignIDsToPage(getChildOfType<CCLayer>(pages, 3), 3);
+          assignIDsToPage(pages->getChildByType<CCLayer>(0), 0);
+          assignIDsToPage(pages->getChildByType<CCLayer>(1), 1);
+          assignIDsToPage(pages->getChildByType<CCLayer>(2), 2);
+          assignIDsToPage(pages->getChildByType<CCLayer>(3), 3);
+          assignIDsToPage(pages->getChildByType<CCLayer>(4), 4);
         }
         
-        if (auto pageCircleWrapper = getChildOfType<cocos2d::CCSpriteBatchNode>(scrollLayer, 0)) {
+        if (auto pageCircleWrapper = scrollLayer->getChildByType<cocos2d::CCSpriteBatchNode>(0)) {
           pageCircleWrapper->setID("page-circles");
 
           setIDSafe<CCSprite>(pageCircleWrapper, 0, "page1");
           setIDSafe<CCSprite>(pageCircleWrapper, 1, "page2");
           setIDSafe<CCSprite>(pageCircleWrapper, 2, "page3");
           setIDSafe<CCSprite>(pageCircleWrapper, 3, "page4");
+          setIDSafe<CCSprite>(pageCircleWrapper, 4, "page5");
         }
       }
     }
 
-    if (auto pageNav = getChildOfType<CCMenu>(this, 1)) {
+    if (auto pageNav = this->getChildByType<CCMenu>(1)) {
       pageNav->setID("page-navigation");
 
       setIDSafe<CCMenuItemSpriteExtra>(pageNav, 0, "left");
@@ -123,8 +125,10 @@ $register_ids(SecretRewardsLayer) {
     setIDSafe<CCSprite>(this, 1, "top-right-art");
     setIDSafe<CCSprite>(this, 2, "top-left-art");
     setIDSafe<CCSprite>(this, 3, "key-icon");
-    setIDSafe<CCSprite>(this, 4, "floor");
+    setIDSafe<CCSprite>(this, 4, "gold-key-icon");
+    setIDSafe<CCSprite>(this, 5, "floor");
     setIDSafe<CCLabelBMFont>(this, 0, "key-count");
+    setIDSafe<CCLabelBMFont>(this, 1, "gold-key-count");
     setIDSafe<CCMenu>(this, 0, "exit-menu");
 };
 

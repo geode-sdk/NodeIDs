@@ -8,24 +8,24 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(DailyLevelPage) {
-    getChildOfType<CCScale9Sprite>(m_mainLayer, 0)->setID("background");
-    getChildOfType<CCSprite>(m_mainLayer, 0)->setID("title-sprite");
-    getChildOfType<CCSprite>(m_mainLayer, 1)->setID("bottom-left-corner");
-    getChildOfType<CCSprite>(m_mainLayer, 2)->setID("top-left-corner");
-    getChildOfType<CCSprite>(m_mainLayer, 3)->setID("top-right-corner");
-    getChildOfType<CCSprite>(m_mainLayer, 4)->setID("bottom-right-corner");
+    m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
+    m_mainLayer->getChildByType<CCSprite>(0)->setID("title-sprite");
+    m_mainLayer->getChildByType<CCSprite>(1)->setID("bottom-left-corner");
+    m_mainLayer->getChildByType<CCSprite>(2)->setID("top-left-corner");
+    m_mainLayer->getChildByType<CCSprite>(3)->setID("top-right-corner");
+    m_mainLayer->getChildByType<CCSprite>(4)->setID("bottom-right-corner");
 
 
-    if (auto mainMenu = getChildOfType<CCMenu>(m_mainLayer, 0)) {
+    if (auto mainMenu = m_mainLayer->getChildByType<CCMenu>(0)) {
         mainMenu->setID("main-menu");
 
-        getChildOfType<CCMenuItemSpriteExtra>(mainMenu, 0)->setID("close-button");
-        getChildOfType<CCMenuItemSpriteExtra>(mainMenu, 1)->setID("the-safe-button");
+        mainMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("close-button");
+        mainMenu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("the-safe-button");
     }
 
-    getChildOfType<CCLabelBMFont>(m_mainLayer, 0)->setID("time-label");
-    getChildOfType<LoadingCircle>(m_mainLayer, 0)->setID("time-circle");
-    getChildOfType<LoadingCircle>(m_mainLayer, 1)->setID("node-circle");
+    m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("time-label");
+    m_mainLayer->getChildByType<LoadingCircle>(0)->setID("time-circle");
+    m_mainLayer->getChildByType<LoadingCircle>(1)->setID("node-circle");
 }
 
 struct DailyLevelPageIDs : Modify<DailyLevelPageIDs, DailyLevelPage> {

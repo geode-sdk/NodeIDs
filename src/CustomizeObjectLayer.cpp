@@ -1,6 +1,5 @@
 #include <Geode/Geode.hpp>
 
-#ifndef GEODE_IS_MACOS
 #include <Geode/modify/CustomizeObjectLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 
@@ -90,13 +89,28 @@ $register_ids(CustomizeObjectLayer) {
             "paste-button",
             "browse-button"
         );
+        idOffset += 3;
     }
     else {
+        //if LevelEditorLayer::canPasteState
+        if(auto btn = typeinfo_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildren()->objectAtIndex(idOffset))) {
+            if(auto label = typeinfo_cast<ButtonSprite*>(btn->getNormalImage())) {
+                if(std::string_view(label->m_label->getString()) == "Paste") {
+                    setIDs(
+                        m_buttonMenu,
+                        idOffset,
+                        "paste-button"
+                    );
+                    idOffset += 1;
+                }
+            }
+        }
         setIDs(
             m_buttonMenu,
             idOffset,
             "browse-button"
         );
+        idOffset += 1;
     }
 
     auto tabsLayout = RowLayout::create()
@@ -125,7 +139,7 @@ $register_ids(CustomizeObjectLayer) {
             ->setGrowCrossAxis(true)
             ->setAxisAlignment(AxisAlignment::Center)
             ->setCrossAxisAlignment(AxisAlignment::Center)
-            ->setGap(14.f),
+            ->setGap(18.f),
         m_buttonMenu->getChildByID("player-color-1-button"),
         m_buttonMenu->getChildByID("player-color-2-button"),
         m_buttonMenu->getChildByID("light-bg-button"),
@@ -143,7 +157,7 @@ $register_ids(CustomizeObjectLayer) {
             ->setGrowCrossAxis(true)
             ->setAxisAlignment(AxisAlignment::Center)
             ->setCrossAxisAlignment(AxisAlignment::Center)
-            ->setGap(20.f),
+            ->setGap(17.f),
         m_buttonMenu->getChildByID("channel-1-button"),
         m_buttonMenu->getChildByID("channel-2-button"),
         m_buttonMenu->getChildByID("channel-3-button"),
@@ -155,8 +169,8 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("channel-9-button"),
         m_buttonMenu->getChildByID("channel-custom-button")
     );
-    channelsMenu->setContentSize({ 350.f, 100.f });
-    channelsMenu->setPosition(winSize.width / 2, winSize.height / 2 - 25.f);
+    channelsMenu->setContentSize({ 330.f, 100.f });
+    channelsMenu->setPosition(winSize.width / 2, winSize.height / 2 - 20.f);
     channelsMenu->updateLayout();
 
     auto selectedChannelMenu = detachAndCreateMenu(
@@ -168,11 +182,11 @@ $register_ids(CustomizeObjectLayer) {
     );
     selectedChannelMenu->setContentSize({ 120.f, 40.f });
     selectedChannelMenu->setPosition(
-        winSize.width / 2 + 110.f,
-        winSize.height / 2 - 90.f
+        winSize.width / 2 + 115.f,
+        winSize.height / 2 - 93.f
     );
     if (auto label = selectedChannelMenu->getChildByID("selected-channel-label")) {
-        label->setPosition(75.f, 20.f);
+        label->setPosition(75.f, 22.f);
     }
     if (auto button = selectedChannelMenu->getChildByID("select-channel-button")) {
         button->setPosition(100.f, 20.f);
@@ -193,7 +207,7 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("base-hsv-button")
     );
     baseHSVMenu->setContentSize({ 80.f, 60.f });
-    baseHSVMenu->setPositionX(winSize.width / 2 - 132.5f);
+    baseHSVMenu->setPositionX(winSize.width / 2 - 131.5f);
     baseHSVMenu->updateLayout();
 
     auto detailHSVMenu = detachAndCreateMenu(
@@ -215,7 +229,7 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("next-free-button")
     );
     nextFreeMenu->setContentSize({ 120.f, 60.f });
-    nextFreeMenu->setPositionX(winSize.width / 2 - 110.f);
+    nextFreeMenu->setPositionX(winSize.width / 2 - 111.f);
     nextFreeMenu->updateLayout();
 
     auto textActionsMenu = detachAndCreateMenu(
@@ -227,15 +241,21 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("split-text-button")
     );
     textActionsMenu->setContentSize({ 120.f, 60.f });
-    textActionsMenu->setPositionX(winSize.width / 2 + 110.f);
+    textActionsMenu->setPositionX(winSize.width / 2 + 112.f);
     textActionsMenu->updateLayout();
 
-    auto clearTextMenu = detachAndCreateMenu(
+    if(auto clearTextMenu = detachAndCreateMenu(
         m_mainLayer,
         "clear-text-menu",
         nullptr,
         m_buttonMenu->getChildByID("clear-text-button")
-    );
+    )) {
+        //the position being incorrect has something to do with anchor points and ignoreAnchorPointForPosition
+        //if the anchor point of the menu was {1,0} and it actually worked, it'd be correct
+        //but that's not what's happening so whatever
+        //dont care enough, this fixes it
+        if(auto btn = clearTextMenu->getChildByID("clear-text-button")) btn->setPosition({winSize / 2});
+    }
 
     auto infoMenu = detachAndCreateMenu(
         m_mainLayer,
@@ -246,7 +266,7 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("info-button")
     );
     infoMenu->setContentSize({ 80.f, 60.f });
-    infoMenu->setPosition(winSize.width / 2 + 132.5f, baseHSVMenu->getPositionY());
+    infoMenu->setPosition(winSize.width / 2 + 133.5f, baseHSVMenu->getPositionY() + 7.f);
     infoMenu->updateLayout();
 
     auto browseMenu = detachAndCreateMenu(
@@ -258,7 +278,7 @@ $register_ids(CustomizeObjectLayer) {
         m_buttonMenu->getChildByID("browse-button")
     );
     browseMenu->setContentSize({ 100.f, 140.f });
-    browseMenu->setPositionY(winSize.height / 2 - 70.f);
+    browseMenu->setPositionY(winSize.height / 2 - 67.5f);
     browseMenu->updateLayout();
 
     auto copyPasteMenu = detachAndCreateMenu(
@@ -266,12 +286,13 @@ $register_ids(CustomizeObjectLayer) {
         "copy-paste-menu",
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::End)
-            ->setAxisReverse(true),
-        m_buttonMenu->getChildByID("copy-button"),
-        m_buttonMenu->getChildByID("paste-button")
+            ->setAxisReverse(false)
+            ->setGap(6.f),
+        m_buttonMenu->getChildByID("paste-button"),
+        m_buttonMenu->getChildByID("copy-button")
     );
     copyPasteMenu->setContentSize({ 100.f, 140.f });
-    copyPasteMenu->setPositionY(winSize.height / 2 + 100.f);
+    copyPasteMenu->setPositionY(winSize.height / 2 + 99.5f);
     copyPasteMenu->updateLayout();
 
     auto selectChannelMenu = detachAndCreateMenu(
@@ -322,8 +343,8 @@ struct CustomizeObjectLayerIDs : Modify<CustomizeObjectLayerIDs, CustomizeObject
         this->toggleMenuIfNot("channels-menu", 3);
         this->toggleMenuIfNot("special-channels-menu", 3);
         this->toggleMenuIfNot("selected-channel-menu", 3);
-        this->toggleMenuIfNot("browse-menu", 3);
-        this->toggleMenuIfNot("copy-paste-menu", 3);
+        //this->toggleMenuIfNot("browse-menu", 3); //rob leaves these 2 visible in text input mode even though it doesnt make much sense
+        //this->toggleMenuIfNot("copy-paste-menu", 3);
         this->toggleMenuIfNot("select-channel-menu", 3);
     }
 
@@ -339,5 +360,3 @@ struct CustomizeObjectLayerIDs : Modify<CustomizeObjectLayerIDs, CustomizeObject
         return true;
     }
 };
-
-#endif

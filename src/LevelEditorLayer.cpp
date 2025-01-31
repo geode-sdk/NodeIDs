@@ -11,7 +11,7 @@ using namespace geode::node_ids;
 $register_ids(LevelEditorLayer) {
 	setIDSafe<GJEffectManager>(this, 0, "effect-manager");
     
-	if (auto shaderLayer = getChildOfType<ShaderLayer>(this, 0)) {
+	if (auto shaderLayer = this->getChildByType<ShaderLayer>(0)) {
 		setIDSafe(shaderLayer, 1, "main-node");
 	} else {
 		setIDSafe(this, 1, "main-node");		

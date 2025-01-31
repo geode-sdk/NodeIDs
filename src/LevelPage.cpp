@@ -20,14 +20,14 @@ $register_ids(LevelPage) {
     );
 
     if (auto levelMenu = this->getChildByID("level-menu")) {
-        if (auto levelButton = getChildOfType<CCMenuItemSpriteExtra>(levelMenu, 0)) {
+        if (auto levelButton = levelMenu->getChildByType<CCMenuItemSpriteExtra>(0)) {
             levelButton->setID("level-button");
 
             // why in gods name does this sprite house everything
-            if (auto whiteSprite = getChildOfType<CCSprite>(levelButton, 0)) {
+            if (auto whiteSprite = levelButton->getChildByType<CCSprite>(0)) {
                 whiteSprite->setID("white-sprite");
 
-                if (auto scale9Sprite = getChildOfType<CCScale9Sprite>(whiteSprite, 0)) {
+                if (auto scale9Sprite = whiteSprite->getChildByType<CCScale9Sprite>(0)) {
                     scale9Sprite->setID("scale-9-sprite");
 
                     setIDs(
@@ -44,7 +44,7 @@ $register_ids(LevelPage) {
                     );
                 }
 
-                if (auto controllerStartSprite = getChildOfType<CCSprite>(whiteSprite, 0)) {
+                if (auto controllerStartSprite = whiteSprite->getChildByType<CCSprite>(0)) {
                     controllerStartSprite->setID("controller-start-sprite");
                 }
             }
@@ -54,62 +54,90 @@ $register_ids(LevelPage) {
 
 struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("LevelPage::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set LevelPage::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("LevelPage::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::init hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelPage::updateDynamicPage", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::updateDynamicPage hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelPage::addSecretDoor", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::addSecretDoor hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelPage::addSecretCoin", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelPage::addSecretCoin hook priority, node IDs may not work properly");
         }
     }
 
-    // LevelPage::init is half-inlined on windows
-    static LevelPage* create(GJGameLevel* level) {
-        auto layer = LevelPage::create(level);
-        if (!layer) return nullptr;
+    void printTooSmallError(int expected) {
+        log::warn("m_dynamicObjects is too small (expected {}, got {}), node IDs will be incorrect!", expected, m_dynamicObjects->count());
+    }
 
-        NodeIDs::get()->provide(layer);
+    bool init(GJGameLevel* level) {
+        if (!LevelPage::init(level)) return false;
 
-        return layer;
+        NodeIDs::get()->provide(this);
+
+        return true;
+    }
+
+    void addSecretDoor() {
+        LevelPage::addSecretDoor();
+
+        //door is not unlocked
+        if(!GameManager::sharedState()->getUGV("6")) return;
+
+        if(m_dynamicObjects->count() < 2) {
+            return printTooSmallError(2);
+        }
+
+        auto secretDoorButton = static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(m_dynamicObjects->count() - 2));
+        secretDoorButton->setID("secret-door-button");
+
+        if (auto secretDoorSprite = secretDoorButton->getChildByType<CCSprite>(0)) {
+            secretDoorSprite->setID("secret-door-sprite");
+
+            if(secretDoorSprite != m_dynamicObjects->lastObject()) {
+                log::warn("secretDoorSprite is not the last object in m_dynamicObjects, node IDs might be incorrect!");
+            }
+        }
+
+        if(auto parent = secretDoorButton->getParent()) {
+            parent->setID("button-menu");
+
+            //bugfix for empty menu leftover bug
+            m_dynamicObjects->addObject(parent);
+        }
+    }
+
+    void addSecretCoin() {
+        LevelPage::addSecretCoin();
+
+        if(auto coin = this->m_coinObject) coin->setID("secret-coin");
     }
 
     void updateDynamicPage(GJGameLevel* level) {
         LevelPage::updateDynamicPage(level);
 
-        // can't believe im bugfixing this game
-        if (auto emptyMenu = getChildOfType<CCMenu>(this, 1); emptyMenu && emptyMenu->getChildrenCount() == 0) {
-            emptyMenu->removeFromParent();
-        }
-
-        if (GameStatsManager::sharedState()->getStat("8") < level->m_requiredCoins) {
-            setIDs(
-                this->getChildByID("level-menu")
-                    ->getChildByID("level-button")
-                    ->getChildByID("white-sprite")
-                    ->getChildByID("scale-9-sprite"),
-                8,
-                "lock-sprite",
-                "secret-coin-icon",
-                "secret-coin-label"
-            );
-        } else {
-            setIDs(
-                this->getChildByID("level-menu")
-                    ->getChildByID("level-button")
-                    ->getChildByID("white-sprite")
-                    ->getChildByID("scale-9-sprite"),
-                8,
-                "orbs-icon",
-                "orbs-label"
-            );
-        }
+        size_t offset = 0;
 
         // this is how updateDynamicPage itself does it
         if (level->m_levelID <= 0) {
             if (level->m_levelID == -2) {
-                if (auto buttonMenu = getChildOfType<CCMenu>(this, 1)) {
+                if(m_dynamicObjects->count() < 1) {
+                    return printTooSmallError(1);
+                }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("button-menu");
+                if (auto buttonMenu = getChildByID("button-menu")) {
                     buttonMenu->setID("button-menu");
 
-                    if (auto towerButton = getChildOfType<CCMenuItemSpriteExtra>(buttonMenu, 0)) {
+                    if (auto towerButton = buttonMenu->getChildByType<CCMenuItemSpriteExtra>(0)) {
                         towerButton->setID("tower-button");
 
-                        if (auto towerSprite = getChildOfType<CCSprite>(towerButton, 0)) {
+                        if (auto towerSprite = towerButton->getChildByType<CCSprite>(0)) {
                             towerSprite->setID("tower-sprite");
 
                             setIDs(
@@ -124,17 +152,31 @@ struct LevelPageIDs : Modify<LevelPageIDs, LevelPage> {
                     }
                 }
             } else {
-                getChildOfType<CCLabelBMFont>(this, 4)->setID("coming-soon-label");
-
-                if (auto buttonMenu = getChildOfType<CCMenu>(this, 1)) {
-                    buttonMenu->setID("button-menu");
-
-                    if (auto secretDoorButton = getChildOfType<CCMenuItemSpriteExtra>(buttonMenu, 0)) {
-                        secretDoorButton->setID("secret-door-button");
-
-                        getChildOfType<CCSprite>(secretDoorButton, 0)->setID("secret-door-sprite");
-                    }
+                if(m_dynamicObjects->count() < 1) {
+                    return printTooSmallError(1);
                 }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("coming-soon-label");
+
+                //door impld in addSecretDoor
+            }
+        } else {
+            if (GameStatsManager::sharedState()->getStat("8") < level->m_requiredCoins) {
+                if(m_dynamicObjects->count() < 3) {
+                    return printTooSmallError(3);
+                }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("lock-sprite");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-icon");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("secret-coin-label");
+            } else {
+                if(m_dynamicObjects->count() < 2) {
+                    return printTooSmallError(2);
+                    return;
+                }
+
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-icon");
+                static_cast<CCNode*>(m_dynamicObjects->objectAtIndex(offset++))->setID("orbs-label");
             }
         }
     }

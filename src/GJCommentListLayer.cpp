@@ -20,22 +20,16 @@ $register_ids(GJCommentListLayer) {
 
 struct GJCommentListLayerIDs : Modify<GJCommentListLayerIDs, GJCommentListLayer> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GJCommentListLayer::create", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GJCommentListLayer::create hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GJCommentListLayer::init", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GJCommentListLayer::init hook priority, node IDs may not work properly");
         }
     }
 
-    static GJCommentListLayer* create(BoomListView* listView, char const* title, cocos2d::ccColor4B color, float width, float height, bool blueBorder) {
-        /**
-         * GJCommentListLayer is one of the classes
-         * that has its init half-inlined
-         * so we need to hook create instead
-         */
-        auto layer = GJCommentListLayer::create(listView, title, color, width, height, blueBorder);
-        if(!layer) return nullptr;
+    bool init(BoomListView* listView, char const* title, cocos2d::ccColor4B color, float width, float height, bool blueBorder) {
+        if(!GJCommentListLayer::init(listView, title, color, width, height, blueBorder)) return false;
 
-        NodeIDs::get()->provide(layer);
+        NodeIDs::get()->provide(this);
 
-        return layer;
+        return true;
     }
 };
