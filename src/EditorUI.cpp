@@ -10,6 +10,9 @@ using namespace geode::node_ids;
 
 $register_ids(EditorUI) {
     setIDSafe(this, 0, "position-slider");
+    setIDSafe(this, 1, "background-sprite");
+    setIDSafe(this, 3, "spacer-line-left");
+    setIDSafe(this, 4, "spacer-line-right");
     setIDSafe(this, this->getChildrenCount() - 3, "layer-index-label");
     setIDSafe(this, this->getChildrenCount() - 2, "layer-locked-sprite");
     setIDSafe(this, this->getChildrenCount() - 1, "object-info-label");
