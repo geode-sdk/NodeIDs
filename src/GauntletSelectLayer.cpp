@@ -12,9 +12,10 @@ $register_ids(GauntletSelectLayer) {
     this->getChildByType<CCSprite>(0)->setID("background");
     this->getChildByType<CCSprite>(1)->setID("title-sprite");
 
+    size_t idx = 0;
     setIDs(
         this,
-        0,
+        idx,
         "background",
         "title",
         "bottom-left-corner",
@@ -22,10 +23,22 @@ $register_ids(GauntletSelectLayer) {
         "top-left-corner",
         "top-right-corner",
         "scroll-buttons-menu",
-        "back-menu",
+        "back-menu"
+    );
+    idx += 8;
+
+    if (PlatformToolbox::isControllerConnected()) {
+        // ID assigned in GameToolbox::addBackButton
+        idx += 1;
+    }
+
+    setIDs(
+        this,
+        idx,
         "loading-circle",
         "try-again-text"
     );
+    idx += 2;
 
     if (auto arrowsMenu = this->getChildByID("scroll-buttons-menu")) {
         setIDs(
