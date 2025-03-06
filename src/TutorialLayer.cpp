@@ -8,7 +8,7 @@ using namespace geode::node_ids;
 $register_ids(TutorialLayer) {
     if (auto tutorialLayer = setIDSafe<CCLayer>(this, 0, "main-layer")) {
         setIDSafe<CCScale9Sprite>(tutorialLayer, 0, "background");
-        if (auto tutorialDetails = setIDSafe<CCLayer>(tutorialLayer, 0, "tutorial-Layer")) {
+        if (auto tutorialDetails = setIDSafe<CCLayer>(tutorialLayer, 0, "tutorial-layer")) {
             setIDSafe<CCSprite>(tutorialDetails, 0, "tutorial-image-01");
             setIDSafe<TextArea>(tutorialDetails, 0, "tutorial-text-01");
         }
@@ -31,6 +31,10 @@ struct TutorialLayerIDs : Modify<TutorialLayerIDs, TutorialLayer> {
         if (!self.setHookPriority("TutorialLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set TutorialLayer::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("TutorialLayer::onNext", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set TutorialLayer::onNext hook priority, node IDs may not work properly");
+        }
     }
 
     bool init() {
@@ -42,8 +46,6 @@ struct TutorialLayerIDs : Modify<TutorialLayerIDs, TutorialLayer> {
 
     void onNext(CCObject* sender) {
         TutorialLayer::onNext(sender);
-        log::debug("{}", this->m_page);
-        // auto details = m_tutorialLayer->getChildByID("tutorial-guide");
 
         if (auto spr = m_tutorialLayer->getChildByType<CCSprite>(0)) {
             spr->setID(fmt::format("tutorial-image-0{}", this->m_page).c_str());
