@@ -1,4 +1,8 @@
 # Node IDs Changelog
+## v1.20.0
+* Added IDs for sprites in EditorUI [#122](https://github.com/geode-sdk/NodeIDs/pull/122)
+* Fixed small visual bugs in Editor Delete Menu [#121](https://github.com/geode-sdk/NodeIDs/pull/121)
+
 ## v1.19.0
 * Added StarInfoPopup IDs [#115](https://github.com/geode-sdk/NodeIDs/pull/115)
 * Fixed incorrect controller sprite ID in GauntletSelectLayer

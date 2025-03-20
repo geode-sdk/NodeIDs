@@ -10,6 +10,9 @@ using namespace geode::node_ids;
 
 $register_ids(EditorUI) {
     setIDSafe(this, 0, "position-slider");
+    setIDSafe(this, 1, "background-sprite");
+    setIDSafe(this, 3, "spacer-line-left");
+    setIDSafe(this, 4, "spacer-line-right");
     setIDSafe(this, this->getChildrenCount() - 3, "layer-index-label");
     setIDSafe(this, this->getChildrenCount() - 2, "layer-locked-sprite");
     setIDSafe(this, this->getChildrenCount() - 1, "object-info-label");
@@ -184,7 +187,8 @@ $register_ids(EditorUI) {
                 ->setAxisReverse(true)
                 ->setCrossAxisReverse(true)
                 ->setAxisAlignment(AxisAlignment::End)
-                ->setCrossAxisAlignment(AxisAlignment::Start),
+                ->setCrossAxisAlignment(AxisAlignment::Start)
+                ->setDefaultScaleLimits(0.f, 0.94f),
             menu->getChildByID("delete-button"),
             menu->getChildByID("delete-all-of-button"),
             menu->getChildByID("delete-startpos-button")
@@ -201,8 +205,9 @@ $register_ids(EditorUI) {
                 ->setGrowCrossAxis(true)
                 ->setAxisReverse(true)
                 ->setCrossAxisReverse(true)
-                ->setAxisAlignment(AxisAlignment::Even)
-                ->setCrossAxisAlignment(AxisAlignment::Start),
+                ->setAxisAlignment(AxisAlignment::End)
+                ->setCrossAxisAlignment(AxisAlignment::End)
+                ->setDefaultScaleLimits(0.f, 0.94f),
             menu->getChildByID("delete-find-group-id"),
             menu->getChildByID("delete-reset-search"),
             menu->getChildByID("delete-filter-group-id"),
