@@ -20,12 +20,11 @@ jobs:
         run: git pull origin ${{ github.ref }} --no-rebase
 
       - name: Build iOS
-        uses: geode-catgirls/build-geode-mod@main
+        uses: geode-catgirls/build-geode-mod@test
         with:
-          bindings: pengubow/bindings
-          target: iOS
           combine: true
           gh-pat: ${{ secrets.GH_PAT }}
+          cli: nightly
           # super secret
           
   package:
