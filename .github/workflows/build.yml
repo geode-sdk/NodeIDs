@@ -28,16 +28,14 @@ jobs:
           # super secret
           
   package:
-    name: Package and release mod
+    name: Package builds
     runs-on: ubuntu-latest
     needs: ['build-ios']
     steps:
-      - uses: geode-catgirls/build-geode-mod/combine@main
+      - uses: geode-catgirls/build-geode-mod/combine@test
         id: build
-        name: Combine mods
 
       - uses: actions/upload-artifact@v4
-        name: Upload artifact
         with:
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}
