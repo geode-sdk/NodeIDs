@@ -74,7 +74,7 @@ $register_ids(ProfilePage) {
     auto statsMenu = CCMenu::create();
     statsMenu->setLayout(
         RowLayout::create()
-            ->setGap(3.f)
+            ->setGap(2.5f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
     statsMenu->setID("stats-menu");
@@ -172,6 +172,8 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
         #endif
 
+        auto statsMenu = m_mainLayer->getChildByID("stats-menu");
+
         for(auto label : labels) {
             if(!label) continue;
 
@@ -202,19 +204,29 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 AxisLayoutOptions::create()
                     ->setRelativeScale(.9f)
                     ->setScaleLimits(.0f, 1.f)
-                    ->setNextGap(10.f)
+                    ->setNextGap(7.0f)
             );
             if(typeinfo_cast<CCMenuItemSpriteExtra*>(icon)) {
-                static_cast<CCNode*>(icon->getChildren()->objectAtIndex(0))->setScale(1.f);
+                auto child = static_cast<CCNode*>(icon->getChildren()->objectAtIndex(0));
+                child->setScale(1.f);
+
+                // Make the button's content size match the inner icon
+                icon->setContentSize(child->getContentSize());
+                child->setPosition(
+                    icon->getContentWidth() / 2,
+                    icon->getContentHeight() / 2
+                );
             }
 
-            if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
+            if(statsMenu) {
                 statsMenu->addChild(bmFontContainer);
                 statsMenu->addChild(icon);
-
-                statsMenu->updateLayout();
                 m_buttons->addObject(bmFontContainer);
             }
+        }
+
+        if (statsMenu) {
+            statsMenu->updateLayout();
         }
 
         static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-icon");
