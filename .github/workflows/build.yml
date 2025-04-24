@@ -44,6 +44,7 @@ jobs:
           # TODO: remove these later
           cli: nightly
           sdk: nightly
+          bindings-ref: 79f3661
       
   package:
     name: Package builds
