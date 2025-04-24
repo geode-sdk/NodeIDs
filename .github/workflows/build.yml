@@ -44,8 +44,6 @@ jobs:
           # TODO: remove these later
           cli: nightly
           sdk: nightly
-          bindings: geode-sdk/bindings
-          bindings-ref: 79f3661
       
   package:
     name: Package builds
