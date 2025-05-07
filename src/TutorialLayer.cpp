@@ -51,7 +51,7 @@ struct TutorialLayerIDs : Modify<TutorialLayerIDs, TutorialLayer> {
         }
 
         if (auto txtArea= m_tutorialLayer->getChildByType<TextArea>(0)) {
-            txtArea->setID(fmt::format("tutorial-text-{}", this->m_page));
+            txtArea->setID(fmt::format("tutorial-text-{:02}", this->m_page));
         }
     }
 };
