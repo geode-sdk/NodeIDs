@@ -31,10 +31,6 @@ $register_ids(ItemInfoPopup) {
 
     setIDSafe<GJItemIcon>(m_mainLayer, 0, "item-icon");
     setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, 0, "ok-button");
-    if (GSM->m_accountIDForIcon.contains({ m_itemID, m_unlockType }) && GSM->m_usernameForAccountID.contains(GSM->m_accountIDForIcon[{ m_itemID, m_unlockType }])) {
-        setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, 1, "author-button");
-    }
-
     setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, 1, "author-button");
     setIDSafe<TextArea>(m_mainLayer, 0, "description-area");
     setIDSafe<CCLabelBMFont>(m_mainLayer, labelOffset, "achievement-label");
