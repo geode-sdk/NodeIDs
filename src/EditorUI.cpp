@@ -220,6 +220,20 @@ $register_ids(EditorUI) {
         deleteFilterMenu->setPosition(60.f, 0.f);
         deleteFilterMenu->setContentSize({ 170.f, 80.f });
         deleteFilterMenu->updateLayout();
+
+        if (auto btn = deleteFilterMenu->getChildByID("delete-filter-group-id")) {
+            btn->setLayoutOptions(
+                AxisLayoutOptions::create()
+                    ->setRelativeScale(1.f / 0.9f)
+            );
+        }
+
+        if (auto btn = deleteFilterMenu->getChildByID("delete-filter-color")) {
+            btn->setLayoutOptions(
+                AxisLayoutOptions::create()
+                    ->setRelativeScale(1.f / 0.9f)
+            );
+        }
     }
 
     auto buttonBarIDs = {
