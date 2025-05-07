@@ -32,27 +32,26 @@ struct TutorialLayerIDs : Modify<TutorialLayerIDs, TutorialLayer> {
             log::warn("Failed to set TutorialLayer::init hook priority, node IDs may not work properly");
         }
 
-        if (!self.setHookPriority("TutorialLayer::onNext", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set TutorialLayer::onNext hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("TutorialLayer::loadPage", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set TutorialLayer::loadPage hook priority, node IDs may not work properly");
         }
     }
 
     bool init() {
         if (!TutorialLayer::init()) return false;
-
         NodeIDs::get()->provide(this);
         return true;
     }
 
-    void onNext(CCObject* sender) {
-        TutorialLayer::onNext(sender);
+    void loadPage(int page) {
+        TutorialLayer::loadPage(page);
 
         if (auto spr = m_tutorialLayer->getChildByType<CCSprite>(0)) {
-            spr->setID(fmt::format("tutorial-image-0{}", this->m_page).c_str());
+            spr->setID(fmt::format("tutorial-image-{:02}", this->m_page));
         }
 
         if (auto txtArea= m_tutorialLayer->getChildByType<TextArea>(0)) {
-            txtArea->setID(fmt::format("tutorial-text-0{}", this->m_page).c_str());
+            txtArea->setID(fmt::format("tutorial-text-{}", this->m_page));
         }
     }
 };
