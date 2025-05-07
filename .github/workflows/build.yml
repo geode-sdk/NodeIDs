@@ -41,9 +41,6 @@ jobs:
         with:
           combine: true
           target: ${{ matrix.config.target }}
-          # TODO: remove these later
-          cli: nightly
-          sdk: nightly
       
   package:
     name: Package builds
