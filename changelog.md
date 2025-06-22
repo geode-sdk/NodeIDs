@@ -1,4 +1,15 @@
 # Node IDs Changelog
+## v1.21.0
+* Updated to Geode 4.6.0 (iOS jitless support)
+* Added SetupMoveCommandPopup IDs [#126](https://github.com/geode-sdk/NodeIDs/pull/126)
+* Added TutorialLayer IDs [#124](https://github.com/geode-sdk/NodeIDs/pull/124)
+* Added PurchaseItemPopup IDs [#128](https://github.com/geode-sdk/NodeIDs/pull/128)
+* Fixed Delete Filter buttons being too small [#123](https://github.com/geode-sdk/NodeIDs/pull/123)
+* Improved ProfilePage stats positioning [#127](https://github.com/geode-sdk/NodeIDs/pull/127)
+
+## v1.20.1
+* Added iOS support
+
 ## v1.20.0
 * Added IDs for sprites in EditorUI [#122](https://github.com/geode-sdk/NodeIDs/pull/122)
 * Fixed small visual bugs in Editor Delete Menu [#121](https://github.com/geode-sdk/NodeIDs/pull/121)
