@@ -83,8 +83,8 @@ $register_ids(EditorPauseLayer) {
             "copy-color-button",
             "build-helper-button",
 
-            "regroup-button",
             "create-loop-button",
+            "regroup-button",
             "align-x-button",
             "align-y-button",
             "select-all-button",
