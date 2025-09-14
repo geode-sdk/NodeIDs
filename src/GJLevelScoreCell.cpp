@@ -11,17 +11,7 @@ $register_ids(GJLevelScoreCell) {
 	    m_mainLayer,
 	    0,
 	    "player-icon",
-	    "main-menu");
-	setIDs(
-	    m_mainLayer,
-	    2,
-	    "rank-label");
-
-	setIDs(
-	    m_mainLayer,
-	    m_userScore->m_scoreType == 2 ? 2 : 3,
-	    "percentage-label",
-	    "date-label");
+	    "main-menu","rank-label","percentage-label","date-label");
 
 	if (auto menu = m_mainLayer->getChildByID("main-menu")) {
 		if (menu->getChildrenCount() > 0) {
