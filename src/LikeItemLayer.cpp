@@ -24,12 +24,11 @@ $register_ids(LikeItemLayer) {
             "dislike-button"
         );
 		auto actionMenu = CCMenu::create();
-		actionMenu->setLayout(
-		    SimpleAxisLayout::create(geode::Axis::Row)
+		auto layout = SimpleAxisLayout::create(geode::Axis::Row)
 			->setMainAxisScaling(geode::AxisScaling::Scale)
-			->setMainAxisAlignment(geode::MainAxisAlignment::Between)
-			->ignoreInvisibleChildren(true)
-		);
+			->setMainAxisAlignment(geode::MainAxisAlignment::Between);
+		layout->ignoreInvisibleChildren(true);
+		actionMenu->setLayout(layout);
 		actionMenu->setID("action-menu");
 		actionMenu->setContentSize({180, 57});
 		actionMenu->setPosition(winSize / 2 + ccp(1, -15));
