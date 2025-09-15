@@ -25,7 +25,7 @@ $register_ids(LikeItemLayer) {
         );
 		auto actionMenu = CCMenu::create();
 		auto layout = RowLayout::create()
-			->setMainAxisScaling(geode::AxisScaling::Scale)
+			->setMainAxisScaling(geode::AxisScaling::Grow)
 			->setMainAxisAlignment(geode::MainAxisAlignment::Between);
 		layout->ignoreInvisibleChildren(true);
 		actionMenu->setLayout(layout);
