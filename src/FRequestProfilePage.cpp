@@ -82,10 +82,7 @@ $register_ids(FRequestProfilePage) {
 		bottomLeftMenu->setPosition({winSize.width  * 0.5f - 200, winSize.height * 0.5f - 86}); 
 		bottomLeftMenu->setContentSize({topRightMenu->getContentSize().width, 100.f});
 		switchToMenu(menu->getChildByID("delete-button"), bottomLeftMenu);
-
-		topRightMenu->setContentSize({topRightMenu->getContentSize().width, 100.f});
         m_mainLayer->addChild(bottomLeftMenu);
-		switchToMenu(menu->getChildByID("sent-request-button"), topRightMenu);
 
 
 		topRightMenu->updateLayout();
