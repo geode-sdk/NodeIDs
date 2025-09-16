@@ -80,7 +80,7 @@ $register_ids(FRequestProfilePage) {
         bottomLeftMenu->setID("bottom-left-menu");
         bottomLeftMenu->setLayout(ColumnLayout::create()->setAxisAlignment(AxisAlignment::Start));
 		bottomLeftMenu->setPosition({winSize.width  * 0.5f - 200, winSize.height * 0.5f - 86}); 
-		bottomLeftMenu->setContentSize({topRightMenu->getContentSize().width, 100.f});
+		bottomLeftMenu->setContentSize({bottomLeftMenu->getContentSize().width, 100.f});
 		switchToMenu(menu->getChildByID("delete-button"), bottomLeftMenu);
         m_mainLayer->addChild(bottomLeftMenu);
 
