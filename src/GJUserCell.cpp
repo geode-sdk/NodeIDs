@@ -7,6 +7,7 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(GJUserCell) {
+	if (!m_userScore) return;
 	setIDs(
 	    m_mainLayer,
 	    0,

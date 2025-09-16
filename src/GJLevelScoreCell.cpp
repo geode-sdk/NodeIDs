@@ -7,12 +7,13 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(GJLevelScoreCell) {
+	if (!m_userScore) return;
+
 	setIDs(
 	    m_mainLayer,
 	    0,
 	    "player-icon",
-	    "main-menu","rank-label","percentage-label","date-label");
-
+	    "main-menu", (this->m_userScore->m_playerRank >= 4 ? "rank-label" : "rank-icon"),"percentage-label","date-label");
 	if (auto menu = m_mainLayer->getChildByID("main-menu")) {
 		if (menu->getChildrenCount() > 0) {
 			static_cast<CCNode *>(menu->getChildren()->objectAtIndex(0))->setID("player-name");
