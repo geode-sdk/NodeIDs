@@ -8,7 +8,6 @@ using namespace geode::node_ids;
 
 $register_ids(FRequestProfilePage) {
 	size_t offset = 6;
-	log::debug("t {}",m_sent);
 	setIDs(
 			m_mainLayer,
 			0,
