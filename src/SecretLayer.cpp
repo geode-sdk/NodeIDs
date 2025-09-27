@@ -17,13 +17,14 @@ $register_ids(SecretLayer) {
         "text-box",
         "menu"
     );
-    auto menu = static_cast<CCMenu*>(this->getChildByID("menu"));
-     setIDs(
-        menu,
-        0,
-        "back-button",
-        "vaultkeeper-button"
-    );
+    if (auto menu = this->getChildByID("menu")) {
+        setIDs(
+            menu,
+            0,
+            "back-button",
+            "vaultkeeper-button"
+        );
+    };
 }
 
 struct SecretLayerIDs : Modify<SecretLayerIDs, SecretLayer> {
