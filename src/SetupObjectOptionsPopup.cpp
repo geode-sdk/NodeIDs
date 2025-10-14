@@ -6,9 +6,10 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(SetupObjectOptionsPopup) {
-    size_t label_offset = 2; // i have no clue why this is 2 instead of 1
+    size_t label_offset = 2; 
     if (auto mainLayer = setIDSafe(this, 0, "main-layer") ){
         setIDSafe(mainLayer, 0, "background");
+        
         setIDs(
             mainLayer,
             label_offset,
@@ -37,9 +38,10 @@ $register_ids(SetupObjectOptionsPopup) {
             "no-audio-scale-label",
             "reverse-label"
         );
-        if(auto togglerMenu = setIDSafe<CCMenu>(mainLayer, 0, "toggler-menu")){
+
+        if(auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")){
             setIDs(
-                togglerMenu,
+                mainMenu,
                 0,
                 "ok-button",
                 "info-button",
