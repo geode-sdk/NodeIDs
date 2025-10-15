@@ -6,43 +6,54 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(SetupObjectOptionsPopup) {
-    size_t label_offset = 2; 
+    int label_offset = 2;
+    int toggle_offset = 0;
+    
+    
     if (auto mainLayer = setIDSafe(this, 0, "main-layer") ){
         setIDSafe(mainLayer, 0, "background");
-        
+    
         setIDs(
             mainLayer,
-            label_offset,
+            &label_offset,
             "dont-fade-label",
             "dont-enter-label",
             "no-effects-label",
             "group-parent-label",
             "area-parent-label",
             "dont-boosty-label",
-            "dont-boostx-label",
-            "single-ptouch-label",
-            "high-touch-label",
+            "dont-boostx-label"
+        );
+        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "single-ptouch-label");
+        setIDs(
+            mainLayer,
+            &label_offset,
+            "high-detail-label",
             "notouch-label",
             "passable-label",
             "hide-label",
             "nonstickx-label",
             "extrastrickyy-label",
-            "extended-collision-label",
-            "center-effect-label",
+            "extended-collision-label"
+        );
+        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "center-effect-label");
+        setIDs(
+            mainLayer,
+            &label_offset,
             "iceblock-label",
             "gripslope-label",
             "noglow-label",
             "noparticle-label",
             "nonsticky-label",
             "scalestick-label",
-            "no-audio-scale-label",
-            "reverse-label"
+            "no-audio-scale-label"
         );
+        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "reverse-label");
 
         if(auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")){
             setIDs(
                 mainMenu,
-                0,
+                &toggle_offset,
                 "ok-button",
                 "info-button",
                 "dont-fade-toggle",
@@ -51,25 +62,33 @@ $register_ids(SetupObjectOptionsPopup) {
                 "group-parent-toggle",
                 "area-parent-toggle",
                 "dont-boosty-toggle",
-                "dont-boostx-toggle",
-                "single-ptouch-toggle",
-                "high-touch-toggle",
+                "dont-boostx-toggle"
+            );
+            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "single-ptouch-toggle");
+            setIDs(
+                mainMenu,
+                &toggle_offset,
+                "high-detail-toggle",
                 "notouch-toggle",
                 "passable-toggle",
                 "hide-toggle",
                 "nonstickx-toggle",
                 "extrastrickyy-toggle",
-                "extended-collision-toggle",
-                "center-effect-toggle",
+                "extended-collision-toggle"
+            );
+            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "center-effect-toggle");
+            setIDs(
+                mainMenu,
+                &toggle_offset,
                 "iceblock-toggle",
                 "gripslope-toggle",
                 "noglow-toggle",
                 "noparticle-toggle",
                 "nonsticky-toggle",
                 "scalestick-toggle",
-                "no-audio-scale-toggle",
-                "reverse-toggle"
+                "no-audio-scale-toggle"
             );
+            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "reverse-toggle");
         }
     }
     setIDSafe(this, 1, "title-label");
