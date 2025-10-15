@@ -7,7 +7,7 @@ using namespace geode::node_ids;
 
 $register_ids(SetupObjectOptionsPopup) {
     int label_offset = 2;
-    int toggle_offset = 0;
+    int menu_offset = 0;
     
     
     if (auto mainLayer = setIDSafe(this, 0, "main-layer") ){
@@ -53,7 +53,7 @@ $register_ids(SetupObjectOptionsPopup) {
         if(auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")){
             setIDs(
                 mainMenu,
-                &toggle_offset,
+                &menu_offset,
                 "ok-button",
                 "info-button",
                 "dont-fade-toggle",
@@ -64,10 +64,10 @@ $register_ids(SetupObjectOptionsPopup) {
                 "dont-boosty-toggle",
                 "dont-boostx-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "single-ptouch-toggle");
+            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "single-ptouch-toggle");
             setIDs(
                 mainMenu,
-                &toggle_offset,
+                &menu_offset,
                 "high-detail-toggle",
                 "notouch-toggle",
                 "passable-toggle",
@@ -76,10 +76,10 @@ $register_ids(SetupObjectOptionsPopup) {
                 "extrastrickyy-toggle",
                 "extended-collision-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "center-effect-toggle");
+            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "center-effect-toggle");
             setIDs(
                 mainMenu,
-                &toggle_offset,
+                &menu_offset,
                 "iceblock-toggle",
                 "gripslope-toggle",
                 "noglow-toggle",
@@ -88,7 +88,7 @@ $register_ids(SetupObjectOptionsPopup) {
                 "scalestick-toggle",
                 "no-audio-scale-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &toggle_offset, "reverse-toggle");
+            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "reverse-toggle");
         }
     }
     setIDSafe(this, 1, "title-label");
