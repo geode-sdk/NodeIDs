@@ -6,16 +6,17 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(SetupObjectOptionsPopup) {
-    int label_offset = 2;
-    int menu_offset = 0;
+    int labelOffset = 2;
+    int menuOffset = 0;
     
     bool show_reverse = m_gameObject && m_gameObject->m_classType == GameObjectClassType::Effect && m_gameObject->canReverse();
     
-    if (auto mainLayer = setIDSafe(this, 0, "main-layer") ){
-        setIDSafe(mainLayer, 0, "background");
+    setIDSafe<CCLabelBMFont>(this, 0, "title-label");
+    if (auto mainLayer = setIDSafe<CCLayer>(this, 0, "main-layer")) {
+        setIDSafe<CCScale9Sprite>(mainLayer, 0, "background");
         setIDs(
             mainLayer,
-            &label_offset,
+            &labelOffset,
             "dont-fade-label",
             "dont-enter-label",
             "no-effects-label",
@@ -24,11 +25,11 @@ $register_ids(SetupObjectOptionsPopup) {
             "dont-boosty-label",
             "dont-boostx-label"
         );
-        if(m_effectObject) setIDs(mainLayer, &label_offset, "single-ptouch-label");
-        
+        if(m_effectObject) setIDs(mainLayer, &labelOffset, "single-ptouch-label");
+
         setIDs(
             mainLayer,
-            &label_offset,
+            &labelOffset,
             "high-detail-label",
             "notouch-label",
             "passable-label",
@@ -37,11 +38,11 @@ $register_ids(SetupObjectOptionsPopup) {
             "extrastrickyy-label",
             "extended-collision-label"
         );
-        if(m_effectObject) setIDs(mainLayer, &label_offset, "center-effect-label");
+        if(m_effectObject) setIDs(mainLayer, &labelOffset, "center-effect-label");
 
         setIDs(
             mainLayer,
-            &label_offset,
+            &labelOffset,
             "iceblock-label",
             "gripslope-label",
             "noglow-label",
@@ -50,12 +51,12 @@ $register_ids(SetupObjectOptionsPopup) {
             "scalestick-label",
             "no-audio-scale-label"
         );
-        if(show_reverse) setIDs(mainLayer, &label_offset, "reverse-label");
+        if(show_reverse) setIDs(mainLayer, &labelOffset, "reverse-label");
 
         if(auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")){
             setIDs(
                 mainMenu,
-                &menu_offset,
+                &menuOffset,
                 "ok-button",
                 "info-button",
                 "dont-fade-toggle",
@@ -66,10 +67,11 @@ $register_ids(SetupObjectOptionsPopup) {
                 "dont-boosty-toggle",
                 "dont-boostx-toggle"
             );
-            if(m_effectObject) setIDs(mainMenu, &menu_offset, "single-ptouch-toggle");
+            if(m_effectObject) setIDs(mainMenu, &menuOffset, "single-ptouch-toggle");
+
             setIDs(
                 mainMenu,
-                &menu_offset,
+                &menuOffset,
                 "high-detail-toggle",
                 "notouch-toggle",
                 "passable-toggle",
@@ -78,10 +80,11 @@ $register_ids(SetupObjectOptionsPopup) {
                 "extrastrickyy-toggle",
                 "extended-collision-toggle"
             );
-            if(m_effectObject) setIDs(mainMenu, &menu_offset, "center-effect-toggle");
+            if(m_effectObject) setIDs(mainMenu, &menuOffset, "center-effect-toggle");
+
             setIDs(
                 mainMenu,
-                &menu_offset,
+                &menuOffset,
                 "iceblock-toggle",
                 "gripslope-toggle",
                 "noglow-toggle",
@@ -90,10 +93,10 @@ $register_ids(SetupObjectOptionsPopup) {
                 "scalestick-toggle",
                 "no-audio-scale-toggle"
             );
-            if(show_reverse) setIDs(mainMenu, &menu_offset, "reverse-toggle");
+            if(show_reverse) setIDs(mainMenu, &menuOffset, "reverse-toggle");
         }
     }
-    setIDSafe(this, 1, "title-label");
+    
 };
 
 struct SetupObjectOptionsPopupIDs : Modify<SetupObjectOptionsPopupIDs, SetupObjectOptionsPopup> {
