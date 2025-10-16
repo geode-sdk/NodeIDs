@@ -9,10 +9,10 @@ $register_ids(SetupObjectOptionsPopup) {
     int label_offset = 2;
     int menu_offset = 0;
     
+    bool show_reverse = m_gameObject && m_gameObject->m_classType == GameObjectClassType::Effect && m_gameObject->canReverse();
     
     if (auto mainLayer = setIDSafe(this, 0, "main-layer") ){
         setIDSafe(mainLayer, 0, "background");
-    
         setIDs(
             mainLayer,
             &label_offset,
@@ -24,7 +24,8 @@ $register_ids(SetupObjectOptionsPopup) {
             "dont-boosty-label",
             "dont-boostx-label"
         );
-        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "single-ptouch-label");
+        if(m_effectObject) setIDs(mainLayer, &label_offset, "single-ptouch-label");
+        
         setIDs(
             mainLayer,
             &label_offset,
@@ -36,7 +37,8 @@ $register_ids(SetupObjectOptionsPopup) {
             "extrastrickyy-label",
             "extended-collision-label"
         );
-        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "center-effect-label");
+        if(m_effectObject) setIDs(mainLayer, &label_offset, "center-effect-label");
+
         setIDs(
             mainLayer,
             &label_offset,
@@ -48,7 +50,7 @@ $register_ids(SetupObjectOptionsPopup) {
             "scalestick-label",
             "no-audio-scale-label"
         );
-        if(!m_gameObjects) setIDs(mainLayer, &label_offset, "reverse-label");
+        if(show_reverse) setIDs(mainLayer, &label_offset, "reverse-label");
 
         if(auto mainMenu = setIDSafe<CCMenu>(mainLayer, 0, "main-menu")){
             setIDs(
@@ -64,7 +66,7 @@ $register_ids(SetupObjectOptionsPopup) {
                 "dont-boosty-toggle",
                 "dont-boostx-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "single-ptouch-toggle");
+            if(m_effectObject) setIDs(mainMenu, &menu_offset, "single-ptouch-toggle");
             setIDs(
                 mainMenu,
                 &menu_offset,
@@ -76,7 +78,7 @@ $register_ids(SetupObjectOptionsPopup) {
                 "extrastrickyy-toggle",
                 "extended-collision-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "center-effect-toggle");
+            if(m_effectObject) setIDs(mainMenu, &menu_offset, "center-effect-toggle");
             setIDs(
                 mainMenu,
                 &menu_offset,
@@ -88,7 +90,7 @@ $register_ids(SetupObjectOptionsPopup) {
                 "scalestick-toggle",
                 "no-audio-scale-toggle"
             );
-            if(!m_gameObjects) setIDs(mainMenu, &menu_offset, "reverse-toggle");
+            if(show_reverse) setIDs(mainMenu, &menu_offset, "reverse-toggle");
         }
     }
     setIDSafe(this, 1, "title-label");
