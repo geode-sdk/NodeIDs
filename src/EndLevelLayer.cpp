@@ -34,6 +34,10 @@ $register_ids(EndLevelLayer) {
         idx += 1;
     }
 
+    // code by alphalaneous, adapted to node IDs by raydeeux
+    // the above comment applies for all lines until the `endText` variable declaration
+    std::vector<Ref<CCLabelBMFont>> nodesToMove;
+
     for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
         if (auto bmFont = typeinfo_cast<CCLabelBMFont*>(child)) {
             std::string_view view = bmFont->getString();
@@ -41,21 +45,47 @@ $register_ids(EndLevelLayer) {
             if (view.starts_with("Attempts")) {
                 bmFont->setID("attempts-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Jumps")) {
                 bmFont->setID("jumps-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Time")) {
                 bmFont->setID("time-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Points")) {
                 bmFont->setID("points-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
         }
     }
+
+    std::reverse(nodesToMove.begin(), nodesToMove.end());
+
+    CCNode* labelContainer = CCNode::create();
+    labelContainer->setPosition({winSize.width/2, winSize.height/2 + 8});
+    labelContainer->setContentSize({200, 90});
+    labelContainer->setAnchorPoint({0.5f, 0.5f});
+    labelContainer->setID("summary-container"); // node ID name agreed by alphalaneous and absolute as of time of writing
+
+    ColumnLayout* layout = ColumnLayout::create();
+    layout->setGap(3);
+    layout->setAutoScale(true); // originally this was set to false. better to leave this here since multiple mods are using it probably
+    labelContainer->setLayout(layout);
+
+    for (auto node : nodesToMove) {
+        node->removeFromParentAndCleanup(false);
+        labelContainer->addChild(node);
+    }
+
+    labelContainer->addChild(counter);
+    labelContainer->updateLayout();
+    m_mainLayer->addChild(labelContainer);
 
     if (auto endText = typeinfo_cast<CCLabelBMFont*>(m_mainLayer->getChildren()->objectAtIndex(idx))) {
         endText->setID("end-text");
