@@ -72,6 +72,7 @@ $register_ids(EndLevelLayer) {
 
     if (auto textArea = typeinfo_cast<TextArea*>(m_mainLayer->getChildren()->objectAtIndex(idx))) {
         textArea->setID("complete-message");
+        textArea->setPositionY(109); // summary-container's information is FAR more important to risk re-positioning/shrinking down. also literally no one asked for y position 147 when completing a platformer level LMFAO that position is uglier than medusa
         idx += 1;
     }
 
