@@ -67,6 +67,7 @@ $register_ids(EndLevelLayer) {
 
     std::reverse(nodesToMove.begin(), nodesToMove.end());
 
+    CCSize winSize = CCDirector::get()->getWinSize();
     CCNode* labelContainer = CCNode::create();
     labelContainer->setPosition({winSize.width/2, winSize.height/2 + 8});
     labelContainer->setContentSize({200, 90});
@@ -83,7 +84,6 @@ $register_ids(EndLevelLayer) {
         labelContainer->addChild(node);
     }
 
-    labelContainer->addChild(counter);
     labelContainer->updateLayout();
     m_mainLayer->addChild(labelContainer);
 
