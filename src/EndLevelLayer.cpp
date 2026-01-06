@@ -156,7 +156,7 @@ $register_ids(EndLevelLayer) {
     ColumnLayout* layout = ColumnLayout::create();
     layout->setGap(3);
     layout->setAutoScale(true); // originally this was set to false. better to leave this here since multiple mods are using it probably
-    layout->setDefaultScaleLimits(.8f, 1.f); // for consistency with vanilla label scaling
+    layout->setDefaultScaleLimits(.25f, .8f); // for consistency with vanilla label scaling
     labelContainer->setLayout(layout);
 
     for (auto node : nodesToMove) {
