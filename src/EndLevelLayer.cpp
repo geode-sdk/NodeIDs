@@ -34,8 +34,8 @@ $register_ids(EndLevelLayer) {
         idx += 1;
     }
 
-    // code by alphalaneous, adapted to node IDs by raydeeux
-    // the above comment applies for all lines until the `endText` variable declaration
+    // idea by alphalaneous, adapted to node IDs by raydeeux
+    // the above comment applies to the contents within the forloop and the vector declaration
     std::vector<Ref<CCLabelBMFont>> nodesToMove;
 
     for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
@@ -64,28 +64,6 @@ $register_ids(EndLevelLayer) {
             }
         }
     }
-
-    std::reverse(nodesToMove.begin(), nodesToMove.end());
-
-    CCSize winSize = CCDirector::get()->getWinSize();
-    CCNode* labelContainer = CCNode::create();
-    labelContainer->setPosition({winSize.width/2, winSize.height/2 + 8});
-    labelContainer->setContentSize({200, 90});
-    labelContainer->setAnchorPoint({0.5f, 0.5f});
-    labelContainer->setID("summary-container"); // node ID name agreed by alphalaneous and absolute as of time of writing
-
-    ColumnLayout* layout = ColumnLayout::create();
-    layout->setGap(3);
-    layout->setAutoScale(true); // originally this was set to false. better to leave this here since multiple mods are using it probably
-    labelContainer->setLayout(layout);
-
-    for (auto node : nodesToMove) {
-        node->removeFromParentAndCleanup(false);
-        labelContainer->addChild(node);
-    }
-
-    labelContainer->updateLayout();
-    m_mainLayer->addChild(labelContainer);
 
     if (auto endText = typeinfo_cast<CCLabelBMFont*>(m_mainLayer->getChildren()->objectAtIndex(idx))) {
         endText->setID("end-text");
@@ -164,6 +142,29 @@ $register_ids(EndLevelLayer) {
         );
         idx += 2;
     }
+
+    // original code by alphalaneous, adapted to node IDs by raydeeux
+    std::reverse(nodesToMove.begin(), nodesToMove.end());
+
+    CCSize winSize = CCDirector::get()->getWinSize();
+    CCNode* labelContainer = CCNode::create();
+    labelContainer->setPosition({winSize.width/2, winSize.height/2 + 8});
+    labelContainer->setContentSize({200, 90});
+    labelContainer->setAnchorPoint({0.5f, 0.5f});
+    labelContainer->setID("summary-container"); // node ID name agreed by alphalaneous and absolute as of time of writing
+
+    ColumnLayout* layout = ColumnLayout::create();
+    layout->setGap(3);
+    layout->setAutoScale(true); // originally this was set to false. better to leave this here since multiple mods are using it probably
+    labelContainer->setLayout(layout);
+
+    for (auto node : nodesToMove) {
+        node->removeFromParentAndCleanup(false);
+        labelContainer->addChild(node);
+    }
+
+    labelContainer->updateLayout();
+    m_mainLayer->addChild(labelContainer);
 }
 
 struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {
