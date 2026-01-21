@@ -62,12 +62,12 @@ $register_ids(ProfilePage) {
     leftMenu->setLayout(
         ColumnLayout::create()
             ->setGap(6.f)
-            ->setAxisAlignment(AxisAlignment::End)
-            ->setAxisReverse(true)
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
     );
     leftMenu->setID("left-menu");
-    leftMenu->setPosition({(winSize.width / 2) - 195.f, (winSize.height / 2) + 12.f});
-    leftMenu->setContentSize({60, 90});
+    leftMenu->setPosition({(winSize.width / 2) - 200.f, (winSize.height / 2) + 26.f});
+    leftMenu->setContentSize({60, 84});
     leftMenu->setZOrder(10);
     m_mainLayer->addChild(leftMenu);
 
@@ -292,6 +292,14 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("twitch-button");
             socialMediaCount++;
         }
+        if(!m_score->m_instagramURL.empty()) {
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("instagram-button");
+            socialMediaCount++;
+        }
+        if(!m_score->m_tiktokURL.empty()) {
+            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("tiktok-button");
+            socialMediaCount++;
+        }
         if(m_score->m_commentHistoryStatus != 2 && (m_score->m_commentHistoryStatus != 1 || m_score->m_friendReqStatus == 1)
             || m_ownProfile
             || GameManager::sharedState()->m_hasRP == 2
@@ -316,6 +324,14 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         #if GEODE_COMP_GD_VERSION >= 22060
             static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("copy-username-button");
         #endif
+
+        if(auto commentBtn = m_buttonMenu->getChildByID("comment-history-button")) {
+            if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
+                commentBtn->setZOrder(-2);
+                switchToMenu(commentBtn, m_mainLayer->getChildByID("left-menu"));
+                leftMenu->updateLayout();   
+            }
+        }
 
         if(!m_ownProfile) {
             if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
