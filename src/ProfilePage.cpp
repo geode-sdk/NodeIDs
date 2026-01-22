@@ -86,13 +86,13 @@ $register_ids(ProfilePage) {
     auto socialsMenu = CCMenu::create();
     socialsMenu->setLayout(
         ColumnLayout::create()
-            ->setGap(4.f)
+            ->setGap(3.5f)
             ->setAxisAlignment(AxisAlignment::End)
             ->setAxisReverse(true)
     );
     socialsMenu->setID("socials-menu");
-    socialsMenu->setPosition({(winSize.width / 2) + 198.f, (winSize.height / 2) + 78.75f});
-    socialsMenu->setContentSize({60, 120});
+    socialsMenu->setPosition({(winSize.width / 2) + 200.f, (winSize.height / 2) + 57.75f});
+    socialsMenu->setContentSize({60, 160});
     socialsMenu->setZOrder(10);
     m_mainLayer->addChild(socialsMenu);
 
@@ -403,6 +403,14 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
             if(auto twitchButton = m_buttonMenu->getChildByID("twitch-button")) {
                 twitchButton->removeFromParent();
                 socialsMenu->addChild(twitchButton);
+            }
+            if(auto instagramButton = m_buttonMenu->getChildByID("instagram-button")) {
+                instagramButton->removeFromParent();
+                socialsMenu->addChild(instagramButton);
+            }
+            if(auto tiktokButton = m_buttonMenu->getChildByID("tiktok-button")) {
+                tiktokButton->removeFromParent();
+                socialsMenu->addChild(tiktokButton);
             }
             socialsMenu->updateLayout();
         }
