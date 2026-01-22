@@ -9,10 +9,6 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
-    struct Fields {
-        GJMapPack* m_gauntlet;
-    };
-
     static void onModify(auto& self) {
         if (!self.setHookPriority("GauntletNode::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set GauntletNode::init hook priority, node IDs may not work properly");
@@ -21,8 +17,6 @@ struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
 
     bool init(GJMapPack* gauntlet) {
         if (!GauntletNode::init(gauntlet)) return false;
-
-        m_fields->m_gauntlet = gauntlet;
 
         NodeIDs::get()->provide(this);
 
@@ -34,7 +28,7 @@ $register_ids(GauntletNode) {
     const auto GSM = GameStatsManager::sharedState();
     auto self = reinterpret_cast<GauntletNodeIDs*>(this);
 
-    if (self->m_fields->m_gauntlet->hasCompletedMapPack()) {
+    if (m_gauntlet->hasCompletedMapPack()) {
         setIDs(
             this,
             0,
@@ -63,8 +57,8 @@ $register_ids(GauntletNode) {
     }
 
     if (
-        self->m_fields->m_gauntlet->hasCompletedMapPack() &&
-        GSM->isSpecialChestUnlocked(GSM->getGauntletRewardKey(self->m_fields->m_gauntlet->m_packID))
+        m_gauntlet->hasCompletedMapPack() &&
+        GSM->isSpecialChestUnlocked(GSM->getGauntletRewardKey(m_gauntlet->m_packID))
     ) {
         setIDs(
             m_gauntletInfoNode,
