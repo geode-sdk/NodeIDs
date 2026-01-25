@@ -15,12 +15,9 @@ struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
         }
     }
 
-    bool init(GJMapPack* gauntlet) {
-        if (!GauntletNode::init(gauntlet)) return false;
-
+    void setupNode() {
+        GauntletNode::setupNode();
         NodeIDs::get()->provide(this);
-
-        return true;
     }
 };
 
