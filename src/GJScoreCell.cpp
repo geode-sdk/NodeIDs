@@ -21,22 +21,53 @@ $register_ids(GJScoreCell) {
             "rank-label"
         );
     }
+
+    auto starsLabel = "stars-label";
+    auto starsIcon = "stars-icon";
+    auto moonsLabel = "moons-label";
+    auto moonsIcon = "moons-icon";
+    auto demonsLabel = "demons-label";
+    auto demonsIcon = "demons-icon";
+    auto userCoinsLabel = "user-coins-label";
+    auto userCoinsIcon = "user-coins-icon";
+    switch (m_score->m_leaderboardType) {
+        case 1:
+            starsLabel = "moons-label";
+            starsIcon = "moons-icon";
+            moonsLabel = "stars-label";
+            moonsIcon = "stars-icon";
+            break;
+        case 2:
+            starsLabel = "demons-label";
+            starsIcon = "demons-icon";
+            demonsLabel = "stars-label";
+            demonsIcon = "stars-icon";
+            break;
+        case 3:
+            starsLabel = "user-coins-label";
+            starsIcon = "user-coins-icon";
+            userCoinsLabel = "stars-label";
+            userCoinsIcon = "stars-icon";
+            break;
+        default:
+            break;
+    }
     
     setIDs(
         m_mainLayer,
         m_score->m_scoreType == 2 ? 2 : 3,
-        "stars-label",
-        "stars-icon",
-        "moons-label",
-        "moons-icon",
+        starsLabel,
+        starsIcon,
+        moonsLabel,
+        moonsIcon,
         "diamonds-label",
         "diamonds-icon",
         "coins-label",
         "coins-icon",
-        "user-coins-label",
-        "user-coins-icon",
-        "demons-label",
-        "demons-icon",
+        userCoinsLabel,
+        userCoinsIcon,
+        demonsLabel,
+        demonsIcon,
         "creator-points-label",
         "creator-points-icon"
     );
@@ -52,10 +83,10 @@ $register_ids(GJScoreCell) {
         "diamonds-icon",
         "coins-label",
         "coins-icon",
-        "user-coins-label",
-        "user-coins-icon",
-        "demons-label",
-        "demons-icon",
+        userCoinsLabel,
+        userCoinsIcon,
+        demonsLabel,
+        demonsIcon,
         "creator-points-label",
         "creator-points-icon"
     };
