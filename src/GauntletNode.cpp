@@ -10,17 +10,15 @@ using namespace geode::node_ids;
 
 struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GauntletNode::init", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GauntletNode::init hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GauntletNode::setupNode", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GauntletNode::setupNode hook priority, node IDs may not work properly");
         }
     }
 
-    bool init(GJMapPack* gauntlet) {
-        if (!GauntletNode::init(gauntlet)) return false;
+    void setupNode() {
+        GauntletNode::setupNode();
 
         NodeIDs::get()->provide(this);
-
-        return true;
     }
 };
 
