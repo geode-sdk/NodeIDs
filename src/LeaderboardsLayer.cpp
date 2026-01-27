@@ -1,4 +1,3 @@
-/*
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/LeaderboardsLayer.hpp>
 #include <Geode/utils/cocos.hpp>
@@ -61,12 +60,11 @@ struct LeaderboardsLayerIDs : Modify<LeaderboardsLayerIDs, LeaderboardsLayer> {
         }
     }
 
-    bool init(LeaderboardState state) {
-        if (!LeaderboardsLayer::init(state)) return false;
+    bool init(LeaderboardState state, int mode) {
+        if (!LeaderboardsLayer::init(state, mode)) return false;
 
         NodeIDs::get()->provide(this);
 
         return true;
     }
 };
-*/
