@@ -47,11 +47,12 @@ $register_ids(LevelBrowserLayer) {
                 this,
                 "prev-page-menu",
                 RowLayout::create()
-                    ->setAxisAlignment(AxisAlignment::Start),
+                    ->setAxisAlignment(AxisAlignment::Start)
+                    ->ignoreInvisibleChildren(false),
                 prevPageBtn
             );
             prevPageBtn->setZOrder(-1);
-            navMenu->setContentSize({ navMenuWidth, 40.f });
+            navMenu->setContentSize({ navMenuWidth, 41.f });
             navMenu->setPositionX(
                 navMenu->getPositionX() + navMenuWidth / 2 - 
                     prevPageBtn->getScaledContentSize().width / 2
@@ -139,6 +140,7 @@ $register_ids(LevelBrowserLayer) {
             RowLayout::create()
                 ->setAxisReverse(true)
                 ->setAxisAlignment(AxisAlignment::End)
+                ->ignoreInvisibleChildren(false)
         );
         menu->setContentSize({ navMenuWidth, 40.f });
         menu->setPositionX(

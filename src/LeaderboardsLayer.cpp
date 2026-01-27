@@ -1,3 +1,4 @@
+/*
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/LeaderboardsLayer.hpp>
 #include <Geode/utils/cocos.hpp>
@@ -68,3 +69,4 @@ struct LeaderboardsLayerIDs : Modify<LeaderboardsLayerIDs, LeaderboardsLayer> {
         return true;
     }
 };
+*/

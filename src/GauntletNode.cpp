@@ -1,3 +1,4 @@
+/*
 #include <Geode/Geode.hpp>
 #include <Geode/binding/GauntletNode.hpp>
 #include <Geode/modify/GauntletNode.hpp>
@@ -95,3 +96,4 @@ $register_ids(GauntletNode) {
     verifyIDSafe(m_gauntletInfoNode, "gauntlet-info-node");
     verifyIDSafe(m_rewardNode, "reward-node");
 }
+*/
