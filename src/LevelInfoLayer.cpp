@@ -148,6 +148,7 @@ $register_ids(LevelInfoLayer) {
                 ->setGap(3.f)
                 ->setAxisAlignment(AxisAlignment::End)
                 ->setAxisReverse(true)
+                ->ignoreInvisibleChildren(false)
         );
 
         if(auto modRateBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_starBtnMod_001.png")) {
