@@ -10,13 +10,13 @@ using namespace geode::node_ids;
 
 struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GauntletNode::setupNode", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GauntletNode::setupNode hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GauntletNode::generateNode", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GauntletNode::generateNode hook priority, node IDs may not work properly");
         }
     }
 
-    void setupNode() {
-        GauntletNode::setupNode();
+    void generateNode() {
+        GauntletNode::generateNode();
 
         NodeIDs::get()->provide(this);
     }

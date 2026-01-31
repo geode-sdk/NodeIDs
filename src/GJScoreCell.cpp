@@ -30,20 +30,21 @@ $register_ids(GJScoreCell) {
     auto demonsIcon = "demons-icon";
     auto userCoinsLabel = "user-coins-label";
     auto userCoinsIcon = "user-coins-icon";
-    switch (m_score->m_leaderboardType) {
-        case 1:
+    
+    switch (m_score->m_leaderboardStat) {
+        case LeaderboardStat::Stars:
             starsLabel = "moons-label";
             starsIcon = "moons-icon";
             moonsLabel = "stars-label";
             moonsIcon = "stars-icon";
             break;
-        case 2:
+        case LeaderboardStat::Demons:
             starsLabel = "demons-label";
             starsIcon = "demons-icon";
             demonsLabel = "stars-label";
             demonsIcon = "stars-icon";
             break;
-        case 3:
+        case LeaderboardStat::UserCoins:
             starsLabel = "user-coins-label";
             starsIcon = "user-coins-icon";
             userCoinsLabel = "stars-label";

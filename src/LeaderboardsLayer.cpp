@@ -75,8 +75,8 @@ struct LeaderboardsLayerIDs : Modify<LeaderboardsLayerIDs, LeaderboardsLayer> {
         }
     }
 
-    bool init(LeaderboardState state, int mode) {
-        if (!LeaderboardsLayer::init(state, mode)) return false;
+    bool init(LeaderboardType type, LeaderboardStat stat) {
+        if (!LeaderboardsLayer::init(type, stat)) return false;
 
         NodeIDs::get()->provide(this);
 
