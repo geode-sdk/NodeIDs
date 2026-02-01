@@ -32,7 +32,7 @@ $register_ids(GJScoreCell) {
     auto userCoinsIcon = "user-coins-icon";
     
     switch (m_score->m_leaderboardStat) {
-        case LeaderboardStat::Stars:
+        case LeaderboardStat::Moons:
             starsLabel = "moons-label";
             starsIcon = "moons-icon";
             moonsLabel = "stars-label";
