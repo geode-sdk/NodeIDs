@@ -2,9 +2,9 @@
 	"geode": "5.0.0-alpha.1",
 	"gd": {
 		"win": "2.2081",
-		"android": "2.2074",
+		"android": "2.2081",
 		"mac": "2.2081",
-		"ios": "2.2074"
+		"ios": "2.2081"
 	},
 	"version": "v1.21.1",
 	"id": "geode.node-ids",
