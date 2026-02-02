@@ -108,7 +108,8 @@ $register_ids(EditorUI) {
             this,
             "playtest-menu",
             RowLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start),
+                ->setAxisAlignment(AxisAlignment::Start)
+                ->ignoreInvisibleChildren(false),
             menu->getChildByID("playtest-button"),
             menu->getChildByID("stop-playtest-button")
         );
