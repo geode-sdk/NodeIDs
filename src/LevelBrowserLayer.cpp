@@ -151,7 +151,7 @@ $register_ids(LevelBrowserLayer) {
 
     if(m_searchObject) {
 
-        std::array<SearchType, 5> searchTypes = { SearchType::DailySafe, SearchType::WeeklySafe, SearchType::EventSafe, SearchType::Featured, SearchType::FeaturedGDW };
+        std::array<SearchType, 7> searchTypes = { SearchType::DailySafe, SearchType::WeeklySafe, SearchType::EventSafe, SearchType::Featured, SearchType::FeaturedGDW, SearchType::FeaturedLite, SearchType::Bonus };
         for(auto& type : searchTypes) {
             if(m_searchObject->m_searchType == type) {
                 //0 matches TextArea
