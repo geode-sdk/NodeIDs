@@ -129,12 +129,13 @@ $register_ids(LevelInfoLayer) {
             child->setPositionX(0.f);
         }
 
-        setIDSafe(menu, 0, "delete-button");
-        setIDSafe(menu, 1, "refresh-button");
-        setIDSafe(menu, 2, "info-button");
-        setIDSafe(menu, 3, "leaderboards-button");
-        setIDSafe(menu, 4, "like-button");
-        setIDSafe(menu, 5, "rate-button");
+        size_t rightMenuIdx = 0;
+        if(m_level->m_dailyID <= 0) setIDSafe(menu, rightMenuIdx++, "delete-button");
+        setIDSafe(menu, rightMenuIdx++, "refresh-button");
+        setIDSafe(menu, rightMenuIdx++, "info-button");
+        setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
+        setIDSafe(menu, rightMenuIdx++, "like-button");
+        setIDSafe(menu, rightMenuIdx++, "rate-button");
 
         menu->setPosition(
             menu->getPositionX() + static_cast<CCNode*>(
