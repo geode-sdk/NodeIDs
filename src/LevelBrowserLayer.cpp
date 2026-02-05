@@ -71,7 +71,8 @@ $register_ids(LevelBrowserLayer) {
             ColumnLayout::create()
                 ->setAxisReverse(true)
                 ->setGrowCrossAxis(true)
-                ->setAxisAlignment(AxisAlignment::End),
+                ->setAxisAlignment(AxisAlignment::End)
+                ->ignoreInvisibleChildren(false),
             pageBtn,
             folderBtn,
             lastPageBtn
