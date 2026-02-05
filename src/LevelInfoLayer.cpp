@@ -283,4 +283,16 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("practice-mode-bar");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-bar");
     }
+
+    void levelDownloadFinished(GJGameLevel* level) {
+        LevelInfoLayer::levelDownloadFinished(level);
+
+        if(auto leftSideMenu = this->getChildByID("left-side-menu")) {
+            leftSideMenu->updateLayout();
+        }
+
+        if(auto rightSideMenu = this->getChildByID("right-side-menu")) {
+            rightSideMenu->updateLayout();
+        }
+    }
 };
