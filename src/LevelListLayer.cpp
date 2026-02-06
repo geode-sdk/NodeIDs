@@ -107,6 +107,7 @@ $register_ids(LevelListLayer) {
             ->setAxisReverse(true)
             ->setAxisAlignment(AxisAlignment::End)
             ->setGap(3.f)
+            ->ignoreInvisibleChildren(false)
     );
     rightSideMenu->setID("right-side-menu");
     rightSideMenu->setContentSize({ 50.f, winSize.height - 12.f });

@@ -20,6 +20,7 @@ $register_ids(LeaderboardsLayer) {
         "friends-menu",
         "global-menu",
         "creators-menu",
+        "right-side-menu",
         "list-layer",
         "back-menu"
     );
@@ -51,6 +52,20 @@ $register_ids(LeaderboardsLayer) {
                 ->setAxisReverse(true)
         );
     }
+
+    if (auto rightMenu = getChildByID("right-side-menu")) {
+        setIDs(rightMenu, 0, "stars-button", "moons-button", "demons-button", "user-coins-button");
+
+        rightMenu->setContentSize({ 24.f, 150.f });
+        rightMenu->setPosition({ winSize.width / 2 + 220.f, winSize.height / 2 });
+        rightMenu->setLayout(
+            ColumnLayout::create()
+                ->setGap(11.f)
+                ->setAxisAlignment(AxisAlignment::Center)
+                ->setAxisReverse(true)
+                ->setAutoScale(false)
+        );
+    }
 }
 
 struct LeaderboardsLayerIDs : Modify<LeaderboardsLayerIDs, LeaderboardsLayer> {
@@ -60,8 +75,8 @@ struct LeaderboardsLayerIDs : Modify<LeaderboardsLayerIDs, LeaderboardsLayer> {
         }
     }
 
-    bool init(LeaderboardState state) {
-        if (!LeaderboardsLayer::init(state)) return false;
+    bool init(LeaderboardType type, LeaderboardStat stat) {
+        if (!LeaderboardsLayer::init(type, stat)) return false;
 
         NodeIDs::get()->provide(this);
 
