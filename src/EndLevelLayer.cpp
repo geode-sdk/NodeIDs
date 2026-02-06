@@ -12,6 +12,16 @@ $register_ids(EndLevelLayer) {
     m_mainLayer->setID("main-layer");
     if(auto hideMenu = setIDSafe(this, 1, "hide-layer-menu")) {
         setIDSafe(hideMenu, 0, "hide-button");
+
+        auto layout = ColumnLayout::create();
+        layout->setAxisReverse(true);
+        layout->setAxisAlignment(AxisAlignment::End);
+
+        hideMenu->ignoreAnchorPointForPosition(false);
+        hideMenu->setAnchorPoint({0.5, 1.0});
+        hideMenu->setContentSize({27, 280});
+        hideMenu->setPositionY(CCDirector::get()->getContentHeight() - 6);
+        hideMenu->setLayout(layout);
     }
 
     int idx = 0;
