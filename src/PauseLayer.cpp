@@ -174,6 +174,9 @@ $register_ids(PauseLayer) {
             rightMenu->updateLayout();
             ++idx;
         }
+
+        menu->setContentSize({440, 81.5f});
+        menu->setLayout(SimpleRowLayout::create()->setGap(10.f)->setCrossAxisScaling(AxisScaling::Grow));
     }
 }
 
