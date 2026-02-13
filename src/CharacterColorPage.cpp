@@ -27,7 +27,7 @@ $register_ids(CharacterColorPage) {
         );
 
         for (int i = 5; i < menu->getChildrenCount()-1; i++) {
-            auto child = as<CCMenuItemSpriteExtra*>(menu->getChildren()->objectAtIndex(i));
+            auto child = static_cast<CCMenuItemSpriteExtra*>(menu->getChildren()->objectAtIndex(i));
             child->setID(std::to_string(child->getTag()));
         }
 

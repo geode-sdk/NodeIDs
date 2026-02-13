@@ -47,7 +47,8 @@ $register_ids(EditorUI) {
             "zoom-out-button",
 
             "link-button",
-            "unlink-button"
+            "unlink-button",
+            "enable-link-button"
         );
 
         auto toolbarTogglesMenu = detachAndCreateMenu(
@@ -107,7 +108,8 @@ $register_ids(EditorUI) {
             this,
             "playtest-menu",
             RowLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start),
+                ->setAxisAlignment(AxisAlignment::Start)
+                ->ignoreInvisibleChildren(false),
             menu->getChildByID("playtest-button"),
             menu->getChildByID("stop-playtest-button")
         );
@@ -140,10 +142,11 @@ $register_ids(EditorUI) {
                 ->setAxisAlignment(AxisAlignment::End)
                 ->setGrowCrossAxis(true),
             menu->getChildByID("unlink-button"),
-            menu->getChildByID("link-button")
+            menu->getChildByID("link-button"),
+            menu->getChildByID("enable-link-button")
         );
-        linkMenu->setContentSize({ 125.f, zoomMenuHeight });
-        linkMenu->setPositionY(playTestMenu->getPositionY() - 30 - (linkMenu->getContentHeight() / 2));
+        linkMenu->setContentSize({ 125.f, zoomMenuHeight + 35.f });
+        linkMenu->setPositionY(playTestMenu->getPositionY() + 3 - (linkMenu->getContentHeight() / 2));
         linkMenu->updateLayout();
 
         menu->setPosition(42.f, 45.f);

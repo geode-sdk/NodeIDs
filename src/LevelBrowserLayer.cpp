@@ -47,7 +47,8 @@ $register_ids(LevelBrowserLayer) {
                 this,
                 "prev-page-menu",
                 RowLayout::create()
-                    ->setAxisAlignment(AxisAlignment::Start),
+                    ->setAxisAlignment(AxisAlignment::Start)
+                    ->ignoreInvisibleChildren(false),
                 prevPageBtn
             );
             prevPageBtn->setZOrder(-1);
@@ -70,7 +71,8 @@ $register_ids(LevelBrowserLayer) {
             ColumnLayout::create()
                 ->setAxisReverse(true)
                 ->setGrowCrossAxis(true)
-                ->setAxisAlignment(AxisAlignment::End),
+                ->setAxisAlignment(AxisAlignment::End)
+                ->ignoreInvisibleChildren(false),
             pageBtn,
             folderBtn,
             lastPageBtn
@@ -139,6 +141,7 @@ $register_ids(LevelBrowserLayer) {
             RowLayout::create()
                 ->setAxisReverse(true)
                 ->setAxisAlignment(AxisAlignment::End)
+                ->ignoreInvisibleChildren(false)
         );
         menu->setContentSize({ navMenuWidth, 40.f });
         menu->setPositionX(
@@ -149,7 +152,7 @@ $register_ids(LevelBrowserLayer) {
 
     if(m_searchObject) {
 
-        std::array<SearchType, 5> searchTypes = { SearchType::DailySafe, SearchType::WeeklySafe, SearchType::EventSafe, SearchType::Featured, SearchType::FeaturedGDW };
+        std::array<SearchType, 7> searchTypes = { SearchType::DailySafe, SearchType::WeeklySafe, SearchType::EventSafe, SearchType::Featured, SearchType::FeaturedGDW, SearchType::FeaturedLite, SearchType::Bonus };
         for(auto& type : searchTypes) {
             if(m_searchObject->m_searchType == type) {
                 //0 matches TextArea
