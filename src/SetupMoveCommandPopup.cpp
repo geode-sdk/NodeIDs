@@ -74,8 +74,6 @@ $register_ids(SetupMoveCommandPopup) {
 		/* The CCMenu */
 		auto inputMenu = setIDSafe<CCMenu>(mainLayer, 0, "input-menu");
 		if (inputMenu) {
-			setIDSafe<InfoAlertButton>(inputMenu, 0, "info-button");
-
 			/* Togglers */
 			setIDSafe<CCMenuItemToggler>(inputMenu, 0, "touch-trigger-toggle");
 			setIDSafe<CCMenuItemToggler>(inputMenu, 1, "spawn-trigger-toggle");
