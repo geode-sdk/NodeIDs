@@ -36,7 +36,7 @@ static void replaceInput(
 
     input->removeFromParent();
     bg->removeFromParent();
-    
+
     *inputMember = newInput->getInputNode();
 }
 
@@ -79,7 +79,7 @@ $register_ids(SetGroupIDLayer) {
         "channel-input-bg",
         "channel-input"
     );
-    
+
     if (auto menu = m_mainLayer->getChildByID("groups-list-menu")) {
         int offset = 0;
 
@@ -143,7 +143,7 @@ $register_ids(SetGroupIDLayer) {
         offset += m_groupIDObjects->count();
 
         for (int i = offset; i < menu->getChildrenCount(); i++) {
-            auto child = getChild(menu, i);
+            auto child = menu->getChildByIndex(i);
             if (auto btn = child->getChildByType<ButtonSprite>(0)) {
                 if (auto label = btn->getChildByType<CCLabelBMFont>(0)) {
                     if (label->getString() == "Copy"sv) {
@@ -160,12 +160,12 @@ $register_ids(SetGroupIDLayer) {
                 }
             } else if (typeinfo_cast<CCMenuItemToggler*>(child)) {
                 child->setID("preview-toggle");
-                if (getChild(menu, i + 1))
-                    getChild(menu, i + 1)->setID("playback-toggle");
-                if (getChild(menu, i + 2))
-                    getChild(menu, i + 2)->setID("trace-out-toggle");
-                if (getChild(menu, i + 3))
-                    getChild(menu, i + 3)->setID("trace-in-toggle");
+                if (menu->getChildByIndex(i + 1))
+                    menu->getChildByIndex(i + 1)->setID("playback-toggle");
+                if (menu->getChildByIndex(i + 2))
+                    menu->getChildByIndex(i + 2)->setID("trace-out-toggle");
+                if (menu->getChildByIndex(i + 3))
+                    menu->getChildByIndex(i + 3)->setID("trace-in-toggle");
                 break;
             }
         }
