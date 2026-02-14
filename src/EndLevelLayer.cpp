@@ -20,7 +20,7 @@ $register_ids(EndLevelLayer) {
         hideMenu->ignoreAnchorPointForPosition(false);
         hideMenu->setAnchorPoint({0.5, 1.0});
         hideMenu->setContentSize({27, 280});
-        hideMenu->setPositionY(CCDirector::get()->getContentHeight() - 6);
+        hideMenu->setPositionY(this->getContentHeight() - 6);
         hideMenu->setLayout(layout);
     }
 
