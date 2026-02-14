@@ -110,13 +110,13 @@ $register_ids(LevelCell) {
         if(m_listType == BoomListType::Level4) {
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("flip-button");
             buttonOffset++;
-            
+
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("down-button");
             buttonOffset++;
-            
+
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("up-button");
             buttonOffset++;
-            
+
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("delete-button");
             buttonOffset++;
         }
@@ -129,8 +129,16 @@ $register_ids(LevelCell) {
 
         auto MDLM = MusicDownloadManager::sharedState();
         auto songObj = MDLM->getSongInfoObject(m_level->m_songID);
-        if(songObj && songObj->m_nongType == 1) {
-            m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("ncs-icon");
+
+        if(songObj && songObj->m_nongType > 0) {
+            const char* iconName;
+            switch (songObj->m_nongType) {
+                case 1: iconName = "ncs-icon"; break;
+                case 2: iconName = "chompo-icon"; break;
+                default: iconName = "unknown-icon"; break;
+            }
+
+            m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID(iconName);
             spriteOffset++;
         }
 
@@ -220,5 +228,4 @@ $register_ids(LevelCell) {
         }
 
     }
-    
 }

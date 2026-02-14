@@ -7,31 +7,6 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 using namespace std::string_view_literals;
 
-// TODO: remove this when beta.22 comes out
-inline bool isSpriteFrameName(CCNode* node, const char* name) {
-    if (!node) return false;
-
-    auto cache = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(name);
-    if (!cache) return false;
-
-    auto* texture = cache->getTexture();
-    auto rect = cache->getRect();
-
-    if (auto* spr = typeinfo_cast<CCSprite*>(node)) {
-        if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-            return true;
-        }
-    } else if (auto* btn = typeinfo_cast<CCMenuItemSprite*>(node)) {
-        auto* img = btn->getNormalImage();
-        if (auto* spr = typeinfo_cast<CCSprite*>(img)) {
-            if (spr->getTexture() == texture && spr->getTextureRect() == rect) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 static void offsetChildren(CCMenu* target, CCPoint const& offset) {
     auto winSize = CCDirector::get()->getWinSize();
     for (auto child : CCArrayExt<CCNode*>(target->getChildren())) {
@@ -61,7 +36,7 @@ static void replaceInput(
 
     input->removeFromParent();
     bg->removeFromParent();
-    
+
     *inputMember = newInput->getInputNode();
 }
 
@@ -75,7 +50,9 @@ $register_ids(SetGroupIDLayer) {
         "main-layer",
         // for some god knows reason these are not in m_mainLayer???
         "preview-label",
-        "playback-label"
+        "playback-label",
+        "trace-out-label",
+        "trace-in-label"
     );
 
     setIDs(
@@ -102,7 +79,7 @@ $register_ids(SetGroupIDLayer) {
         "channel-input-bg",
         "channel-input"
     );
-    
+
     if (auto menu = m_mainLayer->getChildByID("groups-list-menu")) {
         int offset = 0;
 
@@ -111,6 +88,7 @@ $register_ids(SetGroupIDLayer) {
             "ok-button",
             "editor-layer-next-free-button",
             "editor-layer-2-next-free-button",
+            "settings-button",
             "info-button",
             "editor-layer-prev-button",
             "editor-layer-next-button",
@@ -142,9 +120,7 @@ $register_ids(SetGroupIDLayer) {
             "default-layer-button"
         );
 
-        // i have no idea what member control these buttons, sorry
-        // so just use the sprite name
-        if (::isSpriteFrameName(getChild(menu, offset), "GJ_colorBtn_001.png")) {
+        if (m_zLayerValue == (ZLayer)-100 && m_targetObjects && m_targetObjects->count() != 0) {
             // TODO: make a menu for these two
             setIDs(
                 menu, &offset,
@@ -167,7 +143,7 @@ $register_ids(SetGroupIDLayer) {
         offset += m_groupIDObjects->count();
 
         for (int i = offset; i < menu->getChildrenCount(); i++) {
-            auto child = getChild(menu, i);
+            auto child = menu->getChildByIndex(i);
             if (auto btn = child->getChildByType<ButtonSprite>(0)) {
                 if (auto label = btn->getChildByType<CCLabelBMFont>(0)) {
                     if (label->getString() == "Copy"sv) {
@@ -184,8 +160,12 @@ $register_ids(SetGroupIDLayer) {
                 }
             } else if (typeinfo_cast<CCMenuItemToggler*>(child)) {
                 child->setID("preview-toggle");
-                if (getChild(menu, i + 1))
-                    getChild(menu, i + 1)->setID("playback-toggle");
+                if (menu->getChildByIndex(i + 1))
+                    menu->getChildByIndex(i + 1)->setID("playback-toggle");
+                if (menu->getChildByIndex(i + 2))
+                    menu->getChildByIndex(i + 2)->setID("trace-out-toggle");
+                if (menu->getChildByIndex(i + 3))
+                    menu->getChildByIndex(i + 3)->setID("trace-in-toggle");
                 break;
             }
         }
@@ -338,6 +318,30 @@ $register_ids(SetGroupIDLayer) {
             offsetChildren(playbackMenu, ccp(0, 12));
         }
 
+        if (auto traceOutLabel = this->getChildByID("trace-out-label")) {
+            auto traceOutMenu = detachAndCreateMenu(
+                m_mainLayer,
+                "trace-out-menu",
+                nullptr,
+                traceOutLabel,
+                menu->getChildByID("trace-out-toggle")
+            );
+            traceOutMenu->setContentSize({ 35, 40 });
+            offsetChildren(traceOutMenu, ccp(0, 12));
+        }
+
+        if (auto traceInLabel = this->getChildByID("trace-in-label")) {
+            auto traceInMenu = detachAndCreateMenu(
+                m_mainLayer,
+                "trace-in-menu",
+                nullptr,
+                traceInLabel,
+                menu->getChildByID("trace-in-toggle")
+            );
+            traceInMenu->setContentSize({ 35, 40 });
+            offsetChildren(traceInMenu, ccp(0, 12));
+        }
+
         auto actionsMenu = detachAndCreateMenu(
             m_mainLayer,
             "actions-menu",
@@ -350,7 +354,9 @@ $register_ids(SetGroupIDLayer) {
             menu->getChildByID("extra2-button"),
             menu->getChildByID("anim-button"),
             m_mainLayer->getChildByID("preview-menu"),
-            m_mainLayer->getChildByID("playback-menu")
+            m_mainLayer->getChildByID("playback-menu"),
+            m_mainLayer->getChildByID("trace-out-menu"),
+            m_mainLayer->getChildByID("trace-in-menu")
         );
         actionsMenu->setPosition(winSize.width / 2 + 220, winSize.height / 2);
         actionsMenu->setContentSize({ 90, 300 });

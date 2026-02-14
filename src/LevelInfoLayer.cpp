@@ -129,12 +129,13 @@ $register_ids(LevelInfoLayer) {
             child->setPositionX(0.f);
         }
 
-        setIDSafe(menu, 0, "delete-button");
-        setIDSafe(menu, 1, "refresh-button");
-        setIDSafe(menu, 2, "info-button");
-        setIDSafe(menu, 3, "leaderboards-button");
-        setIDSafe(menu, 4, "like-button");
-        setIDSafe(menu, 5, "rate-button");
+        size_t rightMenuIdx = 0;
+        if(m_level->m_dailyID <= 0) setIDSafe(menu, rightMenuIdx++, "delete-button");
+        setIDSafe(menu, rightMenuIdx++, "refresh-button");
+        setIDSafe(menu, rightMenuIdx++, "info-button");
+        setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
+        setIDSafe(menu, rightMenuIdx++, "like-button");
+        setIDSafe(menu, rightMenuIdx++, "rate-button");
 
         menu->setPosition(
             menu->getPositionX() + static_cast<CCNode*>(
@@ -148,6 +149,7 @@ $register_ids(LevelInfoLayer) {
                 ->setGap(3.f)
                 ->setAxisAlignment(AxisAlignment::End)
                 ->setAxisReverse(true)
+                ->ignoreInvisibleChildren(false)
         );
 
         if(auto modRateBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_starBtnMod_001.png")) {
@@ -280,5 +282,17 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 4))->setID("normal-mode-percentage");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("practice-mode-bar");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-bar");
+    }
+
+    void levelDownloadFinished(GJGameLevel* level) {
+        LevelInfoLayer::levelDownloadFinished(level);
+
+        if(auto leftSideMenu = this->getChildByID("left-side-menu")) {
+            leftSideMenu->updateLayout();
+        }
+
+        if(auto rightSideMenu = this->getChildByID("right-side-menu")) {
+            rightSideMenu->updateLayout();
+        }
     }
 };

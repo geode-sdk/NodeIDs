@@ -34,6 +34,10 @@ $register_ids(EndLevelLayer) {
         idx += 1;
     }
 
+    // idea by alphalaneous, adapted to node IDs by raydeeux
+    // the above comment applies to the contents within the forloop and the vector declaration
+    std::vector<Ref<CCLabelBMFont>> nodesToMove;
+
     for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
         if (auto bmFont = typeinfo_cast<CCLabelBMFont*>(child)) {
             std::string_view view = bmFont->getString();
@@ -41,18 +45,22 @@ $register_ids(EndLevelLayer) {
             if (view.starts_with("Attempts")) {
                 bmFont->setID("attempts-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Jumps")) {
                 bmFont->setID("jumps-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Time")) {
                 bmFont->setID("time-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
             else if (view.starts_with("Points")) {
                 bmFont->setID("points-label");
                 idx += 1;
+                nodesToMove.push_back(bmFont);
             }
         }
     }
@@ -64,6 +72,7 @@ $register_ids(EndLevelLayer) {
 
     if (auto textArea = typeinfo_cast<TextArea*>(m_mainLayer->getChildren()->objectAtIndex(idx))) {
         textArea->setID("complete-message");
+        textArea->setPositionY(109); // summary-container's information is FAR more important to risk re-positioning/shrinking down. also literally no one asked for y position 147 when completing a platformer level LMFAO that position is uglier than medusa
         idx += 1;
     }
 
@@ -134,6 +143,30 @@ $register_ids(EndLevelLayer) {
         );
         idx += 2;
     }
+
+    // original code by alphalaneous, adapted to node IDs by raydeeux
+    std::reverse(nodesToMove.begin(), nodesToMove.end());
+
+    CCSize winSize = CCDirector::get()->getWinSize();
+    CCNode* labelContainer = CCNode::create();
+    labelContainer->setPosition({winSize.width/2, winSize.height/2 + 8});
+    labelContainer->setContentSize({200, 90});
+    labelContainer->setAnchorPoint({0.5f, 0.5f});
+    labelContainer->setID("summary-container"); // node ID name agreed by alphalaneous and absolute as of time of writing
+
+    ColumnLayout* layout = ColumnLayout::create();
+    layout->setGap(3);
+    layout->setAutoScale(true); // originally this was set to false. better to leave this here since multiple mods are using it probably
+    layout->setDefaultScaleLimits(.25f, .8f); // for consistency with vanilla label scaling
+    labelContainer->setLayout(layout);
+
+    for (auto node : nodesToMove) {
+        node->removeFromParentAndCleanup(false);
+        labelContainer->addChild(node);
+    }
+
+    labelContainer->updateLayout();
+    m_mainLayer->addChild(labelContainer);
 }
 
 struct EndLevelLayerIDs : Modify<EndLevelLayerIDs, EndLevelLayer> {

@@ -1,4 +1,8 @@
 # Node IDs Changelog
+## v1.22.0
+* Updated to Geode 5.0.0 and GD 2.2081
+* Added GJLevelScoreCell, GJRequestCell, GJUserCell, LikeItemLayer, FRequestProfilePage and SetIDPopup [#134](https://github.com/geode-sdk/NodeIDs/pull/134)
+
 ## v1.21.0
 * Updated to Geode 4.6.0 (iOS jitless support)
 * Added SetupMoveCommandPopup IDs [#126](https://github.com/geode-sdk/NodeIDs/pull/126)
