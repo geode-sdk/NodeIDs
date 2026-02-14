@@ -35,7 +35,7 @@ $register_ids(SetupObjectOptionsPopup) {
             "passable-label",
             "hide-label",
             "nonstickx-label",
-            "extrastrickyy-label",
+            "extrasticky-label",
             "extended-collision-label"
         );
         if(m_effectObject) setIDs(mainLayer, &labelOffset, "center-effect-label");
@@ -77,7 +77,7 @@ $register_ids(SetupObjectOptionsPopup) {
                 "passable-toggle",
                 "hide-toggle",
                 "nonstickx-toggle",
-                "extrastrickyy-toggle",
+                "extrasticky-toggle",
                 "extended-collision-toggle"
             );
             if(m_effectObject) setIDs(mainMenu, &menuOffset, "center-effect-toggle");
