@@ -102,7 +102,8 @@ $register_ids(LevelBrowserLayer) {
                     ->setGrowCrossAxis(true)
                     ->setCrossAxisOverflow(false)
                     ->setCrossAxisAlignment(AxisAlignment::Start)
-                    ->setAxisAlignment(AxisAlignment::End),
+                    ->setAxisAlignment(AxisAlignment::End)
+                    ->ignoreInvisibleChildren(false),
                 searchBtn,
                 clearBtn
             );
