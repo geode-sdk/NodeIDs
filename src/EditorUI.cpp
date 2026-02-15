@@ -423,7 +423,8 @@ $register_ids(EditorUI) {
             this,
             "layer-menu",
             RowLayout::create()
-                ->setAxisAlignment(AxisAlignment::End),
+                ->setAxisAlignment(AxisAlignment::End)
+                ->ignoreInvisibleChildren(false),
             menu->getChildByID("all-layers-button"),
             menu->getChildByID("prev-layer-button"),
             this->getChildByID("layer-index-label"),
