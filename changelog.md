@@ -2,6 +2,11 @@
 ## v1.22.0
 * Updated to Geode 5.0.0 and GD 2.2081
 * Added GJLevelScoreCell, GJRequestCell, GJUserCell, LikeItemLayer, FRequestProfilePage and SetIDPopup [#134](https://github.com/geode-sdk/NodeIDs/pull/134)
+* Added SetupObjectOptionsPopup IDs [#135](https://github.com/geode-sdk/NodeIDs/pull/135)
+* Added SetupOpacityPopup and ConfigureHSVWidget IDs [#136](https://github.com/geode-sdk/NodeIDs/pull/136)
+* Added a layout for hide menu in EndLevelLayer [#138](https://github.com/geode-sdk/NodeIDs/pull/138)
+* Added a layout to PauseLayer center button menu [#144](https://github.com/geode-sdk/NodeIDs/pull/144)
+* Implemented custom node container for EndLevelLayer to resolve label overlap issues across the geode index [#137](https://github.com/geode-sdk/NodeIDs/pull/137)
 
 ## v1.21.0
 * Updated to Geode 4.6.0 (iOS jitless support)
