@@ -61,7 +61,7 @@ $register_ids(ProfilePage) {
     auto leftMenu = CCMenu::create();
     leftMenu->setLayout(
         ColumnLayout::create()
-            ->setGap(6.f)
+            ->setGap(3.f)
             ->setAxisAlignment(AxisAlignment::Start)
             ->setAxisReverse(false)
     );
