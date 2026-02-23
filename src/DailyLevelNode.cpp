@@ -38,8 +38,7 @@ $register_ids(DailyLevelNode) {
 
         size_t labelOffset = 0;
         if(self->m_fields->m_isNew) {
-            this->getChildByType<CCLabelBMFont>(0)->setID("new-label");
-            labelOffset += 1;
+            this->getChildByType<CCLabelBMFont>(labelOffset++)->setID("new-label");
         }
 
         size_t menuOffset = 0;
@@ -59,11 +58,12 @@ $register_ids(DailyLevelNode) {
             mainMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("skip-button");
         }
 
-        this->getChildByType<CCLabelBMFont>(0 + labelOffset)->setID("bonus-label");
+        this->getChildByType<CCLabelBMFont>(labelOffset++)->setID("timely-id-label");
+        this->getChildByType<CCLabelBMFont>(labelOffset++)->setID("bonus-label");
         if(m_page->m_type == GJTimedLevelType::Weekly || m_page->m_type == GJTimedLevelType::Event) {
             //this->getChildByType<GJChestSprite>(0)->setID("chest-sprite");
         } else {
-            this->getChildByType<CCLabelBMFont>(1 + labelOffset)->setID("bonus-number-label");
+            this->getChildByType<CCLabelBMFont>(labelOffset++)->setID("bonus-number-label");
         }
 
         this->getChildByType<CCSprite>(1)->setID("bonus-sprite"); //this coincidentally matches the chest sprite as well
