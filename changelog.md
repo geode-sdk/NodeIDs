@@ -1,4 +1,10 @@
 # Node IDs Changelog
+## v1.23.0
+* Added timely-id-label ID to DailyLevelNode
+* Adjusted ProfilePage left-menu gap
+* Fixed clear search button not appearing in Saved Levels
+* Fixed all layers button not appearing [#149](https://github.com/geode-sdk/NodeIDs/pull/149)
+
 ## v1.22.0
 * Updated to Geode 5.0.0 and GD 2.2081
 * Added GJLevelScoreCell, GJRequestCell, GJUserCell, LikeItemLayer, FRequestProfilePage and SetIDPopup [#134](https://github.com/geode-sdk/NodeIDs/pull/134)
