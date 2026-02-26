@@ -58,6 +58,8 @@ $register_ids(CustomizeObjectLayer) {
         "live-color-select-button"
     );
 
+    m_buttonMenu->getChildByID("detail-hsv-button")->setVisible(true);
+
     int idOffset = 25;
 
     // Text object and counter object
@@ -71,6 +73,8 @@ $register_ids(CustomizeObjectLayer) {
             "next-free-button"
         );
         idOffset += 4;
+
+        m_buttonMenu->getChildByID("split-text-button")->setVisible(true);
     }
     else {
         setIDs(
