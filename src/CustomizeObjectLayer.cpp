@@ -58,8 +58,6 @@ $register_ids(CustomizeObjectLayer) {
         "live-color-select-button"
     );
 
-    m_buttonMenu->getChildByID("detail-hsv-button")->setVisible(true);
-
     int idOffset = 25;
 
     // Text object and counter object
@@ -73,8 +71,6 @@ $register_ids(CustomizeObjectLayer) {
             "next-free-button"
         );
         idOffset += 4;
-
-        m_buttonMenu->getChildByID("split-text-button")->setVisible(true);
     }
     else {
         setIDs(
@@ -218,7 +214,8 @@ $register_ids(CustomizeObjectLayer) {
         m_mainLayer,
         "detail-hsv-menu",
         RowLayout::create()
-            ->setAxisAlignment(AxisAlignment::Start),
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->ignoreInvisibleChildren(false),
         m_buttonMenu->getChildByID("detail-hsv-button")
     );
     detailHSVMenu->setContentSize({ 80.f, 60.f });
@@ -241,7 +238,8 @@ $register_ids(CustomizeObjectLayer) {
         "text-actions-menu",
         RowLayout::create()
             ->setAxisAlignment(AxisAlignment::End)
-            ->setAxisReverse(true),
+            ->setAxisReverse(true)
+            ->ignoreInvisibleChildren(false),
         m_buttonMenu->getChildByID("split-text-button")
     );
     textActionsMenu->setContentSize({ 120.f, 60.f });
