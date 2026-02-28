@@ -61,7 +61,7 @@ $register_ids(CustomizeObjectLayer) {
     int idOffset = 25;
 
     // Text object and counter object
-    if (m_targetObject && (m_targetObject->m_objectID == 914 || m_targetObject->m_objectID == 1615)) {
+    if (m_targetObject && m_targetObject->m_objectID == 914) {
         setIDs(
             m_buttonMenu,
             idOffset,
@@ -71,6 +71,14 @@ $register_ids(CustomizeObjectLayer) {
             "next-free-button"
         );
         idOffset += 4;
+    } else if (m_targetObject && m_targetObject->m_objectID == 1615) {
+        setIDs(
+            m_buttonMenu,
+            idOffset,
+            "text-tab-button",
+            "next-free-button"
+        );
+        idOffset += 2;
     }
     else {
         setIDs(
