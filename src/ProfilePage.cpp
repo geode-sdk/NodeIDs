@@ -66,7 +66,7 @@ $register_ids(ProfilePage) {
             ->setAxisReverse(false)
     );
     leftMenu->setID("left-menu");
-    leftMenu->setPosition({(winSize.width / 2) - 200.f, (winSize.height / 2) + 26.f});
+    leftMenu->setPosition({(winSize.width / 2) - 197.5f, (winSize.height / 2) + 26.f});
     leftMenu->setContentSize({60, 84});
     leftMenu->setZOrder(10);
     m_mainLayer->addChild(leftMenu);
@@ -91,7 +91,7 @@ $register_ids(ProfilePage) {
             ->setAxisReverse(true)
     );
     socialsMenu->setID("socials-menu");
-    socialsMenu->setPosition({(winSize.width / 2) + 200.f, (winSize.height / 2) + 57.75f});
+    socialsMenu->setPosition({(winSize.width / 2) + 197.5f, (winSize.height / 2) + 57.75f});
     socialsMenu->setContentSize({60, 160});
     socialsMenu->setZOrder(10);
     m_mainLayer->addChild(socialsMenu);
