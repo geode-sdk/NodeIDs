@@ -46,9 +46,15 @@ $register_ids(EditorUI) {
             "zoom-in-button",
             "zoom-out-button",
 
+#ifdef GEODE_IS_MOBILE
+            "enable-link-button",
+            "link-button",
+            "unlink-button",
+#else
             "link-button",
             "unlink-button",
             "enable-link-button"
+#endif
         );
 
         auto toolbarTogglesMenu = detachAndCreateMenu(
