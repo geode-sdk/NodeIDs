@@ -1,4 +1,10 @@
 # Node IDs Changelog
+## v1.23.1
+* Fix order of link buttons on mobile
+* Fix CustomizeObjectLayer ids for counter objects
+* Fix ProfilePage side buttons being too close to popup border [#156](https://github.com/geode-sdk/NodeIDs/pull/156)
+* Fix detail HSV & split text buttons being offscreen [#154](https://github.com/geode-sdk/NodeIDs/pull/154)
+
 ## v1.23.0
 * Added timely-id-label ID to DailyLevelNode
 * Adjusted ProfilePage left-menu gap
