@@ -49,7 +49,7 @@ $register_ids(EditorUI) {
 #ifdef GEODE_IS_MOBILE
             "enable-link-button",
             "link-button",
-            "unlink-button",
+            "unlink-button"
 #else
             "link-button",
             "unlink-button",
