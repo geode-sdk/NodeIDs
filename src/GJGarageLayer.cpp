@@ -58,7 +58,8 @@ $register_ids(GJGarageLayer) {
                 this,
                 "prev-page-menu",
                 ColumnLayout::create()
-                    ->setAxisAlignment(AxisAlignment::Center),
+                    ->setAxisAlignment(AxisAlignment::Center)
+                    ->ignoreInvisibleChildren(false),
                 prevPageBtn
             );
             prevPageBtn->setZOrder(-1);
@@ -71,7 +72,8 @@ $register_ids(GJGarageLayer) {
                 this,
                 "next-page-menu",
                 ColumnLayout::create()
-                    ->setAxisAlignment(AxisAlignment::Center),
+                    ->setAxisAlignment(AxisAlignment::Center)
+                    ->ignoreInvisibleChildren(false),
                 nextPageBtn
             );
             nextPageBtn->setZOrder(-1);
