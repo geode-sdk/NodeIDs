@@ -77,9 +77,14 @@ $register_ids(StarInfoPopup) {
     bottomRight->setPosition((winSize.width / 2 + 190) - 12, (winSize.height / 2 - 105) + 14);
     bottomRight->setID("bottom-right-menu");
     bottomRight->setAnchorPoint({1, 0});
-    bottomRight->setZOrder(1);
+    bottomRight->setZOrder(11);
     bottomRight->setContentSize({ 40.f, 100.f });
     bottomRight->setScale(.4f);
+    //touch prio hack to make it clickable,
+    //cant call handleTouchPriority(this) in here because that breaks the ProfilePage below it
+    //if you wanna change this code, do it in DemonInfoPopup as well
+    //the menu is not populated with clickable stuff by default but mods are free to use it for this purpose
+    bottomRight->setTouchPriority(-600);
     bottomRight->setLayout(
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::Start)
@@ -98,9 +103,10 @@ $register_ids(StarInfoPopup) {
     bottomLeft->setPosition((winSize.width / 2 - 190) + 12, (winSize.height / 2 - 105) + 14);
     bottomLeft->setID("bottom-left-menu");
     bottomLeft->setAnchorPoint({0, 0});
-    bottomLeft->setZOrder(1);
+    bottomLeft->setZOrder(11);
     bottomLeft->setContentSize({ 40.f, 100.f });
     bottomLeft->setScale(.4f);
+    bottomLeft->setTouchPriority(-600);
     bottomLeft->setLayout(
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::Start)
@@ -109,5 +115,5 @@ $register_ids(StarInfoPopup) {
     );
     m_mainLayer->addChild(bottomLeft);
 
-    handleTouchPriority(this);
+    //handleTouchPriority(this);
 }
