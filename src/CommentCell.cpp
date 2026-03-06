@@ -82,7 +82,7 @@ $register_ids(CommentCell) {
             } else {
                 usernameLabel = m_mainLayer->getChildByID("username-label");
                 usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
-                userMenu->setPositionY(-135.f);
+                userMenu->setPositionY(- winSize.height / 2 + 25.f);
             }
 
             if (!smallCommentsMode) userMenu->setPositionY(- (winSize.height / 2) + 60.f);
