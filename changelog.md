@@ -1,4 +1,9 @@
 # Node IDs Changelog
+## v1.23.2
+* Fix ignoreInvisibleChildren on page arrow menus in GJGarageLayer [#161](https://github.com/geode-sdk/NodeIDs/pull/161)
+* Fix comment username positioning on 4:3
+* Fix StarInfoPopup and DemonInfoPopup breaking ProfilePage's touch priority
+
 ## v1.23.1
 * Fix order of link buttons on mobile
 * Fix CustomizeObjectLayer ids for counter objects
