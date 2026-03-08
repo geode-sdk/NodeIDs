@@ -1,4 +1,8 @@
 # Node IDs Changelog
+## v1.23.3
+* Fix link controls positioning on mobile
+* Fix buttons not getting added to bottom menu in ProfilePage if user does not have messages enabled
+
 ## v1.23.2
 * Fix ignoreInvisibleChildren on page arrow menus in GJGarageLayer [#161](https://github.com/geode-sdk/NodeIDs/pull/161)
 * Fix comment username positioning on 4:3
