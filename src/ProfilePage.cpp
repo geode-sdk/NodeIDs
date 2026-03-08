@@ -344,18 +344,24 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("block-button");
             }
 
-            auto bottomMenu = detachAndCreateMenu(
-                m_mainLayer, "bottom-menu",
+            auto bottomMenu = CCMenu::create();
+            bottomMenu->setID("bottom-menu");
+            bottomMenu->setLayout(
                 RowLayout::create()
                     ->setGap(12.f)
-                    ->setAxisAlignment(AxisAlignment::Center),
-                m_buttonMenu->getChildByID("message-button"),
-                m_buttonMenu->getChildByID("friend-button"),
-                m_buttonMenu->getChildByID("block-button")
+                    ->setAxisAlignment(AxisAlignment::Center)
             );
             bottomMenu->setPositionX(winSize.width / 2);
+            bottomMenu->setPositionY(winSize.height / 2 - (160.f - 37.f));
+            bottomMenu->setZOrder(20);
             bottomMenu->setContentSize({164, 35});
+
+            if(auto btn = m_buttonMenu->getChildByID("message-button")) switchToMenu(btn, bottomMenu);
+             if(auto btn = m_buttonMenu->getChildByID("friend-button")) switchToMenu(btn, bottomMenu);
+             if(auto btn = m_buttonMenu->getChildByID("block-button")) switchToMenu(btn, bottomMenu);
+
             bottomMenu->updateLayout();
+            m_mainLayer->addChild(bottomMenu);
             m_buttons->addObject(bottomMenu);
 
             //only allow featured levels calls setVisible so we're safe here
