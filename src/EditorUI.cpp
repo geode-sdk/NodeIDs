@@ -152,7 +152,7 @@ $register_ids(EditorUI) {
             menu->getChildByID("enable-link-button")
         );
         linkMenu->setContentSize({ 125.f, zoomMenuHeight + 35.f });
-        linkMenu->setPositionY(playTestMenu->getPositionY() + 3 - (linkMenu->getContentHeight() / 2));
+        linkMenu->setPositionY(playTestMenu->getPositionY() + 3 - (linkMenu->getContentHeight() / 2) GEODE_MOBILE(- 24.f));
         linkMenu->updateLayout();
 
         menu->setPosition(42.f, 45.f);
