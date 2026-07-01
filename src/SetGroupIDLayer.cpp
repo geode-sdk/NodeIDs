@@ -248,6 +248,7 @@ $register_ids(SetGroupIDLayer) {
             m_mainLayer->getChildByID("add-group-id-input"),
             menu->getChildByID("add-group-id-prev-button"),
             menu->getChildByID("add-group-id-next-button"),
+            menu->getChildByID("settings-button"),
             m_mainLayer->getChildByID("add-group-id-label")
         );
         addGroupIDMenu->setPosition(winSize.width / 2, winSize.height / 2 + 50);
@@ -348,19 +349,47 @@ $register_ids(SetGroupIDLayer) {
             ColumnLayout::create()
                 ->setAxisReverse(true)
                 ->setAxisAlignment(AxisAlignment::End),
-            menu->getChildByID("copy-button") ? menu->getChildByID("copy-button") : menu->getChildByID("extra-button"),
-            menu->getChildByID("paste-button"),
-            menu->getChildByID("extra-button"),
-            menu->getChildByID("extra2-button"),
-            menu->getChildByID("anim-button"),
+            menu->getChildByID("copy-button") ? menu->getChildByID("copy-button") : EmptySpace::create(menu, "copy-button-spacer"),
+            menu->getChildByID("paste-button") ? menu->getChildByID("paste-button") : EmptySpace::create(menu, "paste-button-spacer"),
+            menu->getChildByID("extra-button") ? menu->getChildByID("extra-button") : EmptySpace::create(menu, "extra-button-spacer"),
+            menu->getChildByID("extra2-button") ? menu->getChildByID("extra2-button") : EmptySpace::create(menu, "extra2-button-spacer"),
+            menu->getChildByID("anim-button") ? menu->getChildByID("anim-button") : EmptySpace::create(menu, "anim-button-spacer")
+        );
+        actionsMenu->setAnchorPoint({0.5f, 1.f});
+        actionsMenu->setPosition(winSize.width / 2 + 220, winSize.height / 2 + 155);
+        actionsMenu->setContentSize({ 90, 145 });
+        actionsMenu->updateLayout();
+
+        auto previewMenu = detachAndCreateMenu(
+            m_mainLayer,
+            "preview-menu",
+            ColumnLayout::create()
+                ->setGap(0.f)
+                ->setAxisReverse(true)
+                ->setAxisAlignment(AxisAlignment::Start),
             m_mainLayer->getChildByID("preview-menu"),
             m_mainLayer->getChildByID("playback-menu"),
             m_mainLayer->getChildByID("trace-out-menu"),
             m_mainLayer->getChildByID("trace-in-menu")
         );
-        actionsMenu->setPosition(winSize.width / 2 + 220, winSize.height / 2);
-        actionsMenu->setContentSize({ 90, 300 });
-        actionsMenu->updateLayout();
+
+        previewMenu->setAnchorPoint({0.5f, 0.f});
+        previewMenu->setPosition(winSize.width / 2 + 220, winSize.height / 2 - 155);
+        previewMenu->setContentSize({ 90, 165 });
+        previewMenu->updateLayout();
+
+        auto zLayerOffsetMenu = detachAndCreateMenu(
+            m_mainLayer,
+            "z-layer-offset-menu",
+            SimpleRowLayout::create()
+                ->setGap(68)
+                ->setMainAxisScaling(AxisScaling::Fit)
+                ->setCrossAxisScaling(AxisScaling::Fit),
+            menu->getChildByID("z-layer-decrement-button"),
+            menu->getChildByID("z-layer-increment-button")
+        );
+        zLayerOffsetMenu->setPosition(winSize.width / 2, winSize.height / 2 - 66);
+        zLayerOffsetMenu->updateLayout();
 
         auto orderMenu = detachAndCreateMenu(
             m_mainLayer,
@@ -388,6 +417,25 @@ $register_ids(SetGroupIDLayer) {
         channelMenu->setContentSize({ 120, 60 });
         channelMenu->updateLayout();
         offsetChildren(channelMenu, ccp(0, -10));
+
+        auto dummyMenu = CCMenu::create();
+        dummyMenu->ignoreAnchorPointForPosition(false);
+        dummyMenu->setContentSize({350, 60});
+        dummyMenu->setPosition({winSize.width / 2, winSize.height / 2 - 17.f});
+
+        auto children = menu->getChildren()->shallowCopy();
+        for (auto child : children->asExt<CCNode>()) {
+            switchToMenu(child, dummyMenu);
+        }
+
+        menu->ignoreAnchorPointForPosition(false);
+        menu->setContentSize({350, 60});
+        menu->setPosition({winSize.width / 2, winSize.height / 2 - 17.f});
+
+        children = dummyMenu->getChildren()->shallowCopy();
+        for (auto child : children->asExt<CCNode>()) {
+            switchToMenu(child, menu);
+        }
     }
 };
 
