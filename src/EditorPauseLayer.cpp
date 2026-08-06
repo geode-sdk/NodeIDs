@@ -224,7 +224,7 @@ $register_ids(EditorPauseLayer) {
             }
         }
         optionsMenu->setContentSize({ 120.f, winSize.height - 60.f });
-        optionsMenu->setPosition(75.f, winSize.height / 2 - 25.f + 10.f);
+        optionsMenu->setPosition(75.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2 - 25.f + 10.f);
         optionsMenu->updateLayout();
 
         auto settingsMenu = detachAndCreateMenu(
@@ -288,7 +288,7 @@ $register_ids(EditorPauseLayer) {
             );
         }
         menu->setContentSize({ 180.f, 100.f });
-        menu->setPosition(100.f, winSize.height - 55.f);
+        menu->setPosition(100.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 55.f);
         menu->updateLayout();
     }
 }

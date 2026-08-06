@@ -32,7 +32,7 @@ $register_ids(LevelSearchLayer) {
                 ->setAxisAlignment(AxisAlignment::End)
         );
         filtermenu->setAnchorPoint({1, 0.5f});
-        filtermenu->setPosition({winSize.width - 5, filtermenu->getPositionY()});
+        filtermenu->setPosition({winSize.width - 5 GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), filtermenu->getPositionY()});
         filtermenu->setContentSize({filtermenu->getContentSize().width, winSize.height-10});
 
         setIDSafe(filtermenu, 0, "clear-filters-button");

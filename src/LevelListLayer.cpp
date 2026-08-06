@@ -101,7 +101,7 @@ $register_ids(LevelListLayer) {
     if(!mainMenu) return;
 
     auto rightSideMenu = CCMenu::create();
-    rightSideMenu->setPosition(winSize.width - 25.f, winSize.height / 2);
+    rightSideMenu->setPosition(winSize.width - 25.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2);
     rightSideMenu->setLayout(
         ColumnLayout::create()
             ->setAxisReverse(true)
@@ -215,7 +215,7 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
 
         auto leftSideMenu = CCMenu::create();
-        leftSideMenu->setPosition(26.f, winSize.height / 2);
+        leftSideMenu->setPosition(26.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2);
         leftSideMenu->setLayout(
             ColumnLayout::create()
                 ->setAxisReverse(true)

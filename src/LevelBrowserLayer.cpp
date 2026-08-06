@@ -80,7 +80,7 @@ $register_ids(LevelBrowserLayer) {
         pageMenu->setContentSize({ 40.f, 110.f });
         pageMenu->setAnchorPoint({ 1.f, .5f });
         pageMenu->setPosition(
-            pageMenu->getPositionX() + 20.f,
+            winSize.width - 10 GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
             pageMenu->getPositionY() - 110.f / 2 + 12.5f
         );
         pageMenu->updateLayout();
@@ -146,7 +146,7 @@ $register_ids(LevelBrowserLayer) {
         );
         menu->setContentSize({ navMenuWidth, 40.f });
         menu->setPositionX(
-            winSize.width - navMenuWidth / 2 - 5.f
+            winSize.width - navMenuWidth / 2 - 5.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f)
         );
         menu->updateLayout();
     }
@@ -194,11 +194,18 @@ $register_ids(LevelBrowserLayer) {
                                     ->setAxisAlignment(AxisAlignment::Start),
                                 myLevelsBtn
                             );
+                            menu->setContentSize({ 50.f, 125.f });
+                            #ifdef GEODE_IS_IOS
+                            menu->addOnEnterCallback([menu] {
+                                if (menu->getChildrenCount() > 1) {
+                                    menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
+                                }
+                            });
+                            #endif
                             menu->setPositionY(
                                 menu->getPositionY() + 125.f / 2 - 
                                     myLevelsBtn->getScaledContentSize().height / 2
                             );
-                            menu->setContentSize({ 50.f, 125.f });
                             menu->updateLayout();
                         }
                     }
@@ -209,11 +216,21 @@ $register_ids(LevelBrowserLayer) {
                         ColumnLayout::create()
                             ->setAxisAlignment(AxisAlignment::Start)
                     );
+
+                    menu->setContentSize({ 50.f, 130.f });
+
+                    #ifdef GEODE_IS_IOS
+                    menu->addOnEnterCallback([menu, winSize] {
+                        if (menu->getChildrenCount() > 2) {
+                            menu->setPositionX(winSize.width - menu->getContentWidth() / 2 - 5 - geode::utils::getSafeAreaRect().getMinX() / 2.f);
+                        }
+                    });
+                    #endif
+
                     menu->setPositionY(
                         menu->getPositionY() + 130.f / 2 - 
                             getSizeSafe(newLvlBtn).height / 2
                     );
-                    menu->setContentSize({ 50.f, 130.f });
                     menu->updateLayout();
                 }   
             }

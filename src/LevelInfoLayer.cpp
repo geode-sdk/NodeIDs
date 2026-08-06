@@ -111,7 +111,7 @@ $register_ids(LevelInfoLayer) {
         }
 
         auto leftSideMenu = CCMenu::create();
-        leftSideMenu->setPosition(30.f, winSize.height / 2);
+        leftSideMenu->setPosition(30.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2);
         leftSideMenu->setLayout(ColumnLayout::create());
         leftSideMenu->setID("left-side-menu");
         leftSideMenu->setContentSize({ 50.f, 145.f });
@@ -137,13 +137,11 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, rightMenuIdx++, "like-button");
         setIDSafe(menu, rightMenuIdx++, "rate-button");
 
+        menu->setContentSize({ 60.f, winSize.height - 15.f });
         menu->setPosition(
-            menu->getPositionX() + static_cast<CCNode*>(
-                menu->getChildren()->objectAtIndex(0)
-            )->getPositionX(),
+            winSize.width - 30 GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
             winSize.height / 2
         );
-        menu->setContentSize({ 60.f, winSize.height - 15.f });
         menu->setLayout(
             ColumnLayout::create()
                 ->setGap(3.f)

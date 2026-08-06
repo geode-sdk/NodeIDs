@@ -72,7 +72,7 @@ $register_ids(EditorUI) {
             menu->getChildByID("snap-button")
         );
         toolbarTogglesMenu->setPosition(
-            winSize.width - 47.f,
+            winSize.width - 47.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
             45.f
         );
         toolbarTogglesMenu->setContentSize({ 90.f, 90.f });
@@ -155,7 +155,7 @@ $register_ids(EditorUI) {
         linkMenu->setPositionY(playTestMenu->getPositionY() + 3 - (linkMenu->getContentHeight() / 2) GEODE_MOBILE(- 24.f));
         linkMenu->updateLayout();
 
-        menu->setPosition(42.f, 45.f);
+        menu->setPosition(42.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), 45.f);
         menu->setContentSize({ 100.f, 90.f });
         menu->setLayout(
             ColumnLayout::create()
@@ -414,7 +414,7 @@ $register_ids(EditorUI) {
         }
         rightMenu->setContentSize({ 210.f, 160.f });
         rightMenu->setPosition(
-            winSize.width - 210.f / 2,
+            winSize.width - 210.f / 2 GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
             winSize.height - 117.5f
         );
         rightMenu->updateLayout();
@@ -436,7 +436,7 @@ $register_ids(EditorUI) {
             this->getChildByID("layer-index-label"),
             menu->getChildByID("next-layer-button")
         );
-        layerMenu->setPositionX(winSize.width - 110.f / 2 - 6.f);
+        layerMenu->setPositionX(winSize.width - 110.f / 2 - 6.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f));
         layerMenu->setContentSize({ 110.f, 30.f });
         layerMenu->updateLayout();
     }
