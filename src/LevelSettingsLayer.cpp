@@ -1,216 +1,134 @@
-// #include "AddIDs.hpp"
-
-#include <Geode/Bindings.hpp>
-// #include <Geode/modify/LevelSettingsLayer.hpp>
-#include <Geode/utils/cocos.hpp>
+#include <Geode/Geode.hpp>
+#include <Geode/modify/LevelSettingsLayer.hpp>
+#include <Geode/utils/NodeIDs.hpp>
 
 using namespace geode::prelude;
+using namespace geode::node_ids;
 
-// $register_ids(LevelSettingsLayer) {
-//     bool startPos = m_mainLayer->getChildrenCount() < 10;
+$register_ids(LevelSettingsLayer) {
+	/*
+		This layer is used in two places:
+		1. Start Pos menu, which has fewer buttons and labels because you can't set colors or music.
+		2. Level settings from the Editor UI button, which has song selection too.
+	*/
+	// Common elements with the same indexes
+	m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
-//     if (startPos) {
-//         setIDSafe(m_mainLayer, 0, "back-button");
-//     }
+	bool isStartPos = m_mainLayer->getChildrenCount() < 15;  // Startpos has 13, level settings has 22 by default
+	if (isStartPos) {
+		m_mainLayer->getChildByType<CCScale9Sprite>(1)->setID("order-background");
+		m_mainLayer->getChildByType<CCScale9Sprite>(2)->setID("channel-background");
 
-//     if (auto menu = m_mainLayer->getChildByType<CCMenu>(0)) {
-//         menu->setID("song-select-menu");
+		m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("disable-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(1)->setID("reset-camera-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(2)->setID("target-order-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(3)->setID("target-channel-label");
 
-//         if (startPos) {
-//             setIDs(
-//                 menu,
-//                 0,
-//                 "cube-button",
-//                 "ship-button",
-//                 "ball-button",
-//                 "ufo-button",
-//                 "wave-button",
-//                 "robot-button",
-//                 "spider-button",
-//                 "mini-toggle",
-//                 "dual-toggle",
-//                 "ok-button",
-//                 "flip-gravity-toggle",
-//                 "half-speed-button",
-//                 "normal-speed-button",
-//                 "2x-speed-button",
-//                 "3x-speed-button",
-//                 "4x-speed-button"
-//             );
-//         }
-//         else {
-//             setIDs(
-//                 menu,
-//                 0,
-//                 "bg-color-button",
-//                 "g-color-button",
-//                 "g2-color-button",
-//                 "line-color-button",
-//                 "obj-color-button",
-//                 "more-color-button",
-//                 "3dl-color-button",
-//                 "bg-quick-edit-button",
-//                 "g-quick-edit-button",
-//                 "g2-quick-edit-button",
-//                 "line-quick-edit-button",
-//                 "cube-button",
-//                 "ship-button",
-//                 "ball-button",
-//                 "ufo-button",
-//                 "wave-button",
-//                 "robot-button",
-//                 "spider-button",
-//                 "background-select-button",
-//                 "ground-select-button",
-//                 "mini-toggle",
-//                 "dual-toggle",
-//                 "font-button",
-//                 "ok-button",
-//                 "2-player-toggle",
-//                 "2-player-help-button",
-//                 "prev-song-button",
-//                 "next-song-button",
-//                 "normal-song-button",
-//                 "custom-song-button",
-//                 "select-custom-song-button",
-//                 "new-song-button",
-//                 "half-speed-button",
-//                 "normal-speed-button",
-//                 "2x-speed-button",
-//                 "3x-speed-button",
-//                 "4x-speed-button"
-//             );
-//         }
+		m_mainLayer->getChildByType<CCLabelBMFont>(4)->setID("speed-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(5)->setID("mode-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(6)->setID("options-label");
 
-//         detachAndCreateMenu(
-//             this,
-//             "vehicle-selection-menu",
-//             RowLayout::create(),
-//             menu->getChildByID("cube-button"),
-//             menu->getChildByID("ship-button"),
-//             menu->getChildByID("ball-button"),
-//             menu->getChildByID("ufo-button"),
-//             menu->getChildByID("wave-button"),
-//             menu->getChildByID("robot-button"),
-//             menu->getChildByID("spider-button")
-//         );
+		m_mainLayer->getChildByType<CCTextInputNode>(0)->setID("order-input");
+		m_mainLayer->getChildByType<CCTextInputNode>(1)->setID("channel-input");
 
-//         detachAndCreateMenu(
-//             this,
-//             "right-toggle-menu",
-//             ColumnLayout::create(),
-//             menu->getChildByID("mini-toggle"),
-//             menu->getChildByID("dual-toggle")
-//         );
+		if (auto menu = m_mainLayer->getChildByType<CCMenu>(0)) {
+			menu->setID("main-menu");
 
-//         detachAndCreateMenu(
-//             this,
-//             "speed-selection-menu",
-//             ColumnLayout::create(),
-//             menu->getChildByID("half-speed-button"),
-//             menu->getChildByID("normal-song-button"),
-//             menu->getChildByID("2x-speed-button"),
-//             menu->getChildByID("3x-speed-button"),
-//             menu->getChildByID("4x-speed-button")
-//         );
+			menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("ok-button");
 
-//         if (startPos) {
-//             detachAndCreateMenu(
-//                 this,
-//                 "flip-gravity-menu",
-//                 ColumnLayout::create(),
-//                 menu->getChildByID("flip-gravity-toggle")
-//             );
-//         }
-//         else {
-//             detachAndCreateMenu(
-//                 this,
-//                 "color-button-menu",
-//                 RowLayout::create(),
-//                 menu->getChildByID("bg-color-button"),
-//                 menu->getChildByID("g-color-button"),
-//                 menu->getChildByID("g2-color-button"),
-//                 menu->getChildByID("line-color-button"),
-//                 menu->getChildByID("obj-color-button"),
-//                 menu->getChildByID("3dl-color-button"),
-//                 menu->getChildByID("more-color-button")
-//             );
+			menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("speed-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(2)->setID("mode-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(3)->setID("options-button");
 
-//             detachAndCreateMenu(
-//                 this,
-//                 "color-quick-edit-menu",
-//                 RowLayout::create(),
-//                 menu->getChildByID("bg-quick-edit-button"),
-//                 menu->getChildByID("g-quick-edit-button"),
-//                 menu->getChildByID("g2-quick-edit-button"),
-//                 menu->getChildByID("line-quick-edit-button")
-//             );
+			menu->getChildByType<CCMenuItemToggler>(0)->setID("disable-toggle");
+			menu->getChildByType<CCMenuItemToggler>(1)->setID("reset-camera-toggle");
+		}
+	}
+	else {
+		m_mainLayer->getChildByType<CCScale9Sprite>(1)->setID("song-background");
 
-//             detachAndCreateMenu(
-//                 this,
-//                 "scenery-selection-menu",
-//                 ColumnLayout::create(),
-//                 menu->getChildByID("background-select-button"),
-//                 menu->getChildByID("ground-select-button")
-//             );
+		m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("select-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(1)->setID("bg-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(2)->setID("g-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(3)->setID("g2-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(4)->setID("line-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(5)->setID("mg-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(6)->setID("mg2-color-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(7)->setID("more-color-label");
 
-//             detachAndCreateMenu(
-//                 this,
-//                 "2-player-menu",
-//                 ColumnLayout::create(),
-//                 menu->getChildByID("2-player-help-button"),
-//                 menu->getChildByID("2-player-toggle")
-//             );
+		m_mainLayer->getChildByType<CCLabelBMFont>(8)->setID("game-type-label");  // Only one that doesn't follow the order after z ordering
 
-//             auto fontButtonMenu = detachAndCreateMenu(
-//                 this,
-//                 "font-button-menu",
-//                 RowLayout::create()
-//                     ->setAxisAlignment(AxisAlignment::End),
-//                 menu->getChildByID("font-button")
-//             );
-//             fontButtonMenu->setPositionY(fontButtonMenu->getPositionY() - 100.f / 2);
-//             fontButtonMenu->setContentSize({ 50.f, 100.f });
-//         }
-//     }
+		m_mainLayer->getChildByType<CCLabelBMFont>(9)->setID("bg-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(10)->setID("g-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(11)->setID("mg-label");
 
-//     setIDs(
-//         m_mainLayer,
-//         2,
-//         "select-color-label",
-//         "bg-color-label",
-//         "g-color-label",
-//         "g2-color-label",
-//         "3dl-color-label",
-//         "line-color-label",
-//         "obj-color-label",
-//         "more-color-label",
-//         "select-mode-label",
-//         "bg-selection-label",
-//         "g-selection-label",
-//         "mini-label",
-//         "dual-label",
-//         "2-player-label-1",
-//         "2-player-label-2",
-//         "select-song-label",
-//         "default-song-label",
-//         "custom-song-widget",
-//         "speed-label"
-//     );
-// }
+		m_mainLayer->getChildByType<CCLabelBMFont>(12)->setID("select-song-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(13)->setID("song-label");
 
-// struct LevelSettingsLayerIDs : Modify<LevelSettingsLayerIDs, LevelSettingsLayer> {
-//     static void onModify(auto& self) {
-//         if (!self.setHookPriority("LevelSettingsLayer::init", GEODE_ID_PRIORITY)) {
-//             log::warn("Failed to set LevelSettingsLayer::init hook priority, node IDs may not work properly");
-//         }
-//     }
+		m_mainLayer->getChildByType<CCLabelBMFont>(14)->setID("speed-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(15)->setID("mode-label");
+		m_mainLayer->getChildByType<CCLabelBMFont>(16)->setID("options-label");
 
-//     bool init(LevelSettingsObject* levelSettings, LevelEditorLayer* editor) {
-//         if (!LevelSettingsLayer::init(levelSettings, editor)) return false;
+		if (auto menu = m_mainLayer->getChildByType<CCMenu>(0)) {
+			menu->setID("main-menu");
 
-//         // NodeIDs::get()->provide(this);
+			menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("bg-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("g-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(2)->setID("g2-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(3)->setID("line-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(4)->setID("mg-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(5)->setID("mg2-color-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(6)->setID("more-color-button");
 
-//         return true;
-//     }
-// };
+			menu->getChildByType<CCMenuItemSpriteExtra>(7)->setID("bg-color-quick-edit-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(8)->setID("g-color-quick-edit-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(9)->setID("g2-color-quick-edit-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(10)->setID("line-color-quick-edit-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(11)->setID("mg-color-quick-edit-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(12)->setID("mg2-color-quick-edit-button");
+
+			menu->getChildByType<CCMenuItemSpriteExtra>(13)->setID("classic-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(14)->setID("platformer-button");
+
+			menu->getChildByType<CCMenuItemSpriteExtra>(15)->setID("bg-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(16)->setID("g-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(17)->setID("mg-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(18)->setID("font-button");
+
+			menu->getChildByType<CCMenuItemSpriteExtra>(19)->setID("ok-button");
+
+			menu->getChildByType<CCMenuItemSpriteExtra>(20)->setID("prev-song-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(21)->setID("next-song-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(22)->setID("normal-song-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(23)->setID("custom-song-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(24)->setID("select-custom-song-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(25)->setID("new-song-button");
+
+			menu->getChildByType<CCMenuItemSpriteExtra>(26)->setID("speed-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(27)->setID("mode-button");
+			menu->getChildByType<CCMenuItemSpriteExtra>(28)->setID("options-button");
+		}
+
+		/*
+			Unset because they are unique:
+			- CustomSongWidget
+			- SongSelectNode
+		*/
+	}
+}
+
+struct LevelSettingsLayerIDs : Modify<LevelSettingsLayerIDs, LevelSettingsLayer> {
+    static void onModify(auto& self) {
+	    if (!self.setHookPriority("LevelSettingsLayer::init", GEODE_ID_PRIORITY)) {
+		    log::warn("Failed to set LevelSettingsLayer::init hook priority, node IDs may not work properly");
+		}
+	}
+
+	bool init(LevelSettingsObject* levelSettings, LevelEditorLayer* editor) {
+	    if (!LevelSettingsLayer::init(levelSettings, editor)) return false;
+	
+	    NodeIDs::get()->provide(this);
+
+	    return true;
+	}
+};
