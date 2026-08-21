@@ -112,9 +112,10 @@ $register_ids(EndLevelLayer) {
         leaderboardButton->setID("practice-retry-button");
     }
 
-    int currentCoin = 1;
+    int currentCoin = 1; // this is so the first id is coin-1 
+    auto mainLayerChildren = CCArrayExt<CCNode*>(m_mainLayer->getChildren());
     std::vector<CCPoint> coinPos;
-    for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
+    for (auto child : mainLayerChildren) {
         for (auto framename : {
             "secretCoin_b_01_001.png",
             "secretCoin_2_b_01_001.png"
@@ -128,22 +129,37 @@ $register_ids(EndLevelLayer) {
         }
     }
 
-    for (auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildren())) {
-        for (int i = 1; i < currentCoin; i++) {
-            if (child->getID().empty() && child->getPosition() == coinPos[i - 1]) {
-                child->setID(fmt::format("coin-{}-sprite", i));
+    if (currentCoin > 1) {
+        int matchedCoins = 1;
+        // fun fact the controller icon is always set before this one
+        for (auto child : CCArrayExt<CCNode*>(m_coinsToAnimate)) {
+            for (int i = 1; i < currentCoin; i++) {
+                if (child->getID().empty() && child->getPosition() == coinPos[i-1]) {
+                    child->setID(fmt::format("coin-{}-sprite", i));
+                    matchedCoins++;
+                    break;
+                }
             }
         }
-    }
-
-    for (auto child : CCArrayExt<CCNode*>(m_coinsToAnimate)) {
-        for (int i = 1; i < currentCoin; i++) {
-            if (child->getID().empty() && child->getPosition() == coinPos[i - 1]) {
-                child->setID(fmt::format("coin-{}-sprite", i));
-            }
+        // idx should not be kept the same if they are not matching
+        if (matchedCoins < currentCoin) {
+            // idx is after all the other ids, controller icons are always set after these for some reason?
+            for (int fl = idx; fl < mainLayerChildren.size(); fl++) {
+                if (matchedCoins >= currentCoin) {
+                    break; // escape if finished
+                };
+                auto child = mainLayerChildren[fl];
+                for (int i = 1; i < currentCoin; i++) {
+                    if (child->getID().empty() && child->getPosition() == coinPos[i-1]) {
+                        child->setID(fmt::format("coin-{}-sprite", i));
+                        idx = fl+1; 
+                        matchedCoins++;
+                        break;
+                    };
+                };
+            };
         }
     }
-
     if (PlatformToolbox::isControllerConnected()) {
         setIDs(
             m_mainLayer,
@@ -153,7 +169,6 @@ $register_ids(EndLevelLayer) {
         );
         idx += 2;
     }
-
     // original code by alphalaneous, adapted to node IDs by raydeeux
     std::reverse(nodesToMove.begin(), nodesToMove.end());
 
