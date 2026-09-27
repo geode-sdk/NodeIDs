@@ -146,7 +146,9 @@ $register_ids(EditorUI) {
             ColumnLayout::create()
                 ->setGap(3.f)
                 ->setAxisAlignment(AxisAlignment::End)
-                ->setGrowCrossAxis(true),
+                ->setGrowCrossAxis(true)
+                // fixes enabling editor link buttons when editor starts with them off.
+                ->ignoreInvisibleChildren(false),
             menu->getChildByID("unlink-button"),
             menu->getChildByID("link-button"),
             menu->getChildByID("enable-link-button")
