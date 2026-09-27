@@ -10,8 +10,8 @@ $register_ids(GauntletLayer) {
     this->setID("main-layer");
 
     this->getChildByType<CCSprite>(0)->setID("background");
-    this->getChildByType<CCLabelBMFont>(0)->setID("title-shadow");
-    this->getChildByType<CCLabelBMFont>(1)->setID("title");
+    this->getChildByType<CCLabelBMFont>(0)->setID("title");
+    this->getChildByType<CCLabelBMFont>(1)->setID("title-shadow");
     this->getChildByType<TextArea>(0)->setID("try-again-text");
     this->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
