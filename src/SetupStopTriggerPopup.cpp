@@ -29,30 +29,31 @@ $register_ids(SetupStopTriggerPopup) {
 			"pause-mode-label",
 			"resume-mode-label"
 		);
-
-		if (auto buttonMenu = mainLayer->getChildByID("button-menu")) {
-			setIDs(
-				buttonMenu,
-				0,
-
-				"ok-button",
-				"info-button",
-
-				"touch-trigger-toggle",
-				"spawn-trigger-toggle",
-				"multi-trigger-toggle",
-
-				"target-id-left",
-				"target-id-right",
-
-				"use-control-id-toggle",
-
-				"stop-mode-toggle",
-				"pause-mode-toggle",
-				"resume-mode-toggle"
-			);
-		}
 	}
+
+	auto buttonMenu = this->m_buttonMenu;
+	buttonMenu->setID("button-menu");
+
+	setIDs(
+		buttonMenu,
+		0,
+
+		"ok-button",
+		"info-button",
+
+		"touch-trigger-toggle",
+		"spawn-trigger-toggle",
+		"multi-trigger-toggle",
+
+		"target-id-left",
+		"target-id-right",
+
+		"use-control-id-toggle",
+
+		"stop-mode-toggle",
+		"pause-mode-toggle",
+		"resume-mode-toggle"
+	);
 }
 
 struct SetupStopTriggerPopupIDs : Modify<SetupStopTriggerPopupIDs, SetupStopTriggerPopup> {

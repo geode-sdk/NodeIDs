@@ -71,45 +71,46 @@ $register_ids(SetupPulsePopup) {
 			"hsv-color-id-background",
 			"hsv-color-id-input"
 		);
-
-		if (auto buttonMenu = mainLayer->getChildByID("button-menu")) {
-			setIDs(
-				buttonMenu,
-				0,
-
-				"ok-button",
-
-				"target-type-channel",
-				"target-type-group",
-
-				"target-id-left",
-				"target-id-right",
-
-				"channel-id-plus",
-
-				"pulse-mode-color",
-				"pulse-mode-hsv",
-
-				"touch-trigger-toggle",
-				"spawn-trigger-toggle",
-				"multi-trigger-toggle",
-				"exclusive-toggle",
-
-				"main-only-toggle",
-				"detail-only-toggle",
-				"static-hsv-toggle",
-
-				"copy-button",
-				"paste-button",
-
-				"color-id-left",
-				"color-id-right",
-				"color-id-plus",
-
-				"info-button"
-			);
-		}
 	}
+
+	auto buttonMenu = this->m_buttonMenu;
+	buttonMenu->setID("button-menu");
+
+	setIDs(
+		buttonMenu,
+		0,
+
+		"ok-button",
+
+		"target-type-channel",
+		"target-type-group",
+
+		"target-id-left",
+		"target-id-right",
+
+		"channel-id-plus",
+
+		"pulse-mode-color",
+		"pulse-mode-hsv",
+
+		"touch-trigger-toggle",
+		"spawn-trigger-toggle",
+		"multi-trigger-toggle",
+		"exclusive-toggle",
+
+		"main-only-toggle",
+		"detail-only-toggle",
+		"static-hsv-toggle",
+
+		"copy-button",
+		"paste-button",
+
+		"color-id-left",
+		"color-id-right",
+		"color-id-plus",
+
+		"info-button"
+	);
 
 	setIDSafe<CCLabelBMFont>(this, 0, "hsv-color-id-label");
 }
