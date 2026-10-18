@@ -175,8 +175,8 @@
 //         }
 //     }
 //
-//     bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list) {
-//         if (!InfoLayer::init(level, score, list)) return false;
+//     bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list, GJEditorSoundConfig* config) {
+//         if (!InfoLayer::init(level, score, list, config)) return false;
 //
 //         NodeIDs::get()->provide(this);
 //
