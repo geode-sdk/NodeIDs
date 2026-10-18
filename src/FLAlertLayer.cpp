@@ -47,7 +47,7 @@ struct FLAlertLayerIDs : Modify<FLAlertLayerIDs, FLAlertLayer> {
         }
     }
 
-    bool init(FLAlertLayerProtocol* a, char const* b, gd::string c, char const* d, char const* e, float f, bool g, float h, float i) {
+    bool init(FLAlertLayerProtocol* a, char const* b, std::string c, char const* d, char const* e, float f, bool g, float h, float i) {
         if (!FLAlertLayer::init(a, b, c, d, e, f, g, h, i)) return false;
 
         NodeIDs::get()->provide(this);

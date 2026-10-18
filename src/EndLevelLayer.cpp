@@ -108,8 +108,11 @@ $register_ids(EndLevelLayer) {
     if (auto leaderboardButton = getChildBySpriteFrameName(menu, "GJ_levelLeaderboardBtn_001.png")) {
         leaderboardButton->setID("leaderboard-button");
     }
-    if (auto leaderboardButton = getChildBySpriteFrameName(menu, "GJ_restartCheckBtn_001.png")) {
-        leaderboardButton->setID("practice-retry-button");
+    if (auto practiceRetryBtn = getChildBySpriteFrameName(menu, "GJ_restartCheckBtn_001.png")) {
+        practiceRetryBtn->setID("practice-retry-button");
+    }
+    if (auto deathTrackerBtn = getChildBySpriteFrameName(menu, "sideBtn_death_001.png")) {
+        deathTrackerBtn->setID("death-tracker-button");
     }
 
     int currentCoin = 1; // this is so the first id is coin-1 
