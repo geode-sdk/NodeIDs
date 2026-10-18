@@ -9,6 +9,16 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
+// parental controls stuff
+static bool isProfileDisabled() {
+    return GameManager::get()->getGameVariable("0219");
+}
+
+static bool isSocialDisabled() {
+    auto gm = GameManager::get();
+    return gm->getGameVariable("0218") || gm->getGameVariable("0219");
+}
+
 $register_ids(ProfilePage) {
     size_t buttonOffset = 0;
     size_t labelOffset = 0;
@@ -20,11 +30,20 @@ $register_ids(ProfilePage) {
 
     m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
+    if (isProfileDisabled()) {
+        m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("parental-controls-label");
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("close-button");
+        return;
+    }
+
     m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("username-label");
     labelOffset++;
 
     m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("floor-line");
     spriteOffset++;
+
+    m_mainLayer->getChildByType<CCScale9Sprite>(1)->setID("icon-background");
+    m_mainLayer->getChildByType<CCScale9Sprite>(2)->setID("icon-background-border");
 
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
     buttonOffset++;
@@ -38,16 +57,13 @@ $register_ids(ProfilePage) {
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("next-page-button");
     buttonOffset++;
 
-    if(m_accountID != GJAccountManager::sharedState()->m_accountID) {
-
+    if(m_accountID != GJAccountManager::sharedState()->m_accountID && !isSocialDisabled()) {
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("follow-button");
         buttonOffset++;
+    }
 
-        if(!GameLevelManager::sharedState()->isFollowingUser(m_accountID)) {
-            m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("follow-hint");
-            spriteOffset++;
-        }
-
+    if (auto followHint = getChildBySpriteFrameName(m_mainLayer, "GJ_followTxt_001.png")) {
+        followHint->setID("follow-hint");
     }
 
     m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
@@ -55,26 +71,23 @@ $register_ids(ProfilePage) {
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("refresh-button");
     buttonOffset++;
 
-    m_mainLayer->getChildByType<GJCommentListLayer>(0)->setID("icon-background");
-    //m_mainLayer->getChildByType<GJCommentListLayer>(1)->setID("comment-list");
-
-    auto leftMenu = CCMenu::create();
-    leftMenu->setLayout(
+    auto rightMenu = CCMenu::create();
+    rightMenu->setLayout(
         ColumnLayout::create()
             ->setGap(3.f)
             ->setAxisAlignment(AxisAlignment::Start)
             ->setAxisReverse(false)
     );
-    leftMenu->setID("left-menu");
-    leftMenu->setPosition({(winSize.width / 2) - 197.5f, (winSize.height / 2) + 26.f});
-    leftMenu->setContentSize({60, 84});
-    leftMenu->setZOrder(10);
-    m_mainLayer->addChild(leftMenu);
+    rightMenu->setID("right-menu");
+    rightMenu->setPosition({(winSize.width / 2) + 197.5f, (winSize.height / 2) + 15.f});
+    rightMenu->setContentSize({60, 84});
+    rightMenu->setZOrder(10);
+    m_mainLayer->addChild(rightMenu);
 
     auto statsMenu = CCMenu::create();
     statsMenu->setLayout(
         RowLayout::create()
-            ->setGap(2.5f)
+            ->setGap(6.f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
     statsMenu->setID("stats-menu");
@@ -116,27 +129,62 @@ $register_ids(ProfilePage) {
 
 }
 
-void wrapSimplePlayer(CCNode* player, CCArray* buttons, CCSize size = {42.6f, 42.6f}) {
-    if(!player) {
-        log::warn("Failed to wrap simple player, node is null");
-        return;
-    }
+static constexpr std::array<std::pair<const char*, const char*>, 7> STAT_ICONS = {{
+    {"GJ_starsIcon_001.png", "stars"},
+    {"GJ_moonsIcon_001.png", "moons"},
+    {"GJ_coinsIcon_001.png", "coins"},
+    {"GJ_coinsIcon2_001.png", "user-coins"},
+    {"GJ_demonIcon_001.png", "demons"},
+    {"GJ_followIcon_001.png", "followers"},
+    {"GJ_hammerIcon_001.png", "creator-points"},
+}};
 
-    auto parent = player->getParent();
+static constexpr std::array<const char*, 9> PLAYER_IDS = {
+    "player-icon", "player-ship", "player-ball", "player-ufo", "player-wave",
+    "player-robot", "player-spider", "player-swing", "player-jetpack"
+};
 
-    auto container = CCNode::create();
-    container->setContentSize(size);
-    container->setPosition(player->getPosition());
-    container->setAnchorPoint({.5f, .5f});
-    container->setZOrder(player->getZOrder());
-    container->setID(player->getID());
+static constexpr std::array<std::pair<const char*, const char*>, 28> FRAME_IDS = {{
+    {"gj_ytIcon_001.png", "youtube-button"},
+    {"gj_twIcon_001.png", "twitter-button"},
+    {"gj_twitchIcon_001.png", "twitch-button"},
+    {"gj_instaIcon_001.png", "instagram-button"},
+    {"gj_tiktokIcon_001.png", "tiktok-button"},
+    {"accountBtn_social_001.png", "socials-button"},
+    {"GJ_youtubeTxt_001.png", "my-stuff-hint"},
+    {"GJ_twitterTxt_001.png", "my-stuff-hint"},
+    {"GJ_twitchTxt_001.png", "my-stuff-hint"},
+    {"GJ_stuffTxt_001.png", "my-stuff-hint"},
+    {"btn_chatHistory_001.png", "comment-history-button"},
+    {"gj_globalRankTxt_001.png", "global-rank-hint"},
+    {"GJ_infoIcon_001.png", "info-button"},
+    {"whiteSquare60_001.png", "copy-username-button"},
+    {"accountBtn_unblock_001.png", "unblock-button"},
+    {"accountBtn_messages_001.png", "message-button"},
+    {"accountBtn_friends_001.png", "friend-button"},
+    {"accountBtn_removeFriend_001.png", "friend-button"},
+    {"accountBtn_pendingRequest_001.png", "friend-button"},
+    {"accountBtn_pending_001.png", "friend-button"},
+    {"accountBtn_blocked_001.png", "block-button"},
+    {"accountBtn_notifications_001.png", "notifications-button"},
+    {"accountBtn_settings_001.png", "settings-button"},
+    {"GJ_chatBtn_001.png", "comment-button"},
+    {"accountBtn_myLevels_001.png", "my-levels-button"},
+    {"GJ_myLevelsTxt_001.png", "my-levels-hint"},
+    {"accountBtn_myLists_001.png", "my-lists-button"},
+    {"GJ_myListsTxt_001.png", "my-lists-hint"},
+}};
 
-    player->removeFromParent();
-    player->setPosition((container->getContentSize() / 2) - CCPoint((size.width - 42.6f) / 2, 0));
-    container->addChild(player);
+static constexpr std::array<const char*, 11> RANK_ICONS = {
+    "rankIcon_1_001.png", "rankIcon_top10_001.png", "rankIcon_top50_001.png",
+    "rankIcon_top100_001.png", "rankIcon_top200_001.png", "rankIcon_top500_001.png",
+    "rankIcon_top1000_001.png", "rankIcon_top2500_001.png", "rankIcon_top5000_001.png",
+    "rankIcon_top10000_001.png", "rankIcon_all_001.png"
+};
 
-    parent->addChild(container);
-}
+static constexpr std::array<const char*, 3> MOD_BADGES = {
+    "modBadge_01_001.png", "modBadge_02_001.png", "modBadge_03_001.png"
+};
 
 struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
     static void onModify(auto& self) {
@@ -156,31 +204,107 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         return true;
     }
 
+    const char* getButtonID(CCNode* node, std::string_view prevID, bool& seenReport) {
+        if (isSpriteFrameName(node, "GJ_reportBtn_001.png")) {
+            seenReport = true;
+            return "report-button";
+        }
+        for (auto frame : MOD_BADGES) {
+            if (isSpriteFrameName(node, frame)) return seenReport ? "mod-button" : "mod-badge";
+        }
+        if (isSpriteFrameName(node, "accountBtn_requests_001.png")) {
+            return m_ownProfile ? "requests-button" : "friend-button";
+        }
+        for (auto& [frame, id] : FRAME_IDS) {
+            if (isSpriteFrameName(node, frame)) return id;
+        }
+        for (auto frame : RANK_ICONS) {
+            if (isSpriteFrameName(node, frame)) return "global-rank-icon";
+        }
+        if (prevID == "global-rank-hint" && typeinfo_cast<CCLabelBMFont*>(node)) {
+            return "global-rank-label";
+        }
+        return nullptr;
+    }
+
+    void setRemainingIDs(std::vector<CCNode*> const& nodes, size_t idx) {
+        bool seenReport = false;
+        std::string_view prevID;
+        for (; idx < nodes.size(); idx++) {
+            if (auto id = getButtonID(nodes[idx], prevID, seenReport)) {
+                nodes[idx]->setID(id);
+                prevID = id;
+            }
+            else {
+                prevID = "";
+            }
+        }
+    }
+
+    void createBottomMenu(float gap, CCSize size, std::initializer_list<const char*> ids) {
+        auto winSize = CCDirector::get()->getWinSize();
+
+        std::vector<CCNode*> buttons;
+        for (auto id : ids) {
+            if (auto btn = m_buttonMenu->getChildByID(id)) buttons.push_back(btn);
+        }
+        if (buttons.empty()) return;
+
+        auto bottomMenu = CCMenu::create();
+        bottomMenu->setID("bottom-menu");
+        bottomMenu->setLayout(
+            RowLayout::create()
+                ->setGap(gap)
+                ->setAxisAlignment(AxisAlignment::Center)
+        );
+        bottomMenu->setPosition(m_mainLayer->convertToNodeSpace(m_buttonMenu->convertToWorldSpace(buttons[0]->getPosition())));
+        bottomMenu->setPositionX(winSize.width / 2);
+        bottomMenu->setZOrder(20);
+        bottomMenu->setContentSize(size);
+        m_mainLayer->addChild(bottomMenu);
+
+        for (auto btn : buttons) switchToMenu(btn, bottomMenu);
+
+        bottomMenu->updateLayout();
+        m_buttons->addObject(bottomMenu);
+    }
+
     void loadPageFromUserInfo(GJUserScore* score) {
         ProfilePage::loadPageFromUserInfo(score);
 
         NodeIDs::get()->provide(this);
 
-        if(score->m_friendReqStatus == 2) return;
+        if (!score) return;
 
         auto winSize = CCDirector::get()->getWinSize();
+
+        std::vector<CCNode*> nodes;
+        for (auto node : CCArrayExt<CCNode*>(m_buttons)) {
+            nodes.push_back(node);
+        }
         size_t idx = 0;
 
-        #if GEODE_COMP_GD_VERSION >= 22030
-            std::array<const char*, 6> labels = {"stars", "moons", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
-        #else
-            std::array<const char*, 7> labels = {"stars", "moons", "diamonds", "coins", "user-coins", "demons", m_score->m_creatorPoints > 0 ? "creator-points" : nullptr};
-        #endif
+        // blocked users only get the account buttons
+        if (score->m_friendReqStatus == 2) {
+            setRemainingIDs(nodes, idx);
+            createBottomMenu(12.f, {270, 35}, {"unblock-button", "report-button", "mod-button"});
+            return;
+        }
 
         auto statsMenu = m_mainLayer->getChildByID("stats-menu");
 
-        for(auto label : labels) {
-            if(!label) continue;
+        while (idx + 1 < nodes.size()) {
+            const char* label = nullptr;
+            for (auto& [frame, name] : STAT_ICONS) {
+                if (isSpriteFrameName(nodes[idx + 1], frame)) {
+                    label = name;
+                    break;
+                }
+            }
+            if (!label) break;
 
-            auto bmFont = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
-            auto icon = static_cast<CCNode*>(m_buttons->objectAtIndex(idx++));
-            auto fontParentNode = bmFont->getParent();
-            auto iconParentNode = icon->getParent();
+            auto bmFont = nodes[idx++];
+            auto icon = nodes[idx++];
 
             bmFont->setID(fmt::format("{}-label", label));
             bmFont->setZOrder(0);
@@ -210,7 +334,6 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
                 auto child = static_cast<CCNode*>(icon->getChildren()->objectAtIndex(0));
                 child->setScale(1.f);
 
-                // Make the button's content size match the inner icon
                 icon->setContentSize(child->getContentSize());
                 child->setPosition(
                     icon->getContentWidth() / 2,
@@ -226,203 +349,66 @@ struct ProfilePageIDs : Modify<ProfilePageIDs, ProfilePage> {
         }
 
         if (statsMenu) {
+            statsMenu->setContentSize({420, 120});
             statsMenu->updateLayout();
         }
 
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-icon");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-ship");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-ball");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-ufo");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-wave");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-robot");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-spider");
-        static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("player-swing");
-
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-icon"), m_buttons);
-        
-        #if GEODE_COMP_GD_VERSION < 22030
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-ship"), m_buttons);
-        #endif
-        
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-ball"), m_buttons);
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-ufo"), m_buttons);
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-wave"), m_buttons, {36.6f, 42.6f});
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-robot"), m_buttons);
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-spider"), m_buttons);
-        wrapSimplePlayer(m_mainLayer->getChildByID("player-swing"), m_buttons, {44.6f, 42.6f});
-
-        #if GEODE_COMP_GD_VERSION >= 22030
-        if(auto ship = m_buttonMenu->getChildByID("player-ship")) {
-            ship->setContentSize({42.6f, 42.6f});
-            static_cast<CCNode*>(ship->getChildren()->objectAtIndex(0))->setPosition(ship->getContentSize() / 2);
-        }
-        #endif
-
-        auto playerMenu = detachAndCreateMenu(
-            m_mainLayer, "player-menu",
-            RowLayout::create()
-                ->setGap(0.f)
-                ->setAxisAlignment(AxisAlignment::Center),
-            m_mainLayer->getChildByID("player-icon"),
-            m_mainLayer->getChildByID("player-ship"),
-            m_buttonMenu->getChildByID("player-ship"),
-            m_mainLayer->getChildByID("player-ball"),
-            m_mainLayer->getChildByID("player-ufo"),
-            m_mainLayer->getChildByID("player-wave"),
-            m_mainLayer->getChildByID("player-robot"),
-            m_mainLayer->getChildByID("player-spider"),
-            m_mainLayer->getChildByID("player-swing")
-        );
-        playerMenu->setPositionX(winSize.width / 2);
-        playerMenu->setContentSize({340, 35});
-        playerMenu->updateLayout();
-        playerMenu->setZOrder(10);
-        m_buttons->addObject(playerMenu);
-
-        size_t socialMediaCount = 0;
-        if(!m_score->m_youtubeURL.empty()) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("youtube-button");
-            socialMediaCount++;
-        }
-        if(!m_score->m_twitterURL.empty()) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("twitter-button");
-            socialMediaCount++;
-        }
-        if(!m_score->m_twitchURL.empty()) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("twitch-button");
-            socialMediaCount++;
-        }
-        if(!m_score->m_instagramURL.empty()) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("instagram-button");
-            socialMediaCount++;
-        }
-        if(!m_score->m_tiktokURL.empty()) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("tiktok-button");
-            socialMediaCount++;
-        }
-        if(m_score->m_commentHistoryStatus != 2 && (m_score->m_commentHistoryStatus != 1 || m_score->m_friendReqStatus == 1)
-            || m_ownProfile
-            || GameManager::sharedState()->m_hasRP == 2
-        ) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("comment-history-button");
-        }
-        if(socialMediaCount > 0) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-stuff-hint");
-        }
-        if(m_score->m_globalRank > 0) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("global-rank-icon");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("global-rank-hint");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("global-rank-label");
-        }
-        if(m_score->m_modBadge > 0) {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("mod-badge");
+        std::vector<CCNode*> players;
+        for (auto id : PLAYER_IDS) {
+            if (idx >= nodes.size() || !nodes[idx]->getChildByType<SimplePlayer>(0)) break;
+            nodes[idx]->setID(id);
+            players.push_back(nodes[idx++]);
         }
 
-        #if GEODE_COMP_GD_VERSION >= 22030
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("info-button");
-        #endif
-        #if GEODE_COMP_GD_VERSION >= 22060
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("copy-username-button");
-        #endif
-
-        if(auto commentBtn = m_buttonMenu->getChildByID("comment-history-button")) {
-            if(auto leftMenu = m_mainLayer->getChildByID("left-menu")) {
-                commentBtn->setZOrder(-2);
-                switchToMenu(commentBtn, m_mainLayer->getChildByID("left-menu"));
-                leftMenu->updateLayout();   
-            }
-        }
-
-        if(!m_ownProfile) {
-            if(GJAccountManager::sharedState()->m_accountID != m_accountID) {
-                if(m_score->m_messageState != 2 && (m_score->m_messageState != 1 || m_score->m_friendReqStatus == 1)) {
-                    static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("message-button");
-                }
-                if(m_score->m_friendStatus != 1 || m_score->m_friendReqStatus) {
-                    static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("friend-button");
-                }
-                static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("block-button");
-            }
-
-            auto bottomMenu = CCMenu::create();
-            bottomMenu->setID("bottom-menu");
-            bottomMenu->setLayout(
+        if (!players.empty()) {
+            auto playerMenu = CCMenu::create();
+            playerMenu->setID("player-menu");
+            playerMenu->setLayout(
                 RowLayout::create()
-                    ->setGap(12.f)
+                    ->setGap(13.f)
                     ->setAxisAlignment(AxisAlignment::Center)
             );
-            bottomMenu->setPositionX(winSize.width / 2);
-            bottomMenu->setPositionY(winSize.height / 2 - (160.f - 37.f));
-            bottomMenu->setZOrder(20);
-            bottomMenu->setContentSize({164, 35});
+            playerMenu->setPosition(m_mainLayer->convertToNodeSpace(m_buttonMenu->convertToWorldSpace(players[0]->getPosition())));
+            playerMenu->setPositionX(winSize.width / 2);
+            playerMenu->setContentSize({380, 35});
+            playerMenu->setZOrder(10);
+            m_mainLayer->addChild(playerMenu);
 
-            if(auto btn = m_buttonMenu->getChildByID("message-button")) switchToMenu(btn, bottomMenu);
-             if(auto btn = m_buttonMenu->getChildByID("friend-button")) switchToMenu(btn, bottomMenu);
-             if(auto btn = m_buttonMenu->getChildByID("block-button")) switchToMenu(btn, bottomMenu);
+            for (auto player : players) switchToMenu(player, playerMenu);
 
-            bottomMenu->updateLayout();
-            m_mainLayer->addChild(bottomMenu);
-            m_buttons->addObject(bottomMenu);
-
-            //only allow featured levels calls setVisible so we're safe here
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-levels-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-levels-hint");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-lists-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("my-lists-hint");
-        } else {
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("message-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("friend-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("requests-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("settings-button");
-            static_cast<CCNode*>(m_buttons->objectAtIndex(idx++))->setID("comment-button");
-
-            auto bottomMenu = detachAndCreateMenu(
-                m_mainLayer, "bottom-menu",
-                RowLayout::create()
-                    ->setGap(30.f)
-                    ->setAxisAlignment(AxisAlignment::Center),
-                m_buttonMenu->getChildByID("message-button"),
-                m_buttonMenu->getChildByID("friend-button"),
-                m_buttonMenu->getChildByID("requests-button"),
-                m_buttonMenu->getChildByID("settings-button")
-            );
-            bottomMenu->setPositionX(winSize.width / 2);
-            bottomMenu->setContentSize({340, 35});
-            bottomMenu->updateLayout();
-            m_buttons->addObject(bottomMenu);
+            playerMenu->updateLayout();
+            m_buttons->addObject(playerMenu);
         }
 
-        if(auto statsMenu = m_mainLayer->getChildByID("stats-menu")) {
-            statsMenu->setContentSize(socialMediaCount >= 2 ? CCSize(342, 120) : CCSize(420, 120));
-            statsMenu->updateLayout();
+        setRemainingIDs(nodes, idx);
+
+        if(auto commentBtn = m_buttonMenu->getChildByID("comment-history-button")) {
+            if(auto rightMenu = m_mainLayer->getChildByID("right-menu")) {
+                commentBtn->setZOrder(-2);
+                switchToMenu(commentBtn, rightMenu);
+                rightMenu->updateLayout();
+            }
+        }
+
+        if(m_ownProfile) {
+            createBottomMenu(20.f, {340, 35}, {"message-button", "friend-button", "requests-button", "notifications-button", "settings-button"});
+        }
+        else {
+            createBottomMenu(12.f, {270, 35}, {"message-button", "friend-button", "block-button", "report-button", "mod-button"});
         }
 
         if(auto socialsMenu = m_mainLayer->getChildByID("socials-menu")) {
-            if(auto youtubeButton = m_buttonMenu->getChildByID("youtube-button")) {
-                youtubeButton->removeFromParent();
-                socialsMenu->addChild(youtubeButton);
-            }
-            if(auto twitterButton = m_buttonMenu->getChildByID("twitter-button")) {
-                twitterButton->removeFromParent();
-                socialsMenu->addChild(twitterButton);
-            }
-            if(auto twitchButton = m_buttonMenu->getChildByID("twitch-button")) {
-                twitchButton->removeFromParent();
-                socialsMenu->addChild(twitchButton);
-            }
-            if(auto instagramButton = m_buttonMenu->getChildByID("instagram-button")) {
-                instagramButton->removeFromParent();
-                socialsMenu->addChild(instagramButton);
-            }
-            if(auto tiktokButton = m_buttonMenu->getChildByID("tiktok-button")) {
-                tiktokButton->removeFromParent();
-                socialsMenu->addChild(tiktokButton);
+            for (auto id : {"socials-button", "youtube-button", "twitter-button", "twitch-button", "instagram-button", "tiktok-button"}) {
+                if (auto button = m_buttonMenu->getChildByID(id)) {
+                    button->removeFromParent();
+                    socialsMenu->addChild(button);
+                }
             }
             socialsMenu->updateLayout();
         }
 
         if(auto usernameMenu = m_mainLayer->getChildByID("username-menu")) {
-            if(auto modBadge = m_mainLayer->getChildByID("mod-badge")) {
+            if(auto modBadge = m_buttonMenu->getChildByID("mod-badge")) {
                 modBadge->retain();
                 modBadge->removeFromParent();
                 usernameMenu->addChild(modBadge);
