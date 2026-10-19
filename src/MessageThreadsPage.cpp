@@ -10,57 +10,6 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-static CCMenu* createMenuAround(CCNode* parent, char const* id, AxisLayout* layout, std::initializer_list<CCNode*> nodes) {
-    std::vector<CCNode*> valid;
-    for (auto node : nodes) {
-        if (node && node->getParent()) valid.push_back(node);
-    }
-    if (valid.empty()) return nullptr;
-
-    bool isRow = layout->getAxis() == Axis::Row;
-    CCPoint boundsMin, boundsMax;
-    float totalGap = 0.f;
-    for (size_t i = 0; i < valid.size(); i++) {
-        auto box = valid[i]->boundingBox();
-        auto oldParent = valid[i]->getParent();
-        auto min = parent->convertToNodeSpace(oldParent->convertToWorldSpace(box.origin));
-        auto max = parent->convertToNodeSpace(oldParent->convertToWorldSpace(box.origin + box.size));
-        if (i == 0) {
-            boundsMin = min;
-            boundsMax = max;
-        }
-        else {
-            boundsMin = ccp(std::min(boundsMin.x, min.x), std::min(boundsMin.y, min.y));
-            boundsMax = ccp(std::max(boundsMax.x, max.x), std::max(boundsMax.y, max.y));
-        }
-
-        if (i > 0) {
-            auto prev = valid[i - 1]->boundingBox();
-            totalGap += isRow
-                ? std::abs(box.getMidX() - prev.getMidX()) - (box.size.width + prev.size.width) / 2
-                : std::abs(box.getMidY() - prev.getMidY()) - (box.size.height + prev.size.height) / 2;
-        }
-    }
-    if (valid.size() > 1) {
-        layout->setGap(std::max(totalGap / (valid.size() - 1), 0.f));
-    }
-
-    auto menu = CCMenu::create();
-    menu->setID(id);
-    menu->setPosition((boundsMin + boundsMax) / 2);
-    menu->setContentSize({ boundsMax.x - boundsMin.x, boundsMax.y - boundsMin.y });
-    menu->setZOrder(valid[0]->getParent()->getZOrder());
-    parent->addChild(menu);
-
-    for (auto node : valid) {
-        switchToMenu(node, menu);
-    }
-    layout->ignoreInvisibleChildren(false);
-    menu->setLayout(layout);
-
-    return menu;
-}
-
 $register_ids(MessageThreadsPage) {
     m_mainLayer->setID("main-layer");
 
@@ -120,47 +69,88 @@ $register_ids(MessageThreadsPage) {
 
     verifyIDSafe(m_buttonMenu, "main-menu");
 
-    createMenuAround(
-        m_mainLayer, "left-menu",
-        ColumnLayout::create()->setAxisReverse(true),
-        {
-            m_buttonMenu->getChildByID("all-filter-button"),
-            m_buttonMenu->getChildByID("dm-filter-button"),
-            m_buttonMenu->getChildByID("group-filter-button")
-        }
-    );
+    auto winSize = CCDirector::get()->getWinSize();
 
-    createMenuAround(
-        m_mainLayer, "select-menu",
-        RowLayout::create(),
-        {
-            m_buttonMenu->getChildByID("mark-read-button"),
-            m_buttonMenu->getChildByID("delete-button")
-        }
+    auto leftMenu = CCMenu::create();
+    leftMenu->setLayout(
+        ColumnLayout::create()
+            ->setGap(2.f)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setAxisReverse(true)
     );
+    leftMenu->setID("left-menu");
+    leftMenu->setAnchorPoint({ 0.5f, 1.f });
+    leftMenu->setPosition({ (winSize.width / 2) - 194.f, (winSize.height / 2) + 85.5f });
+    leftMenu->setContentSize({ 35.f, 183.f });
+    leftMenu->setZOrder(10);
+    m_mainLayer->addChild(leftMenu);
 
-    createMenuAround(
-        m_mainLayer, "search-options-menu",
-        RowLayout::create(),
-        {
-            m_buttonMenu->getChildByID("search-button"),
-            m_buttonMenu->getChildByID("clear-search-button"),
-            m_buttonMenu->getChildByID("user-search-button")
-        }
-    );
+    switchToMenu(m_buttonMenu->getChildByID("all-filter-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("dm-filter-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("group-filter-button"), leftMenu);
+    leftMenu->updateLayout();
 
-    auto bottomRightMenu = createMenuAround(
-        m_mainLayer, "bottom-right-menu",
-        ColumnLayout::create()->setAxisAlignment(AxisAlignment::Start),
-        { m_buttonMenu->getChildByID("refresh-button") }
+    auto selectMenu = CCMenu::create();
+    selectMenu->setLayout(
+        RowLayout::create()
+            ->setGap(7.25f)
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+            ->ignoreInvisibleChildren(false)
     );
-    if (bottomRightMenu) {
-        auto bottom = bottomRightMenu->getPositionY() - bottomRightMenu->getContentHeight() / 2;
-        bottomRightMenu->setAnchorPoint({ 0.5f, 0.f });
-        bottomRightMenu->setPositionY(bottom);
-        bottomRightMenu->setContentHeight(100.f);
-        bottomRightMenu->updateLayout();
+    selectMenu->setID("select-menu");
+    selectMenu->setAnchorPoint({ 0.f, 0.5f });
+    selectMenu->setPosition({ (winSize.width / 2) - 151.f, (winSize.height / 2) - 129.f });
+    selectMenu->setContentSize({ 66.f, 28.f });
+    selectMenu->setZOrder(10);
+    m_mainLayer->addChild(selectMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("mark-read-button"), selectMenu);
+    switchToMenu(m_buttonMenu->getChildByID("delete-button"), selectMenu);
+    selectMenu->updateLayout();
+
+    auto topMenu = CCMenu::create();
+    topMenu->setLayout(
+        RowLayout::create()
+            ->setGap(4.f)
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+    );
+    topMenu->setID("top-menu");
+    topMenu->setAnchorPoint({ 0.f, 0.5f });
+    topMenu->setPosition({ (winSize.width / 2) - 16.f, (winSize.height / 2) + 105.f });
+    topMenu->setContentSize({ 186.f, 21.f });
+    topMenu->setZOrder(10);
+    m_mainLayer->addChild(topMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("search-button"), topMenu);
+    switchToMenu(m_buttonMenu->getChildByID("clear-search-button"), topMenu);
+    if (auto userSearchBtn = m_buttonMenu->getChildByID("user-search-button")) {
+        userSearchBtn->setLayoutOptions(AxisLayoutOptions::create()->setPrevGap(14.5f));
+        switchToMenu(userSearchBtn, topMenu);
     }
+    if (auto newThreadBtn = m_buttonMenu->getChildByID("new-thread-button")) {
+        newThreadBtn->setLayoutOptions(AxisLayoutOptions::create()->setPrevGap(28.f));
+        switchToMenu(newThreadBtn, topMenu);
+    }
+    topMenu->updateLayout();
+
+    auto bottomRightMenu = CCMenu::create();
+    bottomRightMenu->setLayout(
+        ColumnLayout::create()
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+            ->ignoreInvisibleChildren(false)
+    );
+    bottomRightMenu->setID("bottom-right-menu");
+    bottomRightMenu->setAnchorPoint({ 0.5f, 0.f });
+    bottomRightMenu->setPosition({ (winSize.width / 2) + 196.f, (winSize.height / 2) - 143.f });
+    bottomRightMenu->setContentSize({ 37.f, 100.f });
+    bottomRightMenu->setZOrder(10);
+    m_mainLayer->addChild(bottomRightMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("refresh-button"), bottomRightMenu);
+    bottomRightMenu->updateLayout();
 
     handleTouchPriority(this);
 }
