@@ -129,7 +129,7 @@ $register_ids(ProfilePage) {
 
 }
 
-static constexpr std::array<std::pair<const char*, const char*>, 7> STAT_ICONS = {{
+std::array<std::pair<const char*, const char*>, 7> STAT_ICONS = {{
     {"GJ_starsIcon_001.png", "stars"},
     {"GJ_moonsIcon_001.png", "moons"},
     {"GJ_coinsIcon_001.png", "coins"},
@@ -139,12 +139,12 @@ static constexpr std::array<std::pair<const char*, const char*>, 7> STAT_ICONS =
     {"GJ_hammerIcon_001.png", "creator-points"},
 }};
 
-static constexpr std::array<const char*, 9> PLAYER_IDS = {
+std::array<const char*, 9> PLAYER_IDS = {
     "player-icon", "player-ship", "player-ball", "player-ufo", "player-wave",
     "player-robot", "player-spider", "player-swing", "player-jetpack"
 };
 
-static constexpr std::array<std::pair<const char*, const char*>, 28> FRAME_IDS = {{
+std::array<std::pair<const char*, const char*>, 28> FRAME_IDS = {{
     {"gj_ytIcon_001.png", "youtube-button"},
     {"gj_twIcon_001.png", "twitter-button"},
     {"gj_twitchIcon_001.png", "twitch-button"},
@@ -175,14 +175,14 @@ static constexpr std::array<std::pair<const char*, const char*>, 28> FRAME_IDS =
     {"GJ_myListsTxt_001.png", "my-lists-hint"},
 }};
 
-static constexpr std::array<const char*, 11> RANK_ICONS = {
+std::array<const char*, 11> RANK_ICONS = {
     "rankIcon_1_001.png", "rankIcon_top10_001.png", "rankIcon_top50_001.png",
     "rankIcon_top100_001.png", "rankIcon_top200_001.png", "rankIcon_top500_001.png",
     "rankIcon_top1000_001.png", "rankIcon_top2500_001.png", "rankIcon_top5000_001.png",
     "rankIcon_top10000_001.png", "rankIcon_all_001.png"
 };
 
-static constexpr std::array<const char*, 3> MOD_BADGES = {
+std::array<const char*, 3> MOD_BADGES = {
     "modBadge_01_001.png", "modBadge_02_001.png", "modBadge_03_001.png"
 };
 

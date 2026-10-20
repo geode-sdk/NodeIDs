@@ -118,11 +118,23 @@ $register_ids(MessageThreadsPage) {
     );
     topMenu->setID("top-menu");
     topMenu->setAnchorPoint({ 0.f, 0.5f });
-    topMenu->setPosition({ (winSize.width / 2) - 16.f, (winSize.height / 2) + 105.f });
-    topMenu->setContentSize({ 186.f, 21.f });
+    topMenu->setPosition({ (winSize.width / 2) - 170.f, (winSize.height / 2) + 105.f });
+    topMenu->setContentSize({ 340.f, 24.f });
     topMenu->setZOrder(10);
     m_mainLayer->addChild(topMenu);
 
+    if (auto bg = m_mainLayer->getChildByID("search-bar-bg")) {
+        auto searchBar = CCNode::create();
+        searchBar->setID("search-bar");
+        searchBar->setAnchorPoint({ 0.5f, 0.5f });
+        searchBar->setContentSize(bg->getScaledContentSize());
+        searchBar->setPosition(bg->getPosition());
+        m_mainLayer->addChild(searchBar);
+
+        switchToMenu(bg, searchBar);
+        switchToMenu(m_mainLayer->getChildByID("search-input"), searchBar);
+        switchToMenu(searchBar, topMenu);
+    }
     switchToMenu(m_buttonMenu->getChildByID("search-button"), topMenu);
     switchToMenu(m_buttonMenu->getChildByID("clear-search-button"), topMenu);
     if (auto userSearchBtn = m_buttonMenu->getChildByID("user-search-button")) {
