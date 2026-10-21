@@ -62,7 +62,11 @@ $register_ids(CommentCell) {
             setIDSafe(mainMenu, menuOffset++, "spam-button");
         } else if(!m_comment->m_unkMultiplayerBool) {
             setIDSafe(mainMenu, menuOffset++, "like-button");
-            setIDSafe(mainMenu, menuOffset++, "delete-button");
+            if (auto deleteBtn = getChildBySpriteFrameName(mainMenu, "GJ_deleteIcon_001.png")) {
+                deleteBtn->setID("delete-button");
+                menuOffset++;
+            }
+            setIDSafe(mainMenu, menuOffset++, "options-button");
         }
 
         if (!m_accountComment) {
@@ -113,7 +117,7 @@ $register_ids(CommentCell) {
             switchToMenu(usernameLabel, usernameMenu);
             setIDSafe(usernameMenu, usernameMenuIdx++, "username-button");
 
-            if (m_comment->m_modBadge > 0 && !m_accountComment) {
+            if (m_comment->m_modBadge > 1 && !m_accountComment) {
                 switchToMenu(m_mainLayer->getChildByType<CCSprite>(0), usernameMenu);
                 setIDSafe(usernameMenu, usernameMenuIdx++, "mod-badge");
             }

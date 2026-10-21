@@ -38,7 +38,7 @@ $register_ids(GJRequestCell) {
 		viewMenu->updateLayout();
 	}
 
-	// verifyIDSafe(m_toggler, "select-toggler");
+	verifyIDSafe(m_toggler, "select-toggler");
 }
 
 struct GJRequestCellIDs : Modify<GJRequestCellIDs, GJRequestCell> {
