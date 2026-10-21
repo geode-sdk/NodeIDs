@@ -10,43 +10,48 @@ using namespace geode::node_ids;
 $register_ids(FriendsProfilePage) {
     m_mainLayer->setID("main-layer");
 
-    size_t i = 0;
     setIDs(
         m_mainLayer,
         0,
         "background",
-        "title-label"
-    );
-
-    i += 2;
-    if(m_type != UserListType::Blocked) {
-        setIDs(
-            m_mainLayer,
-            i,
-            "tap-user-label"
-        );
-        i += 1;
-    }
-
-    setIDs(
-        m_mainLayer,
-        i,
-        "total-friends-label",
         "main-menu",
-        "no-internet-label",
-        "loading-circle"
-        //setting label for gjcommentlistlayer skipped, it never sticks and theres only one
+        "title-label",
+        "search-bar-bg",
+        "search-input",
+        "total-friends-label",
+        "list-layer"
     );
+    if (auto loadingCircle = m_mainLayer->getChildByType<LoadingCircle>(0)) {
+        loadingCircle->setID("loading-circle");
+    }
 
     size_t buttonIdx = 0;
     setIDSafe(m_buttonMenu, buttonIdx++, "back-button");
-    if(m_type == UserListType::Friends) setIDSafe(m_buttonMenu, buttonIdx++, "blocked-button");
+    if(static_cast<int>(m_type) == 3) setIDSafe(m_buttonMenu, buttonIdx++, "info-button");
+    setIDs(
+        m_buttonMenu,
+        buttonIdx,
+        "friends-button",
+        "blocked-button",
+        "following-button",
+        "muted-button"
+    );
+    buttonIdx += 4;
+    if(m_type != UserListType::Blocked) {
+        setIDs(
+            m_buttonMenu,
+            buttonIdx,
+            "search-button",
+            "clear-search-button",
+            "sort-button",
+            "sort-direction-button"
+        );
+        buttonIdx += 4;
+    }
     setIDSafe(m_buttonMenu, buttonIdx++, "refresh-button");
 
     //sanity checks
     verifyIDSafe(m_buttonMenu, "main-menu");
-    verifyIDSafe(m_refreshBtn, "refresh-button");
-    verifyIDSafe(m_circle, "loading-circle");
 
     //menu gaming
     auto winSize = CCDirector::get()->getWinSize();
@@ -63,29 +68,37 @@ $register_ids(FriendsProfilePage) {
             ->setCrossAxisAlignment(AxisAlignment::Start)
             ->setAxisReverse(true)
             ->setGap(8.f)
+            ->ignoreInvisibleChildren(false)
     );
-    switchToMenu(m_refreshBtn, bottomRightMenu);
+    switchToMenu(m_buttonMenu->getChildByID("refresh-button"), bottomRightMenu);
     bottomRightMenu->updateLayout();
     m_mainLayer->addChild(bottomRightMenu);
 
+    auto sortBtn = m_buttonMenu->getChildByID("sort-button");
+    auto sortDirBtn = m_buttonMenu->getChildByID("sort-direction-button");
+    auto sortWidth = sortBtn ? sortBtn->getScaledContentSize().width : 0.f;
+    auto sortDirWidth = sortDirBtn ? sortDirBtn->getScaledContentSize().width : 0.f;
+
     auto bottomLeftMenu = CCMenu::create();
-    bottomLeftMenu->setPosition((winSize.width / 2) - 233, (winSize.height / 2) - (160 - 2.25f));
+    bottomLeftMenu->setPosition((winSize.width / 2) - 181 - sortWidth / 2, (winSize.height / 2) - 122);
     bottomLeftMenu->setID("bottom-left-menu");
-    bottomLeftMenu->setAnchorPoint({0, 0});
+    bottomLeftMenu->setAnchorPoint({0, 0.5f});
     bottomLeftMenu->setZOrder(1);
-    bottomLeftMenu->setContentSize({ 130.f, 0.f });
+    bottomLeftMenu->setContentSize({ 130.f, 30.f });
     bottomLeftMenu->setLayout(
         RowLayout::create()
             ->setAxisAlignment(AxisAlignment::Start)
-            ->setCrossAxisAlignment(AxisAlignment::Start)
             ->setAxisReverse(false)
-            ->setGap(8.f)
+            ->setGap(43.f - (sortWidth + sortDirWidth) / 2)
+            ->ignoreInvisibleChildren(false)
     );
+    switchToMenu(sortBtn, bottomLeftMenu);
+    switchToMenu(sortDirBtn, bottomLeftMenu);
     bottomLeftMenu->updateLayout();
     m_mainLayer->addChild(bottomLeftMenu);
 
     auto topRightMenu = CCMenu::create();
-    topRightMenu->setPosition((winSize.width / 2) + 231.5, (winSize.height / 2) + (160 - 4.25f));
+    topRightMenu->setPosition((winSize.width / 2) + 212.3f, (winSize.height / 2) + 137.2f);
     topRightMenu->setID("top-right-menu");
     topRightMenu->setAnchorPoint({1, 1});
     topRightMenu->setZOrder(1);
@@ -97,12 +110,12 @@ $register_ids(FriendsProfilePage) {
             ->setAxisReverse(true)
             ->setGap(8.f)
     );
-    switchToMenu(m_buttonMenu->getChildByID("blocked-button"), topRightMenu);
+    switchToMenu(m_buttonMenu->getChildByID("info-button"), topRightMenu);
     topRightMenu->updateLayout();
     m_mainLayer->addChild(topRightMenu);
 
     auto topLeftMenu = CCMenu::create();
-    topLeftMenu->setPosition((winSize.width / 2) - 234.5, (winSize.height / 2) + (160 - 1.25f));
+    topLeftMenu->setPosition((winSize.width / 2) - 234.75f, (winSize.height / 2) + 160.5f);
     topLeftMenu->setID("top-left-menu");
     topLeftMenu->setAnchorPoint({0, 1});
     topLeftMenu->setZOrder(1);
@@ -117,6 +130,57 @@ $register_ids(FriendsProfilePage) {
     switchToMenu(m_buttonMenu->getChildByID("back-button"), topLeftMenu);
     topLeftMenu->updateLayout();
     m_mainLayer->addChild(topLeftMenu);
+
+    auto leftMenu = CCMenu::create();
+    leftMenu->setLayout(
+        ColumnLayout::create()
+            ->setGap(2.f)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setAxisReverse(true)
+    );
+    leftMenu->setID("left-menu");
+    leftMenu->setAnchorPoint({ 0.5f, 1.f });
+    leftMenu->setPosition({ (winSize.width / 2) - 194.f, (winSize.height / 2) + 85.5f });
+    leftMenu->setContentSize({ 35.f, 146.f });
+    leftMenu->setZOrder(10);
+    m_mainLayer->addChild(leftMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("friends-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("blocked-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("following-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("muted-button"), leftMenu);
+    leftMenu->updateLayout();
+
+    auto topMenu = CCMenu::create();
+    topMenu->setLayout(
+        RowLayout::create()
+            ->setGap(4.f)
+            ->setAxisAlignment(AxisAlignment::Center)
+            ->setAxisReverse(false)
+    );
+    topMenu->setID("top-menu");
+    topMenu->setPosition({ winSize.width / 2, (winSize.height / 2) + 100.f });
+    topMenu->setContentSize({ 262.f, 24.f });
+    topMenu->setZOrder(10);
+    m_mainLayer->addChild(topMenu);
+
+    if (auto bg = m_mainLayer->getChildByID("search-bar-bg")) {
+        auto searchBar = CCNode::create();
+        searchBar->setID("search-bar");
+        searchBar->setAnchorPoint({ 0.5f, 0.5f });
+        searchBar->setContentSize(bg->getScaledContentSize());
+        searchBar->setPosition(bg->getPosition());
+        m_mainLayer->addChild(searchBar);
+
+        switchToMenu(bg, searchBar);
+        switchToMenu(m_mainLayer->getChildByID("search-input"), searchBar);
+        switchToMenu(searchBar, topMenu);
+    }
+    switchToMenu(m_buttonMenu->getChildByID("search-button"), topMenu);
+    switchToMenu(m_buttonMenu->getChildByID("clear-search-button"), topMenu);
+    topMenu->updateLayout();
+
+    handleTouchPriority(this);
 }
 
 struct FriendsProfilePageIDs : Modify<FriendsProfilePageIDs, FriendsProfilePage> {
