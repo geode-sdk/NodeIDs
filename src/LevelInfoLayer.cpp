@@ -76,20 +76,24 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, 0, "play-button");
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(2)) {
-        menu->setID("death-tracker-menu");
-        auto deathTrackerBtn = setIDSafe(menu, 0, "death-tracker-button");
-        menu->setPositionX(
-            menu->getPositionX() + 100.f / 2 -
-                getSizeSafe(deathTrackerBtn).width / 2
-        );
-        menu->setContentSize({ 50.f, 100.f });
-        menu->setLayout(
-            ColumnLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start)
-        );
+    size_t menuIdx = 2;
+    if (!m_level->isPlatformer()) {
+        if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
+            menu->setID("death-tracker-menu");
+            auto deathTrackerBtn = setIDSafe(menu, 0, "death-tracker-button");
+            menu->setPositionX(
+                menu->getPositionX() + 100.f / 2 -
+                    getSizeSafe(deathTrackerBtn).width / 2
+            );
+            menu->setContentSize({ 100.f, 50.f });
+            menu->setLayout(
+                RowLayout::create()
+                    ->setAxisAlignment(AxisAlignment::Start)
+            );
+        }
     }
-    if (auto menu = this->getChildByType<CCMenu>(3)) {
+
+    if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
         menu->setID("back-menu");
         auto backBtn = setIDSafe(menu, 0, "back-button");
         menu->setPositionX(
@@ -191,7 +195,7 @@ $register_ids(LevelInfoLayer) {
         leftSideMenu->updateLayout();
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(4)) {
+    if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
         menu->setID("other-menu");
 
         setIDSafe(menu, 0, "info-button");
@@ -202,13 +206,13 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, 5, "list-button");
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(5)) {
+    if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
         menu->setID("garage-menu");
 
         setIDSafe(menu, 0, "garage-button");
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(6)) {
+    if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
         menu->setID("settings-menu");
 
         setIDSafe(menu, 0, "settings-button");

@@ -65,9 +65,8 @@ $register_ids(PauseLayer) {
                     setIDSafe(layer, idx++, "best-label");
                 }
             }
-
-            setIDSafe(layer, idx++, "center-button-menu");
         }
+        setIDSafe(layer, idx++, "center-button-menu");
 
         for(auto child : CCArrayExt<CCNode*>(layer->getChildren())) {
             if (auto bmFont = typeinfo_cast<CCLabelBMFont*>(child)) {
