@@ -297,6 +297,9 @@ $register_ids(PauseLayer) {
             menu->setLayout(SimpleRowLayout::create()->setGap(10.f)->setCrossAxisScaling(AxisScaling::Grow));
         }
     }
+    if (auto menu = setIDSafe(this, 1, "hide-pause-menu")) {
+        setIDSafe(menu, 0, "hide-pause-button");
+    }
 }
 
 struct PauseLayerIDs : Modify<PauseLayerIDs, PauseLayer> {

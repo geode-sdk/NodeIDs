@@ -77,6 +77,19 @@ $register_ids(LevelInfoLayer) {
     }
 
     if (auto menu = this->getChildByType<CCMenu>(2)) {
+        menu->setID("death-tracker-menu");
+        auto deathTrackerBtn = setIDSafe(menu, 0, "death-tracker-button");
+        menu->setPositionX(
+            menu->getPositionX() + 100.f / 2 -
+                getSizeSafe(deathTrackerBtn).width / 2
+        );
+        menu->setContentSize({ 50.f, 100.f });
+        menu->setLayout(
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::Start)
+        );
+    }
+    if (auto menu = this->getChildByType<CCMenu>(3)) {
         menu->setID("back-menu");
         auto backBtn = setIDSafe(menu, 0, "back-button");
         menu->setPositionX(
@@ -178,7 +191,7 @@ $register_ids(LevelInfoLayer) {
         leftSideMenu->updateLayout();
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(3)) {
+    if (auto menu = this->getChildByType<CCMenu>(4)) {
         menu->setID("other-menu");
 
         setIDSafe(menu, 0, "info-button");
@@ -189,13 +202,13 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, 5, "list-button");
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(4)) {
+    if (auto menu = this->getChildByType<CCMenu>(5)) {
         menu->setID("garage-menu");
 
         setIDSafe(menu, 0, "garage-button");
     }
 
-    if (auto menu = this->getChildByType<CCMenu>(5)) {
+    if (auto menu = this->getChildByType<CCMenu>(6)) {
         menu->setID("settings-menu");
 
         setIDSafe(menu, 0, "settings-button");
@@ -275,11 +288,11 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
         LevelInfoLayer::setupProgressBars();
 
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 1))->setID("practice-mode-label");
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 2))->setID("normal-mode-label");
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 3))->setID("practice-mode-percentage");
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 4))->setID("normal-mode-percentage");
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("practice-mode-bar");
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-bar");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 2))->setID("practice-mode-percentage");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 3))->setID("practice-mode-bar");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("normal-mode-label");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-percentage");
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 7))->setID("normal-mode-bar");
     }
 
     void levelDownloadFinished(GJGameLevel* level) {

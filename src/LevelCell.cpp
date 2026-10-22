@@ -107,8 +107,6 @@ $register_ids(LevelCell) {
         m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("view-button");
         buttonOffset++;
 
-        log::info("{}", (int) m_listType);
-
         if(m_listType == BoomListType::Level4) {
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("flip-button");
             m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("down-button");
