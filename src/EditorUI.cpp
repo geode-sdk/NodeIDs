@@ -48,7 +48,7 @@ $register_ids(EditorUI) {
     );
 
     toolbarCategoriesMenu->setAnchorPoint({0.f, 0.f});
-    toolbarCategoriesMenu->setPosition(2.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), 0.f);
+    toolbarCategoriesMenu->setPosition(2.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), 0.1f);
     toolbarCategoriesMenu->setContentSize({90.f, 90.f});
     toolbarCategoriesMenu->updateLayout();
 
@@ -75,7 +75,7 @@ $register_ids(EditorUI) {
     toolbarTogglesMenu->setAnchorPoint({1.f, 0.f});
     toolbarTogglesMenu->setPosition(
         winSize.width - 2.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
-        0.f
+        0.1f
     );
     toolbarTogglesMenu->setContentSize({90.f, 90.f});
     toolbarTogglesMenu->updateLayout();
@@ -85,6 +85,8 @@ $register_ids(EditorUI) {
     m_trashBtn->setID("delete-button");
     m_hideUIBtn->setID("hide-ui-button");
 
+    float leftGap = 8.5f;
+
     auto undoMenu = detachAndCreateMenu(
         this,
         "undo-menu",
@@ -92,7 +94,7 @@ $register_ids(EditorUI) {
             ->setMainAxisScaling(AxisScaling::Fit)
             ->setCrossAxisScaling(AxisScaling::Fit)
             ->setMainAxisAlignment(MainAxisAlignment::Start)
-            ->setGap(8.5f),
+            ->setGap(leftGap),
         m_undoBtn,
         m_redoBtn,
         m_trashBtn,
@@ -124,7 +126,8 @@ $register_ids(EditorUI) {
         "playback-menu",
         SimpleRowLayout::create()
             ->setCrossAxisScaling(AxisScaling::Fit)
-            ->setMainAxisAlignment(MainAxisAlignment::Start),
+            ->setMainAxisAlignment(MainAxisAlignment::Start)
+            ->setGap(leftGap),
         m_playbackBtn
     );
     playBackMenu->setContentSize({100.f, 50.f});
@@ -139,7 +142,7 @@ $register_ids(EditorUI) {
         this,
         "playtest-menu",
         SimpleRowLayout::create()
-            ->setGap(8.5f)
+            ->setGap(leftGap)
             ->setCrossAxisScaling(AxisScaling::Fit)
             ->setMainAxisAlignment(MainAxisAlignment::Start)
             ->ignoreInvisibleChildren(false),
@@ -149,7 +152,7 @@ $register_ids(EditorUI) {
     
     playTestMenu->setContentSize({100.f, 50.f});
     playTestMenu->setAnchorPoint({0.f, 1.f});
-    playTestMenu->setPosition({playBackMenu->getPositionX(), playBackMenu->boundingBox().getMinY() - 6.f});
+    playTestMenu->setPosition({playBackMenu->getPositionX(), playBackMenu->boundingBox().getMinY() - 5.5f});
     playTestMenu->updateLayout();
 
     m_enableLinkBtn->setID("enable-link-button");
@@ -182,8 +185,7 @@ $register_ids(EditorUI) {
         );
 
         zoomMenu->setLayout(SimpleColumnLayout::create()
-            ->setGap(3.f)
-            ->setMainAxisDirection(AxisDirection::BottomToTop)
+            ->setGap(3.5f)
             ->setCrossAxisScaling(AxisScaling::Fit)
             ->setMainAxisAlignment(MainAxisAlignment::End)
         );
@@ -193,9 +195,9 @@ $register_ids(EditorUI) {
         zoomMenu->setAnchorPoint({0.f, 1.f});
         zoomMenu->ignoreAnchorPointForPosition(false);
         zoomMenu->updateLayout();
-        zoomMenu->setPosition({playBackMenu->getPositionX() + 19.f - zoomMenu->getContentWidth() / 2.f, playTestMenu->boundingBox().getMinY() - 10.f});
+        zoomMenu->setPosition({playBackMenu->getPositionX() + 19.f - zoomMenu->getContentWidth() / 2.f, playTestMenu->boundingBox().getMinY() - 9.5f});
 
-        linkMenu->setPosition({zoomMenu->boundingBox().getMaxX() + 5.f, zoomMenu->boundingBox().getMidY() + 0.5f});
+        linkMenu->setPosition({zoomMenu->boundingBox().getMaxX() + 6.f, zoomMenu->boundingBox().getMidY()});
     }
 
     m_deleteMenu->setID("delete-category-menu");
@@ -372,7 +374,7 @@ $register_ids(EditorUI) {
         ColumnLayout::create()
             ->setAxisAlignment(AxisAlignment::End)
             ->setCrossAxisAlignment(AxisAlignment::End)
-            ->setGap(1.f)
+            ->setGap(0.85f)
             ->setGrowCrossAxis(true)
             ->setCrossAxisOverflow(false)
             ->setAxisReverse(true),
@@ -393,7 +395,7 @@ $register_ids(EditorUI) {
     );
 
     for (auto btn : CCArrayExt<CCNode*>(editButtonsMenu->getChildren())) {
-        btn->setContentWidth(38.f);
+        btn->setContentWidth(37.f);
     }
 
     editButtonsMenu->setAnchorPoint({1.f, 1.f});
@@ -430,7 +432,7 @@ $register_ids(EditorUI) {
 
         settingsMenu->setID("settings-menu");
         settingsMenu->setLayout(SimpleRowLayout::create()
-            ->setGap(8.5f)
+            ->setGap(8.f)
             ->setMainAxisScaling(AxisScaling::Fit)
             ->setCrossAxisScaling(AxisScaling::Fit)
             ->setMainAxisDirection(AxisDirection::RightToLeft)
@@ -440,12 +442,12 @@ $register_ids(EditorUI) {
         settingsMenu->setAnchorPoint({1.f, 1.f});
         settingsMenu->ignoreAnchorPointForPosition(false);
         settingsMenu->setContentSize({winSize.width / 2.f - 120.f, 60.f});
-        settingsMenu->setPosition({winSize.width - 1.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 1.f});
+        settingsMenu->setPosition({winSize.width - 1.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 0.5f});
         settingsMenu->updateLayout();
     }
 
     editButtonsMenu->setPosition(
-        winSize.width - 1.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
+        winSize.width - 4.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
         settingsMenu->boundingBox().getMinY() - 3.f
     );
 
