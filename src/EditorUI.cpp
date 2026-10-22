@@ -208,7 +208,7 @@ $register_ids(EditorUI) {
     m_deleteMenu->setPosition({winSize.width / 2.f, 0.f});
     m_deleteMenu->setLayout(SimpleRowLayout::create()
         ->setGap(15.f)
-        ->setPadding({22.f, 4.f, 0.f, 8.f})
+        ->setPadding({20.f, 4.f, 0.f, 9.f})
         ->setMainAxisScaling(AxisScaling::Fit)
         ->setCrossAxisScaling(AxisScaling::ScaleDown)
         ->setCrossAxisAlignment(CrossAxisAlignment::Start)
@@ -223,6 +223,7 @@ $register_ids(EditorUI) {
         m_deleteMenu,
         "delete-button-menu",
         ColumnLayout::create()
+            ->setGap(4.f)
             ->setCrossAxisOverflow(false)
             ->setGrowCrossAxis(true)
             ->setAxisReverse(true)
@@ -244,6 +245,7 @@ $register_ids(EditorUI) {
         m_deleteMenu,
         "delete-filter-menu",
         ColumnLayout::create()
+            ->setGap(4.f)
             ->setCrossAxisOverflow(false)
             ->setGrowCrossAxis(true)
             ->setAxisReverse(true)
