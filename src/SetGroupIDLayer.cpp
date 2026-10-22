@@ -126,21 +126,12 @@ $register_ids(SetGroupIDLayer) {
         "default-layer-button"
     );
 
-    /*
-        normally we would check the ZLayer being -100, but this is a temp solution while bindings are broken
-        if (m_zLayerValue == static_cast<ZLayer>(-100) && m_targetObjects && m_targetObjects->count() != 0)
-    */
-
-    auto zLayerDecrement = setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, offset, "z-layer-decrement-button");
-    auto zLayerIncrement = setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, offset + 1, "z-layer-increment-button");
-
-    auto zLayerDecLabel = zLayerDecrement->getNormalImage()->getChildByType<CCLabelBMFont>();
-    if (zLayerDecLabel && std::string_view(zLayerDecLabel->getString()) == "-") {
-        offset += 2;
-    }
-    else {
-        zLayerDecrement = nullptr;
-        zLayerIncrement = nullptr;
+    if (m_zLayerValue == static_cast<ZLayer>(-100) && m_targetObjects && m_targetObjects->count() != 0) {
+        setIDs(
+            m_buttonMenu, &offset,
+            "z-layer-decrement-button",
+            "z-layer-increment-button"
+        );
     }
 
     if (m_showChannelOrder) {
@@ -368,6 +359,9 @@ $register_ids(SetGroupIDLayer) {
     groupOffsetMenu->setPosition(winSize.width / 2.f + 65.f, winSize.height / 2.f + 80.f);
     groupOffsetMenu->setContentSize({20.f, 20.f});
     groupOffsetMenu->updateLayout();
+
+    auto zLayerDecrement = m_buttonMenu->getChildByID("z-layer-decrement-button");
+    auto zLayerIncrement = m_buttonMenu->getChildByID("z-layer-increment-button");
 
     if (zLayerDecrement && zLayerIncrement) {
         auto zLayerOffsetMenu = detachAndCreateMenu(
