@@ -526,6 +526,10 @@ $register_ids(EditorUI) {
             node->setID(viewButtonIDs[node->getTag()]);
         }
     }
+
+    m_transformControl->setID("transform-control");
+    m_rotationControl->setID("rotation-control");
+    m_scaleControl->setID("scale-control");
 }
 
 struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
