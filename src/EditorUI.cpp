@@ -598,6 +598,8 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
 
         if (m_dpadMoveNode) {
             m_dpadMoveNode->setID("dpad-move-node");
+            m_dpadMoveNode->setAnchorPoint({0.5f, 0.f});
+            m_dpadMoveNode->setPosition({winSize.width / 2.f, 0.f});
             m_dpadMoveNode->setContentSize({winSize.width, 90.f});
 
             setIDSafe(m_dpadMoveNode, 0, "spacer-line-center-left");
