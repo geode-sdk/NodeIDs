@@ -478,7 +478,7 @@ $register_ids(EditorUI) {
         tab->setID(fmt::format("{}-tab", name));
         bar->setID(fmt::format("{}-tab-bar", name));
 
-        bar->setContentSize({winSize.width, 90.f});
+        bar->setPositionX(winSize.width / 2.f);
     }
 
     m_tabsMenu->setID("build-tabs-menu");
@@ -493,7 +493,7 @@ $register_ids(EditorUI) {
 
     if (m_viewMenu) {
         m_viewMenu->setID("view-tab-bar");
-        m_viewMenu->setContentSize({winSize.width, 90.f});
+        m_viewMenu->setPositionX(winSize.width / 2.f);
 
         auto bar = static_cast<EditButtonBar*>(m_viewMenu);
 
@@ -719,7 +719,7 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
         }
         else if (m_editButtonBar) {
             m_editButtonBar->setID("edit-tab-bar");
-            m_editButtonBar->setContentSize({winSize.width, 90.f});
+            m_editButtonBar->setPositionX(winSize.width / 2.f);
             
             for (auto node : m_editButtonBar->m_buttonArray->asExt<CCNode>()) {
                 node->setID(editButtonIDs[node->getTag()]);
