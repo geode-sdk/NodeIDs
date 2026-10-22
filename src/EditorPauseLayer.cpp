@@ -48,14 +48,14 @@ $register_ids(EditorPauseLayer) {
         );
 
         settingsMenu->setAnchorPoint({1.f, 1.f});
-        settingsMenu->setPosition({winSize.width - 8.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 6.f});
+        settingsMenu->setPosition({winSize.width - 9.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 7.f});
         settingsMenu->setContentSize({90.f, winSize.height - 60.f});
         settingsMenu->setLayout(
             SimpleColumnLayout::create()
                 ->setMainAxisScaling(AxisScaling::ScaleDownGaps)
                 ->setCrossAxisScaling(AxisScaling::Fit)
                 ->setMainAxisAlignment(MainAxisAlignment::Start)
-                ->setGap(5.f)
+                ->setGap(6.f)
                 ->setCrossAxisDirection(AxisDirection::BottomToTop)
         );
     }
@@ -96,7 +96,7 @@ $register_ids(EditorPauseLayer) {
     auto infoMenu = detachAndCreateMenu(
         this, "info-menu",
         SimpleColumnLayout::create()
-            ->setGap(6.f)
+            ->setGap(7.f)
             ->setMainAxisAlignment(MainAxisAlignment::Start)
             ->setCrossAxisAlignment(CrossAxisAlignment::Start),
         this->getChildByID("object-count-label"),
@@ -114,7 +114,7 @@ $register_ids(EditorPauseLayer) {
 
         infoMenu->setAnchorPoint({0.f, 1.f});
         infoMenu->setContentSize({180.f, 50.f});
-        infoMenu->setPosition(8.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 6.f);
+        infoMenu->setPosition(10.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 5.f);
         infoMenu->updateLayout();
     }
 
