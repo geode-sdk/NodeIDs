@@ -1,10 +1,8 @@
 // #include "AddIDs.hpp"
 
-#include "Geode/loader/Log.hpp"
 #include "Spacer.hpp"
 #include <Geode/Bindings.hpp>
 #include <Geode/Enums.hpp>
-#include <Geode/binding/GameManager.hpp>
 #include <Geode/modify/EditorUI.hpp>
 #include <Geode/utils/cocos.hpp>
 #include <Geode/utils/NodeIDs.hpp>
@@ -562,8 +560,6 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
 
     // ensures that vanilla IDs stay sane if legacy is switched and a mod adds items somewhere between vanilla buttons
     void setupMoveIDs() {
-        log::info("setup called");
-
         std::unordered_map<int, std::string> editButtonIDs = {
             {3, "move-up-small-button"},
             {4, "move-down-small-button"},
