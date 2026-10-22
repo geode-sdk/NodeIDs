@@ -1,7 +1,10 @@
 // #include "AddIDs.hpp"
 
+#include "Geode/loader/Log.hpp"
 #include "Spacer.hpp"
 #include <Geode/Bindings.hpp>
+#include <Geode/Enums.hpp>
+#include <Geode/binding/GameManager.hpp>
 #include <Geode/modify/EditorUI.hpp>
 #include <Geode/utils/cocos.hpp>
 #include <Geode/utils/NodeIDs.hpp>
@@ -559,6 +562,8 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
 
     // ensures that vanilla IDs stay sane if legacy is switched and a mod adds items somewhere between vanilla buttons
     void setupMoveIDs() {
+        log::info("setup called");
+
         std::unordered_map<int, std::string> editButtonIDs = {
             {3, "move-up-small-button"},
             {4, "move-down-small-button"},
@@ -691,7 +696,6 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
                     node->setID(editButtonIDs[node->getTag()]);
                 }
 
-                auto availableEditSpace = winSize.width - 96.75f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f) - spacerCenterRight->boundingBox().getMaxX() * m_dpadMoveNode->getScale();
 
                 menu->setContentSize({getMaxWidth(menu), 90.f});
                 menu->setLayout(RowLayout::create()
@@ -705,7 +709,16 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
                 menu->updateLayout();
 
                 menu->setContentSize({getMaxWidth(menu), 90.f});
-                menu->setPosition({spacerCenterRight->boundingBox().getMaxX() + availableEditSpace / 2.f, 46.f});
+
+                auto swapDpad = GameManager::get()->getGameVariable("0247");
+                if (swapDpad) {
+                    auto availableEditSpace = spacerCenterLeft->boundingBox().getMinX() * m_dpadMoveNode->getScale() - (96.75f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f));
+                    menu->setPosition({spacerCenterLeft->boundingBox().getMinX() - availableEditSpace / 2.f, 46.f});
+                }
+                else {
+                    auto availableEditSpace = winSize.width - 96.75f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f) - spacerCenterRight->boundingBox().getMaxX() * m_dpadMoveNode->getScale();
+                    menu->setPosition({spacerCenterRight->boundingBox().getMaxX() + availableEditSpace / 2.f, 46.f});
+                }
             }
         }
         else if (m_editButtonBar) {
