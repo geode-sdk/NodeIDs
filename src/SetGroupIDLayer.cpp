@@ -1,9 +1,7 @@
 #include <Geode/Geode.hpp>
-#include <Geode/binding/CCMenuItemSpriteExtra.hpp>
 #include <Geode/modify/SetGroupIDLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
 #include <Geode/ui/TextInput.hpp>
-#include "Geode/cocos/label_nodes/CCLabelBMFont.h"
 #include "Spacer.hpp"
 
 using namespace geode::prelude;
