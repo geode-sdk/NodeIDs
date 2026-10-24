@@ -603,8 +603,11 @@ struct EditorUIIDs : Modify<EditorUIIDs, EditorUI> {
         if (m_dpadMoveNode) {
             m_dpadMoveNode->setID("dpad-move-node");
             m_dpadMoveNode->setAnchorPoint({0.5f, 0.f});
-            m_dpadMoveNode->setPosition({winSize.width / 2.f, 0.f});
-            m_dpadMoveNode->setContentSize({winSize.width, 90.f});
+
+            float refPoint = 96.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f);
+
+            m_dpadMoveNode->setPosition({winSize.width / 2.f + refPoint * (1.f - m_dpadMoveNode->getScale()), 45.f * (1.f - m_dpadMoveNode->getScale())});
+            m_dpadMoveNode->setContentSize({winSize.width / m_dpadMoveNode->getScale(), 90.f});
 
             setIDSafe(m_dpadMoveNode, 0, "spacer-line-center-left");
             setIDSafe(m_dpadMoveNode, 1, "spacer-line-center-right");

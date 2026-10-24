@@ -14,8 +14,8 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
         }
     }
 
-    void loadFromItems(cocos2d::CCArray* objects, int rows, int columns, bool keepPage) {
-        EditButtonBar::loadFromItems(objects, rows, columns, keepPage);
+    void loadFromItems(cocos2d::CCArray* objects, int columns, int rows, bool keepPage) {
+        EditButtonBar::loadFromItems(objects, columns, rows, keepPage);
 
         auto winSize = CCDirector::get()->getWinSize();
 
@@ -23,30 +23,35 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
         auto dotsMenu = setIDSafe<CCMenu>(this, 1, "dots-menu");
 
         float fullWidth = winSize.width - 208.f;
-        float width = fullWidth;
+        float innerWidth = arrowsMenu ? fullWidth - 48.f : fullWidth + 8.f;
 
         setContentSize({fullWidth, 90.f});
         setAnchorPoint({0.5f, 0.f});
 
+        float gap = 4.f;
+        float buttonSize = 40.f;
+
+        float totalRowGap = (rows - 1) * gap;
+        float totalColGap = (columns - 1) * gap;
+
+        float acrossScale = ((innerWidth - totalColGap) / static_cast<float>(columns)) / buttonSize;
+        float scale = ((84.f - totalRowGap) / static_cast<float>(rows)) / buttonSize;
+
+        if (acrossScale <= scale) scale = acrossScale;
+
+        float scaledButtonSize = scale * buttonSize;
+
+        auto menuSize = CCSize{columns * scaledButtonSize + totalColGap, rows * scaledButtonSize + totalRowGap};
+        float menuY = m_position.y - getContentHeight() / 2.f + 6.f;
+
         if (arrowsMenu) {
-            width = (winSize.width - 240.f);
-
-            float rowGap = columns * 4.f - 4.f;
-            float acrossScale = ((width - rows * 4.f - 4.f) / static_cast<float>(rows)) / 40.f;
-            float scale = ((78.f - rowGap) / static_cast<float>(columns)) / 40.f;
-            
-            if (acrossScale <= scale) scale = acrossScale;
-
-            float size = scale * 40.f;
-            float arrowY = m_position.y - (static_cast<float>(columns) * size + rowGap) / 2.f;
-
             setIDs(arrowsMenu, 0,
                 "left-button",
                 "right-button"
             );
 
             arrowsMenu->ignoreAnchorPointForPosition(false);
-            arrowsMenu->setPosition({getContentWidth() / 2.f, arrowY});
+            arrowsMenu->setPosition({getContentWidth() / 2.f, menuY});
             arrowsMenu->setContentWidth(fullWidth);
 
             arrowsMenu->setLayout(SimpleRowLayout::create()
@@ -60,7 +65,7 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
 
         if (m_scrollLayer) {
             m_scrollLayer->setID("scroll-layer");
-            m_scrollLayer->setContentSize({width, 90.f});
+            m_scrollLayer->setContentSize({innerWidth, 90.f});
             m_scrollLayer->ignoreAnchorPointForPosition(false);
             m_scrollLayer->setPosition(getContentSize() / 2.f);
 
@@ -74,6 +79,8 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
 
             m_scrollLayer->m_dotPosition.x = m_scrollLayer->getContentWidth() / 2.f;
 
+            m_scrollLayer->updateDots(0.f);
+
             auto dots = setIDSafe<CCSpriteBatchNode>(m_scrollLayer, 0, "dots-batch");
             if (dots) {
                 int idx = 0;
@@ -83,7 +90,7 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
                 }
 
                 dots->setAnchorPoint({0.5f, 0.f});
-                dots->setPosition({getContentWidth() / 2.f, 0.f});
+                dots->setPosition({m_scrollLayer->getContentWidth() / 2.f, 0.f});
                 dots->setContentSize({m_scrollLayer->getContentWidth(), 3.2f});
             }
 
@@ -96,15 +103,23 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
                 auto menu = setIDSafe<CCMenu>(page, 0, "button-menu");
                 if (menu) {
                     menu->ignoreAnchorPointForPosition(false);
-                    menu->setContentSize(page->getContentSize());
-                    menu->setPosition(page->getContentSize() / 2.f);
+                    menu->setContentSize(menuSize);
+                    menu->setPosition({page->getContentWidth() / 2.f, menuY});
 
                     for (auto item : menu->getChildrenExt()) {
-                        item->setPosition(item->getPosition() + CCPoint{menu->getContentWidth() / 2.f, menu->getContentHeight() * 2 - item->getContentHeight() / 2.f});
                         if (m_hasCreateItems) {
                             item->setID(fmt::format("object-{}-button", static_cast<CreateMenuItem*>(item)->m_objectID));
                         }
                     }
+
+                    menu->setLayout(RowLayout::create()
+                        ->setGap(gap)
+                        ->setAxisAlignment(AxisAlignment::Start)
+                        ->setCrossAxisAlignment(AxisAlignment::End)
+                        ->setGrowCrossAxis(true)
+                        ->setCrossAxisOverflow(false)
+                        ->setAutoScale(false)
+                    , true);
                 }
 
                 idx++;
@@ -127,6 +142,5 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
 
             dotsMenu->updateLayout();
         }
-
     }
 };
