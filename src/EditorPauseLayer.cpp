@@ -5,31 +5,15 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-// special class for this because making it a CCMenuItemToggler would be very UB 
-// (not gonna reinterpret_cast that into the members)
-class GuidelinesButtonDummy {
-
-public:
-    void onClick(CCObject* sender) {
-        GameManager::get()->m_showSongMarkers ^= 1;
-        CCMenuItemSpriteExtra* btn = typeinfo_cast<CCMenuItemSpriteExtra*>(sender);
-
-        btn->setNormalImage(CCSprite::createWithSpriteFrameName(
-            GameManager::get()->m_showSongMarkers ? 
-                "GJ_audioOnBtn_001.png" :
-                "GJ_audioOffBtn_001.png"
-        ));
-    }
-};
-
 $register_ids(EditorPauseLayer) {
     auto winSize = CCDirector::get()->getWinSize();
 
-    if (auto menu = this->getChildByType<CCMenu>(0)) {
-        menu->setID("resume-menu");
+    auto resumeMenu = this->getChildByType<CCMenu>(0);
+    if (resumeMenu) {
+        resumeMenu->setID("resume-menu");
 
         setIDs(
-            menu, 0,
+            resumeMenu, 0,
             "resume-button",
             "save-and-play-button",
             "save-and-exit-button",
@@ -37,260 +21,112 @@ $register_ids(EditorPauseLayer) {
             "exit-button"
         );
 
-        menu->setContentSize({ 100.f, 220.f });
-        menu->setLayout(
-            ColumnLayout::create()
-                ->setGap(12.5f)
-                ->setAxisReverse(true)
+        resumeMenu->setContentSize({200.f, 215.f});
+        resumeMenu->setLayout(
+            SimpleColumnLayout::create()
+                ->setMainAxisScaling(AxisScaling::ScaleDownGaps)
+                ->setCrossAxisScaling(AxisScaling::Fit)
+                ->setGap(14.f)
+                ->setCrossAxisDirection(AxisDirection::BottomToTop)
         );
     }
 
-    setIDs(
-        this, 2,
-        "ignore-damage-label",
-        "select-filter-label",
-        "show-grid-label",
-        "show-object-info-label",
-        "show-ground-label",
-        "preview-shaders-label",
-        "preview-particles-label",
-        "preview-animations-label",
-        "preview-mode-label",
-        "hide-invisible-label",
-        "show-hitboxes-label",
+    auto settingsMenu = this->getChildByType<CCMenu>(1);
+    if (settingsMenu) {
+        settingsMenu->setID("settings-menu");
+        
+        setIDs(
+            settingsMenu, 0,
+            "settings-button",
+            "export-button",
+            "editor-sfx-button",
+            "auto-save-button",
+            "death-stats-button",
+            "get-audio-button",
+            "help-button",
+            "controls-button"
+        );
 
-        "object-count-label",
-        "length-label",
-        "length-name-label"
+        settingsMenu->setAnchorPoint({1.f, 1.f});
+        settingsMenu->setPosition({winSize.width - 9.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 7.f});
+        settingsMenu->setContentSize({90.f, winSize.height - 60.f});
+        settingsMenu->setLayout(
+            SimpleColumnLayout::create()
+                ->setMainAxisScaling(AxisScaling::ScaleDownGaps)
+                ->setCrossAxisScaling(AxisScaling::Fit)
+                ->setMainAxisAlignment(MainAxisAlignment::Start)
+                ->setGap(6.f)
+                ->setCrossAxisDirection(AxisDirection::BottomToTop)
+        );
+    }
+
+    setIDSafe<CCLabelBMFont>(this, 0, "music-label");
+    setIDSafe<CCLabelBMFont>(this, 1, "sfx-label");
+    setIDSafe<CCLabelBMFont>(this, 2, "editor-sfx-label");
+    setIDSafe<CCLabelBMFont>(this, 3, "object-count-label");
+    setIDSafe<CCLabelBMFont>(this, 4, "length-label");
+
+    setIDSafe<Slider>(this, 0, "music-slider");
+    setIDSafe<Slider>(this, 1, "sfx-slider");
+    setIDSafe<Slider>(this, 2, "editor-sfx-slider");
+
+    setIDSafe<TimeSpeedControl>(this, 0, "time-speed-control");
+
+    auto musicContainer = detachAndCreateNode<CCNode>(
+        this, "music-container", 
+        nullptr, 
+        this->getChildByID("music-label"), 
+        this->getChildByID("music-slider")
     );
 
-    if (auto menu = this->getChildByType<CCMenu>(1)) {
-        menu->setID("bottom-menu");
+    auto sfxContainer = detachAndCreateNode<CCNode>(
+        this, "sfx-container", 
+        nullptr, 
+        this->getChildByID("sfx-label"), 
+        this->getChildByID("sfx-slider")
+    );
 
-        int idx = 0;
+    auto editorSfxContainer = detachAndCreateNode<CCNode>(
+        this, "editor-sfx-container", 
+        nullptr, 
+        this->getChildByID("editor-sfx-label"), 
+        this->getChildByID("editor-sfx-slider")
+    );
 
-        setIDs(
-            menu, idx, 
-            "guidelines-enable-button",
-            "help-button",
-            "guidelines-disable-button",
-
-            "uncheck-portals-button",
-            "reset-unused-button",
-            "unlock-layers-button",
-            "create-extras-button",
-            "paste-color-button",
-            "copy-color-button",
-            "build-helper-button",
-
-            "create-loop-button",
-            "regroup-button",
-            "align-x-button",
-            "align-y-button",
-            "select-all-button",
-            "select-all-left-button",
-            "select-all-right-button",
-            "new-groupx-button",
-            "new-groupy-button",
-
-            "ignore-damage-toggle",
-            "select-filter-toggle",
-            "show-grid-toggle",
-            "show-object-info-toggle",
-            "show-ground-toggle",
-            "preview-shaders-toggle",
-            "preview-particles-toggle",
-            "preview-animations-toggle",
-            "preview-mode-toggle",
-            "hide-invisible-toggle",
-            "show-hitboxes-toggle",
-
-        #ifdef GEODE_IS_DESKTOP
-            "keys-button",
-        #endif
-            "settings-button"
-        );
-
-        auto smallActionsMenu = detachAndCreateMenu(
-            this,
-            "small-actions-menu",
-            ColumnLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start)
-                ->setAxisReverse(true),
-            menu->getChildByID("regroup-button"),
-            menu->getChildByID("create-loop-button"),
-            menu->getChildByID("align-x-button"),
-            menu->getChildByID("align-y-button"),
-            menu->getChildByID("select-all-button"),
-            menu->getChildByID("select-all-left-button"),
-            menu->getChildByID("select-all-right-button"),
-            menu->getChildByID("new-groupx-button"),
-            menu->getChildByID("new-groupy-button")
-        );
-        smallActionsMenu->setContentSize({ 100.f, 290.f });
-        smallActionsMenu->setPositionY(155.f);
-        smallActionsMenu->updateLayout();
-
-        auto actionsMenu = detachAndCreateMenu(
-            this,
-            "actions-menu",
-            ColumnLayout::create()
-                ->setAxisAlignment(AxisAlignment::Start)
-                ->setAxisReverse(true),
-        #ifdef GEODE_IS_DESKTOP
-            menu->getChildByID("keys-button"),
-        #endif
-            menu->getChildByID("build-helper-button"),
-            menu->getChildByID("copy-color-button"),
-            menu->getChildByID("paste-color-button"),
-            menu->getChildByID("create-extras-button"),
-            menu->getChildByID("unlock-layers-button"),
-            menu->getChildByID("reset-unused-button"),
-            menu->getChildByID("uncheck-portals-button")
-        );
-        actionsMenu->setContentSize({ 100.f, 290.f });
-        actionsMenu->setPositionY(155.f);
-        actionsMenu->updateLayout();
-
-        for(CCNode* node : CCArrayExt<CCNode*>(menu->getChildren())) {
-            if(CCMenuItemToggler* toggler = typeinfo_cast<CCMenuItemToggler*>(node)) {
-
-                auto off = toggler->m_offButton;
-                auto on = toggler->m_onButton;
-
-                float maxWidth = (std::max)(off->getContentSize().width, on->getContentSize().width);
-                float maxHeight = (std::max)(off->getContentSize().height, on->getContentSize().height);
-
-                toggler->setContentSize({maxWidth, maxHeight});
-                off->setContentSize({maxWidth, maxHeight});
-                on->setContentSize({maxWidth, maxHeight});
-
-                off->setPosition({maxWidth/2, maxHeight/2});
-                on->setPosition({maxWidth/2, maxHeight/2});
-
-                CCSprite* offSpr = off->getChildByType<CCSprite>(0);
-                CCSprite* onSpr = off->getChildByType<CCSprite>(0);
-
-                off->setPosition({maxWidth/2, maxHeight/2});
-                on->setPosition({maxWidth/2, maxHeight/2});
-
-                offSpr->setPosition({maxWidth/2, maxHeight/2});
-                onSpr->setPosition({maxWidth/2, maxHeight/2});
-            }
-        }
-
-        auto optionsMenu = detachAndCreateMenu(
-            this,
-            "options-menu",
-            RowLayout::create()
-                ->setGap(5.f)
-                ->setAxisAlignment(AxisAlignment::Start)
-                ->setGrowCrossAxis(true)
-                ->setCrossAxisAlignment(AxisAlignment::Start)
-                ->setCrossAxisOverflow(false),
-            menu->getChildByID("show-hitboxes-toggle"),
-            this->getChildByID("show-hitboxes-label"),
-            menu->getChildByID("hide-invisible-toggle"),
-            this->getChildByID("hide-invisible-label"),
-            menu->getChildByID("preview-mode-toggle"),
-            this->getChildByID("preview-mode-label"),
-            menu->getChildByID("preview-animations-toggle"),
-            this->getChildByID("preview-animations-label"),
-            menu->getChildByID("preview-particles-toggle"),
-            this->getChildByID("preview-particles-label"),
-            menu->getChildByID("preview-shaders-toggle"),
-            this->getChildByID("preview-shaders-label"),
-            menu->getChildByID("show-ground-toggle"),
-            this->getChildByID("show-ground-label"),
-            menu->getChildByID("show-object-info-toggle"),
-            this->getChildByID("show-object-info-label"),
-            menu->getChildByID("show-grid-toggle"),
-            this->getChildByID("show-grid-label"),
-            menu->getChildByID("select-filter-toggle"),
-            this->getChildByID("select-filter-label"),
-            menu->getChildByID("ignore-damage-toggle"),
-            this->getChildByID("ignore-damage-label")
-        );
-        for (auto node : CCArrayExt<CCNode*>(optionsMenu->getChildren())) {
-            if (auto label = typeinfo_cast<CCLabelBMFont*>(node)) {
-                label->setLayoutOptions(
-                    AxisLayoutOptions::create()
-                        ->setSameLine(true)
-                        ->setBreakLine(true)
-                        ->setPrevGap(5.f)
-                        ->setScaleLimits(.1f, .35f)
-                        ->setScalePriority(1)
-                );
-            }
-        }
-        optionsMenu->setContentSize({ 120.f, winSize.height - 60.f });
-        optionsMenu->setPosition(75.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2 - 25.f + 10.f);
-        optionsMenu->updateLayout();
-
-        auto settingsMenu = detachAndCreateMenu(
-            this,
-            "settings-menu",
-            RowLayout::create()
-                ->setAxisReverse(true),
-            menu->getChildByID("settings-button")
-        );
-        settingsMenu->setContentSize({ 95.f, 50.f });
-        settingsMenu->updateLayout();
-
-        auto guidelinesMenu = menu;
-
-        // replace the two guidelines buttons with a single toggle
-        guidelinesMenu->getChildByID("guidelines-enable-button")->removeFromParent();
-        guidelinesMenu->getChildByID("guidelines-disable-button")->removeFromParent();
-        
-        auto* spr = CCSprite::createWithSpriteFrameName("GJ_audioOffBtn_001.png");
-        auto glToggle = CCMenuItemSpriteExtra::create(spr, this, menu_selector(GuidelinesButtonDummy::onClick));
-        glToggle->setNormalImage(CCSprite::createWithSpriteFrameName(
-            GameManager::get()->m_showSongMarkers ? 
-                "GJ_audioOnBtn_001.png" :
-                "GJ_audioOffBtn_001.png"
-        ));
-        glToggle->setID("guidelines-enable-toggle");
-        guidelinesMenu->insertBefore(glToggle, nullptr);
-        m_guidelinesOffButton = m_guidelinesOnButton = nullptr;
-        // this->updateSongButton();
-
-        guidelinesMenu->setID("guidelines-menu");
-        guidelinesMenu->setContentSize({ winSize.width / 2, 50.f });
-        guidelinesMenu->setLayout(RowLayout::create());
-
-        auto topMenu = CCMenu::create();
-        topMenu->setContentSize({ winSize.width / 2, 50.f });
-        topMenu->setPosition(winSize.width / 2, winSize.height - 30.f);
-        topMenu->setID("top-menu");
-        topMenu->setLayout(RowLayout::create());
-        this->addChild(topMenu);
-    }
-
-    if (auto menu = detachAndCreateMenu(
+    auto infoMenu = detachAndCreateMenu(
         this, "info-menu",
-        ColumnLayout::create()
-            ->setGap(10.f)
-            ->setAxisAlignment(AxisAlignment::End)
-            ->setAxisReverse(true)
-            ->setCrossAxisOverflow(false)
-            ->setCrossAxisAlignment(AxisAlignment::Start)
-            ->setCrossAxisLineAlignment(AxisAlignment::Start),
+        SimpleColumnLayout::create()
+            ->setGap(7.f)
+            ->setMainAxisAlignment(MainAxisAlignment::Start)
+            ->setCrossAxisAlignment(CrossAxisAlignment::Start),
         this->getChildByID("object-count-label"),
-        this->getChildByID("length-label"),
-        this->getChildByID("length-name-label")
-    )) {
-        for (auto child : CCArrayExt<CCNode*>(menu->getChildren())) {
+        this->getChildByID("length-label")
+    );
+
+    if (infoMenu) {
+        for (auto child : CCArrayExt<CCNode*>(infoMenu->getChildren())) {
             child->setLayoutOptions(
                 AxisLayoutOptions::create()
-                    ->setScaleLimits(.1f, .5f)
+                    ->setScaleLimits(0.1f, 0.5f)
                     ->setBreakLine(true)
             );
         }
-        menu->setContentSize({ 180.f, 100.f });
-        menu->setPosition(100.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 55.f);
-        menu->updateLayout();
+
+        infoMenu->setAnchorPoint({0.f, 1.f});
+        infoMenu->setContentSize({180.f, 50.f});
+        infoMenu->setPosition(10.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height - 5.f);
+        infoMenu->updateLayout();
     }
+
+    auto topMenu = CCMenu::create();
+    topMenu->setAnchorPoint({0.5f, 1.f});
+    topMenu->setContentSize({winSize.width - 340.f, 50.f});
+    topMenu->setPosition(winSize.width / 2, winSize.height);
+    topMenu->setID("top-menu");
+    topMenu->setLayout(SimpleRowLayout::create()
+        ->setGap(5.f)
+    );
+    this->addChild(topMenu);
 }
 
 struct EditorPauseLayerIDs : Modify<EditorPauseLayerIDs, EditorPauseLayer> {
