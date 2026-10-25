@@ -30,7 +30,7 @@ $register_ids(GJScoreCell) {
     auto demonsIcon = "demons-icon";
     auto userCoinsLabel = "user-coins-label";
     auto userCoinsIcon = "user-coins-icon";
-    
+
     switch (m_score->m_leaderboardStat) {
         case LeaderboardStat::Moons:
             starsLabel = "moons-label";
@@ -53,7 +53,7 @@ $register_ids(GJScoreCell) {
         default:
             break;
     }
-    
+
     setIDs(
         m_mainLayer,
         m_score->m_scoreType == 2 ? 2 : 3,
@@ -121,7 +121,7 @@ $register_ids(GJScoreCell) {
     }
 
     statsMenu->updateLayout();
-    
+
 }
 
 struct GJScoreCellIDs : Modify<GJScoreCellIDs, GJScoreCell> {

@@ -27,7 +27,7 @@ struct SecretLayer6IDs : Modify<SecretLayer6IDs, SecretLayer6> {
     }
 
     virtual bool init() {
-        if (!SecretLayer6::init()) 
+        if (!SecretLayer6::init())
             return false;
 
         NodeIDs::get()->provide(this);

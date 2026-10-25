@@ -55,8 +55,8 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
         }
     }
 
-    bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
-        if (!PlayLayer::init(level, useReplay, dontCreateObjects)) return false;
+    bool init(GJGameLevel* level, bool dontCreateObjects) {
+        if (!PlayLayer::init(level, dontCreateObjects)) return false;
 
         // Used in online levels, which delays node creation
         m_fields->m_dontCreateObjects = dontCreateObjects;

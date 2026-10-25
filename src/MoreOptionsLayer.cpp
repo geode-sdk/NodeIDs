@@ -69,7 +69,7 @@ $register_ids(MoreOptionsLayer) {
         for(auto label : CCArrayExt<CCLabelBMFont*>(child->getChildren())) {
             label->setID(fmt::format("option-{}-label", *(optionsIter++)));
         }
-        
+
         if(child->getID() == lastLayer) break;
     }
 }

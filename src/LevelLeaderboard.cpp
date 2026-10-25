@@ -86,7 +86,7 @@ $register_ids(LevelLeaderboard) {
         );
         m_mainLayer->addChild(secondMenu);
     }
-    
+
     auto modeMenu = detachAndCreateMenu(
         m_mainLayer,
         "mode-menu",
@@ -97,7 +97,7 @@ $register_ids(LevelLeaderboard) {
         m_buttonMenu->getChildByID("time-button"),
         m_buttonMenu->getChildByID("points-button")
     );
-    
+
     for(auto& child : CCArrayExt<CCNode*>(modeMenu->getChildren())) {
         child->setLayoutOptions(
             AxisLayoutOptions::create()

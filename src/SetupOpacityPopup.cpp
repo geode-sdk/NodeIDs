@@ -14,11 +14,13 @@ $register_ids(SetupOpacityPopup) {
 
 		setIDSafe<CCLabelBMFont>(mainLayer, 0, "title-label");
 		setIDSafe<CCLabelBMFont>(mainLayer, 1, "group-id-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 2, "fade-time-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 3, "opacity-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 4, "touch-trigger-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 5, "spawn-trigger-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 6, "multi-trigger-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 2, "group-id-shadow");
+		setIDSafe<CCLabelBMFont>(mainLayer, 3, "group-id-name");
+		setIDSafe<CCLabelBMFont>(mainLayer, 4, "fade-time-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 5, "opacity-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 6, "touch-trigger-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 7, "spawn-trigger-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 8, "multi-trigger-label");
 
 		setIDSafe<Slider>(mainLayer, 0, "fade-time-slider");
 		setIDSafe<Slider>(mainLayer, 1, "opacity-slider");
@@ -32,6 +34,8 @@ $register_ids(SetupOpacityPopup) {
 			setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "info-button");
 			setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "group-id-left");
 			setIDSafe<CCMenuItemSpriteExtra>(menu, 3, "group-id-right");
+			setIDSafe<CCMenuItemSpriteExtra>(menu, 4, "group-id-next");
+			setIDSafe<CCMenuItemSpriteExtra>(menu, 5, "group-id-search");
 
 			setIDSafe<CCMenuItemToggler>(menu, 0, "touch-trigger-toggle");
 			setIDSafe<CCMenuItemToggler>(menu, 1, "spawn-trigger-toggle");

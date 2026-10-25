@@ -16,7 +16,7 @@ struct SetIDPopupIDs : Modify<SetIDPopupIDs, SetIDPopup> {
 		}
 	}
 
-	bool init(int current, int begin, int end, gd::string title, gd::string button, bool p1, int p2, float p3, bool p4, bool p5) {
+	bool init(int current, int begin, int end, std::string title, std::string button, bool p1, int p2, float p3, bool p4, bool p5) {
 		if (!SetIDPopup::init(current, begin, end, title, button, p1, p2, p3, p4, p5))
 			return false;
 		m_fields->m_hasbin = p1;
@@ -28,14 +28,15 @@ struct SetIDPopupIDs : Modify<SetIDPopupIDs, SetIDPopup> {
 
 $register_ids(SetIDPopup) {
 	auto self = reinterpret_cast<SetIDPopupIDs *>(this);
-	setIDs(this, 0, "main-layer", "title-label");
-	    setIDs(
-	        m_mainLayer,
-	        0,
-	        "background",
-	        "main-menu",
-	        "textbox-background",
-	        "text-box");
+	setIDSafe(this, 0, "main-layer");
+	setIDs(
+	    m_mainLayer,
+	    0,
+	    "background",
+	    "title-label",
+		"main-menu",
+	    "textbox-background",
+	    "text-box");
 	if (auto menu = m_mainLayer->getChildByID("main-menu")) {
 		size_t index = 1;
 		setIDs(
@@ -46,7 +47,7 @@ $register_ids(SetIDPopup) {
 			setIDs(
 			    menu,
 			    index,
-			    "bin-button");
+			    "trash-button");
 			index++;
 		}
 		setIDs(

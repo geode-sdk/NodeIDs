@@ -8,9 +8,9 @@ using namespace geode::node_ids;
 $register_ids(SetupObjectOptionsPopup) {
     int labelOffset = 2;
     int menuOffset = 0;
-    
+
     bool show_reverse = m_gameObject && m_gameObject->m_classType == GameObjectClassType::Effect && m_gameObject->canReverse();
-    
+
     setIDSafe<CCLabelBMFont>(this, 0, "title-label");
     if (auto mainLayer = setIDSafe<CCLayer>(this, 0, "main-layer")) {
         setIDSafe<CCScale9Sprite>(mainLayer, 0, "background");
@@ -96,7 +96,7 @@ $register_ids(SetupObjectOptionsPopup) {
             if(show_reverse) setIDs(mainMenu, &menuOffset, "reverse-toggle");
         }
     }
-    
+
 };
 
 struct SetupObjectOptionsPopupIDs : Modify<SetupObjectOptionsPopupIDs, SetupObjectOptionsPopup> {

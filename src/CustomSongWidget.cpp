@@ -23,8 +23,9 @@ $register_ids(CustomSongWidget) {
     m_playbackBtn->setID("play-song-button");
     m_moreBtn->setID("more-button");
     m_deleteBtn->setID("delete-button");
+    m_infoBtn->setID("info-button");
     m_ncsLogo->setID("ncs-logo");
-    setIDSafe<InfoAlertButton>(m_buttonMenu, 0, "info-button");
+    getChildBySpriteFrameName(m_buttonMenu, "statInfoIcon_001.png")->setID("usage-button");
 };
 
 struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
@@ -43,7 +44,9 @@ struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
         bool isRobtopSong,
         bool unkBool,
         bool isMusicLibrary,
-        int unk       
+        int unk,
+        bool unkBool2,
+        bool unkBool3
     ) {
         if (!CustomSongWidget::init(
             songInfo,
@@ -54,7 +57,9 @@ struct CustomSongWidgetIDs : Modify<CustomSongWidgetIDs, CustomSongWidget> {
             isRobtopSong,
             unkBool,
             isMusicLibrary,
-            unk
+            unk,
+            unkBool2,
+            unkBool3
         )) {
             return false;
         }

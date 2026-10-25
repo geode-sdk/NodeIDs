@@ -57,7 +57,7 @@ $register_ids(GauntletSelectLayer) {
             "info-button",
             "refresh-button"
         );
-        
+
         auto bottomLeftMenu = detachAndCreateMenu(
             this,
             "bottom-left-menu",
@@ -69,7 +69,7 @@ $register_ids(GauntletSelectLayer) {
         bottomLeftMenu->setID("bottom-left-menu");
         bottomLeftMenu->setContentSize({ 60.f, 103.f });
         bottomLeftMenu->updateLayout();
-        
+
         auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto bottomRightMenu = detachAndCreateMenu(
             this,
@@ -79,9 +79,9 @@ $register_ids(GauntletSelectLayer) {
                 ->setAxisReverse(true),
             miscMenu->getChildByID("refresh-button")
         );
-        bottomRightMenu->setPosition(winSize.width - 30.f, 70.f);
+        bottomRightMenu->setPosition(winSize.width - 25.f, 57.1875f);
         bottomRightMenu->setID("bottom-right-menu");
-        bottomRightMenu->setContentSize({ 60.f, 103.f });
+        bottomRightMenu->setContentSize({ 60.f, 100.f });
         bottomRightMenu->updateLayout();
 
         auto topRightMenu = CCMenu::create();

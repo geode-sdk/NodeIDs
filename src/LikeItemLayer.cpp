@@ -28,8 +28,8 @@ $register_ids(LikeItemLayer) {
 		layout->ignoreInvisibleChildren(true);
 		actionMenu->setLayout(layout);
 		actionMenu->setID("action-menu");
-		actionMenu->setContentSize({180, 57});
-		actionMenu->setPosition(winSize / 2 + ccp(1, -15));
+		actionMenu->setContentSize({172, 57});
+		actionMenu->setPosition(winSize / 2 + ccp(0, -15));
 		actionMenu->setZOrder(13);
 		switchToMenu(menu->getChildByID("like-button"), actionMenu);
 		switchToMenu(menu->getChildByID("dislike-button"), actionMenu);

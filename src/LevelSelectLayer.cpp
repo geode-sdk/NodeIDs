@@ -48,7 +48,12 @@ $register_ids(LevelSelectLayer) {
         }
     }
 
-    this->getChildByID("info-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
+    setIDs(
+        this->getChildByID("info-menu"),
+        0,
+        "info-button",
+        "death-tracker-button"
+    );
     this->getChildByID("back-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("back-button");
 
     if (auto arrowsMenu = this->getChildByID("arrows-menu")) {

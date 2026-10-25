@@ -21,7 +21,7 @@ $register_ids(InfoLayer) {
     auto winSize = CCDirector::get()->getWinSize();
 
     m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
-    
+
     //this label is created at a different points in init for m_score and !m_score but the index happens to match, since they're right after each other
     m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("title-label");
     labelOffset++;
@@ -59,7 +59,7 @@ $register_ids(InfoLayer) {
 
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("report-button");
         buttonOffset++;
-        
+
     }
 
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
@@ -67,11 +67,11 @@ $register_ids(InfoLayer) {
 
     m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
-    
+
     if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
         menu->setID("switch-page-menu");
         menuOffset++;
-        
+
         menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("prev-page-button");
         menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("next-page-button");
     }
@@ -82,7 +82,7 @@ $register_ids(InfoLayer) {
     if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
         menu->setID("left-side-menu");
         menuOffset++;
-        
+
         size_t buttonOffset = 0;
         menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("sort-likes-button");
         buttonOffset++;
@@ -175,8 +175,8 @@ struct InfoLayerIDs : Modify<InfoLayerIDs, InfoLayer> {
         }
     }
 
-    bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list) {
-        if (!InfoLayer::init(level, score, list)) return false;
+    bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list, GJEditorSoundConfig* config) {
+        if (!InfoLayer::init(level, score, list, config)) return false;
 
         NodeIDs::get()->provide(this);
 

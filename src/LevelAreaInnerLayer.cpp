@@ -27,7 +27,7 @@ $register_ids(LevelAreaInnerLayer) {
 
         for(int i = 5001; i <= 5004; i++) {
             if(!GSM->hasCompletedMainLevel(i)) continue;
-            
+
             for(int j = 1; j <= 3; j++) {
                 setIDSafe(layer, idx++, fmt::format("coin-{}-{}", i, j).c_str());
             }
@@ -50,7 +50,7 @@ $register_ids(LevelAreaInnerLayer) {
             "left-torch-big-glow",
             "left-torch-small-glow",
 
-            
+
             "right-torch-handle",
             "right-torch-flame-outline",
             "right-torch-flame",

@@ -36,21 +36,27 @@ $register_ids(SetupMoveCommandPopup) {
 		setIDSafe<CCLabelBMFont>(mainLayer, 12, "lock-player-y-label");
 		setIDSafe<CCLabelBMFont>(mainLayer, 13, "lock-camera-y-label");
 		setIDSafe<CCLabelBMFont>(mainLayer, 14, "center-group-id-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 15, "target-pos-group-id-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 16, "target-pos-p1-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 17, "target-pos-p2-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 18, "target-x-only-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 19, "target-y-only-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 20, "distance-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 21, "target-mode-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 22, "direction-mode-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 23, "small-step-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 24, "dynamic-mode-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 25, "move-time-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 26, "easing-mode-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 27, "current-easing-mode");
-		setIDSafe<CCLabelBMFont>(mainLayer, 28, "target-group-id-label");
-		setIDSafe<CCLabelBMFont>(mainLayer, 29, "silent-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 15, "center-group-id-shadow");
+		setIDSafe<CCLabelBMFont>(mainLayer, 16, "center-group-id-name");
+		setIDSafe<CCLabelBMFont>(mainLayer, 17, "target-pos-group-id-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 18, "target-pos-group-id-shadow");
+		setIDSafe<CCLabelBMFont>(mainLayer, 19, "target-pos-group-id-name");
+		setIDSafe<CCLabelBMFont>(mainLayer, 20, "target-pos-p1-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 21, "target-pos-p2-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 22, "target-x-only-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 23, "target-y-only-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 24, "distance-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 25, "target-mode-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 26, "direction-mode-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 27, "small-step-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 28, "dynamic-mode-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 29, "move-time-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 30, "easing-mode-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 31, "current-easing-mode");
+		setIDSafe<CCLabelBMFont>(mainLayer, 32, "target-group-id-label");
+		setIDSafe<CCLabelBMFont>(mainLayer, 33, "target-group-id-shadow");
+		setIDSafe<CCLabelBMFont>(mainLayer, 34, "target-group-id-name");
+		setIDSafe<CCLabelBMFont>(mainLayer, 35, "silent-label");
 
 		/* Sliders */
 		setIDSafe<Slider>(mainLayer, 0, "move-x-slider");
@@ -97,13 +103,20 @@ $register_ids(SetupMoveCommandPopup) {
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 1, "info-button");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 2, "center-group-id-left");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 3, "center-group-id-right");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 4, "target-pos-group-id-left");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 5, "target-pos-group-id-right");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 6, "edit-easing-rate");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 7, "easing-right");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 8, "easing-left");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 9, "target-group-id-left");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 10, "target-group-id-right");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 4, "center-group-id-next");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 5, "center-group-id-search");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 6, "target-pos-group-id-left");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 7, "target-pos-group-id-right");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 8, "target-pos-group-id-next");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 9, "target-pos-group-id-search");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 10, "edit-easing-rate");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 11, "easing-options	");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 12, "easing-right");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 13, "easing-left");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 14, "target-group-id-left");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 15, "target-group-id-right");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 16, "target-group-id-next");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 17, "target-group-id-search");
 		}
 	}
 }

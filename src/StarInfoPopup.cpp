@@ -58,7 +58,7 @@ $register_ids(StarInfoPopup) {
     };
 
     for (auto const& diff : diffNames) {
-        setIDs(m_mainLayer, idx, 
+        setIDs(m_mainLayer, idx,
             fmt::format("{}-sprite", diff).c_str(),
             fmt::format("{}-{}", diff, mode).c_str()
         );
