@@ -132,6 +132,39 @@ $register_ids(ThreadViewPopup) {
     switchToMenu(m_buttonMenu->getChildByID("emote-button"), bottomLeftMenu);
     bottomLeftMenu->updateLayout();
 
+    auto sendButton = m_buttonMenu->getChildByID("send-button");
+    float sendWidth = sendButton ? sendButton->getScaledContentWidth() : 0.f;
+
+    auto composeMenu = CCMenu::create();
+    composeMenu->setLayout(
+        RowLayout::create()
+            ->setGap(37.5f - sendWidth / 2)
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setCrossAxisLineAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+    );
+    composeMenu->setID("compose-menu");
+    composeMenu->setAnchorPoint({ 0.f, 0.f });
+    composeMenu->setPosition({ (winSize.width / 2) - 148.f, (winSize.height / 2) - 137.f });
+    composeMenu->setContentSize({ 330.5f + sendWidth / 2, 28.f });
+    composeMenu->setZOrder(5);
+    m_mainLayer->addChild(composeMenu);
+
+    if (auto bg = m_mainLayer->getChildByID("compose-bg")) {
+        auto composeBox = CCNode::create();
+        composeBox->setID("compose-box");
+        composeBox->setAnchorPoint({ 0.5f, 0.5f });
+        composeBox->setContentSize(bg->getScaledContentSize());
+        composeBox->setPosition(bg->getPosition());
+        m_mainLayer->addChild(composeBox);
+
+        switchToMenu(bg, composeBox);
+        switchToMenu(m_mainLayer->getChildByID("message-input"), composeBox);
+        switchToMenu(composeBox, composeMenu);
+    }
+    switchToMenu(sendButton, composeMenu);
+    composeMenu->updateLayout();
+
     handleTouchPriority(this);
 }
 
@@ -148,6 +181,28 @@ struct ThreadViewPopupIDs : Modify<ThreadViewPopupIDs, ThreadViewPopup> {
         NodeIDs::get()->provide(this);
 
         return true;
+    }
+
+    void textChanged(CCTextInputNode* input) {
+        auto composeMenu = m_mainLayer->getChildByID("compose-menu");
+        auto composeBox = composeMenu ? composeMenu->getChildByID("compose-box") : nullptr;
+        auto bg = composeBox ? composeBox->getChildByID("compose-bg") : nullptr;
+        if (bg) {
+            bg->setPositionX(m_mainLayer->convertToNodeSpace(composeBox->convertToWorldSpace({ composeBox->getContentWidth() / 2, 0.f })).x);
+        }
+
+        ThreadViewPopup::textChanged(input);
+
+        if (!bg) return;
+
+        auto size = bg->getScaledContentSize();
+        composeBox->setContentSize(size);
+        bg->setPosition(size / 2);
+        if (auto messageInput = composeBox->getChildByID("message-input")) {
+            messageInput->setPosition(size / 2);
+        }
+        composeMenu->setContentSize({ composeMenu->getContentWidth(), size.height });
+        composeMenu->updateLayout();
     }
 
     void buildMemberButton() {

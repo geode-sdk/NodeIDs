@@ -87,6 +87,7 @@ struct GJThreadCellIDs : Modify<GJThreadCellIDs, GJThreadCell> {
     void loadFromThread(GJMessageThread* thread) {
         GJThreadCell::loadFromThread(thread);
 
+        this->setID("");
         NodeIDs::get()->provide(this);
     }
 };

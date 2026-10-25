@@ -35,8 +35,10 @@ $register_ids(FLAlertLayer) {
     if(!m_noAction) m_button2->getParent()->setID("button-2");
 
     if(PlatformToolbox::isControllerConnected()) {
-        m_mainLayer->getChildByType<CCSprite>(spriteOffset++)->setID("controller-back-hint");
-        if(!m_noAction) m_mainLayer->getChildByType<CCSprite>(spriteOffset++)->setID("controller-ok-hint");
+        if(auto backHint = m_mainLayer->getChildByType<CCSprite>(spriteOffset++)) backHint->setID("controller-back-hint");
+        if(!m_noAction) {
+            if(auto okHint = m_mainLayer->getChildByType<CCSprite>(spriteOffset++)) okHint->setID("controller-ok-hint");
+        }
     }
 }
 
