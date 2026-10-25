@@ -18,6 +18,7 @@ $register_ids(EditLevelLayer) {
         "level-name-input",
         "description-background",
         "description-input",
+        "emoji-menu",
         "level-edit-menu",
         "level-length",
         "level-song",
@@ -34,7 +35,7 @@ $register_ids(EditLevelLayer) {
 
     auto descMenu = CCMenu::create();
     descMenu->setID("description-menu");
-    descMenu->setLayout(ColumnLayout::create()); 
+    descMenu->setLayout(ColumnLayout::create());
     descMenu->setPosition(
         descBG->getPositionX() - descBG->getScaledContentSize().width / 2 - 35.f,
         descBG->getPositionY()
@@ -54,40 +55,60 @@ $register_ids(EditLevelLayer) {
             descMenu->updateLayout();
         }
         menu->setContentSize({ winSize.width - 160.f, 100.f });
-        menu->setLayout(RowLayout::create()->setGap(25.f));
+        menu->setLayout(RowLayout::create()->setGap(20.f));
     }
+
+    bool isPlatformer = m_level->isPlatformer();
 
     if (auto menu = this->getChildByID("level-actions-menu")) {
         setIDs(
             menu,
             0,
             "delete-button",
-            "help-button",
-            "duplicate-button",
             "move-to-top-button",
+            "move-to-bottom-button",
             "folder-button",
-            "leaderboard-button"
+            "creator-settings-button",
+            "duplicate-button"
+        );
+        if (isPlatformer) setIDs(
+            menu,
+            6,
+            "leaderboards-button",
+            "export-button",
+            "settings-button"
+        );
+        else setIDs(
+            menu,
+            6,
+            "export-button",
+            "death-tracker-button",
+            "settings-button"
         );
 
         auto folderMenu = detachAndCreateMenu(
             this, "folder-menu",
             ColumnLayout::create(),
+            menu->getChildByID("move-to-bottom-button"),
+            menu->getChildByID("move-to-top-button"),
             menu->getChildByID("folder-button")
         );
-        folderMenu->setContentSize({ 50.f, 215.f });
+        folderMenu->setContentSize({ 50.f, 190.f });
         folderMenu->updateLayout();
+        folderMenu->setPosition(folderMenu->getPositionX(), winSize.height / 2 + 5);
+
+        switchToMenu(menu->getChildByID("delete-button"), getChildByID("info-button-menu"));
 
         menu->setPosition(
             menu->getPositionX() + static_cast<CCNode*>(
                 menu->getChildren()->objectAtIndex(0)
             )->getPositionX(),
-            winSize.height / 2 + 23.5f
+            winSize.height / 2
         );
-        menu->setContentSize({ 60.f, winSize.height - 15.f - 45.f });
+        menu->setContentSize({ 60.f, winSize.height - 100.f });
         menu->setLayout(
             ColumnLayout::create()
-                ->setGap(7.f)
-                ->setAxisAlignment(AxisAlignment::End)
+                ->setGap(5.f)
                 ->setAxisReverse(true)
         );
         menu->setZOrder(1);
@@ -96,7 +117,7 @@ $register_ids(EditLevelLayer) {
     if (auto menu = this->getChildByID("back-menu")) {
         auto backBtn = setIDSafe(menu, 0, "back-button");
         menu->setPositionX(
-            menu->getPositionX() + 100.f / 2 - 
+            menu->getPositionX() + 100.f / 2 -
                 getSizeSafe(backBtn).width / 2
         );
         menu->setContentSize({ 100.f, 50.f });
@@ -109,7 +130,6 @@ $register_ids(EditLevelLayer) {
     if (auto menu = this->getChildByID("info-button-menu")) {
         setIDSafe(menu, 0, "info-button");
         setIDSafe(menu, 1, "guidelines-button");
-        setIDSafe(menu, 2, "settings-button");
     }
 }
 

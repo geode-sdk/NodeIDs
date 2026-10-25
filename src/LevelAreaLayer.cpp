@@ -46,7 +46,7 @@ struct LevelAreaLayerIDs : Modify<LevelAreaLayerIDs, LevelAreaLayer> {
     }
 
     virtual bool init() {
-        if (!LevelAreaLayer::init()) 
+        if (!LevelAreaLayer::init())
             return false;
 
         NodeIDs::get()->provide(this);

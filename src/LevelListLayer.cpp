@@ -193,7 +193,7 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
         };
 
         for(auto node : nodes) {
-            moveNodeWithOptions(this->getChildByID(node), leftSideMenu, -4);    
+            moveNodeWithOptions(this->getChildByID(node), leftSideMenu, -4);
         }
         moveNodeWithOptions(m_buttonMenu->getChildByID("claim-button"), leftSideMenu, -2);
 
@@ -206,7 +206,7 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
         }
 
         leftSideMenu->updateLayout();
-        
+
     }
 
     //custom

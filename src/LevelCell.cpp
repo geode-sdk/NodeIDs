@@ -108,17 +108,10 @@ $register_ids(LevelCell) {
         buttonOffset++;
 
         if(m_listType == BoomListType::Level4) {
-            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("flip-button");
-            buttonOffset++;
-
-            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("down-button");
-            buttonOffset++;
-
-            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("up-button");
-            buttonOffset++;
-
-            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("delete-button");
-            buttonOffset++;
+            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("flip-button");
+            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("down-button");
+            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("up-button");
+            m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset++)->setID("delete-button");
         }
 
         m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("creator-name");

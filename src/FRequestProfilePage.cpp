@@ -7,92 +7,142 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(FRequestProfilePage) {
-	size_t offset = 6;
-	setIDs(
-			m_mainLayer,
-			0,
-			"background",
-            m_sent ? "sent-requests-label" : "friend-requests-label",
-			"user-tap-label",
-            "page-label",
-            "main-menu",
-            "loading-circle"
-	    );
-	if (!m_sent) {
-		setIDs(m_mainLayer,
-		       offset,
-		       "all-label");
-		    offset++;
-	};
-	setIDs(m_mainLayer,
-	       offset,
-	       "something-went-wrong-label");
+	m_mainLayer->setID("main-layer");
 
-	    if (auto menu = m_mainLayer->getChildByID("main-menu")) {
-		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		offset = 0;
-		setIDs(
-		    menu,
-		    offset,
-		    "back-button");
-		offset++;
-		if (!m_sent) {
-			setIDs(
-			    menu,
-			    offset,
-			    "sent-request-button",
-			    "delete-button",
-			    "all-toggle");
-			offset += 3;
-		}
-		setIDs(
-		    menu,
-		    offset,
-		    "previous-page-button",
-		    "next-previous-button",
-		    "refresh-button");
-		
-		auto bottomRightMenu = detachAndCreateMenu(
-			m_mainLayer, "bottom-right-menu",
-			ColumnLayout::create()->setAxisAlignment(AxisAlignment::Start),
-			m_buttonMenu->getChildByID("refresh-button")
-		);
-		bottomRightMenu->setContentSize({bottomRightMenu->getContentSize().width, 100.f});
-		bottomRightMenu->setPositionY(bottomRightMenu->getPositionY() + 25);
-		
-		auto topLeftMenu = detachAndCreateMenu(
-			m_mainLayer, "top-left-menu",
-			ColumnLayout::create()->setAxisAlignment(AxisAlignment::End),
-			m_buttonMenu->getChildByID("back-button")
-		);
-		topLeftMenu->setContentSize({topLeftMenu->getContentSize().width, 100.f});
-		topLeftMenu->setPositionY(topLeftMenu->getPositionY() - 25);
+    setIDs(
+        m_mainLayer,
+        0,
+        "background",
+        "title-label",
+        "search-bar-bg",
+        "search-input",
+        "page-label",
+        "main-menu",
+        "loading-circle",
+        "selection-strip",
+        "selected-count-label",
+        "error-label"
+    );
 
-		auto topRightMenu = CCMenu::create();
-        topRightMenu->setID("top-right-menu");
-        topRightMenu->setLayout(ColumnLayout::create()->setAxisAlignment(AxisAlignment::End));
-		topRightMenu->setPosition({winSize.width  * 0.5f + 210.0f, winSize.height * 0.5f + 105.0f}); 
-		topRightMenu->setContentSize({topRightMenu->getContentSize().width, 100.f});
-        m_mainLayer->addChild(topRightMenu);
-		switchToMenu(menu->getChildByID("sent-request-button"), topRightMenu);
+    setIDs(
+        m_buttonMenu,
+        0,
+        "back-button",
+        "info-button",
+        "inbox-button",
+        "sent-button",
+        "ignored-button",
+        "search-button",
+        "clear-search-button",
+        "select-all-button",
+        "mark-read-button",
+        "ignore-button",
+        "prev-page-button",
+        "next-page-button",
+        "refresh-button"
+    );
 
-		auto bottomLeftMenu = CCMenu::create();
-        bottomLeftMenu->setID("bottom-left-menu");
-        bottomLeftMenu->setLayout(ColumnLayout::create()->setAxisAlignment(AxisAlignment::Start));
-		bottomLeftMenu->setPosition({winSize.width  * 0.5f - 200, winSize.height * 0.5f - 86}); 
-		bottomLeftMenu->setContentSize({bottomLeftMenu->getContentSize().width, 100.f});
-		switchToMenu(menu->getChildByID("delete-button"), bottomLeftMenu);
-        m_mainLayer->addChild(bottomLeftMenu);
+    if (auto invitesBtn = static_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildByID("invites-button"))) {
+        if (auto badge = invitesBtn->getNormalImage()->getChildByType<CCSprite>(0)) {
+            badge->setID("invites-badge");
+            if (auto label = badge->getChildByType<CCLabelBMFont>(0)) {
+                label->setID("invites-count-label");
+            }
+        }
+    }
 
+    verifyIDSafe(m_buttonMenu, "main-menu");
 
-		topRightMenu->updateLayout();
-		topLeftMenu->updateLayout();
-		bottomRightMenu->updateLayout();
-		bottomLeftMenu->updateLayout();
+    auto winSize = CCDirector::get()->getWinSize();
 
-		handleTouchPriority(this);
-	};
-	verifyIDSafe(m_buttonMenu, "main-menu");
+    auto leftMenu = CCMenu::create();
+    leftMenu->setLayout(
+        ColumnLayout::create()
+            ->setGap(2.f)
+            ->setAxisAlignment(AxisAlignment::End)
+            ->setAxisReverse(true)
+    );
+    leftMenu->setID("left-menu");
+    leftMenu->setAnchorPoint({ 0.5f, 1.f });
+    leftMenu->setPosition({ (winSize.width / 2) - 194.f, (winSize.height / 2) + 85.5f });
+    leftMenu->setContentSize({ 35.f, 183.f });
+    leftMenu->setZOrder(10);
+    m_mainLayer->addChild(leftMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("inbox-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("sent-button"), leftMenu);
+    switchToMenu(m_buttonMenu->getChildByID("ignored-button"), leftMenu);
+    leftMenu->updateLayout();
+
+    auto selectMenu = CCMenu::create();
+    selectMenu->setLayout(
+        RowLayout::create()
+            ->setGap(7.25f)
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+            ->ignoreInvisibleChildren(false)
+    );
+    selectMenu->setID("select-menu");
+    selectMenu->setAnchorPoint({ 0.f, 0.5f });
+    selectMenu->setPosition({ (winSize.width / 2) - 151.f, (winSize.height / 2) - 124.f });
+    selectMenu->setContentSize({ 66.f, 28.f });
+    selectMenu->setZOrder(10);
+    m_mainLayer->addChild(selectMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("mark-read-button"), selectMenu);
+    switchToMenu(m_buttonMenu->getChildByID("ignore-button"), selectMenu);
+    selectMenu->updateLayout();
+
+    auto topMenu = CCMenu::create();
+    topMenu->setLayout(
+        RowLayout::create()
+            ->setGap(4.f)
+            ->setAxisAlignment(AxisAlignment::Center)
+            ->setAxisReverse(false)
+    );
+    topMenu->setID("top-menu");
+    topMenu->setAnchorPoint({ 0.f, 0.5f });
+    topMenu->setPosition({ (winSize.width / 2) - 170.f, (winSize.height / 2) + 100.f });
+    topMenu->setContentSize({ 340.f, 24.f });
+    topMenu->setZOrder(10);
+    m_mainLayer->addChild(topMenu);
+
+    if (auto bg = m_mainLayer->getChildByID("search-bar-bg")) {
+        auto searchBar = CCNode::create();
+        searchBar->setID("search-bar");
+        searchBar->setAnchorPoint({ 0.5f, 0.5f });
+        searchBar->setContentSize(bg->getScaledContentSize());
+        searchBar->setPosition(bg->getPosition());
+        m_mainLayer->addChild(searchBar);
+
+        switchToMenu(bg, searchBar);
+        switchToMenu(m_mainLayer->getChildByID("search-input"), searchBar);
+        switchToMenu(searchBar, topMenu);
+    }
+    switchToMenu(m_buttonMenu->getChildByID("search-button"), topMenu);
+    switchToMenu(m_buttonMenu->getChildByID("clear-search-button"), topMenu);
+    topMenu->updateLayout();
+
+    auto bottomRightMenu = CCMenu::create();
+    bottomRightMenu->setLayout(
+        ColumnLayout::create()
+            ->setAxisAlignment(AxisAlignment::Start)
+            ->setAxisReverse(false)
+            ->ignoreInvisibleChildren(false)
+    );
+
+    // 473, 2
+    bottomRightMenu->setID("bottom-right-menu");
+    bottomRightMenu->setAnchorPoint({ 0.5f, 0.f });
+    bottomRightMenu->setPosition({ (winSize.width / 2) + 210.f, (winSize.height / 2) - 158.f });
+    bottomRightMenu->setContentSize({ 37.f, 100.f });
+    bottomRightMenu->setZOrder(10);
+    m_mainLayer->addChild(bottomRightMenu);
+
+    switchToMenu(m_buttonMenu->getChildByID("refresh-button"), bottomRightMenu);
+    bottomRightMenu->updateLayout();
+
+    handleTouchPriority(this);
 }
 
 struct FRequestProfilePageIDs : Modify<FRequestProfilePageIDs, FRequestProfilePage> {

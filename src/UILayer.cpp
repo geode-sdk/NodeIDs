@@ -21,15 +21,15 @@ $register_ids(UILayer) {
     );
 
     setIDs(
-        this->getChildByID("pause-button-menu"), 
-        0, 
+        this->getChildByID("pause-button-menu"),
+        0,
         "pause-button"
     );
 
     setIDs(
-        this->getChildByID("checkpoint-menu"), 
-        0, 
-        "add-checkpoint-button", 
+        this->getChildByID("checkpoint-menu"),
+        0,
+        "add-checkpoint-button",
         "remove-checkpoint-button"
     );
 

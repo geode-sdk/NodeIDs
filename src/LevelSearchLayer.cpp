@@ -50,7 +50,7 @@ $register_ids(LevelSearchLayer) {
         quickmenu->setID("quick-search-menu");
         setIDSafe(quickmenu, 0, "most-downloaded-button");
         setIDSafe(quickmenu, 1, "most-liked-button");
-        setIDSafe(quickmenu, 2, "sent-button");
+        setIDSafe(quickmenu, 2, "hyped-button");
         setIDSafe(quickmenu, 3, "trending-button");
         setIDSafe(quickmenu, 4, "recent-button");
         setIDSafe(quickmenu, 5, "magic-button");
@@ -83,6 +83,7 @@ $register_ids(LevelSearchLayer) {
             setIDSafe(filtersmenu, 7, "star-filter-button");
         } else if(m_type == 1) {
             setIDSafe(filtersmenu, 0, "star-filter-button");
+            setIDSafe(filtersmenu, 1, "no-star-filter-button");
         }
     }
     if (auto backmenu = this->getChildByType<CCMenu>(5)) {

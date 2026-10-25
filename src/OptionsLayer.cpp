@@ -84,7 +84,7 @@ $register_ids(OptionsLayer) {
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("rate-button");
     buttonOffset++;
 
-    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("songs-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("parental-button");
     buttonOffset++;
 
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("help-button");
@@ -99,12 +99,12 @@ $register_ids(OptionsLayer) {
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("rate-button");
     buttonOffset++;
 
-    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("songs-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("parental-button");
     buttonOffset++;
 
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("help-button");
     #endif
-    
+
     optionsMenu->updateLayout();
 }
 

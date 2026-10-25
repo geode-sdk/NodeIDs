@@ -19,7 +19,7 @@ $register_ids(GauntletLayer) {
         menu->setID("exit-menu");
         auto exitBtn = setIDSafe(menu, 0, "exit-button");
         menu->setPositionY(
-            menu->getPositionY() - 125.f / 2 + 
+            menu->getPositionY() - 125.f / 2 +
                 getSizeSafe(exitBtn).height / 2
         );
         menu->setContentSize({ 60.f, 125.f });
@@ -48,7 +48,7 @@ struct GauntletLayerIDs : Modify<GauntletLayerIDs, GauntletLayer> {
     }
 
     bool init(GauntletType p0) {
-        if (!GauntletLayer::init(p0)) 
+        if (!GauntletLayer::init(p0))
             return false;
 
         NodeIDs::get()->provide(this);

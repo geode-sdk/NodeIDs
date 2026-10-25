@@ -40,7 +40,7 @@ $register_ids(FriendRequestPopup) {
     auto bottomMenu = CCMenu::create();
     bottomMenu->setLayout(
         RowLayout::create()
-            ->setGap(39.f)
+            ->setGap(14.f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
     bottomMenu->setID("bottom-menu");
@@ -65,8 +65,8 @@ struct FriendRequestPopupIDs : Modify<FriendRequestPopupIDs, FriendRequestPopup>
         }
     }
 
-    bool init(GJFriendRequest* request) {
-        if(!FriendRequestPopup::init(request)) return false;
+    bool init(GJFriendRequest* request, bool unkBool) {
+        if(!FriendRequestPopup::init(request, unkBool)) return false;
 
         NodeIDs::get()->provide(this);
 

@@ -27,7 +27,7 @@ $register_ids(LevelBrowserLayer) {
         auto btn = setIDSafe(menu, 0, "back-button");
         menu->setContentSize({ 100.f, 50.f });
         menu->setPositionX(
-            menu->getPositionX() + 100.f / 2 - 
+            menu->getPositionX() + 100.f / 2 -
                 getSizeSafe(btn).width / 2
         );
         menu->setLayout(
@@ -54,7 +54,7 @@ $register_ids(LevelBrowserLayer) {
             prevPageBtn->setZOrder(-1);
             navMenu->setContentSize({ navMenuWidth, 40.f });
             navMenu->setPositionX(
-                navMenu->getPositionX() + navMenuWidth / 2 - 
+                navMenu->getPositionX() + navMenuWidth / 2 -
                     prevPageBtn->getScaledContentSize().width / 2
             );
             navMenu->updateLayout();
@@ -72,7 +72,8 @@ $register_ids(LevelBrowserLayer) {
                 ->setAxisReverse(true)
                 ->setGrowCrossAxis(true)
                 ->setAxisAlignment(AxisAlignment::End)
-                ->ignoreInvisibleChildren(false),
+                ->ignoreInvisibleChildren(false)
+                ->setGap(5.25f ),
             pageBtn,
             folderBtn,
             lastPageBtn
@@ -80,14 +81,14 @@ $register_ids(LevelBrowserLayer) {
         pageMenu->setContentSize({ 40.f, 110.f });
         pageMenu->setAnchorPoint({ 1.f, .5f });
         pageMenu->setPosition(
-            winSize.width - 10 GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
-            pageMenu->getPositionY() - 110.f / 2 + 12.5f
+            winSize.width - 5.75f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f),
+            pageMenu->getPositionY() - 110.f / 2 + 14
         );
         pageMenu->updateLayout();
 
         if (auto searchBtn = setIDSafe(menu, 1, "search-button")) {
             auto clearBtn = setIDSafe(menu, 2, "clear-search-button");
-            // this is a hacky fix because for some reason adding children 
+            // this is a hacky fix because for some reason adding children
             // before the clear button is made visible is inconsistent
             if (clearBtn) {
                 searchBtn->setZOrder(-1);
@@ -109,9 +110,9 @@ $register_ids(LevelBrowserLayer) {
             );
             auto width = 45.f * winSize.aspect();
             searchMenu->setPosition(
-                searchMenu->getPositionX() + width / 2 - 
+                searchMenu->getPositionX() + width / 2 -
                     searchBtn->getScaledContentSize().width / 2,
-                searchMenu->getPositionY() - 80.f / 2 + 
+                searchMenu->getPositionY() - 80.f / 2 +
                     searchBtn->getScaledContentSize().height / 2
             );
             searchMenu->setContentSize({ width, 80.f });
@@ -146,7 +147,7 @@ $register_ids(LevelBrowserLayer) {
         );
         menu->setContentSize({ navMenuWidth, 40.f });
         menu->setPositionX(
-            winSize.width - navMenuWidth / 2 - 5.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f)
+            winSize.width - navMenuWidth / 2 - 7.75f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f)
         );
         menu->updateLayout();
     }
@@ -168,10 +169,13 @@ $register_ids(LevelBrowserLayer) {
             if (auto menu = this->getChildByType<CCMenu>(2)) {
                 menu->setID("delete-menu");
 
-                menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("delete-button");
-                menu->getChildByType<CCMenuItemToggler>(0)->setID("select-all-toggler");
+                setIDs(menu, 0,
+                    "select-all-button"
+                    "export-selected-button"
+                    "delete-selected-button"
+                );
             }
-            this->getChildByType<CCLabelBMFont>(1 + bmfontOffset)->setID("select-all-text");
+            this->getChildByType<CCLabelBMFont>(1 + bmfontOffset)->setID("selection-count-text");
 
             menuOffset++;
             bmfontOffset++;
@@ -194,7 +198,7 @@ $register_ids(LevelBrowserLayer) {
                                     ->setAxisAlignment(AxisAlignment::Start),
                                 myLevelsBtn
                             );
-                            menu->setContentSize({ 50.f, 125.f });
+                            menu->setContentSize(myLevelsBtn->getContentSize());
                             #ifdef GEODE_IS_IOS
                             menu->addOnEnterCallback([menu] {
                                 if (menu->getChildrenCount() > 1) {
@@ -202,19 +206,43 @@ $register_ids(LevelBrowserLayer) {
                                 }
                             });
                             #endif
-                            menu->setPositionY(
-                                menu->getPositionY() + 125.f / 2 - 
-                                    myLevelsBtn->getScaledContentSize().height / 2
-                            );
                             menu->updateLayout();
+                        }
+                        if (m_searchObject->m_searchType == SearchType::MyLevels) {
+                            if (auto exportBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "export-button")) {
+                                auto backupsBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "backups-button");
+                                auto menu = detachAndCreateMenu(
+                                    this,
+                                    "bottom-left-menu",
+                                    ColumnLayout::create()
+                                        ->setAxisAlignment(AxisAlignment::Start)
+                                        ->setGap(7.5),
+                                    exportBtn,
+                                    backupsBtn
+                                );
+                                menu->setContentSize({ 27.f, 125.f });
+                                menu->setPositionY(
+                                    menu->getPositionY() + 125.f / 2 -
+                                        exportBtn->getScaledContentSize().height / 2
+                                        );
+                                #ifdef GEODE_IS_IOS
+                                menu->addOnEnterCallback([menu] {
+                                    if (menu->getChildrenCount() > 1) {
+                                        menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
+                                    }
+                                });
+                                #endif
+                                menu->updateLayout();
+                            }
                         }
                     }
 
-                    menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("switch-mode-button");
+                    setIDSafe(menu, 1, "switch-mode-button");
 
                     menu->setLayout(
                         ColumnLayout::create()
                             ->setAxisAlignment(AxisAlignment::Start)
+                            ->setGap(5.7)
                     );
 
                     menu->setContentSize({ 50.f, 130.f });
@@ -228,11 +256,11 @@ $register_ids(LevelBrowserLayer) {
                     #endif
 
                     menu->setPositionY(
-                        menu->getPositionY() + 130.f / 2 - 
+                        menu->getPositionY() + 130.f / 2 -
                             getSizeSafe(newLvlBtn).height / 2
                     );
                     menu->updateLayout();
-                }   
+                }
             }
 
             menuOffset++;
@@ -298,7 +326,7 @@ $register_ids(LevelBrowserLayer) {
     verifyIDSafe(m_countText, "level-count-label");
     verifyIDSafe(m_pageBtn, "page-button");
     verifyIDSafe(m_folderBtn, "folder-button");
-    verifyIDSafe(m_allObjectsToggler, "select-all-toggler");
+    verifyIDSafe(m_allObjectsToggler, "select-all-button");
 
     //menus
     verifyParentIDSafe(m_rightArrow, "next-page-menu");

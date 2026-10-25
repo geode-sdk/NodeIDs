@@ -10,8 +10,15 @@ $register_ids(GJRequestCell) {
 	setIDs(
 	    m_mainLayer,
 	    0,
+	    "main-menu",
 	    "player-icon",
-	    "main-menu");
+	    "stars-label",
+	    "stars-icon",
+	    "moons-label",
+	    "moons-icon",
+	    "demons-label",
+	    "demons-icon"
+	);
 
 	if (auto menu = m_mainLayer->getChildByID("main-menu")) {
 		setIDs(
@@ -19,22 +26,22 @@ $register_ids(GJRequestCell) {
 		    0,
 		    "player-name",
 		    "view-button",
-		    "delete-button",
-		    "select-toggler");
+		    "select-toggler"
+		);
 
 		auto viewMenu = CCMenu::create();
 		viewMenu->setLayout(
 		    RowLayout::create()
-		        ->setGap(10.f)
+		        ->setGap(7.25f)
 		        ->setAxisAlignment(AxisAlignment::End));
 		viewMenu->setID("view-menu");
 		viewMenu->setContentSize({100, m_height - 2});
-		viewMenu->setPosition({m_width - 60 + 0.25f, (m_height / 2) + 1.f});
+		viewMenu->setPosition({m_width - 61.5f, m_height / 2});
 		viewMenu->setZOrder(10);
 		m_mainLayer->addChild(viewMenu);
 
 		switchToMenu(menu->getChildByID("view-button"), viewMenu);
-		switchToMenu(menu->getChildByID("delete-button"), viewMenu);
+		switchToMenu(menu->getChildByID("select-toggler"), viewMenu);
 		viewMenu->updateLayout();
 	}
 

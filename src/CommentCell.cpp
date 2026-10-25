@@ -11,74 +11,68 @@ $register_ids(CommentCell) {
     if(m_comment->m_commentDeleted) return;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
-    
+
     bool smallCommentsMode = m_compactMode; // was this->m_height == 36 but it changed in some 2.2 sub-update
     bool usernameNotInMenu = m_comment->m_accountID <= 0 || m_accountComment || m_comment->m_hasLevelID;
 
     //there is a chance m_comment->m_accountID is not set properly before loadFromComment
     //but this is fixed inside loadFromComment itself, so that case is also handled
 
-    if(!smallCommentsMode) m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
+    if(!smallCommentsMode) setIDSafe<CCScale9Sprite>(m_mainLayer, 0, "background");
 
     int bmfontOffset = 0;
 
     if(!m_accountComment) {
         if(m_comment->m_modBadge > 0) {
-            m_mainLayer->getChildByType<CCSprite>(0)->setID("mod-badge");
+            setIDSafe<CCSprite>(m_mainLayer, 0, "mod-badge");
         }
         if(m_comment->m_percentage > 0) {
-            m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("percentage-label");
-            bmfontOffset += 1;
+            setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "percentage-label");
         }
     }
 
     if (usernameNotInMenu) {
-        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("username-label");
-        bmfontOffset += 1;
+        setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "username-label");
     }
 
     if(smallCommentsMode) {
-        m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("comment-text-label");
-        bmfontOffset += 1;
+        setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "comment-text-label");
     }
 
     if(!m_comment->m_isSpam) {
         if(!m_comment->m_unkMultiplayerBool) {
-            m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("likes-label");
-            bmfontOffset += 1;
+            setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "likes-label");
         }
         if(!(m_comment->m_uploadDate).empty()) {
-            m_mainLayer->getChildByType<CCLabelBMFont>(0 + bmfontOffset)->setID("date-label");
-            bmfontOffset += 1;
+            setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "date-label");
         }
     }
 
-    if(!smallCommentsMode) m_mainLayer->getChildByType<TextArea>(0)->setID("comment-text-area");
+    if(!smallCommentsMode) setIDSafe<TextArea>(m_mainLayer, 0, "comment-text-area-label");
 
-    if (auto mainMenu = m_mainLayer->getChildByType<CCMenu>(0)) {
-        mainMenu->setID("main-menu");
-
+    if (auto mainMenu = setIDSafe<CCMenu>(m_mainLayer, 0, "main-menu")) {
         int menuOffset = 0;
         if(!usernameNotInMenu) {
-            setIDSafe(mainMenu, 0, "username-button");
-            menuOffset += 1;
+            setIDSafe(mainMenu, menuOffset++, "username-button");
         }
         if(m_comment->m_hasLevelID) {
-            setIDSafe(mainMenu, 0 + menuOffset, "level-id-button");
-            menuOffset += 1;
+            setIDSafe(mainMenu, menuOffset++, "level-id-button");
         }
         if(m_comment->m_isSpam) {
-            setIDSafe(mainMenu, 0 + menuOffset, "spam-button");
-            menuOffset += 1;
+            setIDSafe(mainMenu, menuOffset++, "spam-button");
         } else if(!m_comment->m_unkMultiplayerBool) {
-            setIDSafe(mainMenu, 0 + menuOffset, "like-button");
-            setIDSafe(mainMenu, 1 + menuOffset, "delete-button");
+            setIDSafe(mainMenu, menuOffset++, "like-button");
+            if (auto deleteBtn = getChildBySpriteFrameName(mainMenu, "GJ_deleteIcon_001.png")) {
+                deleteBtn->setID("delete-button");
+                menuOffset++;
+            }
+            setIDSafe(mainMenu, menuOffset++, "options-button");
         }
 
         if (!m_accountComment) {
             CCNode* usernameLabel = nullptr;
             auto userMenu = CCMenu::create();
-            
+
             if (!usernameNotInMenu) {
                 usernameLabel = mainMenu->getChildByID("username-button");
                 usernameLabel->setContentHeight(usernameLabel->getContentHeight() - 5.f);
@@ -123,7 +117,7 @@ $register_ids(CommentCell) {
             switchToMenu(usernameLabel, usernameMenu);
             setIDSafe(usernameMenu, usernameMenuIdx++, "username-button");
 
-            if (m_comment->m_modBadge > 0 && !m_accountComment) {
+            if (m_comment->m_modBadge > 1 && !m_accountComment) {
                 switchToMenu(m_mainLayer->getChildByType<CCSprite>(0), usernameMenu);
                 setIDSafe(usernameMenu, usernameMenuIdx++, "mod-badge");
             }

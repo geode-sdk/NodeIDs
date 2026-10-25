@@ -29,7 +29,7 @@ $register_ids(SecretLayer2) {
 		    "door-button",
 		    "the-challenge-button");
 	};
-    
+
 }
 
 struct SecretLayer2IDs : Modify<SecretLayer2IDs, SecretLayer2> {
