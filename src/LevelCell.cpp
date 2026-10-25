@@ -97,8 +97,11 @@ $register_ids(LevelCell) {
         size_t spriteOffset = 0;
 
         if(m_compactView) {
-            m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("level-place");
-            labelOffset++;
+            auto label = m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset);
+            if(label && std::string_view(label->getString()) != m_level->m_levelName) {
+                label->setID("level-place");
+                labelOffset++;
+            }
         }
 
         m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("level-name");
@@ -141,23 +144,33 @@ $register_ids(LevelCell) {
         auto container = m_mainLayer->getChildByType<CCNode>(labelOffset + spriteOffset + 1);
         if(container) {
             container->setID("difficulty-container");
-            container->getChildByType<CCSprite>(containerSpriteOffset)->setID("difficulty-sprite");
-            containerSpriteOffset++;
+            if(auto node = container->getChildByType<CCSprite>(containerSpriteOffset)) {
+                node->setID("difficulty-sprite");
+                containerSpriteOffset++;
+            }
 
             if(m_level->m_stars > 0) {
-                container->getChildByType<CCSprite>(containerSpriteOffset)->setID("stars-icon");
-                containerSpriteOffset++;
+                if(auto node = container->getChildByType<CCSprite>(containerSpriteOffset)) {
+                    node->setID("stars-icon");
+                    containerSpriteOffset++;
+                }
 
-                container->getChildByType<CCLabelBMFont>(containerLabelOffset)->setID("stars-label");
-                containerLabelOffset++;
+                if(auto node = container->getChildByType<CCLabelBMFont>(containerLabelOffset)) {
+                    node->setID("stars-label");
+                    containerLabelOffset++;
+                }
             }
 
             if(m_level->m_dailyID > 0) {
-                container->getChildByType<CCSprite>(containerSpriteOffset)->setID("diamond-icon");
-                containerSpriteOffset++;
+                if(auto node = container->getChildByType<CCSprite>(containerSpriteOffset)) {
+                    node->setID("diamond-icon");
+                    containerSpriteOffset++;
+                }
 
-                container->getChildByType<CCLabelBMFont>(containerLabelOffset)->setID("diamond-label");
-                containerLabelOffset++;
+                if(auto node = container->getChildByType<CCLabelBMFont>(containerLabelOffset)) {
+                    node->setID("diamond-label");
+                    containerLabelOffset++;
+                }
             }
         }
 
