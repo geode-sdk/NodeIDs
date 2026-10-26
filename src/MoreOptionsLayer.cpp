@@ -1,4 +1,7 @@
 #include <Geode/Geode.hpp>
+
+#ifndef GEODE_IS_WINDOWS
+
 #include <Geode/binding/MoreOptionsLayer.hpp>
 #include <Geode/modify/MoreOptionsLayer.hpp>
 #include <Geode/utils/NodeIDs.hpp>
@@ -89,3 +92,5 @@ struct MoreOptionsLayerIDs : Modify<MoreOptionsLayerIDs, MoreOptionsLayer> {
         return true;
     }
 };
+
+#endif

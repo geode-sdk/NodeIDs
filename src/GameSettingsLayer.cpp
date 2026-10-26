@@ -156,8 +156,8 @@ $register_ids(GameSettingsLayer) {
 
 struct GameSettingsLayerIDs : Modify<GameSettingsLayerIDs, GameSettingsLayer> {
     static void onModify(auto& self) {
-        if (!self.setHookPriority("GameSettingsLayer::init", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GameSettingsLayer::init hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GameSettingsLayer::create", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GameSettingsLayer::create hook priority, node IDs may not work properly");
         }
     }
 
@@ -172,12 +172,13 @@ struct GameSettingsLayerIDs : Modify<GameSettingsLayerIDs, GameSettingsLayer> {
         GameSettingsLayer::buildTabContent();
     }
 
-    bool init(GJBaseGameLayer* bgl, int probPage) {
-        if (!GameSettingsLayer::init(bgl, probPage)) return false;
+    static GameSettingsLayer* create(GJBaseGameLayer* bgl, int probPage) {
+        auto ret = GameSettingsLayer::create(bgl, probPage);
+        if (!ret) return nullptr;
 
-        NodeIDs::get()->provide(this);
+        NodeIDs::get()->provide(ret);
 
-        return true;
+        return ret;
     }
 
     void addToggle(char const* name, int id, char const* desc, bool disabled) {
