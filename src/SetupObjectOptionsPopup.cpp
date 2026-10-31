@@ -106,8 +106,8 @@ struct SetupObjectOptionsPopupIDs : Modify<SetupObjectOptionsPopupIDs, SetupObje
 		}
 	}
 
-	bool init(GameObject* p0, CCArray* p1, SetGroupIDLayer* p2) {
-		if (!SetupObjectOptionsPopup::init(p0, p1, p2)) return false;
+	bool init(GameObject* p0, CCArray* p1) {
+		if (!SetupObjectOptionsPopup::init(p0, p1)) return false;
 
 		NodeIDs::get()->provide(this);
 
