@@ -36,9 +36,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
+          sdk: nightly
+          bindings: geode-sdk/bindings
+          build-config: ${{ matrix.config.build-type || 'Release' }}
+          ccache-variant: ${{ matrix.config.ccache_variant || 'default' }}
+          export-pdb: false
+          use-lto: false
+          bindings-ref: main
           combine: true
           target: ${{ matrix.config.target }}
       
