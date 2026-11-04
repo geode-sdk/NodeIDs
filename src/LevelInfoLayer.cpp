@@ -128,10 +128,10 @@ $register_ids(LevelInfoLayer) {
         }
 
         auto leftSideMenu = CCMenu::create();
-        leftSideMenu->setPosition(30.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), winSize.height / 2);
+        leftSideMenu->setPosition(30.f GEODE_IOS(+ geode::utils::getSafeAreaRect().getMinX() / 2.f), 182.f);
         leftSideMenu->setLayout(ColumnLayout::create());
         leftSideMenu->setID("left-side-menu");
-        leftSideMenu->setContentSize({ 50.f, 145.f });
+        leftSideMenu->setContentSize({ 50.f, 190.f });
         this->addChild(leftSideMenu);
 
         menu->setPosition(winSize.width - 30.f, winSize.height / 2);
@@ -146,13 +146,21 @@ $register_ids(LevelInfoLayer) {
             child->setPositionX(0.f);
         }
 
+        // Move the delete-server button to the left menu (it's a mod button, bottom left)
+        if(auto deleteServerBtn = getChildBySpriteFrameName(menu, "GJ_deleteServerBtn_001.png")) {
+            deleteServerBtn->retain();
+            deleteServerBtn->removeFromParent();
+            leftSideMenu->addChild(deleteServerBtn);
+            deleteServerBtn->release();
+        }
+
         size_t rightMenuIdx = 0;
-        if(m_level->m_dailyID <= 0) setIDSafe(menu, rightMenuIdx++, "delete-button");
         setIDSafe(menu, rightMenuIdx++, "refresh-button");
         setIDSafe(menu, rightMenuIdx++, "info-button");
         setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
         setIDSafe(menu, rightMenuIdx++, "like-button");
         setIDSafe(menu, rightMenuIdx++, "rate-button");
+        setIDSafe(menu, rightMenuIdx++, "delete-button");
 
         menu->setContentSize({ 60.f, winSize.height - 15.f });
         menu->setPosition(
@@ -172,10 +180,6 @@ $register_ids(LevelInfoLayer) {
         }
 
         if(auto deleteServerBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_deleteServerBtn_001.png")) {
-            deleteServerBtn->setID("delete-button");
-        }
-
-        if(auto deleteServerBtn = getChildBySpriteFrameName(menu, "GJ_deleteServerBtn_001.png")) {
             deleteServerBtn->setID("delete-server-button");
         }
 
@@ -187,9 +191,9 @@ $register_ids(LevelInfoLayer) {
             copyBtn->setID("copy-button");
         }
 
-        if(auto btn = leftSideMenu->getChildByID("mod-rate-button")) btn->setZOrder(-1);
-        if(auto btn = leftSideMenu->getChildByID("delete-button")) btn->setZOrder(-2);
-        if(auto btn = leftSideMenu->getChildByID("copy-button")) btn->setZOrder(-3);
+        if(auto btn = leftSideMenu->getChildByID("mod-rate-button")) btn->setZOrder(2);
+        if(auto btn = leftSideMenu->getChildByID("delete-server-button")) btn->setZOrder(1);
+        if(auto btn = leftSideMenu->getChildByID("copy-button")) btn->setZOrder(-1);
 
         menu->updateLayout();
         leftSideMenu->updateLayout();
