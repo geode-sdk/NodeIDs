@@ -170,8 +170,8 @@ $register_ids(LevelBrowserLayer) {
                 menu->setID("delete-menu");
 
                 setIDs(menu, 0,
-                    "select-all-button"
-                    "export-selected-button"
+                    "select-all-button",
+                    "export-selected-button",
                     "delete-selected-button"
                 );
             }
@@ -270,9 +270,13 @@ $register_ids(LevelBrowserLayer) {
             if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
                 menu->setID("saved-menu");
 
-                menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("delete-button");
-                menu->getChildByType<CCMenuItemSpriteExtra>(1)->setID("switch-mode-button");
-                if(m_searchObject->m_searchType != SearchType::FavouriteLists) menu->getChildByType<CCMenuItemSpriteExtra>(2)->setID("favorite-button");
+                size_t idx = 0;
+
+                menu->getChildByType<CCMenuItemSpriteExtra>(idx++)->setID("delete-button");
+                if(!GameManager::sharedState()->onlyCuratedLevels()) {
+                    menu->getChildByType<CCMenuItemSpriteExtra>(idx++)->setID("switch-mode-button");
+                }
+                if(m_searchObject->m_searchType != SearchType::FavouriteLists) menu->getChildByType<CCMenuItemSpriteExtra>(idx++)->setID("favorite-button");
             }
 
             menuOffset++;
@@ -287,24 +291,26 @@ $register_ids(LevelBrowserLayer) {
                 }
 
                 menuOffset++;
-
-                if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
-                    menu->setID("info-menu");
-
-                    menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
-                    menuOffset++;
-
-                    menu->setContentSize({ 26.75f*2, winSize.height - 37.f });
-                    menu->setPositionY(winSize.height / 2);
-                    menu->setLayout(
-                        ColumnLayout::create()
-                            ->setGap(7.f)
-                            ->setAxisAlignment(AxisAlignment::Start)
-                            ->setAxisReverse(true)
-                    );
-                }
             }
         }
+
+        if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
+            menu->setID("info-menu");
+
+            menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
+            menuOffset++;
+
+            menu->setContentSize({ 26.75f*2, winSize.height - 37.f });
+            menu->setPositionY(winSize.height / 2);
+            menu->setLayout(
+                ColumnLayout::create()
+                    ->setGap(7.f)
+                    ->setAxisAlignment(AxisAlignment::Start)
+                    ->setAxisReverse(true)
+            );
+        }
+
+        // TODO: safe-mode-menu
 
     }
 
@@ -314,6 +320,7 @@ $register_ids(LevelBrowserLayer) {
     bottomMenu->setPosition(winSize.width / 2, 28.f);
     bottomMenu->setZOrder(15);
     bottomMenu->setLayout(RowLayout::create());
+    this->addChild(bottomMenu);
 
     /**
      * Sanity checks
