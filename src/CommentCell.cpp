@@ -11,9 +11,10 @@ $register_ids(CommentCell) {
     if(m_comment->m_commentDeleted) return;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
+    auto GM = GameManager::sharedState();
 
     bool smallCommentsMode = m_compactMode; // was this->m_height == 36 but it changed in some 2.2 sub-update
-    bool usernameNotInMenu = m_comment->m_accountID <= 0 || m_accountComment || m_comment->m_hasLevelID;
+    bool usernameNotInMenu = m_comment->m_accountID == 0 || m_accountComment || m_comment->m_hasLevelID;
 
     //there is a chance m_comment->m_accountID is not set properly before loadFromComment
     //but this is fixed inside loadFromComment itself, so that case is also handled
@@ -23,10 +24,13 @@ $register_ids(CommentCell) {
     int bmfontOffset = 0;
 
     if(!m_accountComment) {
-        if(m_comment->m_modBadge > 0) {
-            setIDSafe<CCSprite>(m_mainLayer, 0, "mod-badge");
+        if (auto badge = getChildBySpriteFrameName(m_mainLayer, "modBadge_02_001.png")) {
+            badge->setID("mod-badge");
         }
-        if(m_comment->m_percentage > 0) {
+        if (auto friendIcon = getChildBySpriteFrameName(m_mainLayer, "GJ_sFriendsIcon_001.png")) {
+            friendIcon->setID("friend-icon");
+        }
+        if (m_comment->m_percentage > 0) {
             setIDSafe<CCLabelBMFont>(m_mainLayer, bmfontOffset++, "percentage-label");
         }
     }
@@ -55,7 +59,7 @@ $register_ids(CommentCell) {
         if(!usernameNotInMenu) {
             setIDSafe(mainMenu, menuOffset++, "username-button");
         }
-        if(m_comment->m_hasLevelID) {
+        if(m_comment->m_hasLevelID && !GM->m_playLayer && !GM->m_levelEditorLayer) {
             setIDSafe(mainMenu, menuOffset++, "level-id-button");
         }
         if(m_comment->m_isSpam) {
@@ -64,6 +68,11 @@ $register_ids(CommentCell) {
             setIDSafe(mainMenu, menuOffset++, "like-button");
             if (auto deleteBtn = getChildBySpriteFrameName(mainMenu, "GJ_deleteIcon_001.png")) {
                 deleteBtn->setID("delete-button");
+                menuOffset++;
+            }
+            // !m_accountComment && type != 5 && hasRP == 2
+            if (auto toggler = mainMenu->getChildByType<CCMenuItemToggler>(0)) {
+                toggler->setID("select-toggler"); // name is up to you
                 menuOffset++;
             }
             setIDSafe(mainMenu, menuOffset++, "options-button");
@@ -117,14 +126,19 @@ $register_ids(CommentCell) {
             switchToMenu(usernameLabel, usernameMenu);
             setIDSafe(usernameMenu, usernameMenuIdx++, "username-button");
 
-            if (m_comment->m_modBadge > 1 && !m_accountComment) {
-                switchToMenu(m_mainLayer->getChildByType<CCSprite>(0), usernameMenu);
-                setIDSafe(usernameMenu, usernameMenuIdx++, "mod-badge");
+            if (auto badge = m_mainLayer->getChildByID("mod-badge")) {
+                switchToMenu(badge, usernameMenu);
+                usernameMenuIdx++;
             }
 
-            if (m_comment->m_percentage > 0 && !m_accountComment) {
-                switchToMenu(m_mainLayer->getChildByType<CCLabelBMFont>(0), usernameMenu);
-                setIDSafe(usernameMenu, usernameMenuIdx++, "percentage-label");
+            if (auto label = m_mainLayer->getChildByID("percentage-label")) {
+                switchToMenu(label, usernameMenu);
+                usernameMenuIdx++;
+            }
+
+            if (auto friendIcon = m_mainLayer->getChildByID("friend-icon")) {
+                switchToMenu(friendIcon, usernameMenu);
+                usernameMenuIdx++;
             }
 
             userMenu->addChild(usernameMenu);
