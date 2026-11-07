@@ -12,7 +12,9 @@ using namespace geode::node_ids;
 $register_ids(InfoLayer) {
     auto* GM = GameManager::sharedState();
 
-    bool descNotVisible = GM->getGameVariable("0089") || m_score;
+    bool commentsDisabled = this->parentalCommentsDisabled();
+    bool descNotVisible = (GM->getGameVariable("0089") && !commentsDisabled) || m_score;
+    bool canToggleMod = !commentsDisabled && this->canToggleModRoom();
 
     size_t buttonOffset = 0;
     size_t labelOffset = 0;
@@ -48,8 +50,8 @@ $register_ids(InfoLayer) {
         }
         //end of InfoLayer::setupLevelInfo stuff
 
-        //0077 = featured levels only; 0089 = small comments mode
-        if(m_level && m_level->m_originalLevel != 0 && m_level->m_originalLevel != m_level->m_levelID && !GameManager::sharedState()->getGameVariable("0077") && !GameManager::sharedState()->getGameVariable("0089")) {
+        if (!descNotVisible && m_level && m_level->m_originalLevel != 0
+            && !GM->onlyCuratedLevels() && m_level->m_originalLevel != m_level->m_levelID) {
             m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("original-level-button");
             buttonOffset++;
         }
@@ -59,7 +61,6 @@ $register_ids(InfoLayer) {
 
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("report-button");
         buttonOffset++;
-
     }
 
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("close-button");
@@ -67,8 +68,7 @@ $register_ids(InfoLayer) {
 
     m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
-
-    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
+    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)) {
         menu->setID("switch-page-menu");
         menuOffset++;
 
@@ -79,7 +79,7 @@ $register_ids(InfoLayer) {
     m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("comment-count-label");
     labelOffset++;
 
-    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)){
+    if(auto menu = m_mainLayer->getChildByType<CCMenu>(menuOffset)) {
         menu->setID("left-side-menu");
         menuOffset++;
 
@@ -90,7 +90,7 @@ $register_ids(InfoLayer) {
         menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("sort-recent-button");
         buttonOffset++;
 
-        if (!GM->getGameVariable("0075")) {
+        if (!commentsDisabled) {
             if(!m_score) {
                 menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("extend-button");
                 buttonOffset++;
@@ -100,7 +100,12 @@ $register_ids(InfoLayer) {
             buttonOffset++;
         }
 
-        menu->setContentSize({10, 140});
+        if (canToggleMod) {
+            menu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("mod-room-button");
+            buttonOffset++;
+        }
+
+        menu->setContentSize({10.f, 140.f});
         menu->setLayout(
             ColumnLayout::create()
                 ->setGap(6.f)
@@ -118,6 +123,11 @@ $register_ids(InfoLayer) {
     }
 
     //now it calls InfoLayer::updateCommentModeButtons but that doesn't do anything important
+
+    if (m_score && m_score->m_modBadge > 0 && GM->m_playerUserID > 0) {
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("comment-button");
+        buttonOffset++;
+    }
 
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("load-comments-button");
     buttonOffset++;
@@ -169,10 +179,6 @@ struct InfoLayerIDs : Modify<InfoLayerIDs, InfoLayer> {
         if (!self.setHookPriority("InfoLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set InfoLayer::init hook priority, node IDs may not work properly");
         }
-
-        if (!self.setHookPriority("InfoLayer::setupCommentsBrowser", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set InfoLayer::setupCommentsBrowser hook priority, node IDs may not work properly");
-        }
     }
 
     bool init(GJGameLevel* level, GJUserScore* score, GJLevelList* list, GJEditorSoundConfig* config) {
@@ -181,12 +187,5 @@ struct InfoLayerIDs : Modify<InfoLayerIDs, InfoLayer> {
         NodeIDs::get()->provide(this);
 
         return true;
-    }
-
-    void setupCommentsBrowser(CCArray* a3) {
-        InfoLayer::setupCommentsBrowser(a3);
-
-        // this fixes comment lists in nested infolayers
-        handleTouchPriority(this);
     }
 };
