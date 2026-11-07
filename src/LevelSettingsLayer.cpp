@@ -8,7 +8,7 @@ using namespace geode::node_ids;
 $register_ids(LevelSettingsLayer) {
 	m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
-	if (m_levelSettings->m_isStartPos) {
+	if (m_settingsObject->m_startsWithStartPos) {
 		// this code path should be unreachable, however it is still possible
 		// to trigger this using a mod and therefore fall back to the old start pos popup
 
