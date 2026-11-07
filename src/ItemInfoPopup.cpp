@@ -1,4 +1,3 @@
-//TODO: needs updated GSM header
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/ItemInfoPopup.hpp>
 #include <Geode/utils/NodeIDs.hpp>
@@ -17,7 +16,8 @@ $register_ids(ItemInfoPopup) {
     auto AM = AchievementManager::sharedState();
     auto achievement = AM->achievementForUnlock(m_itemID, m_unlockType);
     if (!achievement.empty()) {
-        if (AM->limitForAchievement(achievement) > 1) setIDSafe<CCSprite>(m_mainLayer, 0, "spinoff-logo");
+        auto limit = AM->limitForAchievement(achievement);
+        if (limit >= 2 && limit <= 4) setIDSafe<CCSprite>(m_mainLayer, 0, "spinoff-logo");
     }
 
     auto labelOffset = 1;
