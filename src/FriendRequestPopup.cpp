@@ -18,18 +18,31 @@ $register_ids(FriendRequestPopup) {
         "username-label",
         "loading-circle",
         "description-background",
-        "description-area",
-        "date-label"
+        "description-area"
     );
 
-    setIDs(
-        m_buttonMenu,
-        0,
-        "close-button",
-        "accept-button",
-        "remove-button",
-        "block-button"
-    );
+    if (!m_request->m_uploadDate.empty()) {
+        setIDSafe(m_mainLayer, 8, "date-label");
+    }
+
+    size_t btnIdx = 0;
+    setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "close-button");
+
+    if (!m_sent && !m_request->m_message.empty()) {
+        setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "report-button");
+    }
+
+    if (m_sent) {
+        setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "remove-button");
+    } else {
+        setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "accept-button");
+
+        if (!m_request->m_isRead) {
+            setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "remove-button");
+        }
+
+        setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "block-button");
+    }
 
     verifyIDSafe(m_buttonMenu, "main-menu");
     verifyIDSafe(m_circle, "loading-circle");
@@ -44,8 +57,8 @@ $register_ids(FriendRequestPopup) {
             ->setAxisAlignment(AxisAlignment::Center)
     );
     bottomMenu->setID("bottom-menu");
-    bottomMenu->setContentSize({335, 30});
-    bottomMenu->setPosition(winSize / 2 + CCPoint {0, -73});
+    bottomMenu->setContentSize({ 335.f, 30.f });
+    bottomMenu->setPosition(winSize / 2 + CCPoint { 0.f, -73.f });
     bottomMenu->setZOrder(10);
     m_mainLayer->addChild(bottomMenu);
 
@@ -65,8 +78,8 @@ struct FriendRequestPopupIDs : Modify<FriendRequestPopupIDs, FriendRequestPopup>
         }
     }
 
-    bool init(GJFriendRequest* request, bool unkBool) {
-        if(!FriendRequestPopup::init(request, unkBool)) return false;
+    bool init(GJFriendRequest* request, bool sent) {
+        if(!FriendRequestPopup::init(request, sent)) return false;
 
         NodeIDs::get()->provide(this);
 
