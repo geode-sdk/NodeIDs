@@ -28,7 +28,7 @@ $register_ids(RewardsPage) {
         bool isFreeVisible = false;
         auto GSM = GameStatsManager::sharedState();
 
-        std::array<std::string, 6> chests = {"0007", "0008", "0009", "0010", "0011", "0024"};
+        std::array chests = {"0007", "0008", "0009", "0010", "0011", "0024", "0025"};
         for(auto& chest : chests) {
             if(!GSM->isSpecialChestUnlocked(chest)) {
                 isFreeVisible = true;
