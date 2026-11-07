@@ -26,13 +26,14 @@ $register_ids(RewardsPage) {
 
     if (auto menu = this->m_buttonMenu) {
         bool isFreeVisible = false;
-        auto GSM = GameStatsManager::sharedState();
-
-        std::array chests = {"0007", "0008", "0009", "0010", "0011", "0024", "0025"};
-        for(auto& chest : chests) {
-            if(!GSM->isSpecialChestUnlocked(chest)) {
-                isFreeVisible = true;
-                break;
+        if(!GameManager::sharedState()->safeModeEnabled()) {
+            auto GSM = GameStatsManager::sharedState();
+            std::array chests = {"0007", "0008", "0009", "0010", "0011", "0024", "0025"};
+            for(auto& chest : chests) {
+                if(!GSM->isSpecialChestUnlocked(chest)) {
+                    isFreeVisible = true;
+                    break;
+                }
             }
         }
 
