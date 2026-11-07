@@ -7,6 +7,8 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(LevelInfoLayer) {
+    auto GM = GameManager::sharedState();
+    auto GLM = GameLevelManager::sharedState();
     auto winSize = CCDirector::get()->getWinSize();
 
     setIDSafe<CCSprite>(this, 0, "background");
@@ -26,7 +28,7 @@ $register_ids(LevelInfoLayer) {
             setIDSafe<CCSprite>(this, 3 + iconOffset, "high-object-indicator");
             iconOffset++;
         }
-    //} else if(!GameManager::sharedState()->getGameVariable("0047") && !m_challenge && GameLevelManager::sharedState()->accountIDForUserID(m_level->m_userID) > 0) {
+    
     } else if(auto viewSprite = getChildBySpriteFrameName(this, "GJ_viewProfileTxt_001.png")) {
         if(this->getChildByType<CCSprite>(3) != viewSprite) log::warn("View Profile sprite not in expected place! Node IDs may be incorrect!");
         viewSprite->setID("view-profile");
@@ -55,13 +57,11 @@ $register_ids(LevelInfoLayer) {
 
     setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
 
-    if (m_level->m_dailyID > 0 || m_level->m_gauntletLevel) {
+    if (m_level->m_dailyID > 0 && m_level->levelHasDiamonds()) {
         setIDSafe<CCLabelBMFont>(this, labelOffset++, "diamond-label");
         setIDSafe<CCSprite>(this, 9 + iconOffset, "diamond-icon");
     }
 
-    /*if(m_ldmLabel) m_ldmLabel->setID("ldm-label");
-    if(m_ldmToggler) m_ldmToggler->setID("ldm-toggler");*/
     if(m_difficultySprite) m_difficultySprite->setID("difficulty-sprite");
     if(m_songWidget) m_songWidget->setID("custom-songs-widget");
     if(m_circle) m_circle->setID("loading-circle");
@@ -77,21 +77,7 @@ $register_ids(LevelInfoLayer) {
     }
 
     size_t menuIdx = 2;
-    if (!m_level->isPlatformer()) {
-        if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
-            menu->setID("death-tracker-menu");
-            auto deathTrackerBtn = setIDSafe(menu, 0, "death-tracker-button");
-            menu->setPositionX(
-                menu->getPositionX() + 100.f / 2 -
-                    getSizeSafe(deathTrackerBtn).width / 2
-            );
-            menu->setContentSize({ 100.f, 50.f });
-            menu->setLayout(
-                RowLayout::create()
-                    ->setAxisAlignment(AxisAlignment::Start)
-            );
-        }
-    }
+    if (this->getChildByID("death-tracker-menu")) menuIdx++;
 
     if (auto menu = this->getChildByType<CCMenu>(menuIdx++)) {
         menu->setID("back-menu");
@@ -147,10 +133,10 @@ $register_ids(LevelInfoLayer) {
         }
 
         size_t rightMenuIdx = 0;
-        if(m_level->m_dailyID <= 0) setIDSafe(menu, rightMenuIdx++, "delete-button");
-        setIDSafe(menu, rightMenuIdx++, "refresh-button");
+        if(m_level->m_dailyID <= 0 || GLM->isPastDailyCopy(m_level)) setIDSafe(menu, rightMenuIdx++, "delete-button");
+        if(!GM->offlineModeEnabled()) setIDSafe(menu, rightMenuIdx++, "refresh-button");
         setIDSafe(menu, rightMenuIdx++, "info-button");
-        setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
+        if(!GM->offlineModeEnabled()) setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
         setIDSafe(menu, rightMenuIdx++, "like-button");
         setIDSafe(menu, rightMenuIdx++, "rate-button");
 
@@ -279,13 +265,20 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
         LevelInfoLayer::setupPlatformerStats();
 
         size_t labelOffset = 1;
-        if(m_level->m_bestPoints) {
-            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset))->setID("points-label");
-            labelOffset++;
+
+        int pct = m_level->getNormalPercent();
+        if (m_level->m_bestTime <= 0 && pct >= 1 && pct <= 99) {
+            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset++))->setID("best-mode-label");
+            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset++))->setID("best-mode-percentage");
+            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset++))->setID("best-mode-bar");
+            return;
         }
 
-        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset))->setID("best-time-label");
-        labelOffset++;
+        if(m_level->m_bestPoints) {
+            static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset++))->setID("points-label");
+        }
+
+        static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - labelOffset++))->setID("best-time-label");
     }
 
     void setupProgressBars() {
@@ -294,6 +287,21 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 1))->setID("practice-mode-label");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 2))->setID("practice-mode-percentage");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 3))->setID("practice-mode-bar");
+
+        if (auto menu = this->getChildByType<CCMenu>(-1)) {
+            menu->setID("death-tracker-menu");
+            auto deathTrackerBtn = setIDSafe(menu, 0, "death-tracker-button");
+            menu->setPositionX(
+                menu->getPositionX() + 100.f / 2 -
+                    getSizeSafe(deathTrackerBtn).width / 2
+            );
+            menu->setContentSize({ 100.f, 50.f });
+            menu->setLayout(
+                RowLayout::create()
+                    ->setAxisAlignment(AxisAlignment::Start)
+            );
+        }
+
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 5))->setID("normal-mode-label");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 6))->setID("normal-mode-percentage");
         static_cast<CCNode*>(this->getChildren()->objectAtIndex(this->getChildrenCount() - 7))->setID("normal-mode-bar");
