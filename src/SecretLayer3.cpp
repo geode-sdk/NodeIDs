@@ -22,10 +22,16 @@ $register_ids(SecretLayer3) {
         "bars",
         "eyes",
         "monster",
-        "keys-menu",
-        "chest-menu",
-        "back-menu"
+        "keys-menu"
     );
+
+    size_t idx = 13;
+
+    if (!GameStatsManager::sharedState()->isSpecialChestUnlocked("0002")) {
+        setIDSafe(this, idx++, "chest-menu");
+    }
+    
+    setIDSafe(this, idx++, "back-menu");
 }
 
 struct SecretLayer3IDs : Modify<SecretLayer3IDs, SecretLayer3> {
