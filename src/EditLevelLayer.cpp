@@ -45,15 +45,6 @@ $register_ids(EditLevelLayer) {
 
     if (auto menu = this->getChildByID("level-edit-menu")) {
         setIDs(menu, 0, "edit-button", "play-button", "share-button");
-        if (menu->getChildrenCount() == 4) {
-            auto btn = static_cast<CCNode*>(menu->getChildren()->objectAtIndex(3));
-            btn->setID("update-desc-button");
-            btn->retain();
-            btn->removeFromParent();
-            descMenu->addChild(btn);
-            btn->release();
-            descMenu->updateLayout();
-        }
         menu->setContentSize({ winSize.width - 160.f, 100.f });
         menu->setLayout(RowLayout::create()->setGap(20.f));
     }
@@ -129,7 +120,6 @@ $register_ids(EditLevelLayer) {
 
     if (auto menu = this->getChildByID("info-button-menu")) {
         setIDSafe(menu, 0, "info-button");
-        setIDSafe(menu, 1, "guidelines-button");
     }
 }
 
