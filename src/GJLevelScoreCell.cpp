@@ -8,7 +8,7 @@ using namespace geode::node_ids;
 
 $register_ids(GJLevelScoreCell) {
 	if (!m_userScore) return;
-	int coins = m_userScore->m_scoreType == 1 ? 0 : m_userScore->m_secretCoins;
+	int coins = m_userScore->m_levelMode == 1 ? 0 : m_userScore->m_secretCoins;
 
 	setIDs(
 	    m_mainLayer,
