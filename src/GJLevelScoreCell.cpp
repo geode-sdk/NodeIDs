@@ -8,7 +8,7 @@ using namespace geode::node_ids;
 
 $register_ids(GJLevelScoreCell) {
 	if (!m_userScore) return;
-	int coins = m_userScore->m_levelMode == 1 ? 0 : m_userScore->m_secretCoins;
+	int coins = m_userScore->m_levelMode == 1 ? 0 : std::max(0, m_userScore->m_secretCoins);
 
 	setIDs(
 	    m_mainLayer,
@@ -19,7 +19,7 @@ $register_ids(GJLevelScoreCell) {
 		"percentage-label"
 	);
 
-	for (size_t i = 0; i < coins; i++) {
+	for (int i = 0; i < coins; i++) {
 		setIDSafe(m_mainLayer, 4 + i, fmt::format("user-coin-{}", i + 1));
 	}
 	
