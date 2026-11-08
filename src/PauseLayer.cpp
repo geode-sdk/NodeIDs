@@ -22,17 +22,10 @@ $register_ids(PauseLayer) {
         auto level = pl->m_level;
         auto controller = PlatformToolbox::isControllerConnected();
         auto practice = pl->m_isPracticeMode;
+        int best = practice ? level->m_practicePercent : level->getNormalPercent();
 
-        if (level->isPlatformer()) {
-            setIDs(
-                layer,
-                idx,
-                "play-time"
-            );
-            idx += 1;
-        }
-        else {
-            if (GameManager::get()->getGameVariable(GameVar::LegacyPauseProgress)) {
+        if (pl->tracksPercent()) {
+            if (!level->isPlatformer() && GameManager::get()->getGameVariable(GameVar::LegacyPauseProgress)) {
                 setIDs(
                     layer,
                     idx,
@@ -49,9 +42,18 @@ $register_ids(PauseLayer) {
                     layer,
                     idx,
                     "progress-bar",
-                    "progress-label",
-                    "mode-label"
+                    "progress-label"
                 );
+
+                idx += 2;
+                if (!level->isPlatformer()) {
+                    setIDSafe(layer, idx++, "mode-label");
+                }
+
+                if (best > 0) {
+                    setIDSafe(layer, idx++, "best-label");
+                }
+
                 if (auto prog = layer->getChildByID("progress-bar")) {
                     setIDs(
                         prog,
@@ -60,23 +62,17 @@ $register_ids(PauseLayer) {
                         "current-bar"
                     );
                 }
-                idx += 3;
-                if ((practice && level->m_practicePercent) || (!practice && level->m_normalPercent)) {
-                    setIDSafe(layer, idx++, "best-label");
-                }
             }
         }
-        setIDSafe(layer, idx++, "center-button-menu");
 
-        for(auto child : CCArrayExt<CCNode*>(layer->getChildren())) {
-            if (auto bmFont = typeinfo_cast<CCLabelBMFont*>(child)) {
-                if(std::string_view(bmFont->getString()).starts_with("Points") && bmFont->getID().empty()) {
-                    bmFont->setID("points-label");
-                    idx += 1;
-                    break;
-                }
+        if (level->isPlatformer()) {
+            setIDSafe(layer, idx++, "play-time");
+            if (pl->m_gameState.m_hasObtainedPoints) {
+                setIDSafe(layer, idx++, "points-label");
             }
         }
+
+        setIDSafe(layer, idx++, "center-button-menu");
 
         if(auto practiceTxt = getChildBySpriteFrameName(layer, "GJ_practiceTxt_001.png")) {
             practiceTxt->setID("practice-arrow-text");
@@ -93,7 +89,15 @@ $register_ids(PauseLayer) {
         );
         idx += 4;
 
-        if (level->m_levelType == GJLevelType::Editor) {
+        if (level->m_levelType != GJLevelType::Editor && !practice) {
+            for (int i = 1; i <= level->m_coins; i++) {
+                setIDSafe(layer, idx, fmt::format("coin-{}", i));
+                idx++;
+            }
+        }
+
+        bool hasStartPos = level->m_levelType == GJLevelType::Editor || pl->getStartPosObjectsForCurrentMode()->count() > 0;
+        if(hasStartPos) {
             setIDs(
                 layer,
                 idx,
@@ -101,11 +105,6 @@ $register_ids(PauseLayer) {
                 "current-label"
             );
             idx += 2;
-        } else if (!practice) {
-            for (int i = 1; i <= level->m_coins; i++) {
-                setIDSafe(layer, idx, fmt::format("coin-{}", i).c_str());
-                idx++;
-            }
         }
 
         if (controller) {
@@ -267,15 +266,19 @@ $register_ids(PauseLayer) {
             leftMenu->updateLayout();
             rightMenu->updateLayout();
 
-            if (level->m_levelType == GJLevelType::Editor) {
+            if (hasStartPos) {
                 setIDs(
                     menu,
                     idx,
                     "left-button",
                     "right-button",
-                    "select-button",
-                    "create-button"
+                    "select-button"
                 );
+                idx += 3;
+
+                if (level->m_levelType == GJLevelType::Editor) {
+                    setIDs(menu, idx++, "create-button");
+                }
 
                 auto startposContainer = CCMenu::create();
                 startposContainer->ignoreAnchorPointForPosition(false);
