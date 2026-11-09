@@ -288,7 +288,7 @@ $register_ids(SetGroupIDLayer) {
         {120.f, 60.f},
         {0.f, 10.f},
         m_zOrderInput,
-        zLayerLabel,
+        zOrderLabel,
         zOrderInputBG,
         m_buttonMenu->getChildByID("z-order-prev-button"),
         m_buttonMenu->getChildByID("z-order-next-button")
