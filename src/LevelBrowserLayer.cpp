@@ -310,7 +310,35 @@ $register_ids(LevelBrowserLayer) {
             );
         }
 
-        // TODO: safe-mode-menu
+        if (this->isSafeType()) {
+            if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
+                // TODO: does this replace filter-menu?
+                menu->setID("safe-menu");
+
+                setIDSafe<CCMenuItemSpriteExtra>(menu, 0, "safe-vault-button");
+                setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "safe-uncompleted-button");
+                setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "safe-time-button");
+
+                menu->setContentSize({ 40.f, 120.f });
+                menu->setPosition(
+                    32.25f, // same on all aspect ratios
+                    winSize.height  / 2 + 70.f - (230.f - 207.5f)
+                );
+                menu->setLayout(
+                    ColumnLayout::create()
+                        ->setAxisReverse(true)
+                        ->setCrossAxisReverse(true)
+                        ->setGrowCrossAxis(true)
+                        ->setCrossAxisOverflow(false)
+                        ->setCrossAxisAlignment(AxisAlignment::Start)
+                        ->setAxisAlignment(AxisAlignment::End)
+                        ->setGap(0.f)
+                );
+                menu->updateLayout();
+
+                menuOffset++;
+            }
+        }
 
     }
 
