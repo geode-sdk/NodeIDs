@@ -109,21 +109,23 @@ $register_ids(LevelBrowserLayer) {
                 clearBtn
             );
             auto width = 45.f * winSize.aspect();
+            searchMenu->setAnchorPoint({ 0.f, 1.f });
             searchMenu->setPosition(
-                searchMenu->getPositionX() + width / 2 -
+                searchMenu->getPositionX() -
                     searchBtn->getScaledContentSize().width / 2,
-                searchMenu->getPositionY() - 80.f / 2 +
+                searchMenu->getPositionY() +
                     searchBtn->getScaledContentSize().height / 2
             );
             searchMenu->setContentSize({ width, 80.f });
             searchMenu->updateLayout();
-        } else {
+        } else if(!this->isSafeType()) {
             auto searchMenu = CCMenu::create();
             searchMenu->setID("search-menu");
+            searchMenu->setAnchorPoint({ 0.f, 1.f });
             searchMenu->setContentSize({ 45.f * winSize.aspect(), 80.f });
             searchMenu->setPosition(
-                45.f * winSize.aspect() / 2 + 7.5f,
-                winSize.height  / 2 + 70.f
+                7.5f,
+                winSize.height  / 2 + 110.f
             );
             searchMenu->setLayout(
                 ColumnLayout::create()
@@ -315,18 +317,18 @@ $register_ids(LevelBrowserLayer) {
 
         if (this->isSafeType()) {
             if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
-                // TODO: does this replace filter-menu?
-                menu->setID("safe-menu");
+                menu->setID("search-menu");
 
                 setIDSafe<CCMenuItemSpriteExtra>(menu, 0, "safe-vault-button");
                 setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "safe-uncompleted-button");
                 setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "safe-time-button");
 
-                menu->setContentSize({ 40.f, 120.f });
+                menu->setContentSize({ 40.f * winSize.aspect(), 120.f });
                 menu->setPosition(
-                    32.25f, // same on all aspect ratios
-                    winSize.height  / 2 + 70.f - (230.f - 207.5f)
+                    12.25f, // same on all aspect ratios
+                    winSize.height  / 2 + 107.5f
                 );
+                menu->setAnchorPoint({ 0.f, 1.f });
                 menu->setLayout(
                     ColumnLayout::create()
                         ->setAxisReverse(true)
