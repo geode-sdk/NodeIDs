@@ -173,12 +173,13 @@ $register_ids(LevelBrowserLayer) {
         if(m_searchObject->m_searchType >= SearchType::MyLevels && m_searchObject->m_searchType <= SearchType::FavouriteLevels && !m_searchObject->m_searchIsOverlay) {
             if (auto menu = this->getChildByType<CCMenu>(2)) {
                 menu->setID("delete-menu");
+                size_t idx = 0;
 
-                setIDs(menu, 0,
-                    "select-all-button",
-                    "export-selected-button",
-                    "delete-selected-button"
-                );
+                setIDs(menu, idx++, "select-all-button");
+                if(m_searchObject->m_searchType == SearchType::MyLevels) {
+                    setIDs(menu, idx++, "export-selected-button");
+                }
+                setIDs(menu, idx++, "delete-selected-button");
             }
             this->getChildByType<CCLabelBMFont>(1 + bmfontOffset)->setID("selection-count-text");
 
@@ -299,21 +300,24 @@ $register_ids(LevelBrowserLayer) {
             }
         }
 
-        if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
-            menu->setID("info-menu");
-
-            menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
-            menuOffset++;
-
-            menu->setContentSize({ 26.75f*2, winSize.height - 37.f });
-            menu->setPositionY(winSize.height / 2);
-            menu->setLayout(
-                ColumnLayout::create()
-                    ->setGap(7.f)
-                    ->setAxisAlignment(AxisAlignment::Start)
-                    ->setAxisReverse(true)
-            );
+        if (m_searchObject->m_searchType != SearchType::MyLevels && m_searchObject->m_searchType != SearchType::SmartTemplates && m_searchObject->m_searchType != SearchType::MyLists) {
+            if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
+                menu->setID("info-menu");
+    
+                menu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("info-button");
+                menuOffset++;
+    
+                menu->setContentSize({ 26.75f*2, winSize.height - 37.f });
+                menu->setPositionY(winSize.height / 2);
+                menu->setLayout(
+                    ColumnLayout::create()
+                        ->setGap(7.f)
+                        ->setAxisAlignment(AxisAlignment::Start)
+                        ->setAxisReverse(true)
+                );
+            }
         }
+
 
         if (this->isSafeType()) {
             if (auto menu = this->getChildByType<CCMenu>(2 + menuOffset)) {
@@ -366,7 +370,6 @@ $register_ids(LevelBrowserLayer) {
     verifyIDSafe(m_countText, "level-count-label");
     verifyIDSafe(m_pageBtn, "page-button");
     verifyIDSafe(m_folderBtn, "folder-button");
-    verifyIDSafe(m_allObjectsToggler, "select-all-button");
 
     //menus
     verifyParentIDSafe(m_rightArrow, "next-page-menu");
@@ -376,7 +379,6 @@ $register_ids(LevelBrowserLayer) {
     verifyParentIDSafe(m_refreshBtn, "refresh-menu");
     verifyParentIDSafe(m_pageBtn, "page-menu");
     verifyParentIDSafe(m_folderBtn, "page-menu");
-    verifyParentIDSafe(m_allObjectsToggler, "delete-menu");
 }
 
 struct LevelBrowserLayerIDs : Modify<LevelBrowserLayerIDs, LevelBrowserLayer> {
