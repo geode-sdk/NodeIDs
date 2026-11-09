@@ -149,6 +149,9 @@ $register_ids(LevelBrowserLayer) {
         menu->setPositionX(
             winSize.width - navMenuWidth / 2 - 7.75f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX() / 2.f)
         );
+        if(this->isSafeType()) {
+            menu->setPositionY(menu->getPositionY() - 30.f);
+        }
         menu->updateLayout();
     }
 
