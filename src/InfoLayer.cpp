@@ -105,10 +105,10 @@ $register_ids(InfoLayer) {
             buttonOffset++;
         }
 
-        menu->setContentSize({10.f, 140.f});
+        menu->setContentSize({10.f, 128.f});
         menu->setLayout(
             ColumnLayout::create()
-                ->setGap(6.f)
+                ->setGap(7.f)
                 ->setAxisAlignment(AxisAlignment::Center)
                 ->setAxisReverse(true)
         );
@@ -143,6 +143,17 @@ $register_ids(InfoLayer) {
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("refresh-button");
     buttonOffset++;
 
+    if (this->canBulkDelete()) {
+        m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("bulk-count-label");
+        labelOffset++;
+
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("select-all-button");
+        buttonOffset++;
+
+        m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("bulk-delete-button");
+        buttonOffset++;
+    }
+
     auto refreshMenu = detachAndCreateMenu(
         m_mainLayer, "refresh-menu",
         ColumnLayout::create()->setAxisAlignment(AxisAlignment::Start),
@@ -150,6 +161,16 @@ $register_ids(InfoLayer) {
     );
     refreshMenu->setContentSize({refreshMenu->getContentSize().width, 100.f});
     refreshMenu->setPositionY(refreshMenu->getPositionY() + 35);
+
+    if (this->canBulkDelete()) {
+        refreshMenu->setAnchorPoint({0.5f, 1.f});
+        refreshMenu->setPositionY(refreshMenu->getPositionY() - 20.75f); // 174.25
+        refreshMenu->setContentSize({refreshMenu->getContentSize().width, 55.f});
+        refreshMenu->setLayout(
+            ColumnLayout::create()
+                ->setAxisAlignment(AxisAlignment::End)
+        );
+    }
 
     /**
      * Sanity checks
