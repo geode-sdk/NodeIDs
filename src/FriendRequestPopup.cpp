@@ -22,7 +22,7 @@ $register_ids(FriendRequestPopup) {
     );
 
     if (!m_request->m_uploadDate.empty()) {
-        setIDSafe(m_mainLayer, 8, "date-label");
+        setIDSafe(m_mainLayer, 7, "date-label");
     }
 
     size_t btnIdx = 0;
@@ -37,7 +37,7 @@ $register_ids(FriendRequestPopup) {
     } else {
         setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "accept-button");
 
-        if (!m_request->m_isRead) {
+        if (!m_request->m_canIgnore) {
             setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, btnIdx++, "remove-button");
         }
 
