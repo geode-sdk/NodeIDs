@@ -57,7 +57,7 @@ $register_ids(LevelInfoLayer) {
 
     setIDSafe<CCSprite>(this, 8 + iconOffset, "stars-icon");
 
-    if (m_level->m_dailyID > 0 && m_level->levelHasDiamonds()) {
+    if (m_level->m_stars > 0 && m_level->levelHasDiamonds()) {
         setIDSafe<CCLabelBMFont>(this, labelOffset++, "diamond-label");
         setIDSafe<CCSprite>(this, 9 + iconOffset, "diamond-icon");
     }
@@ -74,6 +74,8 @@ $register_ids(LevelInfoLayer) {
     if (auto menu = this->getChildByType<CCMenu>(0)) {
         menu->setID("play-menu");
         setIDSafe(menu, 0, "play-button");
+        // if elder and mod ui enabled
+        setIDSafe(menu, 1, "edit-button");
     }
 
     size_t menuIdx = 2;
@@ -138,7 +140,8 @@ $register_ids(LevelInfoLayer) {
         setIDSafe(menu, rightMenuIdx++, "info-button");
         if(!GM->offlineModeEnabled()) setIDSafe(menu, rightMenuIdx++, "leaderboards-button");
         setIDSafe(menu, rightMenuIdx++, "like-button");
-        setIDSafe(menu, rightMenuIdx++, "rate-button");
+        if (m_level->m_stars == 0) setIDSafe(menu, rightMenuIdx++, "rate-button");
+        if (m_level->m_demon == 1) setIDSafe(menu, rightMenuIdx++, "demon-rate-button");
 
         menu->setContentSize({ 60.f, winSize.height - 15.f });
         menu->setPosition(
@@ -152,6 +155,10 @@ $register_ids(LevelInfoLayer) {
                 ->setAxisReverse(true)
                 ->ignoreInvisibleChildren(false)
         );
+
+        if (auto creatorSettingsBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_updateBtn_001.png")) {
+            creatorSettingsBtn->setID("creator-settings-button");
+        }
 
         if(auto modRateBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_starBtnMod_001.png")) {
             modRateBtn->setID("mod-rate-button");
@@ -175,7 +182,8 @@ $register_ids(LevelInfoLayer) {
 
         if(auto btn = leftSideMenu->getChildByID("mod-rate-button")) btn->setZOrder(-1);
         if(auto btn = leftSideMenu->getChildByID("delete-button")) btn->setZOrder(-2);
-        if(auto btn = leftSideMenu->getChildByID("copy-button")) btn->setZOrder(-3);
+        if(auto btn = leftSideMenu->getChildByID("creator-settings-button")) btn->setZOrder(-3);
+        if(auto btn = leftSideMenu->getChildByID("copy-button")) btn->setZOrder(-4);
 
         menu->updateLayout();
         leftSideMenu->updateLayout();
