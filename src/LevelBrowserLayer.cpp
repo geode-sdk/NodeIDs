@@ -196,26 +196,28 @@ $register_ids(LevelBrowserLayer) {
                 if(!m_isOverlay) {
 
                     if(GameManager::sharedState()->m_playerUserID != 0 || GJAccountManager::sharedState()->m_accountID != 0) {
-                        if (auto myLevelsBtn = setIDSafe(menu, 1, "my-levels-button")) {
-                            auto menu = detachAndCreateMenu(
-                                this,
-                                "my-levels-menu",
-                                ColumnLayout::create()
-                                    ->setAxisAlignment(AxisAlignment::Start),
-                                myLevelsBtn
-                            );
-                            menu->setContentSize(myLevelsBtn->getContentSize());
-                            #ifdef GEODE_IS_IOS
-                            menu->addOnEnterCallback([menu] {
-                                if (menu->getChildrenCount() > 1) {
-                                    menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
-                                }
-                            });
-                            #endif
-                            menu->updateLayout();
+                        if(!GameManager::sharedState()->onlyCuratedLevels()) {
+                            if (auto myLevelsBtn = setIDSafe(menu, 1, "my-levels-button")) {
+                                auto menu = detachAndCreateMenu(
+                                    this,
+                                    "my-levels-menu",
+                                    ColumnLayout::create()
+                                        ->setAxisAlignment(AxisAlignment::Start),
+                                    myLevelsBtn
+                                );
+                                menu->setContentSize(myLevelsBtn->getContentSize());
+                                #ifdef GEODE_IS_IOS
+                                menu->addOnEnterCallback([menu] {
+                                    if (menu->getChildrenCount() > 1) {
+                                        menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
+                                    }
+                                });
+                                #endif
+                                menu->updateLayout();
+                            }
                         }
                         if (m_searchObject->m_searchType == SearchType::MyLevels) {
-                            if (auto exportBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "export-button")) {
+                            if (auto importBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "import-button")) {
                                 auto backupsBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "backups-button");
                                 auto menu = detachAndCreateMenu(
                                     this,
@@ -223,13 +225,13 @@ $register_ids(LevelBrowserLayer) {
                                     ColumnLayout::create()
                                         ->setAxisAlignment(AxisAlignment::Start)
                                         ->setGap(7.5),
-                                    exportBtn,
+                                    importBtn,
                                     backupsBtn
                                 );
                                 menu->setContentSize({ 27.f, 125.f });
                                 menu->setPositionY(
                                     menu->getPositionY() + 125.f / 2 -
-                                        exportBtn->getScaledContentSize().height / 2
+                                        importBtn->getScaledContentSize().height / 2
                                         );
                                 #ifdef GEODE_IS_IOS
                                 menu->addOnEnterCallback([menu] {
