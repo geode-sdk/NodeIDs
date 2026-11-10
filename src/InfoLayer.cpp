@@ -41,7 +41,7 @@ $register_ids(InfoLayer) {
         }
 
         //InfoLayer::setupLevelInfo stuff
-        if(m_level || m_levelList) {
+        if(m_level || m_levelList || m_soundConfig) {
             m_mainLayer->getChildByType<CCMenu>(menuOffset)->setID("id-menu");
             menuOffset++;
 
