@@ -1,5 +1,3 @@
-// #include "AddIDs.hpp"
-
 #include <Geode/Bindings.hpp>
 #include <Geode/modify/PlayerObject.hpp>
 #include <Geode/utils/cocos.hpp>

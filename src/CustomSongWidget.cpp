@@ -1,5 +1,3 @@
-// #include "AddIDs.hpp"
-
 #include "Geode/binding/InfoAlertButton.hpp"
 #include <Geode/Bindings.hpp>
 #include <Geode/utils/NodeIDs.hpp>
