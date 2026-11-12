@@ -19,18 +19,20 @@ $register_ids(FollowRewardPage) {
         "main-menu"
     );
 
-    setIDs(
-        m_mainLayer->getChildByID("main-menu"),
-        0,
-        "close-button",
-        "youtube-chest",
-        "twitter-chest",
-        "facebook-chest",
-        "twitch-chest",
-        "discord-chest",
-        "reddit-chest",
-        "spotlight-chest"
-    );
+    if (auto mainMenu = m_mainLayer->getChildByID("main-menu")) {
+        setIDs(
+            mainMenu,
+            0,
+            "close-button",
+            "youtube-chest",
+            "twitter-chest",
+            "facebook-chest",
+            "twitch-chest",
+            "discord-chest",
+            "reddit-chest",
+            "spotlight-chest"
+        );
+    }
     
     auto gm = GameManager::get();
     auto children = this->m_mainLayer->getChildren();
