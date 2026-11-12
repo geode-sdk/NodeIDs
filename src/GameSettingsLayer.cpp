@@ -74,9 +74,10 @@ $register_ids(GameSettingsLayer) {
 
     m_buttonMenu->setID("button-menu");
 
+    size_t idx = 0;
     setIDs(
         m_buttonMenu,
-        0,
+        idx,
         "close-button",
         "gameplay-button",
         "visual-button",
@@ -85,11 +86,30 @@ $register_ids(GameSettingsLayer) {
         "audio-button",
         "other-button",
         "prev-button",
-        "next-button",
-        #ifdef GEODE_IS_DESKTOP
-        "keys-button",
-        #endif
-        "saved-songs-button",
+        "next-button"
+    );
+
+    idx += 9;
+
+    #ifdef GEODE_IS_DESKTOP
+    setIDs(
+        m_buttonMenu,
+        idx++,
+        "keys-button"
+    );
+    #endif
+
+    if(!GameManager::sharedState()->m_playLayer) {
+        setIDs(
+            m_buttonMenu,
+            idx++,
+            "saved-songs-button"
+        );
+    }
+
+    setIDs(
+        m_buttonMenu,
+        idx,
         "audio-offset-info-button",
         #ifdef GEODE_IS_DESKTOP
         "scroll-speed-info-button",
@@ -101,6 +121,7 @@ $register_ids(GameSettingsLayer) {
         "button-rows-right-button",
         "scroll-info-button"
         );
+
     wrapSliderInput(
         m_mainLayer->getChildByType<Slider>(0),
         typeinfo_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildByID("audio-offset-info-button")),
@@ -112,7 +133,7 @@ $register_ids(GameSettingsLayer) {
     #ifdef GEODE_IS_DESKTOP
     wrapSliderInput(
         m_mainLayer->getChildByType<Slider>(0),
-        typeinfo_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildByID("scroll-speed-button")),
+        typeinfo_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildByID("scroll-speed-info-button")),
         m_mainLayer->getChildByType<CCTextInputNode>(0),
         m_mainLayer->getChildByType<CCScale9Sprite>(2),
         m_mainLayer->getChildByType<CCLabelBMFont>(0),
