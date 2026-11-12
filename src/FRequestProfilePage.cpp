@@ -42,15 +42,6 @@ $register_ids(FRequestProfilePage) {
         "refresh-button"
     );
 
-    if (auto invitesBtn = static_cast<CCMenuItemSpriteExtra*>(m_buttonMenu->getChildByID("invites-button"))) {
-        if (auto badge = invitesBtn->getNormalImage()->getChildByType<CCSprite>(0)) {
-            badge->setID("invites-badge");
-            if (auto label = badge->getChildByType<CCLabelBMFont>(0)) {
-                label->setID("invites-count-label");
-            }
-        }
-    }
-
     verifyIDSafe(m_buttonMenu, "main-menu");
 
     auto winSize = CCDirector::get()->getWinSize();
