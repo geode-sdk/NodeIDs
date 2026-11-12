@@ -179,8 +179,8 @@ $register_ids(EditorUI) {
         setIDs(
             zoomMenu,
             0,
-            "zoom-out-button",
-            "zoom-in-button"
+            "zoom-in-button",
+            "zoom-out-button"
         );
 
         zoomMenu->setLayout(SimpleColumnLayout::create()
