@@ -62,8 +62,8 @@ $register_ids(DemonInfoPopup) {
     }
 
     auto self = reinterpret_cast<DemonInfoPopupIDs*>(this);
-    if(self->m_fields->m_gauntlet) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
-    if(self->m_fields->m_weekly) setIDSafe(m_mainLayer, idx++, "weekly-text");
+    if(self->m_fields->m_gauntlet > 0) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
+    if(self->m_fields->m_weekly > 0) setIDSafe(m_mainLayer, idx++, "weekly-text");
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
