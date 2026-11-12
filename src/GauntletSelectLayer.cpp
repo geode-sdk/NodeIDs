@@ -9,9 +9,6 @@ using namespace geode::node_ids;
 $register_ids(GauntletSelectLayer) {
     this->setID("main-layer");
 
-    this->getChildByType<CCSprite>(0)->setID("background");
-    this->getChildByType<CCSprite>(1)->setID("title-sprite");
-
     size_t idx = 0;
     setIDs(
         this,
@@ -156,14 +153,14 @@ struct GauntletSelectLayerIDs : Modify<GauntletSelectLayerIDs, GauntletSelectLay
                             if (auto gauntletNodeParent = gauntletButton->getChildByType<CCNode>(0)) {
                                 gauntletNodeParent->setID("gauntlet-node-parent");
 
-                                gauntletNodeParent->getChildByType<GauntletNode>(0)->setID("gauntlet-node");
+                                setIDSafe<GauntletNode>(gauntletNodeParent, 0, "gauntlet-node");
                             }
                         }
                     }
                 }
             }
 
-            gauntletsList->getChildByType<CCSpriteBatchNode>(0)->setID("page-buttons");
+            setIDSafe<CCSpriteBatchNode>(gauntletsList, 0, "page-buttons");
         }
     }
 };
