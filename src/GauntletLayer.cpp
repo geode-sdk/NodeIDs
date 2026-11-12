@@ -10,8 +10,8 @@ $register_ids(GauntletLayer) {
     this->setID("main-layer");
 
     this->getChildByType<CCSprite>(0)->setID("background");
-    this->getChildByType<CCLabelBMFont>(0)->setID("title-shadow");
-    this->getChildByType<CCLabelBMFont>(1)->setID("title");
+    this->getChildByType<CCLabelBMFont>(0)->setID("title");
+    this->getChildByType<CCLabelBMFont>(1)->setID("title-shadow");
     this->getChildByType<TextArea>(0)->setID("try-again-text");
     this->getChildByType<LoadingCircle>(0)->setID("loading-circle");
 
@@ -28,13 +28,6 @@ $register_ids(GauntletLayer) {
                 ->setAxisAlignment(AxisAlignment::End)
         );
     }
-
-    if (auto menu = this->getChildByType<CCMenu>(1)) {
-        menu->setID("levels-menu");
-        for (int i = 0; i < 5; i++) {
-            menu->getChildByType<CCMenuItemSpriteExtra>(i)->setID(fmt::format("level-{}", i + 1));
-        }
-    }
 }
 
 struct GauntletLayerIDs : Modify<GauntletLayerIDs, GauntletLayer> {
@@ -42,8 +35,8 @@ struct GauntletLayerIDs : Modify<GauntletLayerIDs, GauntletLayer> {
         if (!self.setHookPriority("GauntletLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set GauntletLayer::init hook priority, node IDs may not work properly");
         }
-        if (!self.setHookPriority("GauntletLayer::loadLevelsFinished", GEODE_ID_PRIORITY)) {
-            log::warn("Failed to set GauntletLayer::loadLevelsFinished hook priority, node IDs may not work properly");
+        if (!self.setHookPriority("GauntletLayer::setupGauntlet", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set GauntletLayer::setupGauntlet hook priority, node IDs may not work properly");
         }
     }
 
@@ -56,11 +49,12 @@ struct GauntletLayerIDs : Modify<GauntletLayerIDs, GauntletLayer> {
         return true;
     }
 
-    virtual void loadLevelsFinished(cocos2d::CCArray* p0, char const* p1, int p2) {
-        GauntletLayer::loadLevelsFinished(p0, p1, p2);
+    void setupGauntlet(cocos2d::CCArray* p0) {
+        auto before = this->getChildrenCount();
+        GauntletLayer::setupGauntlet(p0);
+        if(this->getChildrenCount() == before) return;
 
-        // im pretty sure its just the actual level buttons that can sometimes only load after this
-        if (auto menu = this->getChildByType<CCMenu>(1)) {
+        if (auto menu = this->getChildByType<CCMenu>(-1)) {
             menu->setID("levels-menu");
             for (int i = 0; i < 5; i++) {
                 menu->getChildByType<CCMenuItemSpriteExtra>(i)->setID(fmt::format("level-{}", i + 1));
