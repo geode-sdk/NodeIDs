@@ -124,14 +124,18 @@ $register_ids(LevelInfoLayer) {
 
         menu->setPosition(winSize.width - 30.f, winSize.height / 2);
 
+        std::vector<Ref<CCNode>> children;
         for (auto child : CCArrayExt<CCNode*>(menu->getChildren())) {
             if (child->getPositionX() < 0.f) {
-                child->retain();
-                child->removeFromParent();
-                leftSideMenu->addChild(child);
-                child->release();
+                children.push_back(child);
             }
             child->setPositionX(0.f);
+        }
+
+        for (auto child : children) {
+            child->removeFromParent();
+            leftSideMenu->addChild(child);
+
         }
 
         size_t rightMenuIdx = 0;
@@ -165,10 +169,6 @@ $register_ids(LevelInfoLayer) {
         }
 
         if(auto deleteServerBtn = getChildBySpriteFrameName(leftSideMenu, "GJ_deleteServerBtn_001.png")) {
-            deleteServerBtn->setID("delete-button");
-        }
-
-        if(auto deleteServerBtn = getChildBySpriteFrameName(menu, "GJ_deleteServerBtn_001.png")) {
             deleteServerBtn->setID("delete-server-button");
         }
 
@@ -249,6 +249,22 @@ struct LevelInfoLayerIDs : Modify<LevelInfoLayerIDs, LevelInfoLayer> {
     static void onModify(auto& self) {
         if (!self.setHookPriority("LevelInfoLayer::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set LevelInfoLayer::init hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelInfoLayer::updateLabelValues", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelInfoLayer::updateLabelValues hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelInfoLayer::setupPlatformerStats", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelInfoLayer::setupPlatformerStats hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelInfoLayer::setupProgressBars", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelInfoLayer::setupProgressBars hook priority, node IDs may not work properly");
+        }
+
+        if (!self.setHookPriority("LevelInfoLayer::levelDownloadFinished", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelInfoLayer::levelDownloadFinished hook priority, node IDs may not work properly");
         }
     }
 
