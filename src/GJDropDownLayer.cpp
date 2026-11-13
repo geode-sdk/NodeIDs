@@ -22,7 +22,6 @@ struct GJDropDownLayerIDs : Modify<GJDropDownLayerIDs, GJDropDownLayer> {
         }
     }
 
-#if GEODE_COMP_GD_VERSION >= 22004
     bool init(char const* p0, float p1, bool p2) {
         if (!GJDropDownLayer::init(p0, p1, p2))
             return false;
@@ -33,17 +32,5 @@ struct GJDropDownLayerIDs : Modify<GJDropDownLayerIDs, GJDropDownLayer> {
         if(typeinfo_cast<EndLevelLayer*>(this)) this->setID("EndLevelLayer");
         return true;
     }
-#else
-    bool init(char const* p0, float p1) {
-        if (!GJDropDownLayer::init(p0, p1))
-            return false;
-
-        NodeIDs::get()->provide(this);
-
-        //workaround for existing mods that depend on this ID
-        if(typeinfo_cast<EndLevelLayer*>(this)) this->setID("EndLevelLayer");
-        return true;
-    }
-#endif
     
 };
