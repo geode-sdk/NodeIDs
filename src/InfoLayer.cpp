@@ -124,7 +124,7 @@ $register_ids(InfoLayer) {
 
     //now it calls InfoLayer::updateCommentModeButtons but that doesn't do anything important
 
-    if (m_score && m_score->m_modBadge > 0 && GM->m_playerUserID > 0) {
+    if (m_score && m_score->m_accountID > 0 && GM->m_hasRP > 0) {
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("comment-button");
         buttonOffset++;
     }

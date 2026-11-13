@@ -32,6 +32,9 @@ $register_ids(GJRotationControl) {
     setIDSafe<CCScale9Sprite>(m_angleInput, 0, "background");
     
     auto refreshMenu = getChildByType<CCMenu>(1);
+    // user object used as a cheap alternative to fields
+    // since the menu is added to ControlMenuTouch's vector but we remove it at the end here
+    this->setUserObject("refresh-menu"_spr, refreshMenu);
 
     auto container = detachAndCreateMenu(this, "rotation-input-container", 
         nullptr,
@@ -39,7 +42,7 @@ $register_ids(GJRotationControl) {
         m_applyAngleButton
     );
 
-    auto size = CCSize{m_angleInput->getScaledContentWidth() + 10.f + m_applyAngleButton->getScaledContentWidth(), std::max(m_angleInput->getScaledContentHeight(), m_angleInput->getScaledContentHeight())};
+    auto size = CCSize{m_angleInput->getScaledContentWidth() + 10.f + m_applyAngleButton->getScaledContentWidth(), std::max(m_angleInput->getScaledContentHeight(), m_applyAngleButton->getScaledContentHeight())};
 
     m_angleInput->setPosition({m_angleInput->getScaledContentWidth() / 2.f, size.height / 2.f});
     container->setPositionX(container->getPositionX() + m_angleInput->getPositionX() / 2.f);
