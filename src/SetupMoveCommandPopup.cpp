@@ -110,7 +110,7 @@ $register_ids(SetupMoveCommandPopup) {
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 8, "target-pos-group-id-next");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 9, "target-pos-group-id-search");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 10, "edit-easing-rate");
-			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 11, "easing-options	");
+			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 11, "easing-options");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 12, "easing-right");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 13, "easing-left");
 			setIDSafe<CCMenuItemSpriteExtra>(inputMenu, 14, "target-group-id-left");
