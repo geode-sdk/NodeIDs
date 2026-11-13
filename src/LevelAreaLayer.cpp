@@ -9,33 +9,43 @@ using namespace geode::node_ids;
 $register_ids(LevelAreaLayer) {
     this->setID("main-layer");
 
-    this->getChildByType<CCSprite>(0)->setID("background");
-    this->getChildByType<CCSprite>(1)->setID("tower-sprite");
-    this->getChildByType<CCSprite>(2)->setID("fade-left");
-    this->getChildByType<CCSprite>(3)->setID("fade-right");
-    this->getChildByType<CCSprite>(4)->setID("fade-bottom");
-    this->getChildByType<CCSprite>(5)->setID("light-1");
-    this->getChildByType<CCSprite>(6)->setID("tower-glow-1");
-    this->getChildByType<CCSprite>(7)->setID("light-2");
-    this->getChildByType<CCSprite>(8)->setID("tower-glow-2");
-    this->getChildByType<CCSprite>(9)->setID("light-3");
-    this->getChildByType<CCSprite>(10)->setID("tower-glow-3");
-    this->getChildByType<CCSprite>(11)->setID("light-4");
-    this->getChildByType<CCSprite>(12)->setID("tower-glow-4");
-    this->getChildByType<CCSprite>(13)->setID("light-5");
-    this->getChildByType<CCSprite>(14)->setID("tower-glow-5");
-    this->getChildByType<CCSprite>(15)->setID("light-6");
-    this->getChildByType<CCSprite>(16)->setID("tower-glow-6");
+    size_t spriteIdx = 0;
 
-    this->getChildByType<CCParticleSystemQuad>(0)->setID("sparkle");
+    // controller icon id assigned in GameToolbox
+    if(PlatformToolbox::isControllerConnected()) spriteIdx++;
 
-    this->getChildByType<CCMenu>(0)->setID("back-menu");
-    this->getChildByType<CCMenu>(1)->setID("enter-menu");
+    setIDSafe<CCSprite>(this, spriteIdx++, "background");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-sprite");
+    setIDSafe<CCSprite>(this, spriteIdx++, "fade-left");
+    setIDSafe<CCSprite>(this, spriteIdx++, "fade-right");
+    setIDSafe<CCSprite>(this, spriteIdx++, "fade-bottom");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-1");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-1");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-2");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-2");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-3");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-3");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-4");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-4");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-5");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-5");
+    setIDSafe<CCSprite>(this, spriteIdx++, "light-6");
+    setIDSafe<CCSprite>(this, spriteIdx++, "tower-glow-6");
 
-    this->getChildByID("back-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("back-btn");
-    this->getChildByID("enter-menu")->getChildByType<CCMenuItemSpriteExtra>(0)->setID("enter-btn");
+    setIDSafe<CCParticleSystemQuad>(this, 0, "sparkle");
 
-    this->getChildByType<CCLayerGradient>(0)->setID("top-glow");
+    setIDSafe<CCMenu>(this, 0, "back-menu");
+    setIDSafe<CCMenu>(this, 1, "enter-menu");
+
+    if(auto backMenu = this->getChildByID("back-menu")) {
+        setIDSafe<CCMenuItemSpriteExtra>(backMenu, 0, "back-btn");
+    }
+
+    if(auto enterMenu = this->getChildByID("enter-menu")) {
+        setIDSafe<CCMenuItemSpriteExtra>(enterMenu, 0, "enter-btn");
+    }
+
+    setIDSafe<CCLayerGradient>(this, 0, "top-glow");
 }
 
 struct LevelAreaLayerIDs : Modify<LevelAreaLayerIDs, LevelAreaLayer> {
