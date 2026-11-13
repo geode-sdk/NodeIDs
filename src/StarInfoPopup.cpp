@@ -9,6 +9,7 @@ struct StarInfoPopupIDs : Modify<StarInfoPopupIDs, StarInfoPopup> {
     struct Fields {
         int m_daily = 0;
         int m_gauntlet = 0;
+        int m_map = 0;
         bool m_platformer = false;
     };
 
@@ -18,11 +19,12 @@ struct StarInfoPopupIDs : Modify<StarInfoPopupIDs, StarInfoPopup> {
         }
     }
 
-    bool init(int a, int b, int c, int d, int e, int f, int gauntlet, int daily, int unknown, bool platformer) {
-        if (!StarInfoPopup::init(a,b,c,d,e,f,gauntlet,daily,unknown,platformer)) return false;
+    bool init(int a, int b, int c, int d, int e, int f, int daily, int gauntlet, int map, bool platformer) {
+        if (!StarInfoPopup::init(a,b,c,d,e,f,daily,gauntlet,map,platformer)) return false;
 
         m_fields->m_daily = daily;
         m_fields->m_gauntlet = gauntlet;
+        m_fields->m_map = map;
         m_fields->m_platformer = platformer;
 
         NodeIDs::get()->provide(this);
@@ -44,7 +46,7 @@ $register_ids(StarInfoPopup) {
     setIDs(m_mainLayer, idx,
         "background",
         "main-menu",
-        fmt::format("{}-title", mode).c_str()
+        "title"
     );
     idx += 3;
 
@@ -60,15 +62,14 @@ $register_ids(StarInfoPopup) {
     for (auto const& diff : diffNames) {
         setIDs(m_mainLayer, idx,
             fmt::format("{}-sprite", diff).c_str(),
-            fmt::format("{}-{}", diff, mode).c_str()
+            fmt::format("{}-text", diff).c_str()
         );
         idx += 2;
     }
 
-    if (!self->m_fields->m_platformer) {
-        if(self->m_fields->m_gauntlet) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
-        if(self->m_fields->m_daily) setIDSafe(m_mainLayer, idx++, "daily-text");
-    }
+    if(self->m_fields->m_gauntlet > 0) setIDSafe(m_mainLayer, idx++, "gauntlet-text");
+    if(self->m_fields->m_daily > 0) setIDSafe(m_mainLayer, idx++, "daily-text");
+    if(self->m_fields->m_map > 0) setIDSafe(m_mainLayer, idx++, "map-text");
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
@@ -95,6 +96,7 @@ $register_ids(StarInfoPopup) {
 
     if(auto gauntlet = m_mainLayer->getChildByID("gauntlet-text")) switchToMenu(gauntlet, bottomRight);
     if(auto daily = m_mainLayer->getChildByID("daily-text")) switchToMenu(daily, bottomRight);
+    if(auto map = m_mainLayer->getChildByID("map-text")) switchToMenu(map, bottomRight);
 
     bottomRight->updateLayout();
 
