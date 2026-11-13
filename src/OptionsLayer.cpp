@@ -99,10 +99,16 @@ $register_ids(OptionsLayer) {
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("rate-button");
     buttonOffset++;
 
-    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("parental-button");
+    optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("songs-button");
     buttonOffset++;
 
     optionsMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("help-button");
+    buttonOffset++;
+
+    if(auto parental = setIDSafe<CCMenuItemSpriteExtra>(optionsMenu, buttonOffset, "parental-button")) {
+        parental->setZOrder(1);
+    }
+    buttonOffset++;
     #endif
 
     optionsMenu->updateLayout();
