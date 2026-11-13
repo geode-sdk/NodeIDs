@@ -67,6 +67,10 @@ struct MemberListPopupIDs : Modify<MemberListPopupIDs, MemberListPopup> {
         if (!self.setHookPriority("MemberListPopup::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set MemberListPopup::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("MemberListPopup::refreshPolicyBtn", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set MemberListPopup::refreshPolicyBtn hook priority, node IDs may not work properly");
+        }
     }
 
     bool init(GJMessageThread* thread, ThreadViewPopup* viewPopup, bool modView) {

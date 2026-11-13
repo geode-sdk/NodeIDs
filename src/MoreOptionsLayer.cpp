@@ -1,6 +1,6 @@
 #include <Geode/Geode.hpp>
 
-#ifndef GEODE_IS_WINDOWS
+#if !defined(GEODE_IS_WINDOWS) && !defined(GEODE_IS_IOS)
 
 #include <Geode/binding/MoreOptionsLayer.hpp>
 #include <Geode/modify/MoreOptionsLayer.hpp>
@@ -25,6 +25,7 @@ $register_ids(MoreOptionsLayer) {
         "performance-options-layer",
         "audio-options-layer",
         "other-options-layer",
+        "parental-controls-label",
         "music-offset-label",
         "music-offset-background",
         "music-offset-input"
@@ -34,7 +35,7 @@ $register_ids(MoreOptionsLayer) {
 
     if(auto togglersMenu = m_mainLayer->getChildByID("togglers-menu")) {
         size_t i = 0;
-        for(auto child : CCArrayExt<CCNode*>(m_mainLayer->getChildByID("togglers-menu")->getChildren())) {
+        for(auto child : CCArrayExt<CCNode*>(togglersMenu->getChildren())) {
             if(i % 2 == 0) options.push_back(child->getTag());
 
             child->setID(fmt::format("option-{}-{}", child->getTag(), (i++)%2==0 ? "toggler" : "info"));
