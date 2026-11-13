@@ -46,6 +46,9 @@ $register_ids(LevelLeaderboard) {
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("update-button");
     buttonOffset++;
 
+    // newNormalPercent2 < normalPercent
+    setIDSafe<CCMenuItemSpriteExtra>(m_buttonMenu, buttonOffset++, "info-button");
+
     m_mainLayer->getChildByType<LoadingCircle>(0)->setID("loading-circle");
     m_mainLayer->getChildByType<TextArea>(0)->setID("no-internet-text");
 

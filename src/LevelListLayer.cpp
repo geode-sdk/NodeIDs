@@ -69,13 +69,13 @@ $register_ids(LevelListLayer) {
         );
         menuIdx += 6;
 
-        if(GJAccountManager::sharedState()->m_accountID == m_levelList->m_accountID) {
+        if(GJAccountManager::sharedState()->m_accountID == m_levelList->m_accountID || GameManager::sharedState()->m_hasRP > 1) {
             setIDs(
-                this,
-                idx,
+                this->getChildByID("button-menu"),
+                menuIdx,
                 "delete-server-button"
             );
-            idx += 1;
+            menuIdx += 1;
         }
     }
 
@@ -139,6 +139,10 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
 		if (!self.setHookPriority("LevelListLayer::init", GEODE_ID_PRIORITY)) {
 			log::warn("Failed to set LevelListLayer::init hook priority, node IDs may not work properly");
 		}
+
+        if (!self.setHookPriority("LevelListLayer::updateStatsArt", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set LevelListLayer::updateStatsArt hook priority, node IDs may not work properly");
+        }
 	}
 	bool init(GJLevelList* p0) {
 		if (!LevelListLayer::init(p0)) return false;
@@ -230,7 +234,7 @@ struct LevelListLayerIDs : Modify<LevelListLayerIDs, LevelListLayer> {
     void moveNodeWithOptions(CCNode* node, CCNode* menu, int zOrder = 0) {
         if(!node || !menu) return;
         switchToMenu(node, menu);
-        node->setZOrder(-4);
+        node->setZOrder(zOrder);
         node->setLayoutOptions(
             AxisLayoutOptions::create()
                 ->setRelativeScale(node->getScale())
