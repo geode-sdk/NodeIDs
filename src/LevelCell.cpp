@@ -96,12 +96,8 @@ $register_ids(LevelCell) {
         size_t buttonOffset = 0;
         size_t spriteOffset = 0;
 
-        if(m_compactView) {
-            auto label = m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset);
-            if(label && std::string_view(label->getString()) != m_level->m_levelName) {
-                label->setID("level-place");
-                labelOffset++;
-            }
+        if(m_compactView && !m_compactNoIndex) {
+            setIDSafe<CCLabelBMFont>(m_mainLayer, labelOffset++, "level-index");
         }
 
         m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)->setID("level-name");
@@ -212,19 +208,39 @@ $register_ids(LevelCell) {
 
         }
 
-        bool hasCompletedLevel = m_level->m_dailyID > 0 ? m_level->m_orbCompletion > 99 : GameStatsManager::sharedState()->hasCompletedLevel(m_level);
-        auto savedLevel = m_level->m_dailyID > 0 ? GameLevelManager::sharedState()->getSavedDailyLevel(m_level->m_dailyID) : GameLevelManager::sharedState()->getSavedLevel(m_level->m_levelID);
+        bool hasCompletedLevel = [this] -> bool {
+            auto GSM = GameStatsManager::sharedState();
+            
+            if(m_level->m_dailyID > 0) return m_level->m_orbCompletion > 99;
+
+            if(this->inRecallMode()) {
+                auto recallID = m_level->m_recallDailyID;
+
+                if(!GSM->hasCompletedDailyStars(recallID) && !GSM->isDailyRecall(recallID)) return false;
+                if(this->recallChestReady()) return true;
+                return GSM->hasCompletedDailyStars(recallID);
+            }
+
+            return GSM->hasCompletedLevel(m_level);
+        }();
+
+        auto savedLevel = this->inRecallMode()
+            ? this->recallSavedLevel()
+            : m_level->m_dailyID > 0
+                ? GameLevelManager::sharedState()->getSavedDailyLevel(m_level->m_dailyID)
+                : GameLevelManager::sharedState()->getSavedLevel(m_level->m_levelID);
+
         if (hasCompletedLevel) {
             m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("completed-icon");
             spriteOffset++;
-        } else if (savedLevel && savedLevel->m_normalPercent.value() != 0) {
+        } else if (savedLevel && savedLevel->getNormalPercent() != 0) {
             if (auto node = m_mainLayer->getChildByType<CCLabelBMFont>(labelOffset)) {
                 node->setID("percentage-label");
                 labelOffset++;
             }
         }
 
-        if(m_level->m_originalLevel > 0) {
+        if(m_level->m_originalLevel != 0) {
             m_mainLayer->getChildByType<CCSprite>(spriteOffset)->setID("copy-indicator");
             spriteOffset++;
         }

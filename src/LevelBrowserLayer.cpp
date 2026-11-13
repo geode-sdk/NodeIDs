@@ -216,32 +216,33 @@ $register_ids(LevelBrowserLayer) {
                                 menu->updateLayout();
                             }
                         }
-                        if (m_searchObject->m_searchType == SearchType::MyLevels) {
-                            if (auto importBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "import-button")) {
-                                auto backupsBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "backups-button");
-                                auto menu = detachAndCreateMenu(
-                                    this,
-                                    "bottom-left-menu",
-                                    ColumnLayout::create()
-                                        ->setAxisAlignment(AxisAlignment::Start)
-                                        ->setGap(7.5),
-                                    importBtn,
-                                    backupsBtn
-                                );
-                                menu->setContentSize({ 27.f, 125.f });
-                                menu->setPositionY(
-                                    menu->getPositionY() + 125.f / 2 -
-                                        importBtn->getScaledContentSize().height / 2
-                                        );
-                                #ifdef GEODE_IS_IOS
-                                menu->addOnEnterCallback([menu] {
-                                    if (menu->getChildrenCount() > 1) {
-                                        menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
-                                    }
-                                });
-                                #endif
-                                menu->updateLayout();
-                            }
+                    }
+
+                    if (m_searchObject->m_searchType == SearchType::MyLevels) {
+                        if (auto importBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 1, "import-button")) {
+                            auto backupsBtn = setIDSafe<CCMenuItemSpriteExtra>(menu, 2, "backups-button");
+                            auto menu = detachAndCreateMenu(
+                                this,
+                                "bottom-left-menu",
+                                ColumnLayout::create()
+                                    ->setAxisAlignment(AxisAlignment::Start)
+                                    ->setGap(7.5),
+                                importBtn,
+                                backupsBtn
+                            );
+                            menu->setContentSize({ 27.f, 125.f });
+                            menu->setPositionY(
+                                menu->getPositionY() + 125.f / 2 -
+                                    importBtn->getScaledContentSize().height / 2
+                                    );
+                            #ifdef GEODE_IS_IOS
+                            menu->addOnEnterCallback([menu] {
+                                if (menu->getChildrenCount() > 1) {
+                                    menu->setPositionX(menu->getContentWidth() / 2 + 5 + geode::utils::getSafeAreaRect().getMinX() / 2.f);
+                                }
+                            });
+                            #endif
+                            menu->updateLayout();
                         }
                     }
 
