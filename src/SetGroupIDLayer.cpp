@@ -75,8 +75,8 @@ $register_ids(SetGroupIDLayer) {
     auto idNameInput = setIDSafe<IDNameInput>(m_mainLayer, 0, "id-name-input");
     auto groupList = setIDSafe<ScrollableContentLayer>(m_mainLayer, 0, "group-list-scroll-layer");
 
-    auto groupNameLabel = setIDSafe<CCLabelBMFont>(m_mainLayer, 5, "group-name-label");
-    auto groupNameLabelShadow = setIDSafe<CCLabelBMFont>(m_mainLayer, 6, "group-name-label-shadow");
+    auto groupNameLabelShadow = setIDSafe<CCLabelBMFont>(m_mainLayer, 5, "group-name-label-shadow");
+    auto groupNameLabel = setIDSafe<CCLabelBMFont>(m_mainLayer, 6, "group-name-label");
     auto drawOrderLabel = setIDSafe<CCLabelBMFont>(m_mainLayer, 7, "draw-order-label");
 
     if (m_editorLayerInput) m_editorLayerInput->setID("editor-layer-input");
@@ -324,8 +324,8 @@ $register_ids(SetGroupIDLayer) {
         {0.f, -7.f},
         m_groupIDInput,
         addGroupIDInputBG,
-        groupNameLabel,
         groupNameLabelShadow,
+        groupNameLabel,
         m_buttonMenu->getChildByID("add-group-id-prev-button"),
         m_buttonMenu->getChildByID("add-group-id-next-button"),
         m_buttonMenu->getChildByID("next-free-button"),
@@ -381,9 +381,9 @@ $register_ids(SetGroupIDLayer) {
     m_buttonMenu->ignoreAnchorPointForPosition(false);
     m_buttonMenu->setPosition(winSize / 2.f);
 
-    setIDSafe<CCLayerColor>(groupList, 0, "scroll-bar");
+    setIDSafe<CCLayerColor>(groupList, 0, "scroll-thumb");
 
-    auto innerNode = setIDSafe<CCNode>(groupList, 0, "scroll-content");
+    auto innerNode = setIDSafe<CCNode>(groupList, 0, "content-layer");
     if (innerNode) {
         setIDSafe(innerNode, 0, "groups-list-menu");
     }

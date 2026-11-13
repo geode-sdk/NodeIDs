@@ -121,16 +121,18 @@ $register_ids(SecretRewardsLayer) {
       setIDSafe<CCMenuItemSpriteExtra>(pageNav, 1, "right");
     }
 
-    setIDSafe<CCSprite>(this, 0, "background");
-    setIDSafe<CCSprite>(this, 1, "top-right-art");
-    setIDSafe<CCSprite>(this, 2, "top-left-art");
-    setIDSafe<CCSprite>(this, 3, "key-icon");
-    setIDSafe<CCSprite>(this, 4, "gold-key-icon");
-    setIDSafe<CCSprite>(this, 5, "floor");
+    size_t spriteIdx = 0;
+    setIDSafe<CCSprite>(this, spriteIdx++, "background");
+    setIDSafe<CCSprite>(this, spriteIdx++, "top-right-art");
+    setIDSafe<CCSprite>(this, spriteIdx++, "top-left-art");
+    if(PlatformToolbox::isControllerConnected()) spriteIdx++;
+    setIDSafe<CCSprite>(this, spriteIdx++, "key-icon");
+    setIDSafe<CCSprite>(this, spriteIdx++, "gold-key-icon");
+    setIDSafe<CCSprite>(this, spriteIdx++, "floor");
     setIDSafe<CCLabelBMFont>(this, 0, "key-count");
     setIDSafe<CCLabelBMFont>(this, 1, "gold-key-count");
     setIDSafe<CCMenu>(this, 0, "exit-menu");
-};
+}
 
 struct SecretRewardsLayerIDs : Modify<SecretRewardsLayerIDs, SecretRewardsLayer> {
   static void onModify(auto &self) {
