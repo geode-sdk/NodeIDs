@@ -23,7 +23,8 @@ $register_ids(PurchaseItemPopup) {
                 buttonMenu,
                 0,
                 "cancel-button",
-                "buy-button"
+                "buy-button",
+                "info-button"
             );
         }
     }

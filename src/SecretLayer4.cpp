@@ -16,13 +16,23 @@ $register_ids(SecretLayer4) {
 	    "textbox-background",
 	    "text-box",
 	    "menu");
+
+	size_t idx = 6;
+	if (PlatformToolbox::isControllerConnected()) idx++;
+
+	if (!GameStatsManager::sharedState()->isSpecialChestUnlocked("0003")) {
+		if (auto chestMenu = setIDSafe(this, idx, "chest-menu")) {
+			setIDSafe(chestMenu, 0, "chest-button");
+		}
+	}
+
 	if (auto menu = this->getChildByID("menu")) {
 		setIDs(
 		    menu,
 		    0,
 		    "back-button",
 		    "vaultkeeper-button");
-	};
+	}
 }
 
 struct SecretLayer4IDs : Modify<SecretLayer4IDs, SecretLayer4> {

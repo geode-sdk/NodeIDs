@@ -24,7 +24,7 @@ $register_ids(SecretLayer) {
             "back-button",
             "vaultkeeper-button"
         );
-    };
+    }
 }
 
 struct SecretLayerIDs : Modify<SecretLayerIDs, SecretLayer> {

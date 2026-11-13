@@ -7,15 +7,26 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(SecretLayer2) {
+	size_t idx = 0;
 	setIDs(
 	    this,
-	    0,
+	    idx,
 	    "background",
 	    "vault-name",
 	    "message",
 	    "textbox-background",
 	    "text-box",
-	    "menu",
+	    "menu"
+	);
+
+	idx += 6;
+	if(PlatformToolbox::isControllerConnected()) {
+		idx++;
+	}
+
+	setIDs(
+		this,
+		idx,
 	    "the-challenge-text1",
 	    "the-challenge-text2",
 	    "diamonds-icon",
@@ -28,7 +39,7 @@ $register_ids(SecretLayer2) {
 		    "vaultkeeper-button",
 		    "door-button",
 		    "the-challenge-button");
-	};
+	}
 
 }
 
