@@ -9,17 +9,9 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-// parental controls stuff
-static bool isProfileDisabled() {
-    return GameManager::get()->getGameVariable("0219");
-}
-
-static bool isSocialDisabled() {
-    auto gm = GameManager::get();
-    return gm->getGameVariable("0218") || gm->getGameVariable("0219");
-}
-
 $register_ids(ProfilePage) {
+    auto GM = GameManager::sharedState();
+
     size_t buttonOffset = 0;
     size_t labelOffset = 0;
     size_t spriteOffset = 0;
@@ -30,7 +22,7 @@ $register_ids(ProfilePage) {
 
     m_mainLayer->getChildByType<CCScale9Sprite>(0)->setID("background");
 
-    if (isProfileDisabled()) {
+    if (GM->offlineModeEnabled()) {
         m_mainLayer->getChildByType<CCLabelBMFont>(0)->setID("parental-controls-label");
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(0)->setID("close-button");
         return;
@@ -57,7 +49,7 @@ $register_ids(ProfilePage) {
     m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("next-page-button");
     buttonOffset++;
 
-    if(m_accountID != GJAccountManager::sharedState()->m_accountID && !isSocialDisabled()) {
+    if(m_accountID != GJAccountManager::sharedState()->m_accountID && !GM->safeModeEnabled()) {
         m_buttonMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("follow-button");
         buttonOffset++;
     }
