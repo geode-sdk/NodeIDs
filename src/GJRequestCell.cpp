@@ -7,11 +7,24 @@ using namespace geode::prelude;
 using namespace geode::node_ids;
 
 $register_ids(GJRequestCell) {
+	size_t idx = 0;
 	setIDs(
 	    m_mainLayer,
-	    0,
+	    idx,
 	    "main-menu",
-	    "player-icon",
+	    "player-icon"
+	);
+	idx += 2;
+
+	// TODO: unify this logic for GJCompactUserCell
+	if (auto newLabel = m_mainLayer->getChildByTag(100)) {
+		newLabel->setID("new-label");
+		idx++;
+	}
+
+	setIDs(
+	    m_mainLayer,
+		idx,
 	    "stars-label",
 	    "stars-icon",
 	    "moons-label",
