@@ -52,7 +52,7 @@ $register_ids(ThreadSearchPopup) {
             ->setAxisReverse(false)
     );
     topMenu->setID("top-menu");
-    topMenu->setPosition({ (winSize.width / 2) + 7.5f, (winSize.height / 2) + 16.f });
+    topMenu->setPosition({ (winSize.width / 2) + 7.5f, (winSize.height / 2) + m_verticalOffset + 16.f });
     topMenu->setContentSize({ 272.f, 28.f });
     topMenu->setZOrder(10);
     m_mainLayer->addChild(topMenu);
@@ -65,7 +65,7 @@ $register_ids(ThreadSearchPopup) {
             ->setAxisReverse(false)
     );
     bottomMenu->setID("bottom-menu");
-    bottomMenu->setPosition({ (winSize.width / 2) + 7.5f, (winSize.height / 2) - 30.f });
+    bottomMenu->setPosition({ (winSize.width / 2) + 7.5f, (winSize.height / 2) + m_verticalOffset - 30.f });
     bottomMenu->setContentSize({ 272.f, 28.f });
     bottomMenu->setZOrder(10);
     m_mainLayer->addChild(bottomMenu);

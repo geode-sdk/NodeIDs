@@ -10,7 +10,7 @@
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-std::array<std::pair<const char*, const char*>, 14> OPTION_BUTTONS = {{
+static const std::array<std::pair<const char*, const char*>, 14> OPTION_BUTTONS = {{
     {"Report", "report-button"},
     {"Remove", "remove-button"},
     {"Lock Conversation", "lock-button"},
