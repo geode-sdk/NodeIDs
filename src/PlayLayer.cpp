@@ -25,6 +25,10 @@ $register_ids(PlayLayer) {
     }
 #endif
 
+    if(!m_passedIntegrity) {
+        setIDSafe<CCLabelBMFont>(this, index++, "load-failed-label");
+    }
+
     setIDSafe<CCLabelBMFont>(this, index++, "debug-text");
     setIDSafe<CCSprite>(this, 0, "progress-bar");
 
@@ -100,6 +104,8 @@ struct PlayLayerIDs : Modify<PlayLayerIDs, PlayLayer> {
 
         // Shouldn't be false, but just in case
         if (isSizeCorrect) {
+            setIDSafe<CCSprite>(this->getChildByID("main-node"), 0, "background");
+
             auto debugText = typeinfo_cast<CCLabelBMFont*>(newNodes[0]);
             auto progressBar = typeinfo_cast<CCSprite*>(newNodes[1]);
             auto timeOrPercentageLabel = typeinfo_cast<CCLabelBMFont*>(newNodes[2]);
