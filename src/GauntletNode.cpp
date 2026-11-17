@@ -24,7 +24,7 @@ struct GauntletNodeIDs : Modify<GauntletNodeIDs, GauntletNode> {
 
 $register_ids(GauntletNode) {
     const auto GSM = GameStatsManager::sharedState();
-    auto self = reinterpret_cast<GauntletNodeIDs*>(this);
+    if (!m_gauntlet) return;
 
     if (m_gauntlet->hasCompletedMapPack()) {
         setIDs(
@@ -54,7 +54,17 @@ $register_ids(GauntletNode) {
         );
     }
 
-    if (
+    if (m_locked) {
+        // theoretically unreachable in full
+        setIDs(
+            m_gauntletInfoNode,
+            0,
+            "lock-sprite",
+            "unlock-button-sprite",
+            "view-ad-sprite",
+            "view-ad-label"
+        );
+    } else if (
         m_gauntlet->hasCompletedMapPack() &&
         GSM->isSpecialChestUnlocked(GSM->getGauntletRewardKey(m_gauntlet->m_packID))
     ) {
