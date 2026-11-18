@@ -53,8 +53,8 @@ $register_ids(ThreadViewPopup) {
     }
 
     auto buttonCount = m_buttonMenu->getChildrenCount();
-    bool hasDescription = buttonCount >= 10;
-    bool hasMembers = buttonCount >= 11;
+    bool hasDescription = buttonCount >= (10 GEODE_MOBILE(+ 1));
+    bool hasMembers = buttonCount >= (11 GEODE_MOBILE(+ 1));
 
     int buttonIdx = 0;
     setIDSafe(m_buttonMenu, buttonIdx++, "close-button");
@@ -69,6 +69,9 @@ $register_ids(ThreadViewPopup) {
         "share-button",
         "emote-button",
         "scroll-to-bottom-button",
+    #ifdef GEODE_IS_MOBILE
+        "hide-keyboard-button",
+    #endif
         "send-button",
         "lock-info-button"
     );
@@ -173,6 +176,18 @@ struct ThreadViewPopupIDs : Modify<ThreadViewPopupIDs, ThreadViewPopup> {
         if (!self.setHookPriority("ThreadViewPopup::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set ThreadViewPopup::init hook priority, node IDs may not work properly");
         }
+        
+        if (!self.setHookPriority("ThreadViewPopup::textChanged", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set ThreadViewPopup::textChanged hook priority, node IDs may not work properly");
+        }
+        
+        if (!self.setHookPriority("ThreadViewPopup::buildMemberButton", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set ThreadViewPopup::buildMemberButton hook priority, node IDs may not work properly");
+        }
+        
+        if (!self.setHookPriority("ThreadViewPopup::layoutTitleRow", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set ThreadViewPopup::layoutTitleRow hook priority, node IDs may not work properly");
+        }
     }
 
     bool init(GJMessageThread* thread) {
@@ -227,6 +242,13 @@ struct ThreadViewPopupIDs : Modify<ThreadViewPopupIDs, ThreadViewPopup> {
             topLeftMenu->updateLayout();
             handleTouchPriority(this);
         }
+    }
+
+    void layoutTitleRow() {
+        ThreadViewPopup::layoutTitleRow();
+
+        if(m_roleBadge) m_roleBadge->setID("mod-badge");
+        if(m_titleEmote) m_titleEmote->setID("title-emote");
     }
 };
 
