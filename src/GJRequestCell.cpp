@@ -11,33 +11,15 @@ $register_ids(GJRequestCell) {
 	setIDs(
 	    m_mainLayer,
 	    idx,
-	    "main-menu",
-	    "player-icon"
+	    "main-menu"
+	    // "player-icon" assigned in GJCompactUserCell
 	);
 	idx += 2;
-
-	// TODO: unify this logic for GJCompactUserCell
-	if (auto newLabel = m_mainLayer->getChildByTag(100)) {
-		newLabel->setID("new-label");
-		idx++;
-	}
-
-	setIDs(
-	    m_mainLayer,
-		idx,
-	    "stars-label",
-	    "stars-icon",
-	    "moons-label",
-	    "moons-icon",
-	    "demons-label",
-	    "demons-icon"
-	);
 
 	if (auto menu = m_mainLayer->getChildByID("main-menu")) {
 		setIDs(
 		    menu,
-		    0,
-		    "player-name",
+		    menu->getChildrenCount() - 2,
 		    "view-button",
 		    "select-toggler"
 		);
@@ -48,8 +30,8 @@ $register_ids(GJRequestCell) {
 		        ->setGap(7.25f)
 		        ->setAxisAlignment(AxisAlignment::End));
 		viewMenu->setID("view-menu");
-		viewMenu->setContentSize({100, m_height - 2});
-		viewMenu->setPosition({m_width - 61.5f, m_height / 2});
+		viewMenu->setContentSize({90, m_height - 2});
+		viewMenu->setPosition({m_width - 61.f + 5.f, m_height / 2});
 		viewMenu->setZOrder(10);
 		m_mainLayer->addChild(viewMenu);
 
