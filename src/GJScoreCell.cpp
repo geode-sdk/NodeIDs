@@ -105,7 +105,7 @@ $register_ids(GJScoreCell) {
 
     size_t idx = 0;
     for(auto node: nodes) {
-        if(auto child = m_mainLayer->getChildByID(node)) {
+        if(auto child = Ref(m_mainLayer->getChildByID(node))) {
             auto options = AxisLayoutOptions::create()
                 ->setScaleLimits(.1f, 1.f)
                 ->setRelativeScale(child->getScale()
