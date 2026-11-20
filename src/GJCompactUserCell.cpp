@@ -11,7 +11,7 @@ struct GJCompactUserCellIDs : Modify<GJCompactUserCellIDs, GJCompactUserCell> {
         }
     }
 
-    static cocos2d::CCLabelBMFont* buildUserRow(GJUserScore* score, CCNode* mainLayer, CCMenu* playerNameMenu, CCObject* selectorTarget, SEL_MenuHandler selector, float y, bool dimmed, bool showFriendIcon) {
+    static cocos2d::CCLabelBMFont* buildUserRow(GJUserScore* score, CCNode* mainLayer, CCNode* playerNameMenu, CCObject* selectorTarget, SEL_MenuHandler selector, float y, bool dimmed, bool showFriendIcon) {
         auto label = GJCompactUserCell::buildUserRow(score, mainLayer, playerNameMenu, selectorTarget, selector, y, dimmed, showFriendIcon);
 
         size_t offset = mainLayer->getChildrenCount() - 6;
