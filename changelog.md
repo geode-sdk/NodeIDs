@@ -1,4 +1,23 @@
 # Node IDs Changelog
+## v1.24.0
+BETA NOTE: `LevelListCell, PlayerObject (streaks), ShardsPage and UILayer (controller hints)` IDs may change prior to the release of the final v1.24.0
+
+* Update to 2.2091 and Geode v6
+  * Update InfoLayer, LevelBrowserLayer, LevelCell, LevelInfoLayer, LevelListLayer, LevelSearchLayer, LevelSelectLayer, LevelSettingsLayer, MoreOptionsLayer, OptionsLayer, PauseLayer, ProfilePage, RewardsPage, SetGroupIDLayer, SetIDPopup, SetupMoveCommandPopup, SetupOpacityPopup
+* Add FriendPickerPopup, GJCompactUserCell, GJMessagePopup, GJRotationControl, GJScaleControl, GJThreadCell, GJTransformControl, GameSettingsLayer, InvitesPopup, MemberListPopup, MessageThreadsPage, MessagesProfilePage, ScrollableContentLayer, StartPosLayer, ThreadDescPopup, ThreadOptionsPopup, ThreadSearchPopup, ThreadViewPopup
+* Fix misalignments and missing IDs in ConfigureHSVWidget, DemonInfoPopup, GJLevelScoreCell, GauntletLayer, GauntletNode, GauntletSelectLayer, ItemInfoPopup, LevelAreaLayer, LevelLeaderboard, LikeItemLayer, PlayLayer, PurchaseInfoPopup, SecretLayer2, SecretLayer3, SecretLayer4, SecretRewardsLayer, StarInfoPopup
+
+PRs accepted in this update:
+* Fix the controller ids overriding coin ids [#164](https://github.com/geode-sdk/NodeIDs/pull/164)
+* iOS safe areas [#168](https://github.com/geode-sdk/NodeIDs/pull/168)
+* Added IDs to LevelSettingsLayer [#171](https://github.com/geode-sdk/NodeIDs/pull/171)
+* 2.2091 (unfinished) [#178](https://github.com/geode-sdk/NodeIDs/pull/178)
+* some new menus [#179](https://github.com/geode-sdk/NodeIDs/pull/179)
+* Editor Node IDs [#180](https://github.com/geode-sdk/NodeIDs/pull/180)
+* fix build [#183](https://github.com/geode-sdk/NodeIDs/pull/183)
+* Fix a severe and continuous lapse in judgement [#187](https://github.com/geode-sdk/NodeIDs/pull/187)
+
+
 ## v1.23.3
 * Fix link controls positioning on mobile
 * Fix buttons not getting added to bottom menu in ProfilePage if user does not have messages enabled
