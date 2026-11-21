@@ -3,9 +3,10 @@
 BETA NOTE: `LevelListCell, PlayerObject (streaks), ShardsPage and UILayer (controller hints)` IDs may change prior to the release of the final v1.24.0
 
 * Update to 2.2091 and Geode v6
-  * Update InfoLayer, LevelBrowserLayer, LevelCell, LevelInfoLayer, LevelListLayer, LevelSearchLayer, LevelSelectLayer, LevelSettingsLayer, MoreOptionsLayer, OptionsLayer, PauseLayer, ProfilePage, RewardsPage, SetGroupIDLayer, SetIDPopup, SetupMoveCommandPopup, SetupOpacityPopup
+  * Update CommentCell, CustomSongWidget, EditButtonBar, EditLevelLayer, EditorPauseLayer, EditorUI, EndLevelLayer, FRequestProfilePage, FriendRequestPopup, FriendsProfilePage, GJRequestCell, InfoLayer, LevelBrowserLayer, LevelCell, LevelInfoLayer, LevelListLayer, LevelSearchLayer, LevelSelectLayer, LevelSettingsLayer, MoreOptionsLayer, OptionsLayer, PauseLayer, ProfilePage, RewardsPage, SetGroupIDLayer, SetIDPopup, SetupMoveCommandPopup, SetupOpacityPopup
 * Add FriendPickerPopup, GJCompactUserCell, GJMessagePopup, GJRotationControl, GJScaleControl, GJThreadCell, GJTransformControl, GameSettingsLayer, InvitesPopup, MemberListPopup, MessageThreadsPage, MessagesProfilePage, ScrollableContentLayer, StartPosLayer, ThreadDescPopup, ThreadOptionsPopup, ThreadSearchPopup, ThreadViewPopup
-* Fix misalignments and missing IDs in ConfigureHSVWidget, DemonInfoPopup, GJLevelScoreCell, GauntletLayer, GauntletNode, GauntletSelectLayer, ItemInfoPopup, LevelAreaLayer, LevelLeaderboard, LikeItemLayer, PlayLayer, PurchaseInfoPopup, SecretLayer2, SecretLayer3, SecretLayer4, SecretRewardsLayer, StarInfoPopup
+* Fix misalignments and missing IDs in ConfigureHSVWidget, DemonInfoPopup, GJLevelScoreCell, GauntletLayer, GauntletNode, GauntletSelectLayer, GJScoreCell, ItemInfoPopup, LevelAreaLayer, LevelLeaderboard, LikeItemLayer, PlayLayer, PurchaseInfoPopup, SecretLayer2, SecretLayer3, SecretLayer4, SecretRewardsLayer, StarInfoPopup
+* Remove GJUserCell (it no longer exists in the game)
 
 PRs accepted in this update:
 * Fix the controller ids overriding coin ids [#164](https://github.com/geode-sdk/NodeIDs/pull/164)
