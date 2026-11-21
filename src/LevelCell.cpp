@@ -104,6 +104,13 @@ $register_ids(LevelCell) {
         labelOffset++;
 
         m_mainMenu->getChildByType<CCMenuItemSpriteExtra>(buttonOffset)->setID("view-button");
+        if (auto recallCostContainer = m_button->getNormalImage()->getChildByType<CCSprite>(0)) {
+            recallCostContainer->setID("recall-container-sprite");
+            setIDs(recallCostContainer, 0,
+                "cost-label",
+                "demon-key-sprite"
+            );
+        }
         buttonOffset++;
 
         if(m_listType == BoomListType::Level4) {
