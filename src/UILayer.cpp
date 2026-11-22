@@ -33,14 +33,14 @@ $register_ids(UILayer) {
         "remove-checkpoint-button"
     );
 
-    auto addButton = this->getChildByIDRecursive("add-checkpoint-button");
-    if (addButton->getChildrenCount() > 0) {
-        setIDs(addButton, 0, "add-checkpoint-hint");
+    if (auto addButton = typeinfo_cast<CCMenuItemSpriteExtra*>(this->getChildByIDRecursive("add-checkpoint-button"))) {
+        addButton->getNormalImage()->setID("add-checkpoint-hint");
+        setIDs(addButton->getNormalImage(), 0, "add-checkpoint-controller-hint");
     }
 
-    auto removeButton = this->getChildByIDRecursive("remove-checkpoint-button");
-    if (removeButton->getChildrenCount() > 0) {
-        setIDs(removeButton, 0, "remove-checkpoint-hint");
+    if (auto removeButton = typeinfo_cast<CCMenuItemSpriteExtra*>(this->getChildByIDRecursive("remove-checkpoint-button"))) {
+        removeButton->getNormalImage()->setID("remove-checkpoint-hint");
+        setIDs(removeButton->getNormalImage(), 0, "remove-checkpoint-controller-hint");
     }
 }
 
