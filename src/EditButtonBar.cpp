@@ -22,7 +22,7 @@ struct EditButtonBarIDs : Modify<EditButtonBarIDs, EditButtonBar> {
         auto arrowsMenu = setIDSafe<CCMenu>(this, 0, "arrows-menu");
         auto dotsMenu = setIDSafe<CCMenu>(this, 1, "dots-menu");
 
-        float fullWidth = winSize.width - 208.f;
+        float fullWidth = winSize.width - 208.f GEODE_IOS(- geode::utils::getSafeAreaRect().getMinX());
         float innerWidth = arrowsMenu ? fullWidth - 48.f : fullWidth + 8.f;
 
         setContentSize({fullWidth, 90.f});
