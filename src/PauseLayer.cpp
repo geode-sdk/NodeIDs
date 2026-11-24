@@ -154,7 +154,7 @@ $register_ids(PauseLayer) {
         bottomMenu->setZOrder(10);
         bottomMenu->setLayout(
             RowLayout::create()
-                ->setGap(4.f)
+                ->setGap(15.f)
                 ->setAxisAlignment(AxisAlignment::Center)
                 ->setCrossAxisOverflow(false)
         );
@@ -282,10 +282,10 @@ $register_ids(PauseLayer) {
 
                 auto startposContainer = CCMenu::create();
                 startposContainer->ignoreAnchorPointForPosition(false);
-                startposContainer->setContentSize({325.f, 30.f});
+                startposContainer->setContentSize({325.f, 20.f});
                 startposContainer->setID("startpos-container");
+                startposContainer->setPosition({bottomMenu->getContentWidth() * .5f, startposContainer->getContentHeight() * .5f});
                 bottomMenu->addChild(startposContainer);
-                bottomMenu->updateLayout();
 
                 switchToMenu(layer->getChildByID("current-label"), startposContainer);
                 switchToMenu(layer->getChildByID("startpos-label"), startposContainer);
@@ -293,6 +293,8 @@ $register_ids(PauseLayer) {
                 switchToMenu(menu->getChildByID("right-button"), startposContainer);
                 switchToMenu(menu->getChildByID("select-button"), startposContainer);
                 switchToMenu(menu->getChildByID("create-button"), startposContainer);
+
+                bottomMenu->updateLayout();
             }
 
             menu->setContentSize({440, 81.5f});
