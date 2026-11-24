@@ -3,11 +3,12 @@
 #include <Geode/utils/cocos.hpp>
 #include <Geode/ui/BasedButtonSprite.hpp>
 #include <Geode/utils/NodeIDs.hpp>
+#include "IDCheck.hpp"
 
 using namespace geode::prelude;
 using namespace geode::node_ids;
 
-static void assignUnlock(CCLayer* mainLayer, const char* type, size_t& idx, size_t& unlockableIdx) {
+static void assignUnlock(CCLayer* mainLayer, const char* type, size_t& idx, size_t unlockableIdx) {
 	setIDs(
 		mainLayer,
 		idx,
@@ -15,7 +16,6 @@ static void assignUnlock(CCLayer* mainLayer, const char* type, size_t& idx, size
 		fmt::format("{}-unlockable-{}-icon", type, unlockableIdx).c_str()
 	);
 	idx += 2;
-	unlockableIdx++;
 }
 
 static void assignUnlocksRow(CCLayer* mainLayer, const char* type, size_t& idx) {
@@ -28,16 +28,27 @@ static void assignUnlocksRow(CCLayer* mainLayer, const char* type, size_t& idx) 
 	);
 	idx += 3;
 
-	size_t unlockableIdx = 1;
-	assignUnlock(mainLayer, type, idx, unlockableIdx);
-	assignUnlock(mainLayer, type, idx, unlockableIdx);
-	setIDSafe(mainLayer, idx++, fmt::format("{}-divider-{}", type, unlockableIdx - 1).c_str());
-	assignUnlock(mainLayer, type, idx, unlockableIdx);
-	setIDSafe(mainLayer, idx++, fmt::format("{}-divider-{}", type, unlockableIdx - 1).c_str());
-	assignUnlock(mainLayer, type, idx, unlockableIdx);
-	setIDSafe(mainLayer, idx++, fmt::format("{}-divider-{}", type, unlockableIdx - 1).c_str());
-	assignUnlock(mainLayer, type, idx, unlockableIdx);
-	setIDSafe(mainLayer, idx++, fmt::format("{}-divider-{}", type, unlockableIdx - 1).c_str());
+	auto children = mainLayer->getChildrenExt();
+
+	auto dividerSpriteFrame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("whiteSquare20_001.png");
+	// out of the loop bc theres no divider for this one
+	if (typeinfo_cast<CCLabelBMFont*>(children[idx]) && typeinfo_cast<CCLabelBMFont*>(children[idx + 2])) {
+		assignUnlock(mainLayer, type, idx, 1);
+	}
+
+	for(size_t unlockableIdx = 2; unlockableIdx <= 5; unlockableIdx++) {
+		if(typeinfo_cast<CCLabelBMFont*>(children[idx])) {
+			assignUnlock(mainLayer, type, idx, unlockableIdx);
+		}
+
+		for(size_t i = 0; i < 2; i++) {
+			if(auto divider = typeinfo_cast<CCSprite*>(children[idx])) {
+				if(divider->isFrameDisplayed(dividerSpriteFrame)) {
+					setIDSafe(mainLayer, idx++, fmt::format("{}-divider-{}{}", type, unlockableIdx - 1, i == 1 ? "-fill" : "").c_str());
+				}
+			}
+		}
+	}
 }
 
 $register_ids(ShardsPage) {
@@ -67,7 +78,7 @@ $register_ids(ShardsPage) {
 			size_t offset = 0;
 			setIDSafe<CCMenuItemSpriteExtra>(mainMenu, offset, "close-button");
 
-			auto mainMenuChildren = CCArrayExt<CCNode*>(mainMenu->getChildren());
+			auto mainMenuChildren = mainMenu->getChildrenExt();
 			for (size_t i = offset + 1; i < mainMenuChildren.size(); i++) {
 
 				if (auto unlockable = typeinfo_cast<CCMenuItemSpriteExtra*>(mainMenuChildren[i])) {
@@ -96,6 +107,16 @@ $register_ids(ShardsPage) {
 		}
 
 		setIDSafe(mainLayer, mainLayer->getChildrenCount() - 1, "shards-tier-sprite");
+
+		auto children = mainLayer->getChildrenExt();
+		auto count = mainLayer->getChildrenCount();
+		if (children[count - 3]->getID() == "bonus-two-divider-4-fill") {
+			verifyIDSafe(children[count - 4], "bonus-two-divider-4");
+		} else {
+			verifyIDSafe(children[count - 3], "bonus-two-divider-4");
+		}
+		verifyIDSafe(children[count - 2], "arrow-buttons-menu");
+		verifyIDSafe(children[count - 1], "shards-tier-sprite");
 	}
 }
 
