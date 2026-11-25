@@ -14,10 +14,15 @@ struct GJCompactUserCellIDs : Modify<GJCompactUserCellIDs, GJCompactUserCell> {
     static cocos2d::CCLabelBMFont* buildUserRow(GJUserScore* score, CCNode* fakeMainLayer, CCNode* playerNameMenu, CCObject* selectorTarget, SEL_MenuHandler selector, float y, bool dimmed, bool showFriendIcon) {
         auto label = GJCompactUserCell::buildUserRow(score, fakeMainLayer, playerNameMenu, selectorTarget, selector, y, dimmed, showFriendIcon);
 
+        label->setID("player-name-label");
+
+        // workaround for MemberListPopup
         auto mainLayer = fakeMainLayer;
-        if(auto parent = label->getParent()) {
-            if(auto parent2 = parent->getParent()) {
-                if(auto parent3 = parent2->getParent()) {
+        if (auto parent = label->getParent()) {
+            parent->setID("player-name");
+            if (auto parent2 = parent->getParent()) {
+                playerNameMenu = parent2;
+                if (auto parent3 = parent2->getParent(); parent3 && parent3->getParent() == fakeMainLayer) {
                     mainLayer = parent3;
                 }
             }
@@ -25,11 +30,6 @@ struct GJCompactUserCellIDs : Modify<GJCompactUserCellIDs, GJCompactUserCell> {
 
         size_t offset = mainLayer->getChildrenCount() - 6;
         size_t menuOffset = playerNameMenu->getChildrenCount() - 1;
-
-        label->setID("player-name-label");
-        if(auto parent = label->getParent()) {
-            parent->setID("player-name");
-        }
 
         if(auto player = mainLayer->getChildByType<SimplePlayer>(-1)) {
             player->setID("player-icon");
@@ -65,13 +65,25 @@ struct GJCompactUserCellIDs : Modify<GJCompactUserCellIDs, GJCompactUserCell> {
             offset += 2;
         }
 
-        bool skipFriendInfo = false;
-
-        int friendState = score->m_friendStatus;
         int friendSince = score->m_friendTimestamp;
-        if (auto btn = typeinfo_cast<InfoAlertButton*>(playerNameMenu->getChildren()->objectAtIndex(menuOffset))) {
-            btn->setID("info-button");
-            menuOffset--;
+        bool isStoredFriend = false;
+        if (score->m_friendStatus == 0 && friendSince <= 0) {
+            if (auto stored = GameLevelManager::get()->storedFriendForAccountID(score->m_accountID)) {
+                isStoredFriend = true;
+                friendSince = stored->m_friendTimestamp;
+            }
+        }
+
+        if (showFriendIcon && (score->m_friendStatus == 1 || friendSince > 0 || isStoredFriend)) {
+            if (auto friendIcon = getChildBySpriteFrameName(mainLayer, "GJ_sFriendsIcon_001.png", -1)) {
+                friendIcon->setID("friend-icon");
+            }
+        }
+
+        if (friendSince > 0) {
+            if (auto btn = playerNameMenu->getChildByType<InfoAlertButton>(-1)) {
+                btn->setID("info-button");
+            }
         }
 
         // building stats menu
