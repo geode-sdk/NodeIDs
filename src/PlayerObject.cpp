@@ -14,11 +14,10 @@ $register_ids(PlayerObject) {
             "gamemode-frame",
             "ship-frame",
             "robot-boost",
-            "swing-top-boost",
             "swing-middle-boost",
             "swing-bottom-boost",
-            "glow-frame",
-            "other-gamemode"
+            "swing-top-boost",
+            "glow-frame"
         );
 
         if(auto gamemodeFrame = layer->getChildByID("gamemode-frame")) {
@@ -26,7 +25,7 @@ $register_ids(PlayerObject) {
                 gamemodeFrame,
                 0,
                 "secondary-frame",
-                "highlights-frame"
+                "highlights-frame" // m_iconSpriteWhitener
             );
         }
 
@@ -34,7 +33,9 @@ $register_ids(PlayerObject) {
             setIDs(
                 shipFrame,
                 0,
-                "secondary-frame"
+                "secondary-frame",
+                "bird-vehicle-frame", // m_birdVehicle
+                "highlights-frame" // m_vehicleSpriteWhitener
             );
         }
 
@@ -46,6 +47,14 @@ $register_ids(PlayerObject) {
                 "gamemode-glow",
                 "ship-glow"
             );
+
+            if(auto dashFrame = glowFrame->getChildByID("dash-frame")) {
+                setIDs(
+                    dashFrame,
+                    0,
+                    "dash-outline"
+                );
+            }
         }
     }
 }
@@ -55,6 +64,14 @@ struct PlayerObjectIDs : Modify<PlayerObjectIDs, PlayerObject> {
         if (!self.setHookPriority("PlayerObject::init", GEODE_ID_PRIORITY)) {
             log::warn("Failed to set PlayerObject::init hook priority, node IDs may not work properly");
         }
+
+        if (!self.setHookPriority("PlayerObject::createRobot", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set PlayerObject::createRobot hook priority, node IDs may not work properly");
+        }
+        
+        if (!self.setHookPriority("PlayerObject::createSpider", GEODE_ID_PRIORITY)) {
+            log::warn("Failed to set PlayerObject::createSpider hook priority, node IDs may not work properly");
+        }
     }
 
     bool init(int p0, int p1, GJBaseGameLayer* p2, cocos2d::CCLayer* p3, bool p4) {
@@ -63,5 +80,21 @@ struct PlayerObjectIDs : Modify<PlayerObjectIDs, PlayerObject> {
         NodeIDs::get()->provide(this);
 
         return true;
+    }
+    
+    void createRobot(int p0) {
+        PlayerObject::createRobot(p0);
+
+        if(m_robotBatchNode) {
+            m_robotBatchNode->setID("robot-frame");
+        }
+    }
+
+    void createSpider(int p0) {
+        PlayerObject::createSpider(p0);
+
+        if(m_spiderBatchNode) {
+            m_spiderBatchNode->setID("spider-frame");
+        }
     }
 };
