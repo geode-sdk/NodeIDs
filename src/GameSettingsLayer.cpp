@@ -86,18 +86,11 @@ $register_ids(GameSettingsLayer) {
         "audio-button",
         "other-button",
         "prev-button",
-        "next-button"
-    );
-
-    idx += 9;
-
-    #ifdef GEODE_IS_DESKTOP
-    setIDs(
-        m_buttonMenu,
-        idx++,
+        "next-button",
         "keys-button"
     );
-    #endif
+
+    idx += 10;
 
     if(!GameManager::sharedState()->m_playLayer) {
         setIDs(
