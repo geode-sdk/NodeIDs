@@ -1,5 +1,7 @@
 # Node IDs Changelog
 ## v1.24.0
+* Add NewsPopup [#181](https://github.com/geode-sdk/NodeIDs/pull/181)
+* Add DailyRecallUnlockPopup and the daily recall varient of the button in LevelCell [#189](https://github.com/geode-sdk/NodeIDs/pull/189)
 * Fix misalignments and missing IDs in UILayer, ShardsPage, MemberListPopup, GJCompactUserCell, LevelListCell, PlayerObject
 * Fix MemberListPopup being empty
 * Fix iOS Safe areas not being accounted for in EditButtonBar [#190](https://github.com/geode-sdk/NodeIDs/pull/190)
