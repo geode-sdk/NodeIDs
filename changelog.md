@@ -1,7 +1,11 @@
 # Node IDs Changelog
 ## v1.24.0
-BETA NOTE: `LevelListCell, PlayerObject (streaks), ShardsPage and UILayer (controller hints)` IDs may change prior to the release of the final v1.24.0
+* Fix misalignments and missing IDs in UILayer, ShardsPage, MemberListPopup, GJCompactUserCell, LevelListCell, PlayerObject
+* Fix MemberListPopup being empty
+* Fix iOS Safe areas not being accounted for in EditButtonBar [#190](https://github.com/geode-sdk/NodeIDs/pull/190)
+* Fix bottom-button-menu layout when startpos-container coin-container both visible [#192](https://github.com/geode-sdk/NodeIDs/pull/192)
 
+## v1.24.0-beta
 * Update to 2.2091 and Geode v6
   * Update CommentCell, CustomSongWidget, EditButtonBar, EditLevelLayer, EditorPauseLayer, EditorUI, EndLevelLayer, FRequestProfilePage, FriendRequestPopup, FriendsProfilePage, GJRequestCell, InfoLayer, LevelBrowserLayer, LevelCell, LevelInfoLayer, LevelListLayer, LevelSearchLayer, LevelSelectLayer, LevelSettingsLayer, MoreOptionsLayer, OptionsLayer, PauseLayer, ProfilePage, RewardsPage, SetGroupIDLayer, SetIDPopup, SetupMoveCommandPopup, SetupOpacityPopup
 * Add FriendPickerPopup, GJCompactUserCell, GJMessagePopup, GJRotationControl, GJScaleControl, GJThreadCell, GJTransformControl, GameSettingsLayer, InvitesPopup, MemberListPopup, MessageThreadsPage, MessagesProfilePage, ScrollableContentLayer, StartPosLayer, ThreadDescPopup, ThreadOptionsPopup, ThreadSearchPopup, ThreadViewPopup
