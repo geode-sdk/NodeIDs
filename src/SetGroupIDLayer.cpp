@@ -263,7 +263,7 @@ $register_ids(SetGroupIDLayer) {
         {0.f, 10.f},
         m_editorLayerInput,
         editorLayerLabel,
-        editorLayer2InputBG,
+        editorLayerInputBG,
         m_buttonMenu->getChildByID("editor-layer-prev-button"),
         m_buttonMenu->getChildByID("editor-layer-next-button"),
         m_buttonMenu->getChildByID("editor-layer-next-free-button")
